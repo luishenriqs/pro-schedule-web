@@ -1,3 +1,26 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals","eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier", "prettier/@typescript-eslint"],
+  "plugins": ["prettier", "@typescript-eslint", "unused-imports"],
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "prettier/prettier": "error",
+    "semi": ["error", "never"],
+    "no-trailing-spaces": [
+        "warn",
+        {
+            "skipBlankLines": true
+        }
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "unused-imports/no-unused-imports": "error",
+    "prefer-const": [
+        "error",
+        {
+            "destructuring": "any",
+            "ignoreReadBeforeAssign": false
+        }
+    ],
+    "no-var": "error"
+  }
 }

@@ -1,36 +1,137 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# REGRAS DE NEGÓCIOS
 
-## Getting Started
 
-First, run the development server:
+## PERFIS
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    - Dev - Desenvolvedor responsável pelo aplicativo 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    - Gestor - O titular da conta, a pessoa que contratou o serviço do aplicativo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    - Admin - Pessoa designada pelo Gestor para administrar a conta
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+    - Usuários - Publico em geral, possíveis clientes/pacientes do Gestor
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## SERVIÇOS
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ### ADMIN
+        - Designação de um ou mais profissionais para gerenciamento da conta
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    ### CADASTRO DE USUÁRIOS
+        - Cadastro feito apenas pelo Gestor e/o Admin
+        - Cadastro feito pelo Gestor, Admin e/ou pelos usuários
 
-## Deploy on Vercel
+    ### AGENDAMENTO
+        - Agendamentos feitos pelo Gestor e/o Admin
+        - Agendamentos feitos pelo Gestor, Admin e/ou pelos usuários
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ### AGENDA
+        - Visualização da agenda completa do Gestor
+        - Visualização da agenda completa do cliente/paciente
+        - Visualização da agenda completa pelo usuário
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    ### COMUNICAÇÃO COM PACIENTES/CLIENTES
+        - Integração com Whatsapp
+        - Notificações
+        - Integração com Redes Sociais
+
+    ### RELATÓRIO DE ATENDIMENTO
+        - Histórico de atendimento por cliente/paciente
+
+    ### INTEGRAÇÕES COM MEIOS DE PAGAMENTO
+        - Cartões de crédito
+        - Cartões de débito
+        - Pix
+
+    ### RELATÓRIO FINANCEIRO
+        - Extrato de movimentação financeira
+        - Balanço financeiro completo
+    
+    ### APLICATIVO MOBILE
+        - Aplicativo mobile para plataformas Android e Ios
+
+
+## PLANOS 
+
+    - Haverá planos de assinatura disponíveis para os clientes que oferecerão diferentes serviços
+
+
+### BASIC (Gestor e Admin)
+
+    - ADMIN
+        O Gestor poderá designar 1 administrador para a conta
+
+    - CADASTRO
+        Cadastro de clientes/pacientes feitos pelo Gestor e/ou Admin
+
+    - AGENDAMENTO
+        Agendamentos feitos pelo Gestor e/ou Admin
+
+    - AGENDA 
+        Visualização da agenda completa do Gestor
+        Visualização da agenda completa do cliente/paciente
+
+    - COMUNICAÇÃO
+        Os clientes/pacientes receberão notificações e/ou mensagem por whatsapp
+
+    - RELATÓRIO DE ATENDIMENTO
+        Visualização do histórico de atendimento por clientes/pacientes
+
+
+### PLUS (Gestor, Admin e usuários)
+
+    - ADMIN 
+        O Gestor Poderá designar 1 ou mais administradores para a conta
+
+    - CADASTRO 
+        Cadastro de clientes/pacientes feitos pelo Gestor, Admin e/ou usuários
+
+    - AGENDAMENTO 
+        Agendamento de consultas/atendimento feitos pelo Gestor, Admin e/ou usuários
+
+    - AGENDA 
+        Visualização da agenda completa do Gestor
+        Visualização da agenda completa do cliente/
+        Visualização da agenda completa pelo usuário
+
+    - COMUNICAÇÃO
+        Os clientes/pacientes receberão notificações e/ou mensagem por whatsapp
+
+    - RELATÓRIO DE ATENDIMENTO
+        Visualização do histórico de atendimento por clientes/pacientes
+
+    - MEIOS DE PAGAMENTO
+        Integração com os meios de pagamento - Cartões crédito/débito e Pix
+
+
+### GOLD
+
+
+    - ADMIN 
+        O Gestor Poderá designar 1 ou mais administradores para a conta
+
+    - CADASTRO 
+        Cadastro de clientes/pacientes feitos pelo Gestor, Admin e/ou usuários
+
+    - AGENDAMENTO 
+        Agendamento de consultas/atendimento feitos pelo Gestor, Admin e/ou usuários
+
+    - AGENDA 
+        Visualização da agenda completa do Gestor
+        Visualização da agenda completa do cliente/
+        Visualização da agenda completa pelo usuário
+
+    - COMUNICAÇÃO
+        Os clientes/pacientes receberão notificações e/ou mensagem por whatsapp
+
+    - RELATÓRIO DE ATENDIMENTO
+        Visualização do histórico de atendimento por clientes/pacientes
+
+    - MEIOS DE PAGAMENTO
+        Integração com os meios de pagamento - Cartões crédito/débito e Pix
+
+    - RELATÓRIO FINANCEIRO
+        Descritivo completo do histórico financeiro
+
+    - APLICATIVO MOBILE
+
