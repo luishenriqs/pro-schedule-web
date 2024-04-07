@@ -1,7 +1,7 @@
+import { DashboardComponent } from "@features/DashboardComponent";
 
 export function Dashboard() {
-
     return (
-        <h1>Dashboard</h1>
+        <DashboardComponent />
     )
 }
