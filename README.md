@@ -1,16 +1,14 @@
 # REGRAS DE NEGÓCIOS
 
-
 ## PERFIS
 
-    - Dev - Desenvolvedor responsável pelo aplicativo 
+    - Dev - Desenvolvedor responsável pelo aplicativo
 
     - Gestor - O titular da conta, a pessoa que contratou o serviço do aplicativo
 
     - Admin - Pessoa designada pelo Gestor para administrar a conta
 
     - Usuários - Publico em geral, possíveis clientes/pacientes do Gestor
-
 
 ## SERVIÇOS
 
@@ -46,15 +44,13 @@
     ### RELATÓRIO FINANCEIRO
         - Extrato de movimentação financeira
         - Balanço financeiro completo
-    
+
     ### APLICATIVO MOBILE
         - Aplicativo mobile para plataformas Android e Ios
 
-
-## PLANOS 
+## PLANOS
 
     - Haverá planos de assinatura disponíveis para os clientes que oferecerão diferentes serviços
-
 
 ### BASIC (Gestor e Admin)
 
@@ -67,7 +63,7 @@
     - AGENDAMENTO
         Agendamentos feitos pelo Gestor e/ou Admin
 
-    - AGENDA 
+    - AGENDA
         Visualização da agenda completa do Gestor
         Visualização da agenda completa do cliente/paciente
 
@@ -77,19 +73,18 @@
     - RELATÓRIO DE ATENDIMENTO
         Visualização do histórico de atendimento por clientes/pacientes
 
-
 ### PLUS (Gestor, Admin e usuários)
 
-    - ADMIN 
+    - ADMIN
         O Gestor Poderá designar 1 ou mais administradores para a conta
 
-    - CADASTRO 
+    - CADASTRO
         Cadastro de clientes/pacientes feitos pelo Gestor, Admin e/ou usuários
 
-    - AGENDAMENTO 
+    - AGENDAMENTO
         Agendamento de consultas/atendimento feitos pelo Gestor, Admin e/ou usuários
 
-    - AGENDA 
+    - AGENDA
         Visualização da agenda completa do Gestor
         Visualização da agenda completa do cliente/
         Visualização da agenda completa pelo usuário
@@ -103,20 +98,18 @@
     - MEIOS DE PAGAMENTO
         Integração com os meios de pagamento - Cartões crédito/débito e Pix
 
-
 ### GOLD
 
-
-    - ADMIN 
+    - ADMIN
         O Gestor Poderá designar 1 ou mais administradores para a conta
 
-    - CADASTRO 
+    - CADASTRO
         Cadastro de clientes/pacientes feitos pelo Gestor, Admin e/ou usuários
 
-    - AGENDAMENTO 
+    - AGENDAMENTO
         Agendamento de consultas/atendimento feitos pelo Gestor, Admin e/ou usuários
 
-    - AGENDA 
+    - AGENDA
         Visualização da agenda completa do Gestor
         Visualização da agenda completa do cliente/
         Visualização da agenda completa pelo usuário
@@ -134,4 +127,3 @@
         Descritivo completo do histórico financeiro
 
     - APLICATIVO MOBILE
-
