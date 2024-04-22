@@ -1,5 +1,5 @@
 import { DashboardComponent } from '@features/DashboardComponent'
 
-export function Dashboard() {
+export default function Dashboard() {
     return <DashboardComponent />
 }

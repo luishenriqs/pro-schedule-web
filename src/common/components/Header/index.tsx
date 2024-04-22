@@ -1,16 +1,14 @@
 import React, { useState } from 'react'
-import Image from 'next/image'
-import MenuIcon from '@mui/icons-material/Menu'
 import { DrawerNavigator } from '../DrawerNavigator'
-import { TextPrimary20bold, TextPrimary16medium } from '@common/components/Typography'
-import { Container, HeaderWrapper, HeaderContent, IconContainer, ButtonIcon, Line } from './styles'
+import { TextPrimary20_700, TextPrimary16_500 } from '@common/components/Typography'
+import { Container, HeaderWrapper, HeaderContent, IconContainer, ButtonIcon, Line, Imagem, IconMenu } from './styles'
 
 type HeaderProps = {
     title: string
     text?: string
 }
 
-export function Header({ title, text }: HeaderProps) {
+function Header({ title, text }: HeaderProps) {
     const [open, setOpen] = useState(false)
 
     return (
@@ -18,22 +16,21 @@ export function Header({ title, text }: HeaderProps) {
             <HeaderWrapper>
                 <HeaderContent>
                     <IconContainer>
-                        <Image
+                        <Imagem
                             src={require('../../../../assets/schedule_icon.png')}
                             alt={'Pro-Schedule-logo'}
-                            width={80}
-                            height={80}
                         />
                     </IconContainer>
-                    <TextPrimary20bold text={title} />
+                    <TextPrimary20_700 text={title} />
                     <ButtonIcon onClick={() => setOpen(!open)}>
-                        <MenuIcon />
+                        <IconMenu />
                     </ButtonIcon>
                 </HeaderContent>
-                {text && <TextPrimary16medium text={text} />}
+                {text && <TextPrimary16_500 text={text} />}
             </HeaderWrapper>
-            <Line />
             <DrawerNavigator isOpen={open} />
         </Container>
     )
 }
+
+export default React.memo(Header)

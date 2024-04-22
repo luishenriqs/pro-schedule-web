@@ -1,75 +1,75 @@
 import {
     TitleContainer,
-    Text_Primary_25_bold,
-    Text_Primary_20_bold,
-    Text_Primary_16_bold,
-    Text_Primary_16_medium,
-    Text_Secondary_25_bold,
-    Text_Secondary_20_bold,
-    Text_Secondary_16_bold,
-    Text_Secondary_16_medium,
+    Text_Primary_24_700,
+    Text_Primary_20_700,
+    Text_Primary_16_700,
+    Text_Primary_16_500,
+    Text_Secondary_24_700,
+    Text_Secondary_20_700,
+    Text_Secondary_16_700,
+    Text_Secondary_16_500
 } from './styles'
 
-export const TextPrimary25bold = ({ text }: any) => {
+export const TextPrimary24_700 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Primary_25_bold>{text}</Text_Primary_25_bold>
+            <Text_Primary_24_700>{text}</Text_Primary_24_700>
         </TitleContainer>
     )
 }
 
-export const TextPrimary20bold = ({ text }: any) => {
+export const TextPrimary20_700 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Primary_20_bold>{text}</Text_Primary_20_bold>
+            <Text_Primary_20_700>{text}</Text_Primary_20_700>
         </TitleContainer>
     )
 }
 
-export const TextPrimary16bold = ({ text }: any) => {
+export const TextPrimary16_700 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Primary_16_bold>{text}</Text_Primary_16_bold>
+            <Text_Primary_16_700>{text}</Text_Primary_16_700>
         </TitleContainer>
     )
 }
 
-export const TextPrimary16medium = ({ text }: any) => {
+export const TextPrimary16_500 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Primary_16_medium>{text}</Text_Primary_16_medium>
+            <Text_Primary_16_500>{text}</Text_Primary_16_500>
         </TitleContainer>
     )
 }
 
-export const TextSecondary25bold = (text: any) => {
+export const TextSecondary24_700 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Secondary_25_bold>{text}</Text_Secondary_25_bold>
+            <Text_Secondary_24_700>{text}</Text_Secondary_24_700>
         </TitleContainer>
     )
 }
 
-export const TextSecondary20bold = ({ text }: any) => {
+export const TextSecondary20_700 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Secondary_20_bold>{text}</Text_Secondary_20_bold>
+            <Text_Secondary_20_700>{text}</Text_Secondary_20_700>
         </TitleContainer>
     )
 }
 
-export const TextSecondary16bold = ({ text }: any) => {
+export const TextSecondary16_700 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Secondary_16_bold>{text}</Text_Secondary_16_bold>
+            <Text_Secondary_16_700>{text}</Text_Secondary_16_700>
         </TitleContainer>
     )
 }
 
-export const TextSecondary16medium = ({ text }: any) => {
+export const TextSecondary16_500 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Secondary_16_medium>{text}</Text_Secondary_16_medium>
+            <Text_Secondary_16_500>{text}</Text_Secondary_16_500>
         </TitleContainer>
     )
 }

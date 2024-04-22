@@ -4,7 +4,7 @@ import { LoadingComponent } from '@common/components/Loading'
 import { TextPrimary20_700, TextPrimary16_500, TextSecondary24_700 } from '@common/components/Typography'
 import { Container, DashboardContent } from './styles'
 
-export const DashboardComponent = () => {
+export const RegisterComponent = () => {
     const [isLoading, setIsLoading] = useState(true)
 
     setTimeout(() => {
@@ -16,11 +16,11 @@ export const DashboardComponent = () => {
             {isLoading
                 ?   <LoadingComponent />
                 :   <>
-                        <Header title="Início" text='texto complementar' />
+                        <Header title="Cadastro" text='texto complementar' />
                         <DashboardContent>
-                            <TextPrimary20_700 text='DASHBOARD COMPONENT' />
-                            <TextPrimary16_500 text='DASHBOARD COMPONENT' />
-                            <TextSecondary24_700 text='DASHBOARD COMPONENT' />
+                            <TextPrimary20_700 text='REGISTER COMPONENT' />
+                            <TextPrimary16_500 text='REGISTER COMPONENT' />
+                            <TextSecondary24_700 text='REGISTER COMPONENT' />
                         </DashboardContent>
                     </>
             }
