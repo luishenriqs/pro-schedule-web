@@ -30,6 +30,24 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
     const availableMenuItems: MenuItem[] = [
         {
             order: 1,
+            title: 'Bem vindo',
+            route: '/Wellcome',
+            icon: 'HomeOutlined',
+            onClickHandler: () => {
+                location.pathname === '/Wellcome' ? router.refresh() : router.push('/Wellcome')
+            },
+        },
+        {
+            order: 2,
+            title: 'Entrar',
+            route: '/SignIn',
+            icon: 'HomeOutlined',
+            onClickHandler: () => {
+                location.pathname === '/SignIn' ? router.refresh() : router.push('/SignIn')
+            },
+        },
+        {
+            order: 3,
             title: 'Início',
             route: '/',
             icon: 'HomeOutlined',
@@ -38,7 +56,7 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
             },
         },
         {
-            order: 2,
+            order: 4,
             title: 'Cadastro',
             route: '/Register',
             icon: 'CalendarMonthOutlined',
