@@ -16,7 +16,7 @@ export const RegisterComponent = () => {
             {isLoading
                 ?   <LoadingComponent />
                 :   <>
-                        <Header title="Cadastro" text='texto complementar' />
+                        <Header title="Cadastro" />
                         <DashboardContent>
                             <TextPrimary20_700 text='REGISTER COMPONENT' />
                             <TextPrimary16_500 text='REGISTER COMPONENT' />

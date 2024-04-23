@@ -1,18 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Drawer } from '@mui/material'
-import { ButtonIcon, Container, IconMenu, Imagem } from './styles'
 import { TextPrimary20_700 } from '../Typography'
+import { Icon } from '../Icons'
+import { ButtonIcon, Container, Imagem, MenuContainer } from './styles'
+import { COLORS } from '@common/styles/theme'
 
 type DrawerProps = {
     isOpen: boolean
 }
 
+
 type MenuItem = {
     order: number
     route: string
     title: string
-    icon: JSX.Element
+    icon: string
     onClickHandler: () => void
 }
 
@@ -27,18 +30,18 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
     const availableMenuItems: MenuItem[] = [
         {
             order: 1,
-            title: 'Dashboard',
+            title: 'Início',
             route: '/',
-            icon: <IconMenu sx={{ color: '#fff' }} />,
+            icon: 'HomeOutlined',
             onClickHandler: () => {
                 location.pathname === '/' ? router.refresh() : router.push('/')
             },
         },
         {
             order: 2,
-            title: 'Register',
+            title: 'Cadastro',
             route: '/Register',
-            icon: <IconMenu sx={{ color: '#fff' }} />,
+            icon: 'CalendarMonthOutlined',
             onClickHandler: () => {
                 location.pathname === '/Register' ? router.refresh() : router.push('/Register')
             },
@@ -51,7 +54,7 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
                 <ButtonIcon onClick={() =>
                     location.pathname === item.route ? router.refresh() : router.push(item.route)
                 }>
-                    <IconMenu />
+                    <Icon iconName={item.icon} color={COLORS.font_primary} margin='0 8px 0 0' />
                     <TextPrimary20_700 text={item.title} />
                 </ButtonIcon>
             )
@@ -65,7 +68,9 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
                     src={require('../../../../assets/pro-schedule-logo.png')}
                     alt={'Pro-Schedule-logo'}
                 />
-                {menuOptions()}
+                <MenuContainer>
+                    {menuOptions()}
+                </MenuContainer>
             </Container>
         </Drawer>
     )

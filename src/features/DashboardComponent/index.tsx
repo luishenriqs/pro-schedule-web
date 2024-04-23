@@ -16,7 +16,7 @@ export const DashboardComponent = () => {
             {isLoading
                 ?   <LoadingComponent />
                 :   <>
-                        <Header title="Início" text='texto complementar' />
+                        <Header title="Início" />
                         <DashboardContent>
                             <TextPrimary20_700 text='DASHBOARD COMPONENT' />
                             <TextPrimary16_500 text='DASHBOARD COMPONENT' />
