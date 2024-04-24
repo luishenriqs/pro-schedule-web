@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { Container, Imagem } from './styles'
+import { Container, Imagem, SignUpContainer } from './styles'
 import { PrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
+import { SecondaryButtonIcon } from '@common/components/ButtonIcon'
+import { TextPrimary14_500 } from '@common/components/Typography'
 
 type FormValues = {
   email: string
@@ -26,10 +28,12 @@ export const SignInComponent = () => {
                 src={require('../../../assets/pro-schedule-logo.png')}
                 alt={'Pro-Schedule-logo'}
             />
-            <form onSubmit={handleSubmit(onSubmit)}>                
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <TextField
                     label="Email"
                     type="email"
+                    size="small"
+                    variant="outlined"
                     {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
                     error={!!errors.email}
                     helperText={errors.email && "Email inválido"}
@@ -38,13 +42,18 @@ export const SignInComponent = () => {
                 <TextField
                     label="Senha"
                     type="password"
+                    size="small"
+                    variant="outlined"
                     {...register("password", { required: true, minLength: 6 })}
                     error={!!errors.password}
                     helperText={errors.password && (errors.password.type === "required" ? "Senha é obrigatória" : "Senha deve ter no mínimo 6 caracteres")}
-                    margin="normal"
                 />
-                <PrimaryButton title='Entrar' type="submit"/>
+                <PrimaryButton title='Login' type="submit"/>
             </form>
+            <SignUpContainer>                
+                <TextPrimary14_500 text='Ainda não possui uma conta?' />
+                <SecondaryButtonIcon title='Cadastre-se' size='small' onClick={() => console.log('Sign Up')} />
+            </SignUpContainer>
         </Container>
     )
 }

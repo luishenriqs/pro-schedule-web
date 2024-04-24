@@ -22,3 +22,13 @@ export const Imagem = styled(Image)({
         height: '400px',
     },
 })
+
+export const SignUpContainer = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    width: '200px',
+    height: 'auto',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '24px',
+})

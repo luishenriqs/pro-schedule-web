@@ -31,6 +31,18 @@ export const Text_Primary_16_500 = styled(Typography)({
     fontWeight: FONT_WEIGHT[500],
 })
 
+export const Text_Primary_14_500 = styled(Typography)({
+    color: COLORS.font_primary,
+    fontSize: FONT_SIZE[14],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const Text_Primary_12_500 = styled(Typography)({
+    color: COLORS.font_primary,
+    fontSize: FONT_SIZE[12],
+    fontWeight: FONT_WEIGHT[500],
+})
+
 export const Text_Secondary_24_700 = styled(Typography)({
     color: COLORS.font_secondary,
     fontSize: FONT_SIZE[24],
