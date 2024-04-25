@@ -1,23 +1,24 @@
 import Image from 'next/image'
 import { Box, styled } from '@mui/material'
+import { COLORS } from '@common/styles/theme'
 
 export const Container = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
-    width: '100vw',
+    width: '270px',
     height: 'auto',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '0 auto',
+    margin: '-20px auto',
 })
 
 export const Imagem = styled(Image)({
     marginTop: '10px',
-    marginBottom: '50px',
+    marginBottom: '20px',
     width: '320px',
     height: '320px',
 
-    '@media (min-width:400px)': {
+    '@media (min-width:1500px)': {
         width: '400px',
         height: '400px',
     },
@@ -26,12 +27,12 @@ export const Imagem = styled(Image)({
 export const FormContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
-    width: '250px',
-    height: '450px',
-    maxHeight: '450px',
+    width: '270px',
+    height: '350px',
+    maxHeight: '350px',
     overflowY: 'scroll',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    margin: '-80px auto 30px',
+    margin: '-60px 0 30px 20px',
     paddingTop: '15px',
 })

@@ -19,7 +19,7 @@ export const Imagem = styled(Image)({
     width: '320px',
     height: '320px',
 
-    '@media (min-width:400px)': {
+    '@media (min-width:1500px)': {
         width: '400px',
         height: '400px',
     },

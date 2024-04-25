@@ -13,10 +13,10 @@ export const Container = styled(Box)({
 
 export const Imagem = styled(Image)({
     marginTop: '50px',
-    marginBottom: '50px',
+    marginBottom: '20px',
     width: '320px',
     height: '320px',
-    '@media (min-width:400px)': {
+    '@media (min-width:1500px)': {
         width: '400px',
         height: '400px',
     },

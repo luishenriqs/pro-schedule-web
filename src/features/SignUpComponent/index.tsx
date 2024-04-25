@@ -13,6 +13,9 @@ type FormValues = {
     cpf: string
     cep: string
     address: string
+    neighborhood: string
+    city: string
+    state: string
 }
 
 export const SignUpComponent = () => {
@@ -119,15 +122,32 @@ export const SignUpComponent = () => {
                         margin="normal"
                     />
                     <TextField
-                        label="Endereço"
+                        label="Bairro"
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
                         style={{ width: '250px' }}
-                        {...register('address', { required: false })}
+                        {...register('neighborhood', { required: false })}
                         margin="normal"
                     />
-
+                    <TextField
+                        label="Cidade"
+                        InputLabelProps={{ shrink: true }}
+                        size="small"
+                        variant="outlined"
+                        style={{ width: '250px' }}
+                        {...register('city', { required: false })}
+                        margin="normal"
+                    />
+                    <TextField
+                        label="Estado"
+                        InputLabelProps={{ shrink: true }}
+                        size="small"
+                        variant="outlined"
+                        style={{ width: '250px' }}
+                        {...register('state', { required: false })}
+                        margin="normal"
+                    />
                     <PrimaryButton title="Cadastre-se" type="submit" />
                 </form>
             </FormContainer>
