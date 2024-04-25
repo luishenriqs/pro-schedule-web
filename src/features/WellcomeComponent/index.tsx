@@ -7,12 +7,9 @@ export const WellcomeComponent = () => {
     const router = useRouter()
     return (
         <Container>
-            <Imagem
-                src={require('../../../assets/pro-schedule-logo.png')}
-                alt={'Pro-Schedule-logo'}
-            />
+            <Imagem src={require('../../../assets/pro-schedule-logo.png')} alt={'Pro-Schedule-logo'} />
             <Title>Seja bem-vindo</Title>
-            <PrimaryButton title='Entrar' onClick={() => router.push('/SignIn')} />
+            <PrimaryButton title="Entrar" onClick={() => router.push('/SignIn')} />
         </Container>
     )
 }

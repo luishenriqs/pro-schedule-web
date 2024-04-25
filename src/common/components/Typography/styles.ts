@@ -66,3 +66,9 @@ export const Text_Secondary_16_500 = styled(Typography)({
     fontSize: FONT_SIZE[16],
     fontWeight: FONT_WEIGHT[500],
 })
+
+export const Text_Secondary_14_500 = styled(Typography)({
+    color: COLORS.font_secondary,
+    fontSize: FONT_SIZE[14],
+    fontWeight: FONT_WEIGHT[500],
+})

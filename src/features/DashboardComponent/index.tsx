@@ -13,17 +13,18 @@ export const DashboardComponent = () => {
 
     return (
         <Container>
-            {isLoading
-                ?   <LoadingComponent />
-                :   <>
-                        <Header title="Início" />
-                        <DashboardContent>
-                            <TextPrimary20_700 text='DASHBOARD COMPONENT' />
-                            <TextPrimary16_500 text='DASHBOARD COMPONENT' />
-                            <TextSecondary24_700 text='DASHBOARD COMPONENT' />
-                        </DashboardContent>
-                    </>
-            }
+            {isLoading ? (
+                <LoadingComponent />
+            ) : (
+                <>
+                    <Header title="Início" />
+                    <DashboardContent>
+                        <TextPrimary20_700 text="DASHBOARD COMPONENT" />
+                        <TextPrimary16_500 text="DASHBOARD COMPONENT" />
+                        <TextSecondary24_700 text="DASHBOARD COMPONENT" />
+                    </DashboardContent>
+                </>
+            )}
         </Container>
     )
 }

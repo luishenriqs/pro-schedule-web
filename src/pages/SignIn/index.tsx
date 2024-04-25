@@ -1,5 +1,5 @@
 import { SignInComponent } from '@features/SignInComponent'
 
-export default function Register() {
+export default function SignIn() {
     return <SignInComponent />
 }

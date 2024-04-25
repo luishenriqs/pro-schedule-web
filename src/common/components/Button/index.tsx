@@ -1,6 +1,6 @@
 import React from 'react'
 import { ButtonProps } from '@mui/material'
-import { PrimaryContainer, SecondaryContainer, TitleContainer, PrimaryTitle, SecondaryTitle } from './styles';
+import { PrimaryContainer, SecondaryContainer, TitleContainer, PrimaryTitle, SecondaryTitle } from './styles'
 
 type Props = ButtonProps & {
     title: string
@@ -13,7 +13,7 @@ export function PrimaryButton({ title, onClick, ...rest }: Props) {
             <TitleContainer>
                 <PrimaryTitle>{title}</PrimaryTitle>
             </TitleContainer>
-        </ PrimaryContainer>
+        </PrimaryContainer>
     )
 }
 
@@ -23,6 +23,6 @@ export function SecondaryButton({ title, onClick, ...rest }: Props) {
             <TitleContainer>
                 <SecondaryTitle>{title}</SecondaryTitle>
             </TitleContainer>
-        </ SecondaryContainer>
+        </SecondaryContainer>
     )
 }

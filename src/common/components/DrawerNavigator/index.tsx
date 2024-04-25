@@ -10,7 +10,6 @@ type DrawerProps = {
     isOpen: boolean
 }
 
-
 type MenuItem = {
     order: number
     route: string
@@ -69,10 +68,10 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
     const menuOptions = useCallback(() => {
         return availableMenuItems.map((item) => {
             return (
-                <ButtonIcon onClick={() =>
-                    location.pathname === item.route ? router.refresh() : router.push(item.route)
-                }>
-                    <Icon iconName={item.icon} color={COLORS.font_primary} margin='0 8px 0 0' />
+                <ButtonIcon
+                    onClick={() => (location.pathname === item.route ? router.refresh() : router.push(item.route))}
+                >
+                    <Icon iconName={item.icon} color={COLORS.font_primary} margin="0 8px 0 0" />
                     <TextPrimary20_700 text={item.title} />
                 </ButtonIcon>
             )
@@ -82,13 +81,8 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
     return (
         <Drawer anchor="left" open={open} onClose={() => setOpen(!isOpen)}>
             <Container>
-                <Imagem
-                    src={require('../../../../assets/pro-schedule-logo.png')}
-                    alt={'Pro-Schedule-logo'}
-                />
-                <MenuContainer>
-                    {menuOptions()}
-                </MenuContainer>
+                <Imagem src={require('../../../../assets/pro-schedule-logo.png')} alt={'Pro-Schedule-logo'} />
+                <MenuContainer>{menuOptions()}</MenuContainer>
             </Container>
         </Drawer>
     )

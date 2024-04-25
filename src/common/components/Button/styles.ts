@@ -9,7 +9,7 @@ export const PrimaryContainer = styled(Button)({
     borderRadius: '6px',
     background: COLORS.primary,
     marginTop: '16px',
-    width: '200px',
+    width: '250px',
     height: '40px',
 })
 
@@ -20,7 +20,7 @@ export const SecondaryContainer = styled(Button)({
     borderRadius: '6px',
     background: COLORS.secondary,
     marginTop: '16px',
-    width: '200px',
+    width: '250px',
     height: '40px',
 })
 

@@ -16,10 +16,7 @@ function Header({ title, text }: HeaderProps) {
             <HeaderWrapper>
                 <HeaderContent>
                     <IconContainer>
-                        <Imagem
-                            src={require('../../../../assets/schedule_icon.png')}
-                            alt={'Pro-Schedule-logo'}
-                        />
+                        <Imagem src={require('../../../../assets/schedule_icon.png')} alt={'Pro-Schedule-logo'} />
                     </IconContainer>
                     <TextPrimary20_700 text={title} />
                     <ButtonIcon onClick={() => setOpen(!open)}>

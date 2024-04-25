@@ -1,6 +1,14 @@
 import React from 'react'
 import { ButtonProps } from '@mui/material'
-import { PrimaryContainer, SecondaryContainer, TitleContainer, MediumPrimaryTitle, SmallPrimaryTitle, MediumSecondaryTitle, SmallSecondaryTitle } from './styles';
+import {
+    PrimaryContainer,
+    SecondaryContainer,
+    TitleContainer,
+    MediumPrimaryTitle,
+    SmallPrimaryTitle,
+    MediumSecondaryTitle,
+    SmallSecondaryTitle,
+} from './styles'
 
 type Props = ButtonProps & {
     title: string
@@ -12,9 +20,13 @@ export function PrimaryButtonIcon({ title, size = 'medium', onClick, ...rest }: 
     return (
         <PrimaryContainer onClick={onClick} {...rest}>
             <TitleContainer>
-                {size === 'medium' ? <MediumPrimaryTitle>{title}</MediumPrimaryTitle> : <SmallPrimaryTitle>{title}</SmallPrimaryTitle>}
+                {size === 'medium' ? (
+                    <MediumPrimaryTitle>{title}</MediumPrimaryTitle>
+                ) : (
+                    <SmallPrimaryTitle>{title}</SmallPrimaryTitle>
+                )}
             </TitleContainer>
-        </ PrimaryContainer>
+        </PrimaryContainer>
     )
 }
 
@@ -22,8 +34,12 @@ export function SecondaryButtonIcon({ title, size = 'medium', onClick, ...rest }
     return (
         <SecondaryContainer onClick={onClick} {...rest}>
             <TitleContainer>
-                {size === 'medium' ? <MediumSecondaryTitle>{title}</MediumSecondaryTitle> : <SmallSecondaryTitle>{title}</SmallSecondaryTitle>}
+                {size === 'medium' ? (
+                    <MediumSecondaryTitle>{title}</MediumSecondaryTitle>
+                ) : (
+                    <SmallSecondaryTitle>{title}</SmallSecondaryTitle>
+                )}
             </TitleContainer>
-        </ SecondaryContainer>
+        </SecondaryContainer>
     )
 }

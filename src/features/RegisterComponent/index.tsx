@@ -13,17 +13,18 @@ export const RegisterComponent = () => {
 
     return (
         <Container>
-            {isLoading
-                ?   <LoadingComponent />
-                :   <>
-                        <Header title="Cadastro" />
-                        <DashboardContent>
-                            <TextPrimary20_700 text='REGISTER COMPONENT' />
-                            <TextPrimary16_500 text='REGISTER COMPONENT' />
-                            <TextSecondary24_700 text='REGISTER COMPONENT' />
-                        </DashboardContent>
-                    </>
-            }
+            {isLoading ? (
+                <LoadingComponent />
+            ) : (
+                <>
+                    <Header title="Cadastro" />
+                    <DashboardContent>
+                        <TextPrimary20_700 text="REGISTER COMPONENT" />
+                        <TextPrimary16_500 text="REGISTER COMPONENT" />
+                        <TextSecondary24_700 text="REGISTER COMPONENT" />
+                    </DashboardContent>
+                </>
+            )}
         </Container>
     )
 }
