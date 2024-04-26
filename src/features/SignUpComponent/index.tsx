@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { Container, FormContainer, Imagem } from './styles'
+import { ButtonContainer, Container, FormContainer, Imagem } from './styles'
 import { PrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
 
@@ -13,6 +13,7 @@ type FormValues = {
     cpf: string
     cep: string
     address: string
+    complement: string
     neighborhood: string
     city: string
     state: string
@@ -44,7 +45,7 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '250px' }}
+                        style={{ width: '100%' }}
                         {...register('fullName', { required: true })}
                         error={!!errors.fullName}
                         helperText={errors.fullName && 'Nome é obrigatório'}
@@ -55,7 +56,7 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '250px' }}
+                        style={{ width: '100%' }}
                         {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
                         error={!!errors.email}
                         helperText={errors.email && 'Email é obrigatório'}
@@ -67,7 +68,7 @@ export const SignUpComponent = () => {
                         type="password"
                         size="small"
                         variant="outlined"
-                        style={{ width: '250px' }}
+                        style={{ width: '100%' }}
                         {...register('password', { required: true })}
                         error={!!errors.password}
                         helperText={errors.password && 'Senha é obrigatória'}
@@ -78,7 +79,7 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '250px' }}
+                        style={{ width: '100%' }}
                         {...register('phone', { required: true })}
                         error={!!errors.phone}
                         helperText={errors.phone && 'Telefone é obrigatório'}
@@ -90,7 +91,7 @@ export const SignUpComponent = () => {
                         type="date"
                         size="small"
                         variant="outlined"
-                        style={{ width: '250px' }}
+                        style={{ width: '100%' }}
                         {...register('dob', { required: false })}
                         margin="normal"
                     />
@@ -99,7 +100,7 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '250px' }}
+                        style={{ width: '100%' }}
                         {...register('cpf', { required: false })}
                         margin="normal"
                     />
@@ -108,17 +109,26 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '250px' }}
+                        style={{ width: '100%' }}
                         {...register('cep', { required: false })}
                         margin="normal"
                     />
                     <TextField
-                        label="Endereço"
+                        label="Rua/Avenida"
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '250px' }}
+                        style={{ width: '100%' }}
                         {...register('address', { required: false })}
+                        margin="normal"
+                    />
+                    <TextField
+                        label="Complemento"
+                        InputLabelProps={{ shrink: true }}
+                        size="small"
+                        variant="outlined"
+                        style={{ width: '100%' }}
+                        {...register('complement', { required: false })}
                         margin="normal"
                     />
                     <TextField
@@ -126,7 +136,7 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '250px' }}
+                        style={{ width: '100%' }}
                         {...register('neighborhood', { required: false })}
                         margin="normal"
                     />
@@ -135,7 +145,7 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '250px' }}
+                        style={{ width: '100%' }}
                         {...register('city', { required: false })}
                         margin="normal"
                     />
@@ -144,11 +154,13 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '250px' }}
+                        style={{ width: '100%' }}
                         {...register('state', { required: false })}
                         margin="normal"
                     />
-                    <PrimaryButton title="Cadastre-se" type="submit" />
+                    <ButtonContainer>
+                        <PrimaryButton title="Cadastre-se" type="submit" />
+                    </ButtonContainer>
                 </form>
             </FormContainer>
         </Container>

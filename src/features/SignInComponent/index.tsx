@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { PrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
-import { SecondaryButtonIcon } from '@common/components/ButtonIcon'
+import { PrimaryButtonIcon, SecondaryButtonIcon } from '@common/components/ButtonIcon'
 import { TextPrimary14_500 } from '@common/components/Typography'
 import { Container, Imagem, SignUpContainer } from './styles'
 
@@ -65,8 +65,9 @@ export const SignInComponent = () => {
             </form>
             <SignUpContainer>
                 <TextPrimary14_500 text="Ainda não possui uma conta?" />
-                <SecondaryButtonIcon title="Cadastre-se" size="small" onClick={() => router.push('/SignUp')} />
+                <SecondaryButtonIcon title="Cadastre-se" size="medium" onClick={() => router.push('/SignUp')} />
             </SignUpContainer>
+            <PrimaryButtonIcon title="Recuperar senha" size="small" onClick={() => console.log('Recuperar senha')} />
         </Container>
     )
 }
