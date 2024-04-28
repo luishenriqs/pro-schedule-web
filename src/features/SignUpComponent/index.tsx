@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { useNotification } from '@common/hooks/useNotification'
+import { writeData } from '@common/api'
 import { ButtonContainer, Container, FormContainer, Imagem } from './styles'
 import { PrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
@@ -9,7 +11,7 @@ type FormValues = {
     email: string
     password: string
     phone: string
-    dob: string
+    birthday: string
     cpf: string
     cep: string
     address: string
@@ -20,19 +22,20 @@ type FormValues = {
 }
 
 export const SignUpComponent = () => {
+    const { emmitSuccess, emmitError } = useNotification()
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<FormValues>()
 
-    const [submitting, setSubmitting] = useState(false)
-
     const onSubmit: SubmitHandler<FormValues> = async (data) => {
-        setSubmitting(true)
-        // Aqui você pode adicionar lógica para criação do usuário
-        console.log(data)
-        setSubmitting(false)
+        try {
+            const resp = await writeData(data, 'users')
+            if (resp?.status === 200) emmitSuccess('Dados adicionados com sucesso!')
+        } catch (error) {
+            emmitError('Erro ao adicionar documento!')
+        }
     }
 
     return (
@@ -92,7 +95,7 @@ export const SignUpComponent = () => {
                         size="small"
                         variant="outlined"
                         style={{ width: '100%' }}
-                        {...register('dob', { required: false })}
+                        {...register('birthday', { required: false })}
                         margin="normal"
                     />
                     <TextField
