@@ -6,17 +6,16 @@ interface StyledSnackbarProviderProps extends SnackbarProviderProps {}
 const StyledSnackbarProvider: React.FC<StyledSnackbarProviderProps> = (props) => {
     const { children, ...other } = props
 
-    const CustomProvider = styled(SnackbarProvider)(
-        ({
-            theme: {
-                palette: {
-                    error: { main: errorMain },
-                    success: { main: successMain },
-                    warning: { main: warningMain },
-                },
+    const CustomProvider = styled(SnackbarProvider)(({
+        theme: {
+            palette: {
+                error: { main: errorMain },
+                success: { main: successMain },
+                warning: { main: warningMain },
             },
-        }) => {
-            return `
+        },
+    }) => {
+        return `
         &.notistack-MuiContent-error {
             background-color: ${errorMain};
         },
@@ -27,8 +26,7 @@ const StyledSnackbarProvider: React.FC<StyledSnackbarProviderProps> = (props) =>
             background-color: ${warningMain};
         }
     `
-        }
-    )
+    })
     const anchorOrigin: SnackbarOrigin = {
         vertical: 'bottom',
         horizontal: 'right',

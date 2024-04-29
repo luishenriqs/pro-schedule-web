@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { useRouter } from 'next/router'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { useRouter } from 'next/router'
+import { useNotification } from '@common/hooks/useNotification'
+import { RecoverPassword, SignIn } from '@common/api'
 import { PrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
 import { PrimaryButtonIcon, SecondaryButtonIcon } from '@common/components/ButtonIcon'
@@ -14,25 +16,39 @@ type FormValues = {
 
 export const SignInComponent = () => {
     const router = useRouter()
+    const { emmitSuccess, emmitError, emmitAlert } = useNotification()
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<FormValues>()
 
-    const [submitting, setSubmitting] = useState(false)
+    const [email, setEmail] = useState<string>('')
+    
+    const handleSignIn: SubmitHandler<FormValues> = async (data) => {
+        try {
+            const resp = await SignIn(data) //==> Valida autenticação do usuário
+            if (resp?.status === 200) emmitSuccess(resp?.message)
+            if (resp?.status !== 200) emmitError(resp?.message)
+        } catch (error) {
+            emmitError(`${error}`)
+        }
+    }
 
-    const onSubmit: SubmitHandler<FormValues> = async (data) => {
-        setSubmitting(true)
-        // Aqui você pode adicionar lógica para autenticação do usuário
-        console.log(data)
-        setSubmitting(false)
+    const handleRecoverPassword = async () => {
+        if (!email) {
+            emmitAlert('Informe seu email!')
+        } else {
+            const resp = await RecoverPassword(email)
+            if (resp?.status === 200) emmitSuccess(resp?.message)
+            if (resp?.status !== 200) emmitError(resp?.message)
+        }
     }
 
     return (
         <Container>
             <Imagem src={require('../../../assets/pro-schedule-logo.png')} alt={'Pro-Schedule-logo'} />
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(handleSignIn)}>
                 <TextField
                     label="Email"
                     InputLabelProps={{ shrink: true }}
@@ -44,6 +60,7 @@ export const SignInComponent = () => {
                     error={!!errors.email}
                     helperText={errors.email && 'Email inválido'}
                     margin="normal"
+                    onChange={(e) => setEmail(e.target.value)}
                 />
                 <TextField
                     label="Senha"
@@ -67,7 +84,7 @@ export const SignInComponent = () => {
                 <TextPrimary14_500 text="Ainda não possui uma conta?" />
                 <SecondaryButtonIcon title="Cadastre-se" size="medium" onClick={() => router.push('/SignUp')} />
             </SignUpContainer>
-            <PrimaryButtonIcon title="Recuperar senha" size="small" onClick={() => console.log('Recuperar senha')} />
+            <PrimaryButtonIcon title="Recuperar senha" size="small" onClick={() => handleRecoverPassword()} />
         </Container>
     )
 }

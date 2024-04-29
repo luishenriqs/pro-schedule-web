@@ -1,12 +1,17 @@
 import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { v4 as uuidv4 } from 'uuid'
 import { useNotification } from '@common/hooks/useNotification'
-import { writeData } from '@common/api'
+import { createAuth, writeData } from '@common/api'
 import { ButtonContainer, Container, FormContainer, Imagem } from './styles'
 import { PrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
 
 type FormValues = {
+    isOwner: boolean
+    isManager: boolean
+    isAdmin: boolean
+    id: string
     fullName: string
     email: string
     password: string
@@ -29,12 +34,23 @@ export const SignUpComponent = () => {
         formState: { errors },
     } = useForm<FormValues>()
 
-    const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    const handleSignUp: SubmitHandler<FormValues> = async (data) => {
         try {
-            const resp = await writeData(data, 'users')
-            if (resp?.status === 200) emmitSuccess('Dados adicionados com sucesso!')
+            data.id = uuidv4()
+            data.isOwner = false
+            data.isManager = false
+            data.isAdmin = false
+            const resp = await createAuth(data) //==> Cria novo usuário no firebase/auth
+
+            if (resp.status === 201) {
+                const respData = await writeData(data, 'users') //==> Cria novo usuário no firestore
+                if (respData?.status === 201) emmitSuccess(resp?.message)
+                if (respData?.status !== 201) emmitError(resp?.message)
+            } else {
+                emmitError('message: ' + `${resp.message}`)
+            }
         } catch (error) {
-            emmitError('Erro ao adicionar documento!')
+            emmitError(`${error}`)
         }
     }
 
@@ -42,7 +58,7 @@ export const SignUpComponent = () => {
         <Container>
             <Imagem src={require('../../../assets/pro-schedule-logo.png')} alt={'Pro-Schedule-logo'} />
             <FormContainer>
-                <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
+                <form onSubmit={handleSubmit(handleSignUp)} style={{ width: '100%' }}>
                     <TextField
                         label="Nome Completo"
                         InputLabelProps={{ shrink: true }}
