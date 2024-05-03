@@ -1,6 +1,13 @@
 import { collection, addDoc, getFirestore } from 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth'
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    sendPasswordResetEmail,
+    onAuthStateChanged,
+} from 'firebase/auth'
 import { firebaseConfig } from '../../../firebaseConfig'
 
 const app = initializeApp(firebaseConfig)
@@ -64,11 +71,13 @@ export const SignIn = async (data: DataProps) => {
 
 //==> Desconecta usuário
 export const SignOut = async () => {
-    return signOut(auth).then(() => {
-        return { success: true, status: 200, message: 'Usuário desconectado!' }
-    }).catch((error) => {
-        return { success: false, status: `${error.status}`, message: `${error.message}` }
-    })
+    return signOut(auth)
+        .then(() => {
+            return { success: true, status: 200, message: 'Usuário desconectado!' }
+        })
+        .catch((error) => {
+            return { success: false, status: `${error.status}`, message: `${error.message}` }
+        })
 }
 
 //==> Recupera senha
@@ -80,6 +89,18 @@ export const RecoverPassword = async (email: string) => {
         .catch((error) => {
             return { success: false, status: `${error.status}`, message: `${error.message}` }
         })
+}
+
+//==> Verifica se ocorre alteração no status do usuário
+export const UserStateChanged = async () => {
+    return onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // console.log('na api ------> ', JSON.stringify(user))
+            return user
+        } else {
+            return { message: 'Usuário desconectado!' }
+        }
+    })
 }
 
 //==> Escreve dados nas coleções do firestore

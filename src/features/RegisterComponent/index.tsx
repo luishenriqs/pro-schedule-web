@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {  Firestore, collection, getDocs, getFirestore } from "firebase/firestore"
+import { Firestore, collection, getDocs, getFirestore } from 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
 import { firebaseConfig } from '../../../firebaseConfig'
 import Header from '@common/components/Header'
@@ -17,21 +17,20 @@ export const RegisterComponent = () => {
         setIsLoading(false)
     }, 100)
 
-    
     async function getData(firebase: Firestore) {
         const users = collection(firebase, 'users')
         const querySnapshot = await getDocs(users)
         const dataList = querySnapshot.docs.map((doc) => doc.data())
-    
-        console.log('dataList ----> ', dataList)
-    
+
+        // console.log('dataList ----> ', dataList)
+
         return dataList
     }
 
     useEffect(() => {
         getData(firebase)
     }, [])
-    
+
     return (
         <Container>
             {isLoading ? (

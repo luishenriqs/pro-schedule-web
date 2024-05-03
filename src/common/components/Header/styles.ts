@@ -6,19 +6,12 @@ import { COLORS } from '@common/styles/theme'
 
 export const Container = styled(Box)({
     display: 'flex',
+    position: 'fixed',
     flexDirection: 'column',
-    width: '100%',
-    background: COLORS.background,
-})
-
-export const HeaderWrapper = styled(Box)({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%',
-    height: 'auto',
-    borderBottom: 'solid 0.5px',
-    borderColor: COLORS.primary,
+    width: '100vw',
+    maxHeight: '120px',
+    zIndex: 999,
+    padding: '15px 30px 0',
 })
 
 export const HeaderContent = styled(Box)({
@@ -28,7 +21,6 @@ export const HeaderContent = styled(Box)({
     height: 'auto',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: '15px 15px 0',
 })
 
 export const IconContainer = styled(Box)({
@@ -72,11 +64,6 @@ export const Imagem = styled(Image)({
     },
 })
 
-export const Line = styled(Box)({
-    border: 'solid 0.5px',
-    borderColor: COLORS.primary,
-})
-
 export const ButtonIcon = styled(IconButton)({
     width: '60px',
     height: '60px',
@@ -85,6 +72,11 @@ export const ButtonIcon = styled(IconButton)({
 
 export const IconMenu = styled(MenuIcon)({
     color: COLORS.font_primary,
+    width: '30px',
+    height: '30px',
+})
+
+export const Empty = styled(Box)({
     width: '30px',
     height: '30px',
 })

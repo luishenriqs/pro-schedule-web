@@ -5,7 +5,7 @@ import { useNotification } from '@common/hooks/useNotification'
 import { RecoverPassword, SignIn } from '@common/api'
 import { PrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
-import { PrimaryButtonIcon, SecondaryButtonIcon } from '@common/components/ButtonIcon'
+import { PrimaryButtonText, SecondaryButtonText } from '@common/components/ButtonText'
 import { TextPrimary14_500 } from '@common/components/Typography'
 import { Container, Imagem, SignUpContainer } from './styles'
 
@@ -24,7 +24,7 @@ export const SignInComponent = () => {
     } = useForm<FormValues>()
 
     const [email, setEmail] = useState<string>('')
-    
+
     const handleSignIn: SubmitHandler<FormValues> = async (data) => {
         try {
             const resp = await SignIn(data) //==> Valida autenticação do usuário
@@ -82,9 +82,9 @@ export const SignInComponent = () => {
             </form>
             <SignUpContainer>
                 <TextPrimary14_500 text="Ainda não possui uma conta?" />
-                <SecondaryButtonIcon title="Cadastre-se" size="medium" onClick={() => router.push('/SignUp')} />
+                <SecondaryButtonText title="Cadastre-se" size="medium" onClick={() => router.push('/SignUp')} />
             </SignUpContainer>
-            <PrimaryButtonIcon title="Recuperar senha" size="small" onClick={() => handleRecoverPassword()} />
+            <PrimaryButtonText title="Recuperar senha" size="small" onClick={() => handleRecoverPassword()} />
         </Container>
     )
 }

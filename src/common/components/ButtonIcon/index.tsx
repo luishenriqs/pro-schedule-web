@@ -1,45 +1,52 @@
 import React from 'react'
 import { ButtonProps } from '@mui/material'
+import { COLORS } from '@common/styles/theme'
+import { Icon } from '../Icons'
 import {
-    PrimaryContainer,
-    SecondaryContainer,
-    TitleContainer,
-    MediumPrimaryTitle,
-    SmallPrimaryTitle,
-    MediumSecondaryTitle,
-    SmallSecondaryTitle,
+    ButtonContainer,
+    Container,
 } from './styles'
 
 type Props = ButtonProps & {
-    title: string
+    icon: string
     size?: 'medium' | 'small'
     onClick?: () => void
 }
 
-export function PrimaryButtonIcon({ title, size = 'medium', onClick, ...rest }: Props) {
+export function PrimaryButtonIcon({ icon, size = 'medium', onClick, ...rest }: Props) {
     return (
-        <PrimaryContainer onClick={onClick} {...rest}>
-            <TitleContainer>
-                {size === 'medium' ? (
-                    <MediumPrimaryTitle>{title}</MediumPrimaryTitle>
-                ) : (
-                    <SmallPrimaryTitle>{title}</SmallPrimaryTitle>
-                )}
-            </TitleContainer>
-        </PrimaryContainer>
+        <ButtonContainer onClick={onClick} {...rest}>
+            {size === 'medium' ? (
+                <Icon iconName={icon} color={COLORS.font_primary} />
+            ) : (
+                <Icon iconName={icon} color={COLORS.font_primary} />
+            )}
+        </ButtonContainer>
     )
 }
 
-export function SecondaryButtonIcon({ title, size = 'medium', onClick, ...rest }: Props) {
+export function SecondaryButtonIcon({ icon, size = 'medium', onClick, ...rest }: Props) {
     return (
-        <SecondaryContainer onClick={onClick} {...rest}>
-            <TitleContainer>
+        <ButtonContainer onClick={onClick} {...rest}>
+            {size === 'medium' ? (
+                <Icon iconName={icon} color={COLORS.font_secondary} />
+            ) : (
+                <Icon iconName={icon} color={COLORS.font_secondary} />
+            )}
+        </ButtonContainer>
+    )
+}
+
+export function BackgroundButtonIcon({ icon, size = 'medium', onClick, ...rest }: Props) {
+    return (
+        <Container>
+            <ButtonContainer onClick={onClick} {...rest}>
                 {size === 'medium' ? (
-                    <MediumSecondaryTitle>{title}</MediumSecondaryTitle>
+                    <Icon iconName={icon} color={COLORS.background} />
                 ) : (
-                    <SmallSecondaryTitle>{title}</SmallSecondaryTitle>
+                    <Icon iconName={icon} color={COLORS.background} />
                 )}
-            </TitleContainer>
-        </SecondaryContainer>
+            </ButtonContainer>
+        </Container>
     )
 }

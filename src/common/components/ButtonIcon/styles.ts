@@ -1,40 +1,27 @@
 import { styled } from '@mui/system'
-import { Box, IconButton, Typography } from '@mui/material'
-import { COLORS, FONT_SIZE, FONT_WEIGHT } from '@common/styles/theme'
+import { Box, IconButton } from '@mui/material'
 
-export const PrimaryContainer = styled(IconButton)({
+export const Container = styled(Box)({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     border: 'none',
+    width: '60px',
+    height: '60px',
 })
 
-export const SecondaryContainer = styled(IconButton)({
+export const ButtonContainer = styled(IconButton)({
     border: 'none',
+    width: '25px',
+    height: '25px',
+
+    '@media (min-width:1024px)': {
+        width: '40px',
+        height: '40px',
+    },
 })
 
-export const TitleContainer = styled(Box)({
+export const IconContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'row',
-})
-
-export const MediumPrimaryTitle = styled(Typography)({
-    color: COLORS.font_primary,
-    fontWeight: FONT_WEIGHT[700],
-    fontSize: FONT_SIZE[20],
-})
-
-export const SmallPrimaryTitle = styled(Typography)({
-    color: COLORS.font_primary,
-    fontWeight: FONT_WEIGHT[500],
-    fontSize: FONT_SIZE[14],
-})
-
-export const MediumSecondaryTitle = styled(Typography)({
-    color: COLORS.font_secondary,
-    fontWeight: FONT_WEIGHT[700],
-    fontSize: FONT_SIZE[20],
-})
-
-export const SmallSecondaryTitle = styled(Typography)({
-    color: COLORS.font_secondary,
-    fontWeight: FONT_WEIGHT[500],
-    fontSize: FONT_SIZE[14],
 })
