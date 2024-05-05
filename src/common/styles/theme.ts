@@ -1,21 +1,12 @@
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
+import './fonts.css'
 
 export const COLORS = {
-    primary: '#AE8E1C',
-    secondary: '#000000',
-    extra_color: '#F6EDCA',
-    complementary: '#E1E1E6',
-    background: '#FFFFFF',
-    font_primary: '#000000',
-    font_secondary: '#AE8E1C',
-
+    primary: '#943A43',
+    secondary: '#E49F92',
+    tertiary: '#FAD5CE',
+    background: '#FEF4F3',
     white: '#FFFFFF',
     black: '#000000',
-    gray_200: '#C4C4CC',
-    gray_600: '#363636',
-    gray_900: '#1C1C1C',
 
     error: '#C62828',
     success: '#32CD32',
@@ -23,6 +14,11 @@ export const COLORS = {
 
     test: '#ff5588',
     test2: '#73B7E7',
+}
+
+export const FONT_FAMILY = {
+    genos: 'Genos',
+    questrial: 'Questrial',
 }
 
 export const FONT_SIZE = {
@@ -48,29 +44,30 @@ export const BREAKPOINTS = {
     full: 1536,
 }
 
+// PALETA 1
+// primary: '#AE8E1C',
+// secondary: '#000000',
+// extra_color: '#F6EDCA',
+// complementary: '#E1E1E6',
+
 // PALETA 2
 // primary: '#4D7298',
 // secondary: '#77A6B6',
 // extra_color: '#9DC3C2',
 // complementary: '#E1E1E6',
-// background: '#FFFFFF',
-// font_primary: '#000000',
-// font_secondary: '#4D7298',
 
 // PALETA 3
 // primary: '#0D324D',
 // secondary: '#185B8C',
 // extra_color: '#73B7E7',
 // complementary: '#E1E1E6',
-// background: '#FFFFFF',
-// font_primary: '#000000',
-// font_secondary: '#0D324D',
 
 // PALETA 4
 // primary: '#495867',
 // secondary: '#CE796B',
 // extra_color: '#FCB07E',
 // complementary: '#E1E1E6',
-// background: '#FFFFFF',
-// font_primary: '#000000',
-// font_secondary: '#495867',
+
+// gray_200: '#C4C4CC',
+// gray_600: '#363636',
+// gray_900: '#1C1C1C',

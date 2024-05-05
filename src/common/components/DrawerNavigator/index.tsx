@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Drawer } from '@mui/material'
-import { TextPrimary20_700 } from '../Typography'
+import { Genos_Primary_20_500 } from '../Typography'
 import { Icon } from '../Icons'
 import { ButtonIcon, Container, Imagem, MenuContainer } from './styles'
 import { COLORS } from '@common/styles/theme'
@@ -29,38 +29,47 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
     const availableMenuItems: MenuItem[] = [
         {
             order: 1,
-            title: 'Bem vindo',
-            route: '/Wellcome',
-            icon: 'HomeOutlined',
-            onClickHandler: () => {
-                location.pathname === '/Wellcome' ? router.refresh() : router.push('/Wellcome')
-            },
-        },
-        {
-            order: 2,
-            title: 'Entrar',
-            route: '/SignIn',
-            icon: 'HomeOutlined',
-            onClickHandler: () => {
-                location.pathname === '/SignIn' ? router.refresh() : router.push('/SignIn')
-            },
-        },
-        {
-            order: 3,
-            title: 'Início',
+            title: 'Home',
             route: '/',
-            icon: 'HomeOutlined',
+            icon: '',
             onClickHandler: () => {
                 location.pathname === '/' ? router.refresh() : router.push('/')
             },
         },
         {
-            order: 4,
-            title: 'Cadastro',
-            route: '/Register',
-            icon: 'CalendarMonthOutlined',
+            order: 2,
+            title: 'Dr. Joyce Schwartz',
+            route: '/About',
+            icon: '',
             onClickHandler: () => {
-                location.pathname === '/Register' ? router.refresh() : router.push('/Register')
+                location.pathname === '/About' ? router.refresh() : router.push('/About')
+            },
+        },
+        {
+            order: 3,
+            title: 'Tratamentos Corporais',
+            route: '/ContentOne',
+            icon: '',
+            onClickHandler: () => {
+                location.pathname === '/ContentOne' ? router.refresh() : router.push('/ContentOne')
+            },
+        },
+        {
+            order: 4,
+            title: 'Tratamentos Faciais',
+            route: '/ContentTwo',
+            icon: '',
+            onClickHandler: () => {
+                location.pathname === '/ContentTwo' ? router.refresh() : router.push('/ContentTwo')
+            },
+        },
+        {
+            order: 5,
+            title: 'Agendamento',
+            route: '/Scheduling',
+            icon: '',
+            onClickHandler: () => {
+                location.pathname === '/Scheduling' ? router.refresh() : router.push('/Scheduling')
             },
         },
     ]
@@ -71,8 +80,8 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
                 <ButtonIcon
                     onClick={() => (location.pathname === item.route ? router.refresh() : router.push(item.route))}
                 >
-                    <Icon iconName={item.icon} color={COLORS.font_primary} margin="0 8px 0 0" />
-                    <TextPrimary20_700 text={item.title} />
+                    <Icon iconName={item.icon} color={COLORS.black} margin="0 8px 0 0" />
+                    <Genos_Primary_20_500 text={item.title} />
                 </ButtonIcon>
             )
         })
@@ -81,7 +90,7 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
     return (
         <Drawer anchor="left" open={open} onClose={() => setOpen(!isOpen)}>
             <Container>
-                <Imagem src={require('../../../../assets/pro-schedule-logo.png')} alt={'Pro-Schedule-logo'} />
+                <Imagem src={require('../../../../assets/photos/clinic/logo/primaryLogo-removebg.png')} alt={'logo'} />
                 <MenuContainer>{menuOptions()}</MenuContainer>
             </Container>
         </Drawer>

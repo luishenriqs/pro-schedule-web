@@ -11,7 +11,7 @@ export const Container = styled(Box)({
     justifyContent: 'flex-start',
 })
 
-export const DashboardContent = styled(Box)({
+export const SchedulingContent = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     width: '100vw',

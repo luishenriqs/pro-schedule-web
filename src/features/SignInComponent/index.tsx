@@ -6,7 +6,7 @@ import { RecoverPassword, SignIn } from '@common/api'
 import { PrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
 import { PrimaryButtonText, SecondaryButtonText } from '@common/components/ButtonText'
-import { TextPrimary14_500 } from '@common/components/Typography'
+import { Questrial_Primary_16_500 } from '@common/components/Typography'
 import { Container, Imagem, SignUpContainer } from './styles'
 
 type FormValues = {
@@ -81,7 +81,7 @@ export const SignInComponent = () => {
                 <PrimaryButton title="Login" type="submit" />
             </form>
             <SignUpContainer>
-                <TextPrimary14_500 text="Ainda não possui uma conta?" />
+                <Questrial_Primary_16_500 text="Ainda não possui uma conta?" />
                 <SecondaryButtonText title="Cadastre-se" size="medium" onClick={() => router.push('/SignUp')} />
             </SignUpContainer>
             <PrimaryButtonText title="Recuperar senha" size="small" onClick={() => handleRecoverPassword()} />

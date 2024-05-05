@@ -1,29 +1,47 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import { DrawerNavigator } from '../DrawerNavigator'
-import { TextPrimary20_700 } from '@common/components/Typography'
-import { Container, HeaderContent, IconContainer, ButtonIcon, Imagem, IconMenu, Empty } from './styles'
+import { TertiaryButtonText } from '../ButtonText'
+import {
+    Container,
+    DrawerHeaderContainer,
+    HeaderContent,
+    ButtonIcon,
+    Imagem,
+    IconMenu,
+    Empty,
+    InlineHeaderContainer,
+    MenuOptionsContainer,
+} from './styles'
 
-type HeaderProps = {
-    title: string
-    text?: string
-}
-
-function Header({ title }: HeaderProps) {
+function Header() {
+    const router = useRouter()
     const [open, setOpen] = useState(false)
 
-    return ( 
+    return (
         <Container>
-            <HeaderContent>
-                <Empty />
-                {/* <IconContainer>
-                    <Imagem src={require('../../../../assets/schedule_icon.png')} alt={'Pro-Schedule-logo'} />
-                </IconContainer> */}
-                {/* <TextPrimary20_700 text={title} /> */}
-                <ButtonIcon onClick={() => setOpen(!open)}>
-                    <IconMenu />
-                </ButtonIcon>
-            </HeaderContent>
-            <DrawerNavigator isOpen={open} />
+            <DrawerHeaderContainer>
+                <HeaderContent>
+                    <Empty />
+                    <ButtonIcon onClick={() => setOpen(!open)}>
+                        <IconMenu />
+                    </ButtonIcon>
+                </HeaderContent>
+                <DrawerNavigator isOpen={open} />
+            </DrawerHeaderContainer>
+            <InlineHeaderContainer>
+                <Imagem
+                    src={require('../../../../assets/photos/clinic/logo/inLineTertiaryLogo-removebg.png')}
+                    alt={'logo'}
+                />
+                <MenuOptionsContainer>
+                    <TertiaryButtonText title="Home" onClick={() => router.push('/Dash')} size='small' />
+                    <TertiaryButtonText title="Dr. Joyce Schwartz" onClick={() => router.push('/About')} size='small' />
+                    <TertiaryButtonText title="Tratamentos Corporais" onClick={() => router.push('/ContentOne')} size='small' />
+                    <TertiaryButtonText title="Tratamentos Faciais" onClick={() => router.push('/ContentTwo')} size='small' />
+                    <TertiaryButtonText title="Agendamento" onClick={() => router.push('/Scheduling')} size='small' />
+                </MenuOptionsContainer>
+            </InlineHeaderContainer>
         </Container>
     )
 }

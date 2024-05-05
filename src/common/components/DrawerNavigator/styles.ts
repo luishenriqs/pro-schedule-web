@@ -9,37 +9,22 @@ export const Container = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    height: 'auto',
-    width: '50vw',
+    justifyContent: 'flex-start',
+    width: '60vw',
+    height: '100vh',
+    background: 'linear-gradient(to bottom, #FAD5CE, #FEF4F3)',
 
-    '@media (min-width:600px)': {
+    '@media (min-width:760px)': {
         width: '30vw',
     },
-    '@media (min-width:900px)': {
+    '@media (min-width:1024px)': {
         width: '20vw',
-    },
-    '@media (min-width:1500px)': {
-        width: '10vw',
     },
 })
 
 export const Imagem = styled(Image)({
-    width: '200px',
-    height: '200px',
-
-    '@media (min-width:600px)': {
-        width: '180px',
-        height: '180px',
-    },
-    '@media (min-width:900px)': {
-        width: '160px',
-        height: '160px',
-    },
-    '@media (min-width:1500px)': {
-        width: '150px',
-        height: '150px',
-    },
+    width: '100%',
+    height: 'auto',
 })
 
 export const MenuContainer = styled(Box)({
@@ -47,18 +32,8 @@ export const MenuContainer = styled(Box)({
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    height: 'auto',
     width: '100%',
-
-    '@media (min-width:600px)': {
-        width: '180px',
-    },
-    '@media (min-width:900px)': {
-        width: '160px',
-    },
-    '@media (min-width:1500px)': {
-        width: '150px',
-    },
+    height: 'auto',
 })
 
 export const ButtonIcon = styled(IconButton)({
@@ -74,12 +49,12 @@ export const IconHome = styled(HomeOutlinedIcon)({
     width: '30px',
     height: '30px',
     marginRight: '8px',
-    color: COLORS.font_primary,
+    color: COLORS.black,
 })
 
 export const IconCalendar = styled(CalendarMonthOutlinedIcon)({
     width: '30px',
     height: '30px',
     marginRight: '8px',
-    color: COLORS.font_primary,
+    color: COLORS.black,
 })

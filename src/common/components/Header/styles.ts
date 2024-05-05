@@ -3,15 +3,42 @@ import Image from 'next/image'
 import MenuIcon from '@mui/icons-material/Menu'
 import { Box, IconButton } from '@mui/material'
 import { COLORS } from '@common/styles/theme'
+import { rgba } from 'polished'
 
 export const Container = styled(Box)({
     display: 'flex',
     position: 'fixed',
     flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     width: '100vw',
-    maxHeight: '120px',
-    zIndex: 999,
-    padding: '15px 30px 0',
+    height: '50px',
+    zIndex: 2,
+    '@media (min-width:760px)': {
+        height: '70px',
+        paddingRight: '30px',
+    },
+    '@media (min-width:1024px)': {
+        height: '60px',
+        paddingRight: '0px',
+    },
+})
+
+export const DrawerHeaderContainer = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: '100vw',
+    height: '50px',
+    padding: '0px 15px 0',
+
+    '@media (min-width:760px)': {
+        height: '70px',
+        paddingRight: '30px',
+    },
+    '@media (min-width:1024px)': {
+        display: 'none',
+    },
 })
 
 export const HeaderContent = styled(Box)({
@@ -23,60 +50,73 @@ export const HeaderContent = styled(Box)({
     justifyContent: 'space-between',
 })
 
-export const IconContainer = styled(Box)({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: '50px',
-    overflow: 'auto',
-    width: '60px',
-    height: '60px',
-
-    '@media (min-width:600px)': {
-        width: '70px',
-        height: '70px',
-    },
-    '@media (min-width:900px)': {
-        width: '80px',
-        height: '80px',
-    },
-    '@media (min-width:1500px)': {
-        width: '100px',
-        height: '100px',
-    },
-})
-
-export const Imagem = styled(Image)({
-    width: '60px',
-    height: '60px',
-
-    '@media (min-width:600px)': {
-        width: '70px',
-        height: '70px',
-    },
-    '@media (min-width:900px)': {
-        width: '80px',
-        height: '80px',
-    },
-    '@media (min-width:1500px)': {
-        width: '100px',
-        height: '100px',
-    },
-})
-
 export const ButtonIcon = styled(IconButton)({
-    width: '60px',
-    height: '60px',
+    width: '40px',
+    height: '40px',
     borderRadius: '50px',
 })
 
 export const IconMenu = styled(MenuIcon)({
-    color: COLORS.font_primary,
-    width: '30px',
-    height: '30px',
+    color: COLORS.primary,
+    width: '25px',
+    height: '25px',
+    '@media (min-width:760px)': {
+        width: '35px',
+        height: '35px',
+    },
 })
 
 export const Empty = styled(Box)({
-    width: '30px',
-    height: '30px',
+    width: '25px',
+    height: '25px',
+})
+
+export const InlineHeaderContainer = styled(Box)({
+    display: 'none',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100vw',
+    height: '50px',
+    padding: '0 200px',
+
+    background: rgba(0, 0, 0, 0.6),
+
+    // '&:hover': {
+    //     background: rgba(0, 0, 0, 0.6),
+    // },
+
+    '@media (min-width:760px)': {
+        height: '60px',
+    },
+    '@media (min-width:1024px)': {
+        display: 'flex',
+        padding: '0 50px',
+    },
+    '@media (min-width:1440px)': {
+        display: 'flex',
+        padding: '0 150px',
+    },
+    '@media (min-width:1840px)': {
+        display: 'flex',
+        padding: '0 250px',
+    },
+    '@media (min-width:2040px)': {
+        display: 'flex',
+        padding: '0 350px',
+    },
+})
+
+export const MenuOptionsContainer = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '650px',
+    height: '60px',
+})
+
+export const Imagem = styled(Image)({
+    width: '200px',
+    height: 'auto',
 })

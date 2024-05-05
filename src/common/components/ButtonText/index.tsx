@@ -1,13 +1,14 @@
 import React from 'react'
 import { ButtonProps } from '@mui/material'
 import {
-    PrimaryContainer,
-    SecondaryContainer,
+    Container,
     TitleContainer,
     MediumPrimaryTitle,
     SmallPrimaryTitle,
     MediumSecondaryTitle,
     SmallSecondaryTitle,
+    MediumTertiaryTitle,
+    SmallTertiaryTitle,
 } from './styles'
 
 type Props = ButtonProps & {
@@ -18,7 +19,7 @@ type Props = ButtonProps & {
 
 export function PrimaryButtonText({ title, size = 'medium', onClick, ...rest }: Props) {
     return (
-        <PrimaryContainer onClick={onClick} {...rest}>
+        <Container onClick={onClick} {...rest}>
             <TitleContainer>
                 {size === 'medium' ? (
                     <MediumPrimaryTitle>{title}</MediumPrimaryTitle>
@@ -26,13 +27,13 @@ export function PrimaryButtonText({ title, size = 'medium', onClick, ...rest }: 
                     <SmallPrimaryTitle>{title}</SmallPrimaryTitle>
                 )}
             </TitleContainer>
-        </PrimaryContainer>
+        </Container>
     )
 }
 
 export function SecondaryButtonText({ title, size = 'medium', onClick, ...rest }: Props) {
     return (
-        <SecondaryContainer onClick={onClick} {...rest}>
+        <Container onClick={onClick} {...rest}>
             <TitleContainer>
                 {size === 'medium' ? (
                     <MediumSecondaryTitle>{title}</MediumSecondaryTitle>
@@ -40,6 +41,20 @@ export function SecondaryButtonText({ title, size = 'medium', onClick, ...rest }
                     <SmallSecondaryTitle>{title}</SmallSecondaryTitle>
                 )}
             </TitleContainer>
-        </SecondaryContainer>
+        </Container>
+    )
+}
+
+export function TertiaryButtonText({ title, size = 'medium', onClick, ...rest }: Props) {
+    return (
+        <Container onClick={onClick} {...rest}>
+            <TitleContainer>
+                {size === 'medium' ? (
+                    <MediumTertiaryTitle>{title}</MediumTertiaryTitle>
+                ) : (
+                    <SmallTertiaryTitle>{title}</SmallTertiaryTitle>
+                )}
+            </TitleContainer>
+        </Container>
     )
 }

@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Header from '@common/components/Header'
 import { LoadingComponent } from '@common/components/Loading'
 import { UserStateChanged } from '@common/api'
-import { TextPrimary20_700, TextPrimary16_500, TextSecondary24_700 } from '@common/components/Typography'
 import { Banner } from '@common/components/banner'
-import { Container, DashboardContent, PresentationContainer } from './styles'
+import { Container, DashContent, PresentationContainer } from './styles'
 
-export const DashboardComponent = () => {
+export const DashComponent = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [user, setUser] = useState({})
 
@@ -26,11 +25,11 @@ export const DashboardComponent = () => {
                 <LoadingComponent />
             ) : (
                 <Container>
-                    <Header title="Início" />
-                    <DashboardContent>
+                    <Header />
+                    <DashContent>
                         <Banner />
                         <PresentationContainer />
-                    </DashboardContent>
+                    </DashContent>
                 </Container>
             )}
         </>

@@ -2,10 +2,7 @@ import React from 'react'
 import { ButtonProps } from '@mui/material'
 import { COLORS } from '@common/styles/theme'
 import { Icon } from '../Icons'
-import {
-    ButtonContainer,
-    Container,
-} from './styles'
+import { ButtonContainer, Container } from './styles'
 
 type Props = ButtonProps & {
     icon: string
@@ -17,9 +14,9 @@ export function PrimaryButtonIcon({ icon, size = 'medium', onClick, ...rest }: P
     return (
         <ButtonContainer onClick={onClick} {...rest}>
             {size === 'medium' ? (
-                <Icon iconName={icon} color={COLORS.font_primary} />
+                <Icon iconName={icon} color={COLORS.black} />
             ) : (
-                <Icon iconName={icon} color={COLORS.font_primary} />
+                <Icon iconName={icon} color={COLORS.black} />
             )}
         </ButtonContainer>
     )
@@ -29,9 +26,9 @@ export function SecondaryButtonIcon({ icon, size = 'medium', onClick, ...rest }:
     return (
         <ButtonContainer onClick={onClick} {...rest}>
             {size === 'medium' ? (
-                <Icon iconName={icon} color={COLORS.font_secondary} />
+                <Icon iconName={icon} color={COLORS.primary} />
             ) : (
-                <Icon iconName={icon} color={COLORS.font_secondary} />
+                <Icon iconName={icon} color={COLORS.primary} />
             )}
         </ButtonContainer>
     )

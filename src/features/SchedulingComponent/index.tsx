@@ -4,10 +4,10 @@ import { initializeApp } from 'firebase/app'
 import { firebaseConfig } from '../../../firebaseConfig'
 import Header from '@common/components/Header'
 import { LoadingComponent } from '@common/components/Loading'
-import { TextPrimary20_700, TextPrimary16_500, TextSecondary24_700 } from '@common/components/Typography'
-import { Container, DashboardContent } from './styles'
+import { Genos_Primary_20_500, Questrial_Primary_20_500 } from '@common/components/Typography'
+import { Container, SchedulingContent } from './styles'
 
-export const RegisterComponent = () => {
+export const SchedulingComponent = () => {
     const app = initializeApp(firebaseConfig)
     const firebase = getFirestore(app)
 
@@ -37,12 +37,11 @@ export const RegisterComponent = () => {
                 <LoadingComponent />
             ) : (
                 <>
-                    <Header title="Cadastro" />
-                    <DashboardContent>
-                        <TextPrimary20_700 text="REGISTER COMPONENT" />
-                        <TextPrimary16_500 text="REGISTER COMPONENT" />
-                        <TextSecondary24_700 text="REGISTER COMPONENT" />
-                    </DashboardContent>
+                    <Header />
+                    <SchedulingContent>
+                        <Genos_Primary_20_500 text="Joyce Schwartz - JOYCE SCHWARTZ - ESTÉTICA AVANÇADA - Genos" />
+                        <Questrial_Primary_20_500 text="Joyce Schwartz - JOYCE SCHWARTZ - ESTÉTICA AVANÇADA - Questrial" />
+                    </SchedulingContent>
                 </>
             )}
         </Container>

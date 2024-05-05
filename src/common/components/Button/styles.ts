@@ -30,13 +30,13 @@ export const TitleContainer = styled(Box)({
 })
 
 export const PrimaryTitle = styled(Typography)({
-    color: COLORS.font_primary,
+    color: COLORS.black,
     fontWeight: FONT_WEIGHT[700],
     fontSize: FONT_SIZE[20],
 })
 
 export const SecondaryTitle = styled(Typography)({
-    color: COLORS.font_secondary,
+    color: COLORS.primary,
     fontWeight: FONT_WEIGHT[700],
     fontSize: FONT_SIZE[20],
 })

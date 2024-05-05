@@ -1,5 +1,5 @@
-import Dashboard from '@pages/Dashboard'
+import Dash from '@pages/Dash'
 
 export default function Home() {
-    return <Dashboard />
+    return <Dash />
 }

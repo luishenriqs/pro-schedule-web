@@ -1,102 +1,78 @@
 import {
     TitleContainer,
-    Text_Primary_24_700,
-    Text_Primary_20_700,
-    Text_Primary_16_700,
-    Text_Primary_16_500,
-    Text_Primary_14_500,
-    Text_Primary_12_500,
-    Text_Secondary_24_700,
-    Text_Secondary_20_700,
-    Text_Secondary_16_700,
-    Text_Secondary_16_500,
-    Text_Secondary_14_500,
+    GenosPrimary16_500,
+    GenosSecondary16_500,
+    GenosPrimary20_500,
+    GenosSecondary20_500,
+    QuestrialPrimary16_500,
+    QuestrialSecondary16_500,
+    QuestrialPrimary20_500,
+    QuestrialSecondary20_500,
 } from './styles'
 
-export const TextPrimary24_700 = ({ text }: any) => {
+
+// PRIMARY
+export const Genos_Primary_20_500 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Primary_24_700>{text}</Text_Primary_24_700>
+            <GenosPrimary20_500>{text}</GenosPrimary20_500>
         </TitleContainer>
     )
 }
 
-export const TextPrimary20_700 = ({ text }: any) => {
+export const Questrial_Primary_20_500 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Primary_20_700>{text}</Text_Primary_20_700>
+            <QuestrialPrimary20_500>{text}</QuestrialPrimary20_500>
         </TitleContainer>
     )
 }
 
-export const TextPrimary16_700 = ({ text }: any) => {
+export const Genos_Primary_16_500 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Primary_16_700>{text}</Text_Primary_16_700>
+            <GenosPrimary16_500>{text}</GenosPrimary16_500>
         </TitleContainer>
     )
 }
 
-export const TextPrimary16_500 = ({ text }: any) => {
+export const Questrial_Primary_16_500 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Primary_16_500>{text}</Text_Primary_16_500>
+            <QuestrialPrimary16_500>{text}</QuestrialPrimary16_500>
         </TitleContainer>
     )
 }
 
-export const TextPrimary14_500 = ({ text }: any) => {
+// SECONDARY
+export const Genos_Secondary_20_500 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Primary_14_500>{text}</Text_Primary_14_500>
+            <GenosSecondary20_500>{text}</GenosSecondary20_500>
         </TitleContainer>
     )
 }
 
-export const TextPrimary12_500 = ({ text }: any) => {
+export const Questrial_Secondary_20_500 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Primary_12_500>{text}</Text_Primary_12_500>
+            <QuestrialSecondary20_500>{text}</QuestrialSecondary20_500>
         </TitleContainer>
     )
 }
 
-export const TextSecondary24_700 = ({ text }: any) => {
+export const Genos_Secondary_16_500 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Secondary_24_700>{text}</Text_Secondary_24_700>
+            <GenosSecondary16_500>{text}</GenosSecondary16_500>
         </TitleContainer>
     )
 }
 
-export const TextSecondary20_700 = ({ text }: any) => {
+export const Questrial_Secondary_16_500 = ({ text }: any) => {
     return (
         <TitleContainer>
-            <Text_Secondary_20_700>{text}</Text_Secondary_20_700>
-        </TitleContainer>
-    )
-}
-
-export const TextSecondary16_700 = ({ text }: any) => {
-    return (
-        <TitleContainer>
-            <Text_Secondary_16_700>{text}</Text_Secondary_16_700>
-        </TitleContainer>
-    )
-}
-
-export const TextSecondary16_500 = ({ text }: any) => {
-    return (
-        <TitleContainer>
-            <Text_Secondary_16_500>{text}</Text_Secondary_16_500>
-        </TitleContainer>
-    )
-}
-
-export const TextSecondary14_500 = ({ text }: any) => {
-    return (
-        <TitleContainer>
-            <Text_Secondary_14_500>{text}</Text_Secondary_14_500>
+            <QuestrialSecondary16_500>{text}</QuestrialSecondary16_500>
         </TitleContainer>
     )
 }

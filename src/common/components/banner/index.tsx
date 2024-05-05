@@ -13,25 +13,23 @@ export const Banner: React.FC = () => {
     }, [currentImage])
 
     const nextImage = () => {
-        setCurrentImage((prevImage) => (prevImage + 1) % 4)
+        setCurrentImage((prevImage) => (prevImage + 1) % 3)
     }
 
     const prevImage = () => {
-        setCurrentImage((prevImage) => (prevImage === 0 ? 3 : prevImage - 1))
+        setCurrentImage((prevImage) => (prevImage === 0 ? 2 : prevImage - 1))
     }
 
     const images = [
         require('../../../../assets/photos/clinic/main.png'),
         require('../../../../assets/photos/clinic/secondary.png'),
         require('../../../../assets/photos/clinic/tertiary.png'),
-        require('../../../../assets/photos/clinic/quaternary.png'),
     ]
 
     const imagesMobile = [
         require('../../../../assets/photos/clinic/mainMobile.png'),
         require('../../../../assets/photos/clinic/secondaryMobile.png'),
         require('../../../../assets/photos/clinic/tertiaryMobile.png'),
-        require('../../../../assets/photos/clinic/quaternaryMobile.png'),
     ]
 
     return (
