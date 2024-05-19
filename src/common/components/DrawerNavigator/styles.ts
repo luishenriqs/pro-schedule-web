@@ -10,20 +10,26 @@ export const Container = styled(Box)({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    width: '60vw',
+    width: '70vw',
     height: '100vh',
-    background: 'linear-gradient(to bottom, #FAD5CE, #FEF4F3)',
+    background: 'linear-gradient(to bottom, #FCCD6C, #FEF4F3)',
 
+    '@media (min-width:425px)': {
+        width: '60vw',
+    },
     '@media (min-width:760px)': {
         width: '30vw',
     },
     '@media (min-width:1024px)': {
+        width: '25vw',
+    },
+    '@media (min-width:1440px)': {
         width: '20vw',
     },
 })
 
 export const Imagem = styled(Image)({
-    width: '100%',
+    width: '80%',
     height: 'auto',
 })
 
@@ -41,7 +47,8 @@ export const ButtonIcon = styled(IconButton)({
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: '100%',
-    height: '60px',
+    height: 'auto',
+    paddingLeft: '20px',
     borderRadius: '50px',
 })
 

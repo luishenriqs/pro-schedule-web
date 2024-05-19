@@ -1,28 +1,48 @@
 import React from 'react'
 import { ButtonProps } from '@mui/material'
-import { PrimaryContainer, SecondaryContainer, TitleContainer, PrimaryTitle, SecondaryTitle } from './styles'
+import {
+    OutlinePrimaryContainer,
+    OutlineSecondaryContainer,
+    FilledPrimaryContainer,
+    FilledSecondaryContainer,
+    WhiteText,
+    PrimaryText,
+    SecondaryText,
+} from './styles'
 
 type Props = ButtonProps & {
     title: string
     onClick?: () => void
 }
 
-export function PrimaryButton({ title, onClick, ...rest }: Props) {
+export function OutlinePrimaryButton({ title, onClick, ...rest }: Props) {
     return (
-        <PrimaryContainer onClick={onClick} {...rest}>
-            <TitleContainer>
-                <PrimaryTitle>{title}</PrimaryTitle>
-            </TitleContainer>
-        </PrimaryContainer>
+        <OutlinePrimaryContainer onClick={onClick} {...rest}>
+            <PrimaryText>{title}</PrimaryText>
+        </OutlinePrimaryContainer>
     )
 }
 
-export function SecondaryButton({ title, onClick, ...rest }: Props) {
+export function OutlineSecondaryButton({ title, onClick, ...rest }: Props) {
     return (
-        <SecondaryContainer onClick={onClick} {...rest}>
-            <TitleContainer>
-                <SecondaryTitle>{title}</SecondaryTitle>
-            </TitleContainer>
-        </SecondaryContainer>
+        <OutlineSecondaryContainer onClick={onClick} {...rest}>
+            <SecondaryText>{title}</SecondaryText>
+        </OutlineSecondaryContainer>
+    )
+}
+
+export function FilledPrimaryButton({ title, onClick, ...rest }: Props) {
+    return (
+        <FilledPrimaryContainer onClick={onClick} {...rest}>
+            <WhiteText>{title}</WhiteText>
+        </FilledPrimaryContainer>
+    )
+}
+
+export function FilledSecondaryButton({ title, onClick, ...rest }: Props) {
+    return (
+        <FilledSecondaryContainer onClick={onClick} {...rest}>
+            <WhiteText>{title}</WhiteText>
+        </FilledSecondaryContainer>
     )
 }

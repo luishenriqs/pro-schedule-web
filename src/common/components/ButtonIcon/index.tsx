@@ -14,9 +14,9 @@ export function PrimaryButtonIcon({ icon, size = 'medium', onClick, ...rest }: P
     return (
         <ButtonContainer onClick={onClick} {...rest}>
             {size === 'medium' ? (
-                <Icon iconName={icon} color={COLORS.black} />
+                <Icon iconName={icon} color={COLORS.primary} />
             ) : (
-                <Icon iconName={icon} color={COLORS.black} />
+                <Icon iconName={icon} color={COLORS.primary} />
             )}
         </ButtonContainer>
     )
@@ -26,9 +26,9 @@ export function SecondaryButtonIcon({ icon, size = 'medium', onClick, ...rest }:
     return (
         <ButtonContainer onClick={onClick} {...rest}>
             {size === 'medium' ? (
-                <Icon iconName={icon} color={COLORS.primary} />
+                <Icon iconName={icon} color={COLORS.secondary} />
             ) : (
-                <Icon iconName={icon} color={COLORS.primary} />
+                <Icon iconName={icon} color={COLORS.secondary} />
             )}
         </ButtonContainer>
     )

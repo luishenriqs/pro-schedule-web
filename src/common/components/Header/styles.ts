@@ -28,7 +28,7 @@ export const DrawerHeaderContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    width: '100vw',
+    width: '100%',
     height: '50px',
     padding: '0px 15px 0',
 
@@ -76,15 +76,11 @@ export const InlineHeaderContainer = styled(Box)({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '100vw',
+    width: '100%',
     height: '50px',
     padding: '0 200px',
 
     background: rgba(0, 0, 0, 0.6),
-
-    // '&:hover': {
-    //     background: rgba(0, 0, 0, 0.6),
-    // },
 
     '@media (min-width:760px)': {
         height: '60px',

@@ -5,7 +5,7 @@ import Image from 'next/image'
 export const BannerContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'row',
-    width: '100vw',
+    width: '100%',
     height: 'auto',
     alignItems: 'center',
 })

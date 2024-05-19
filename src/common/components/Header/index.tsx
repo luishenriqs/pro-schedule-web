@@ -35,11 +35,19 @@ function Header() {
                     alt={'logo'}
                 />
                 <MenuOptionsContainer>
-                    <TertiaryButtonText title="Home" onClick={() => router.push('/Dash')} size='small' />
-                    <TertiaryButtonText title="Dr. Joyce Schwartz" onClick={() => router.push('/About')} size='small' />
-                    <TertiaryButtonText title="Tratamentos Corporais" onClick={() => router.push('/ContentOne')} size='small' />
-                    <TertiaryButtonText title="Tratamentos Faciais" onClick={() => router.push('/ContentTwo')} size='small' />
-                    <TertiaryButtonText title="Agendamento" onClick={() => router.push('/Scheduling')} size='small' />
+                    <TertiaryButtonText title="Home" onClick={() => router.push('/Dash')} size="small" />
+                    <TertiaryButtonText title="Dr. Joyce Schwartz" onClick={() => router.push('/About')} size="small" />
+                    <TertiaryButtonText
+                        title="Tratamentos Corporais"
+                        onClick={() => router.push('/ContentOne')}
+                        size="small"
+                    />
+                    <TertiaryButtonText
+                        title="Tratamentos Faciais"
+                        onClick={() => router.push('/ContentTwo')}
+                        size="small"
+                    />
+                    <TertiaryButtonText title="Agendamento" onClick={() => router.push('/Scheduling')} size="small" />
                 </MenuOptionsContainer>
             </InlineHeaderContainer>
         </Container>

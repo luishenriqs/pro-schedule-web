@@ -1,16 +1,22 @@
 import './fonts.css'
 
 export const COLORS = {
-    primary: '#943A43',
-    secondary: '#E49F92',
-    tertiary: '#FAD5CE',
-    background: '#FEF4F3',
+    primary: '#8789C0',
+    secondary: '#C2CAE8',
+    tertiary: '#E1E5F4',
+    complementary: '#E1E1E6',
+
+    background: '#F5F5F5',
     white: '#FFFFFF',
     black: '#000000',
 
     error: '#C62828',
     success: '#32CD32',
     warning: '#FF9A00',
+
+    disabled_200: '#C4C4CC',
+    disabled_600: '#363636',
+    disabled_900: '#1C1C1C',
 
     test: '#ff5588',
     test2: '#73B7E7',
@@ -27,7 +33,11 @@ export const FONT_SIZE = {
     16: '16px',
     20: '20px',
     24: '24px',
-    33: '33px',
+    28: '28px',
+    30: '30px',
+    34: '34px',
+    38: '38px',
+    48: '48px',
 }
 
 export const FONT_WEIGHT = {
@@ -49,6 +59,10 @@ export const BREAKPOINTS = {
 // secondary: '#000000',
 // extra_color: '#F6EDCA',
 // complementary: '#E1E1E6',
+
+// primary: '#943A43',
+// secondary: '#FFB100',
+// tertiary: '#FAD5CE',
 
 // PALETA 2
 // primary: '#4D7298',

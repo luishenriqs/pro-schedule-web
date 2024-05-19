@@ -1,5 +1,5 @@
-import Dash from '@pages/Dash'
+import Scheduling from '@pages/Scheduling'
 
 export default function Home() {
-    return <Dash />
+    return <Scheduling />
 }
