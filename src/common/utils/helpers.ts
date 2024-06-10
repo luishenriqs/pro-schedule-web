@@ -1,4 +1,4 @@
-import { AvailableDaysProps, GetWeekDaysParams, ScheduleProps } from '@common/models'
+import { AvailableDaysProps, DateProps, GetWeekDaysParams, ScheduleProps } from '@common/models'
 
 export function getWeekDays({ short = false }: GetWeekDaysParams = {}) {
     const formatter = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' })
@@ -67,35 +67,17 @@ export const integerToTime = (value: number): string => {
     return `${formattedHours}:${formattedMinutes}`
 }
 
-export const generateDaysArray = (daysInMonth: number): number[] => {
-    if (daysInMonth < 1) {
-        throw new Error('daysInMonth deve ser um número positivo maior que zero.')
-    }
-    return Array.from({ length: daysInMonth }, (_, i) => i + 1)
-}
-
-export const getAvailableDays = (
-    daysInMonth: number[],
-    data: ScheduleProps,
-    selectedDate: Date
-): AvailableDaysProps => {
+export const getAvailableDays = (data: ScheduleProps, selectedDate: Date): AvailableDaysProps => {
     const currentMonth = selectedDate.getMonth()
 
     // Retorna os dias setados na agenda, com ou sem horário disponível
-    const allDays = data.schedule.filter((item) => item.month === currentMonth)
+    const allScheduleDays = data.schedule.filter((item) => item.month === currentMonth)[0]
 
-    // Retorna apenas dias com horários disponíveis
-    const availableDays = allDays[0].daysAndHours?.filter((item) => item.hours.length > 0)
+    // Retorna array de números inteiros -  Todos os dias da agenda
+    const allDays: number[] = []
+    if (allScheduleDays) allScheduleDays.daysAndHours.map((item) => allDays.push(item.day))
 
-    // Retorna array de números inteiros -  Dias disponíveis
-    const days: number[] = []
-    for (const day of daysInMonth) {
-        if (availableDays && availableDays.some((item) => item.day === day)) {
-            days.push(day)
-        }
-    }
-
-    return { days, availableDays, allDays }
+    return { allScheduleDays, allDays }
 }
 
 export const getMinMonth = (selectedDate: Date): Boolean => {
@@ -106,4 +88,12 @@ export const getMinMonth = (selectedDate: Date): Boolean => {
     const selectedMonth = selectedDate.getMonth()
     const minMonth = selectedYear === currentYear && selectedMonth === currentMonth
     return minMonth
+}
+
+export const hasEmptyCustomerId = (data: DateProps, day: number): boolean => {
+    const dayData = data?.daysAndHours?.find((d) => d.day === day)
+    if (dayData) {
+        return dayData?.hours.some((hour) => hour.custumerId === '')
+    }
+    return false
 }

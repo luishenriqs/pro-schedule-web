@@ -31,7 +31,7 @@ function Header() {
             </DrawerHeaderContainer>
             <InlineHeaderContainer>
                 <Imagem
-                    src={require('../../../../assets/photos/clinic/logo/inLineTertiaryLogo-removebg.png')}
+                    src={require('../../../../assets/ProSchedule/pro-schedule-logo.png')}
                     alt={'logo'}
                 />
                 <MenuOptionsContainer>

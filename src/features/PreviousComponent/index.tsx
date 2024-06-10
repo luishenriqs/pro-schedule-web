@@ -5,9 +5,9 @@ import { firebaseConfig } from '../../../firebaseConfig'
 import Header from '@common/components/Header'
 import { LoadingComponent } from '@common/components/Loading'
 import { Genos_Primary_20_500, Questrial_Primary_20_500 } from '@common/components/Typography'
-import { Container, ContentTwoContent } from './styles'
+import { Container, PreviousContent } from './styles'
 
-export const ContentTwoComponent = () => {
+export const PreviousComponent = () => {
     const app = initializeApp(firebaseConfig)
     const firebase = getFirestore(app)
 
@@ -38,10 +38,10 @@ export const ContentTwoComponent = () => {
             ) : (
                 <>
                     <Header />
-                    <ContentTwoContent>
-                        <Genos_Primary_20_500 text="Joyce Schwartz - JOYCE SCHWARTZ - ESTÉTICA AVANÇADA - Genos" />
-                        <Questrial_Primary_20_500 text="Joyce Schwartz - JOYCE SCHWARTZ - ESTÉTICA AVANÇADA - Questrial" />
-                    </ContentTwoContent>
+                    <PreviousContent>
+                        <Genos_Primary_20_500 text="PreviousComponent - Genos" />
+                        <Questrial_Primary_20_500 text="PreviousComponent - Questrial" />
+                    </PreviousContent>
                 </>
             )}
         </Container>

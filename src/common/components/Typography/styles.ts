@@ -73,6 +73,13 @@ export const QuestrialPrimary16_500 = styled(Typography)({
 })
 
 // GENOS SECONDARY
+export const GenosSecondary24_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.secondary,
+    fontSize: FONT_SIZE[24],
+    fontWeight: FONT_WEIGHT[500],
+})
+
 export const GenosSecondary20_500 = styled(Typography)({
     fontFamily: FONT_FAMILY.genos,
     color: COLORS.secondary,
@@ -121,5 +128,12 @@ export const GenosWhite20_500 = styled(Typography)({
     fontFamily: FONT_FAMILY.genos,
     color: COLORS.white,
     fontSize: FONT_SIZE[20],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const GenosWhite14_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.white,
+    fontSize: FONT_SIZE[14],
     fontWeight: FONT_WEIGHT[500],
 })

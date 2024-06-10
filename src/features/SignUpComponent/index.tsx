@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useNotification } from '@common/hooks/useNotification'
 import { createAuth, writeData } from '@common/api'
 import { ButtonContainer, Container, FormContainer, Imagem } from './styles'
-import { PrimaryButton } from '@common/components/Button'
+import { FilledPrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
 
 type FormValues = {
@@ -178,7 +178,7 @@ export const SignUpComponent = () => {
                         margin="normal"
                     />
                     <ButtonContainer>
-                        <PrimaryButton title="Cadastre-se" type="submit" />
+                        <FilledPrimaryButton title="Cadastre-se" type="submit" />
                     </ButtonContainer>
                 </form>
             </FormContainer>

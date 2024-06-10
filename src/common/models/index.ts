@@ -2,9 +2,14 @@ export type GetWeekDaysParams = {
     short?: boolean
 }
 
+export type Hours = {
+    hour: number
+    custumerId: string
+}
+
 export type DayAndHours = {
     day: number
-    hours: number[]
+    hours: Hours[]
 }
 
 export type DateProps = {
@@ -18,7 +23,6 @@ export type ScheduleProps = {
 }
 
 export type AvailableDaysProps = {
-    days: number[]
-    availableDays: DayAndHours[]
-    allDays: DateProps[]
+    allDays: number[]
+    allScheduleDays: DateProps
 }

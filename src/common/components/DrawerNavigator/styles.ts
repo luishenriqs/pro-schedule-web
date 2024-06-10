@@ -12,7 +12,7 @@ export const Container = styled(Box)({
     justifyContent: 'flex-start',
     width: '70vw',
     height: '100vh',
-    background: 'linear-gradient(to bottom, #FCCD6C, #FEF4F3)',
+    background: 'linear-gradient(to bottom, #F5F5F5, #F6EDCA)',
 
     '@media (min-width:425px)': {
         width: '60vw',

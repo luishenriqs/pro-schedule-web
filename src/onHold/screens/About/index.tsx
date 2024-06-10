@@ -1,4 +1,4 @@
-import { AboutComponent } from '@features/AboutComponent'
+import { AboutComponent } from "../../features/AboutComponent";
 
 export default function About() {
     return <AboutComponent />

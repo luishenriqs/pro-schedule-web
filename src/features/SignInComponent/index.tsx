@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useNotification } from '@common/hooks/useNotification'
 import { RecoverPassword, SignIn } from '@common/api'
-import { PrimaryButton } from '@common/components/Button'
+import { FilledPrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
 import { PrimaryButtonText, SecondaryButtonText } from '@common/components/ButtonText'
 import { Questrial_Primary_16_500 } from '@common/components/Typography'
@@ -78,7 +78,7 @@ export const SignInComponent = () => {
                             : 'Senha deve ter no mínimo 6 caracteres')
                     }
                 />
-                <PrimaryButton title="Login" type="submit" />
+                <FilledPrimaryButton title="Login" type="submit" />
             </form>
             <SignUpContainer>
                 <Questrial_Primary_16_500 text="Ainda não possui uma conta?" />

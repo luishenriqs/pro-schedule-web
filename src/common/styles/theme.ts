@@ -1,10 +1,10 @@
 import './fonts.css'
 
 export const COLORS = {
-    primary: '#8789C0',
-    secondary: '#C2CAE8',
-    tertiary: '#E1E5F4',
-    complementary: '#E1E1E6',
+    primary: '#AE8E1C',
+    secondary: '#000000',
+    tertiary: '#F6EDCA',
+    complementary: '#E7D8B7',
 
     background: '#F5F5F5',
     white: '#FFFFFF',
@@ -55,14 +55,10 @@ export const BREAKPOINTS = {
 }
 
 // PALETA 1
-// primary: '#AE8E1C',
-// secondary: '#000000',
-// extra_color: '#F6EDCA',
+// primary: '#8789C0',
+// secondary: '#C2CAE8',
+// tertiary: '#E1E5F4',
 // complementary: '#E1E1E6',
-
-// primary: '#943A43',
-// secondary: '#FFB100',
-// tertiary: '#FAD5CE',
 
 // PALETA 2
 // primary: '#4D7298',

@@ -9,13 +9,15 @@ import {
     GenosPrimary16_500,
     QuestrialPrimary20_500,
     QuestrialPrimary16_500,
+    GenosSecondary24_500,
     GenosSecondary20_500,
     GenosSecondary16_500,
     QuestrialSecondary20_500,
     QuestrialSecondary16_500,
     GenosWhite48_500,
-    GenosWhite20_500,
     GenosWhite24_500,
+    GenosWhite20_500,
+    GenosWhite14_500,
 } from './styles'
 
 // GENOS PRIMARY
@@ -93,6 +95,14 @@ export const Questrial_Primary_16_500 = ({ text }: any) => {
 }
 
 // GENOS SECONDARY
+export const Genos_Secondary_24_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosSecondary24_500>{text}</GenosSecondary24_500>
+        </TitleContainer>
+    )
+}
+
 export const Genos_Secondary_20_500 = ({ text }: any) => {
     return (
         <TitleContainer>
@@ -126,7 +136,7 @@ export const Questrial_Secondary_16_500 = ({ text }: any) => {
     )
 }
 
-// GENOS White
+// GENOS WHITE
 export const Genos_White_48_500 = ({ text }: any) => {
     return (
         <TitleContainer>
@@ -147,6 +157,14 @@ export const Genos_White_20_500 = ({ text }: any) => {
     return (
         <TitleContainer>
             <GenosWhite20_500>{text}</GenosWhite20_500>
+        </TitleContainer>
+    )
+}
+
+export const Genos_White_14_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosWhite14_500>{text}</GenosWhite14_500>
         </TitleContainer>
     )
 }

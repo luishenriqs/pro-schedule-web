@@ -29,47 +29,29 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
     const availableMenuItems: MenuItem[] = [
         {
             order: 1,
-            title: 'Home',
+            title: 'Agendamento',
             route: '/',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/' ? router.refresh() : router.push('/')
+                location.pathname === '/Scheduling' ? router.refresh() : router.push('/Scheduling')
             },
         },
         {
             order: 2,
-            title: 'Dr. Joyce Schwartz',
-            route: '/About',
+            title: 'Agendados',
+            route: '/Scheduled',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/About' ? router.refresh() : router.push('/About')
+                location.pathname === '/Scheduled' ? router.refresh() : router.push('/Scheduled')
             },
         },
         {
             order: 3,
-            title: 'Tratamentos Corporais',
-            route: '/ContentOne',
+            title: 'Anteriores',
+            route: '/Previous',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/ContentOne' ? router.refresh() : router.push('/ContentOne')
-            },
-        },
-        {
-            order: 4,
-            title: 'Tratamentos Faciais',
-            route: '/ContentTwo',
-            icon: '',
-            onClickHandler: () => {
-                location.pathname === '/ContentTwo' ? router.refresh() : router.push('/ContentTwo')
-            },
-        },
-        {
-            order: 5,
-            title: 'Agendamento',
-            route: '/Scheduling',
-            icon: '',
-            onClickHandler: () => {
-                location.pathname === '/Scheduling' ? router.refresh() : router.push('/Scheduling')
+                location.pathname === '/Previous' ? router.refresh() : router.push('/Previous')
             },
         },
     ]
@@ -90,7 +72,7 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
     return (
         <Drawer anchor="left" open={open} onClose={() => setOpen(!isOpen)}>
             <Container>
-                <Imagem src={require('../../../../assets/photos/clinic/logo/primaryLogo-removebg.png')} alt={'logo'} />
+                <Imagem src={require('../../../../assets/ProSchedule/pro-schedule-logo.png')} alt={'logo'} />
                 <MenuContainer>{menuOptions()}</MenuContainer>
             </Container>
         </Drawer>

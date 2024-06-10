@@ -1,20 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Button } from '@mui/material'
-import { Genos_Primary_28_500, Genos_White_24_500 } from '../Typography'
+import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_14_500 } from '../Typography'
 import { ScheduleProps } from '@common/models'
 import {
-    generateDaysArray,
     getAvailableDays,
     getMinMonth,
     getNextMonthDate,
     getPreviousMonthDate,
     getWeekDays,
+    hasEmptyCustomerId,
 } from '@common/utils/helpers'
 import {
     Container,
     CalendarContainer,
-    EnabledButton,
-    DisabledButton,
+    AvailableDayButton,
+    UnavailableDayButton,
+    DisabledDayButton,
     Header,
     HeaderLabel,
     DaysWeekContainer,
@@ -43,18 +44,13 @@ export const Calendar = (data: ScheduleProps) => {
 
     const weekDays = getWeekDays({ short: true })
 
-    // useEffect(() => {
-    //     console.log('============>  ', JSON.stringify())
-    // }, [])
-
     const getCalendar = useCallback(() => {
         const firstWeekdayOfMonthIndex = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1).getDay()
         const daysQtd = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate()
-        const daysInMonth = generateDaysArray(daysQtd)
-        const { days, availableDays, allDays} = getAvailableDays(daysInMonth, data, selectedDate)
+        const { allScheduleDays, allDays } = getAvailableDays(data, selectedDate)
 
-        // console.log('allDays ', JSON.stringify(allDays)) // Todos os dias da agenda, com e sem horários
-        // console.log('availableDays ', JSON.stringify(availableDays)) // Apenas dias diponíveis e horários
+        // console.log('allScheduleDays ', JSON.stringify(allScheduleDays)) // Todos os dias da agenda, com e sem horários
+        // console.log('allDays ', JSON.stringify(allDays)) // Números inteiros dos dias da agenda
 
         const buttons = []
 
@@ -64,17 +60,24 @@ export const Calendar = (data: ScheduleProps) => {
         }
 
         for (let i = 1; i <= daysQtd; i++) {
-            const isAvailable = days.includes(i)
+            const isScheduleDays = allDays.includes(i)
+            const isAvailable = hasEmptyCustomerId(allScheduleDays, i)
             buttons.push(
                 <React.Fragment key={i}>
-                    {isAvailable ? (
-                        <EnabledButton onClick={() => handleDayClick(i)}>
-                            <Genos_White_24_500 text={i} />
-                        </EnabledButton>
-                    ) : (
-                        <DisabledButton>
-                            <Genos_White_24_500 text={i} />
-                        </DisabledButton>
+                    {isScheduleDays ? 
+                        isAvailable
+                            ?                               
+                                <AvailableDayButton onClick={() => handleDayClick(i)}>
+                                    <Genos_Secondary_24_500 text={i} />
+                                </AvailableDayButton>
+                            :
+                                <UnavailableDayButton>
+                                    <Genos_Secondary_24_500 text={i} />
+                                </UnavailableDayButton>
+                    : (
+                        <DisabledDayButton>
+                            <Genos_Secondary_24_500 text={i} />
+                        </DisabledDayButton>
                     )}
                 </React.Fragment>
             )
@@ -86,18 +89,18 @@ export const Calendar = (data: ScheduleProps) => {
         <Container>
             <Header>
                 {!minMonth ? (
-                    <Button onClick={() => goToPreviousMonth(selectedDate)}>
+                    <Button onClick={() => goToPreviousMonth(selectedDate)}  style={{ marginRight: '-20px' }}>
                         <ArrowLeftIcon />
                     </Button>
                 ) : (
                     <ArrowLeftIconDisabled />
                 )}
                 <HeaderLabel>
-                    <Genos_Primary_28_500
+                    <Genos_Primary_24_500
                         text={selectedDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
                     />
                 </HeaderLabel>
-                <Button onClick={() => goToNextMonth(selectedDate)}>
+                <Button onClick={() => goToNextMonth(selectedDate)} style={{ marginLeft: '-20px' }}>
                     <ArrowRightIcon />
                 </Button>
             </Header>
@@ -106,7 +109,7 @@ export const Calendar = (data: ScheduleProps) => {
                 {weekDays.map((day) => {
                     return (
                         <DaysWeekContainer>
-                            <Genos_White_24_500 text={day} />
+                            <Genos_White_14_500 text={day} />
                         </DaysWeekContainer>
                     )
                 })}
