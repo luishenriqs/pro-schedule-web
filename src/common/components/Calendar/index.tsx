@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { Button } from '@mui/material'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_14_500 } from '../Typography'
-import { ScheduleProps } from '@common/models'
+import { CalendarProps } from '@common/models'
 import {
     getAvailableDays,
     getMinMonth,
@@ -22,24 +22,28 @@ import {
     ArrowLeftIcon,
     ArrowRightIcon,
     ArrowLeftIconDisabled,
+    CalendarControlContainer,
 } from './styles'
 
-export const Calendar = (data: ScheduleProps) => {
-    const [selectedDate, setSelectedDate] = useState<Date>(new Date())
+export const Calendar = ({ data, handleDayClick }: CalendarProps) => {
+    const todayDate = new Date()
+    const [selectedDate, setSelectedDate] = useState<Date>(todayDate)
+    const [selecteMonth, setSelectedMonth] = useState<number>(todayDate.getMonth() + 1)
+    const [selectedYear, setSelectedYear] = useState<number>(todayDate.getFullYear())
     const minMonth = getMinMonth(selectedDate)
 
-    const handleDayClick = useCallback((day: number) => {
-        console.log(`Você clicou no dia ${day}`)
-    }, [])
-
     const goToPreviousMonth = useCallback((selectedDate: Date) => {
-        const previousMonth = getPreviousMonthDate(selectedDate)
-        setSelectedDate(previousMonth)
+        const { date, month, year } = getPreviousMonthDate(selectedDate)
+        setSelectedDate(date)
+        setSelectedMonth(month)
+        setSelectedYear(year)
     }, [])
 
     const goToNextMonth = useCallback((selectedDate: Date) => {
-        const nextMonth = getNextMonthDate(selectedDate)
-        setSelectedDate(nextMonth)
+        const { date, month, year } = getNextMonthDate(selectedDate)
+        setSelectedDate(date)
+        setSelectedMonth(month)
+        setSelectedYear(year)
     }, [])
 
     const weekDays = getWeekDays({ short: true })
@@ -62,24 +66,25 @@ export const Calendar = (data: ScheduleProps) => {
         for (let i = 1; i <= daysQtd; i++) {
             const isScheduleDays = allDays.includes(i)
             const isAvailable = hasEmptyCustomerId(allScheduleDays, i)
+            const day = i
             buttons.push(
-                <React.Fragment key={i}>
+                <CalendarControlContainer key={i}>
                     {isScheduleDays ? 
                         isAvailable
                             ?                               
-                                <AvailableDayButton onClick={() => handleDayClick(i)}>
-                                    <Genos_Secondary_24_500 text={i} />
+                                <AvailableDayButton onClick={() => handleDayClick(day, selecteMonth, selectedYear)}>
+                                    <Genos_Secondary_24_500 text={day} />
                                 </AvailableDayButton>
                             :
                                 <UnavailableDayButton>
-                                    <Genos_Secondary_24_500 text={i} />
+                                    <Genos_Secondary_24_500 text={day} />
                                 </UnavailableDayButton>
                     : (
                         <DisabledDayButton>
-                            <Genos_Secondary_24_500 text={i} />
+                            <Genos_Secondary_24_500 text={day} />
                         </DisabledDayButton>
                     )}
-                </React.Fragment>
+                </CalendarControlContainer>
             )
         }
         return buttons
@@ -87,13 +92,16 @@ export const Calendar = (data: ScheduleProps) => {
 
     return (
         <Container>
+            <Genos_Secondary_24_500 text='Escolha o seu dia' />
             <Header>
                 {!minMonth ? (
                     <Button onClick={() => goToPreviousMonth(selectedDate)}  style={{ marginRight: '-20px' }}>
                         <ArrowLeftIcon />
                     </Button>
                 ) : (
-                    <ArrowLeftIconDisabled />
+                    <Button style={{ marginRight: '-20px' }}>
+                        <ArrowLeftIconDisabled />
+                    </Button>
                 )}
                 <HeaderLabel>
                     <Genos_Primary_24_500

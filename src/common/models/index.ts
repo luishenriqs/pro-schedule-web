@@ -26,3 +26,14 @@ export type AvailableDaysProps = {
     allDays: number[]
     allScheduleDays: DateProps
 }
+
+export type CalendarProps = {
+    data: DateProps[]
+    handleDayClick: (day: number, month: number, year: number) => void
+}
+
+export type GetDateProps = {
+    date: Date
+    month: number
+    year: number
+}

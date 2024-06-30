@@ -18,8 +18,8 @@ export const COLORS = {
     disabled_600: '#363636',
     disabled_900: '#1C1C1C',
 
-    test: '#ff5588',
-    test2: '#73B7E7',
+    test: '#4E7389',
+    test2: '#ff5588',
 }
 
 export const FONT_FAMILY = {

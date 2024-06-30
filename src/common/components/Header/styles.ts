@@ -7,13 +7,16 @@ import { rgba } from 'polished'
 
 export const Container = styled(Box)({
     display: 'flex',
-    position: 'fixed',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100vw',
     height: '50px',
     zIndex: 2,
+    borderBottom: '1px solid',
+    borderColor: COLORS.primary,
+    background: COLORS.background,
+
     '@media (min-width:760px)': {
         height: '70px',
         paddingRight: '30px',

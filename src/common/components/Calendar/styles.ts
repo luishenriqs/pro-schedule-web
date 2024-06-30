@@ -10,7 +10,6 @@ export const Container = styled(Box)({
     alignItems: 'center',
     justifyContent: 'center',
     width: '300px',
-    height: 'auto',
     border: '1px solid',
     borderColor: COLORS.secondary,
     borderRadius: '6px',
@@ -21,6 +20,8 @@ export const Container = styled(Box)({
         width: '400px',
     },
 })
+
+export const CalendarControlContainer = styled(Box)({})
 
 export const CalendarContainer = styled(Box)({
     display: 'grid',
@@ -62,8 +63,6 @@ export const AvailableDayButton = styled(Box)({
     justifyContent: 'center',
     width: '35px',
     height: '35px',
-    // border: '1px solid',
-    // borderColor: COLORS.secondary,
     borderRadius: '6px',
     background: COLORS.primary,
 

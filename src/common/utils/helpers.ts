@@ -1,4 +1,4 @@
-import { AvailableDaysProps, DateProps, GetWeekDaysParams, ScheduleProps } from '@common/models'
+import { AvailableDaysProps, DateProps, GetDateProps, GetWeekDaysParams, ScheduleProps } from '@common/models'
 
 export function getWeekDays({ short = false }: GetWeekDaysParams = {}) {
     const formatter = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' })
@@ -13,36 +13,44 @@ export function getWeekDays({ short = false }: GetWeekDaysParams = {}) {
         })
 }
 
-export const getPreviousMonthDate = (selectedDate: Date): Date => {
+export const getPreviousMonthDate = (selectedDate: Date): GetDateProps => {
     if (!(selectedDate instanceof Date) || isNaN(selectedDate.getTime())) {
         throw new Error('Invalid date')
     }
 
     const today = new Date()
     const currentYear = today.getFullYear()
-    const currentMonth = today.getMonth()
+    const currentMonthIndex = today.getMonth()
 
     const selectedYear = selectedDate.getFullYear()
     const selectedMonth = selectedDate.getMonth()
 
-    const minMonth = selectedYear === currentYear && selectedMonth === currentMonth
+    const minMonth = selectedYear === currentYear && selectedMonth === currentMonthIndex
 
     if (minMonth) {
-        return new Date(currentYear, currentMonth, 1)
+        const date = new Date(currentYear, currentMonthIndex, 1)
+        const month = currentMonthIndex
+        const year = currentYear
+        return { date, month, year }
     } else {
         const previousMonth = selectedMonth === 0 ? 11 : selectedMonth - 1
         const previousYear = selectedMonth === 0 ? selectedYear - 1 : selectedYear
-        return new Date(previousYear, previousMonth, 1)
+        const date = new Date(previousYear, previousMonth, 1)
+        const month = previousMonth
+        const year = previousYear
+        return { date, month, year }
     }
 }
 
-export const getNextMonthDate = (currentDate: Date): Date => {
-    const year = currentDate.getFullYear()
-    const month = currentDate.getMonth()
-    const nextMonth = month === 11 ? 0 : month + 1
-    const nextYear = month === 11 ? year + 1 : year
-
-    return new Date(nextYear, nextMonth, 1)
+export const getNextMonthDate = (currentDate: Date): GetDateProps => {
+    const currentYear = currentDate.getFullYear()
+    const currentMonthIndex = currentDate.getMonth()
+    const nextMonth = currentMonthIndex === 11 ? 0 : currentMonthIndex + 1
+    const nextYear = currentMonthIndex === 11 ? currentYear + 1 : currentYear
+    const date = new Date(nextYear, nextMonth, 1)
+    const month = nextMonth
+    const year = nextYear
+    return { date, month, year }
 }
 
 export function convertTimeStringToMinutes(timeString: string) {
@@ -67,11 +75,11 @@ export const integerToTime = (value: number): string => {
     return `${formattedHours}:${formattedMinutes}`
 }
 
-export const getAvailableDays = (data: ScheduleProps, selectedDate: Date): AvailableDaysProps => {
-    const currentMonth = selectedDate.getMonth()
+export const getAvailableDays = (data: DateProps[], selectedDate: Date): AvailableDaysProps => {
+    const currentMonthIndex = selectedDate.getMonth()
 
     // Retorna os dias setados na agenda, com ou sem horário disponível
-    const allScheduleDays = data.schedule.filter((item) => item.month === currentMonth)[0]
+    const allScheduleDays = data.filter((item) => item.month === currentMonthIndex)[0]
 
     // Retorna array de números inteiros -  Todos os dias da agenda
     const allDays: number[] = []

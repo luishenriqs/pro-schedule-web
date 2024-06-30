@@ -1,13 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { Container, SchedulingContent } from './styles'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Calendar } from '@common/components/Calendar'
 import Header from '@common/components/Header'
 import { LoadingComponent } from '@common/components/Loading'
 import { timeToInteger, integerToTime } from '@common/utils/helpers'
-import { ScheduleProps } from '@common/models'
+import { Appointments } from '@common/components/Appointments'
+import { Genos_Secondary_24_500 } from '@common/components/Typography'
+import { Container, Content, SchedulingContent, TitleContainer } from './styles'
 
 export const SchedulingComponent = () => {
     const [isLoading, setIsLoading] = useState(true)
+
+    const handleDayClick = useCallback((day: number, month: number, year: number) => {
+        console.log(`Você clicou no dia ${day}`)
+        console.log(`Você clicou no month ${month}`)
+        console.log(`Você clicou no year ${year}`)
+    }, [])
+    
 
     setTimeout(() => {
         setIsLoading(false)
@@ -29,7 +37,7 @@ export const SchedulingComponent = () => {
 
     
     const dataMock = [
-          {
+        {
             year: 2024,
             month: 5,
             daysAndHours: [
@@ -140,6 +148,117 @@ export const SchedulingComponent = () => {
                 },
             ]
         },
+        {
+            year: 2024,
+            month: 6,
+            daysAndHours: [
+                {
+                    day: 2,
+                    hours: [
+                        {
+                            hour: 480,
+                            custumerId: '1'
+                        },
+                        {
+                            hour: 555,
+                            custumerId: ''
+                        },
+                        {
+                            hour: 630,
+                            custumerId: '2'
+                        },
+                        {
+                            hour: 705,
+                            custumerId: '4'
+                        },
+                    ]
+                },
+                {
+                    day: 4,
+                    hours: [
+                        {
+                            hour: 480,
+                            custumerId: ''
+                        },
+                        {
+                            hour: 555,
+                            custumerId: ''
+                        },
+                        {
+                            hour: 630,
+                            custumerId: '4'
+                        },
+                        {
+                            hour: 705,
+                            custumerId: '6'
+                        },
+                    ]
+                },
+                {
+                    day: 24,
+                    hours: [
+                        {
+                            hour: 480,
+                            custumerId: '2'
+                        },
+                        {
+                            hour: 555,
+                            custumerId: '5'
+                        },
+                        {
+                            hour: 630,
+                            custumerId: '4'
+                        },
+                        {
+                            hour: 705,
+                            custumerId: '6'
+                        },
+                    ]
+                },
+                {
+                    day: 25,
+                    hours: [
+                        {
+                            hour: 480,
+                            custumerId: '2'
+                        },
+                        {
+                            hour: 555,
+                            custumerId: '1'
+                        },
+                        {
+                            hour: 630,
+                            custumerId: '4'
+                        },
+                        {
+                            hour: 705,
+                            custumerId: ''
+                        },
+                    ]
+                },
+                {
+                    day: 12,
+                    hours: [
+                        {
+                            hour: 480,
+                            custumerId: '3'
+                        },
+                        {
+                            hour: 555,
+                            custumerId: '4'
+                        },
+                        {
+                            hour: 630,
+                            custumerId: '8'
+                        },
+                        {
+                            hour: 705,
+                            custumerId: '1'
+                        },
+                    ]
+                },
+            ]
+        },
     ]
 
     return (
@@ -149,9 +268,15 @@ export const SchedulingComponent = () => {
             ) : (
                 <>
                     <Header />
-                    <SchedulingContent>
-                        <Calendar schedule={dataMock} />
-                    </SchedulingContent>
+                    <TitleContainer>
+                        <Genos_Secondary_24_500 text='Faça o seu agendamento' />
+                    </TitleContainer>
+                    <Content>
+                        <SchedulingContent>
+                            <Calendar data={dataMock} handleDayClick={handleDayClick} />
+                            <Appointments />
+                        </SchedulingContent>
+                    </Content>
                 </>
             )}
         </Container>
