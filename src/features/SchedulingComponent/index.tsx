@@ -36,228 +36,511 @@ export const SchedulingComponent = () => {
     }, [])
 
     
+    // const dataMock = [
+    //     {
+    //         year: 2024,
+    //         month: 5,
+    //         daysAndHours: [
+    //             {
+    //                 day: 1,
+    //                 hours: [
+    //                     {
+    //                         hour: 480,
+    //                         custumerId: '1'
+    //                     },
+    //                     {
+    //                         hour: 555,
+    //                         custumerId: ''
+    //                     },
+    //                     {
+    //                         hour: 630,
+    //                         custumerId: '2'
+    //                     },
+    //                     {
+    //                         hour: 705,
+    //                         custumerId: '4'
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 day: 3,
+    //                 hours: [
+    //                     {
+    //                         hour: 480,
+    //                         custumerId: ''
+    //                     },
+    //                     {
+    //                         hour: 555,
+    //                         custumerId: ''
+    //                     },
+    //                     {
+    //                         hour: 630,
+    //                         custumerId: '4'
+    //                     },
+    //                     {
+    //                         hour: 705,
+    //                         custumerId: '6'
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 day: 5,
+    //                 hours: [
+    //                     {
+    //                         hour: 480,
+    //                         custumerId: '2'
+    //                     },
+    //                     {
+    //                         hour: 555,
+    //                         custumerId: '5'
+    //                     },
+    //                     {
+    //                         hour: 630,
+    //                         custumerId: '4'
+    //                     },
+    //                     {
+    //                         hour: 705,
+    //                         custumerId: '6'
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 day: 10,
+    //                 hours: [
+    //                     {
+    //                         hour: 480,
+    //                         custumerId: '2'
+    //                     },
+    //                     {
+    //                         hour: 555,
+    //                         custumerId: '1'
+    //                     },
+    //                     {
+    //                         hour: 630,
+    //                         custumerId: '4'
+    //                     },
+    //                     {
+    //                         hour: 705,
+    //                         custumerId: ''
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 day: 12,
+    //                 hours: [
+    //                     {
+    //                         hour: 480,
+    //                         custumerId: '3'
+    //                     },
+    //                     {
+    //                         hour: 555,
+    //                         custumerId: '4'
+    //                     },
+    //                     {
+    //                         hour: 630,
+    //                         custumerId: '8'
+    //                     },
+    //                     {
+    //                         hour: 705,
+    //                         custumerId: '1'
+    //                     },
+    //                 ]
+    //             },
+    //         ]
+    //     },
+    //     {
+    //         year: 2024,
+    //         month: 6,
+    //         daysAndHours: [
+    //             {
+    //                 day: 2,
+    //                 hours: [
+    //                     {
+    //                         hour: 480,
+    //                         custumerId: '1'
+    //                     },
+    //                     {
+    //                         hour: 555,
+    //                         custumerId: ''
+    //                     },
+    //                     {
+    //                         hour: 630,
+    //                         custumerId: '2'
+    //                     },
+    //                     {
+    //                         hour: 705,
+    //                         custumerId: '4'
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 day: 4,
+    //                 hours: [
+    //                     {
+    //                         hour: 480,
+    //                         custumerId: ''
+    //                     },
+    //                     {
+    //                         hour: 555,
+    //                         custumerId: ''
+    //                     },
+    //                     {
+    //                         hour: 630,
+    //                         custumerId: '4'
+    //                     },
+    //                     {
+    //                         hour: 705,
+    //                         custumerId: '6'
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 day: 24,
+    //                 hours: [
+    //                     {
+    //                         hour: 480,
+    //                         custumerId: '2'
+    //                     },
+    //                     {
+    //                         hour: 555,
+    //                         custumerId: '5'
+    //                     },
+    //                     {
+    //                         hour: 630,
+    //                         custumerId: '4'
+    //                     },
+    //                     {
+    //                         hour: 705,
+    //                         custumerId: '6'
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 day: 25,
+    //                 hours: [
+    //                     {
+    //                         hour: 480,
+    //                         custumerId: '2'
+    //                     },
+    //                     {
+    //                         hour: 555,
+    //                         custumerId: '1'
+    //                     },
+    //                     {
+    //                         hour: 630,
+    //                         custumerId: '4'
+    //                     },
+    //                     {
+    //                         hour: 705,
+    //                         custumerId: ''
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 day: 12,
+    //                 hours: [
+    //                     {
+    //                         hour: 480,
+    //                         custumerId: '3'
+    //                     },
+    //                     {
+    //                         hour: 555,
+    //                         custumerId: '4'
+    //                     },
+    //                     {
+    //                         hour: 630,
+    //                         custumerId: '8'
+    //                     },
+    //                     {
+    //                         hour: 705,
+    //                         custumerId: '1'
+    //                     },
+    //                 ]
+    //             },
+    //         ]
+    //     },
+    // ]
+
     const dataMock = [
         {
             year: 2024,
             month: 5,
-            daysAndHours: [
-                {
-                    day: 1,
-                    hours: [
-                        {
-                            hour: 480,
-                            custumerId: '1'
-                        },
-                        {
-                            hour: 555,
-                            custumerId: ''
-                        },
-                        {
-                            hour: 630,
-                            custumerId: '2'
-                        },
-                        {
-                            hour: 705,
-                            custumerId: '4'
-                        },
-                    ]
-                },
-                {
-                    day: 3,
-                    hours: [
-                        {
-                            hour: 480,
-                            custumerId: ''
-                        },
-                        {
-                            hour: 555,
-                            custumerId: ''
-                        },
-                        {
-                            hour: 630,
-                            custumerId: '4'
-                        },
-                        {
-                            hour: 705,
-                            custumerId: '6'
-                        },
-                    ]
-                },
-                {
-                    day: 5,
-                    hours: [
-                        {
-                            hour: 480,
-                            custumerId: '2'
-                        },
-                        {
-                            hour: 555,
-                            custumerId: '5'
-                        },
-                        {
-                            hour: 630,
-                            custumerId: '4'
-                        },
-                        {
-                            hour: 705,
-                            custumerId: '6'
-                        },
-                    ]
-                },
-                {
-                    day: 10,
-                    hours: [
-                        {
-                            hour: 480,
-                            custumerId: '2'
-                        },
-                        {
-                            hour: 555,
-                            custumerId: '1'
-                        },
-                        {
-                            hour: 630,
-                            custumerId: '4'
-                        },
-                        {
-                            hour: 705,
-                            custumerId: ''
-                        },
-                    ]
-                },
-                {
-                    day: 12,
-                    hours: [
-                        {
-                            hour: 480,
-                            custumerId: '3'
-                        },
-                        {
-                            hour: 555,
-                            custumerId: '4'
-                        },
-                        {
-                            hour: 630,
-                            custumerId: '8'
-                        },
-                        {
-                            hour: 705,
-                            custumerId: '1'
-                        },
-                    ]
-                },
-            ]
+            day: 1,
+            hour: 480,
+            custumerId: '1'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 1,
+            hour: 555,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 1,
+            hour: 630,
+            custumerId: '2'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 1,
+            hour: 705,
+            custumerId: '4'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 3,
+            hour: 480,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 3,
+            hour: 555,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 3,
+            hour: 630,
+            custumerId: '4'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 3,
+            hour: 705,
+            custumerId: '6'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 5,
+            hour: 480,
+            custumerId: '2'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 5,
+            hour: 555,
+            custumerId: '5'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 5,
+            hour: 630,
+            custumerId: '4'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 5,
+            hour: 705,
+            custumerId: '6'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 10,
+            hour: 480,
+            custumerId: '2'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 10,
+            hour: 555,
+            custumerId: '1'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 10,
+            hour: 630,
+            custumerId: '4'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 10,
+            hour: 705,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 12,
+            hour: 480,
+            custumerId: '3'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 12,
+            hour: 555,
+            custumerId: '4'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 12,
+            hour: 630,
+            custumerId: '8'
+        },
+        {
+            year: 2024,
+            month: 5,
+            day: 12,
+            hour: 705,
+            custumerId: '1'
         },
         {
             year: 2024,
             month: 6,
-            daysAndHours: [
-                {
-                    day: 2,
-                    hours: [
-                        {
-                            hour: 480,
-                            custumerId: '1'
-                        },
-                        {
-                            hour: 555,
-                            custumerId: ''
-                        },
-                        {
-                            hour: 630,
-                            custumerId: '2'
-                        },
-                        {
-                            hour: 705,
-                            custumerId: '4'
-                        },
-                    ]
-                },
-                {
-                    day: 4,
-                    hours: [
-                        {
-                            hour: 480,
-                            custumerId: ''
-                        },
-                        {
-                            hour: 555,
-                            custumerId: ''
-                        },
-                        {
-                            hour: 630,
-                            custumerId: '4'
-                        },
-                        {
-                            hour: 705,
-                            custumerId: '6'
-                        },
-                    ]
-                },
-                {
-                    day: 24,
-                    hours: [
-                        {
-                            hour: 480,
-                            custumerId: '2'
-                        },
-                        {
-                            hour: 555,
-                            custumerId: '5'
-                        },
-                        {
-                            hour: 630,
-                            custumerId: '4'
-                        },
-                        {
-                            hour: 705,
-                            custumerId: '6'
-                        },
-                    ]
-                },
-                {
-                    day: 25,
-                    hours: [
-                        {
-                            hour: 480,
-                            custumerId: '2'
-                        },
-                        {
-                            hour: 555,
-                            custumerId: '1'
-                        },
-                        {
-                            hour: 630,
-                            custumerId: '4'
-                        },
-                        {
-                            hour: 705,
-                            custumerId: ''
-                        },
-                    ]
-                },
-                {
-                    day: 12,
-                    hours: [
-                        {
-                            hour: 480,
-                            custumerId: '3'
-                        },
-                        {
-                            hour: 555,
-                            custumerId: '4'
-                        },
-                        {
-                            hour: 630,
-                            custumerId: '8'
-                        },
-                        {
-                            hour: 705,
-                            custumerId: '1'
-                        },
-                    ]
-                },
-            ]
+            day: 3,
+            hour: 480,
+            custumerId: '1'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 3,
+            hour: 555,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 3,
+            hour: 630,
+            custumerId: '2'
+        },
+        {
+            year: 2024,
+            month: 3,
+            day: 5,
+            hour: 705,
+            custumerId: '4'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 7,
+            hour: 480,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 7,
+            hour: 555,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 7,
+            hour: 630,
+            custumerId: '4'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 7,
+            hour: 705,
+            custumerId: '6'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 8,
+            hour: 480,
+            custumerId: '2'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 8,
+            hour: 555,
+            custumerId: '5'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 8,
+            hour: 630,
+            custumerId: '4'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 8,
+            hour: 705,
+            custumerId: '6'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 11,
+            hour: 480,
+            custumerId: '2'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 11,
+            hour: 555,
+            custumerId: '1'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 11,
+            hour: 630,
+            custumerId: '4'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 11,
+            hour: 705,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 15,
+            hour: 480,
+            custumerId: '3'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 15,
+            hour: 555,
+            custumerId: '4'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 15,
+            hour: 630,
+            custumerId: '8'
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 15,
+            hour: 705,
+            custumerId: '1'
         },
     ]
 

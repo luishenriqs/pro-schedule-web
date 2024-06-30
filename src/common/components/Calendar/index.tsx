@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Button } from '@mui/material'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_14_500 } from '../Typography'
 import { CalendarProps } from '@common/models'
 import {
-    getAvailableDays,
+    filterDaysByMonthAndYear,
     getMinMonth,
     getNextMonthDate,
     getPreviousMonthDate,
@@ -51,7 +51,8 @@ export const Calendar = ({ data, handleDayClick }: CalendarProps) => {
     const getCalendar = useCallback(() => {
         const firstWeekdayOfMonthIndex = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1).getDay()
         const daysQtd = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate()
-        const { allScheduleDays, allDays } = getAvailableDays(data, selectedDate)
+
+        const allDays = filterDaysByMonthAndYear(data, selectedYear, selecteMonth)
 
         // console.log('allScheduleDays ', JSON.stringify(allScheduleDays)) // Todos os dias da agenda, com e sem horários
         // console.log('allDays ', JSON.stringify(allDays)) // Números inteiros dos dias da agenda
@@ -64,8 +65,12 @@ export const Calendar = ({ data, handleDayClick }: CalendarProps) => {
         }
 
         for (let i = 1; i <= daysQtd; i++) {
+            
             const isScheduleDays = allDays.includes(i)
-            const isAvailable = hasEmptyCustomerId(allScheduleDays, i)
+            const isAvailable = hasEmptyCustomerId(data, i)
+
+
+
             const day = i
             buttons.push(
                 <CalendarControlContainer key={i}>

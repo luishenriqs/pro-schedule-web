@@ -7,15 +7,23 @@ export type Hours = {
     custumerId: string
 }
 
-export type DayAndHours = {
-    day: number
-    hours: Hours[]
-}
+// export type DayAndHours = {
+//     day: number
+//     hours: Hours[]
+// }
+
+// export type DateProps = {
+//     year: number
+//     month: number
+//     daysAndHours: DayAndHours[]
+// }
 
 export type DateProps = {
     year: number
     month: number
-    daysAndHours: DayAndHours[]
+    day: number
+    hour: number
+    custumerId: string
 }
 
 export type ScheduleProps = {

@@ -1,4 +1,4 @@
-import { AvailableDaysProps, DateProps, GetDateProps, GetWeekDaysParams, ScheduleProps } from '@common/models'
+import { DateProps, GetDateProps, GetWeekDaysParams, ScheduleProps } from '@common/models'
 
 export function getWeekDays({ short = false }: GetWeekDaysParams = {}) {
     const formatter = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' })
@@ -75,19 +75,6 @@ export const integerToTime = (value: number): string => {
     return `${formattedHours}:${formattedMinutes}`
 }
 
-export const getAvailableDays = (data: DateProps[], selectedDate: Date): AvailableDaysProps => {
-    const currentMonthIndex = selectedDate.getMonth()
-
-    // Retorna os dias setados na agenda, com ou sem horário disponível
-    const allScheduleDays = data.filter((item) => item.month === currentMonthIndex)[0]
-
-    // Retorna array de números inteiros -  Todos os dias da agenda
-    const allDays: number[] = []
-    if (allScheduleDays) allScheduleDays.daysAndHours.map((item) => allDays.push(item.day))
-
-    return { allScheduleDays, allDays }
-}
-
 export const getMinMonth = (selectedDate: Date): Boolean => {
     const today = new Date()
     const currentYear = today.getFullYear()
@@ -98,10 +85,16 @@ export const getMinMonth = (selectedDate: Date): Boolean => {
     return minMonth
 }
 
-export const hasEmptyCustomerId = (data: DateProps, day: number): boolean => {
-    const dayData = data?.daysAndHours?.find((d) => d.day === day)
-    if (dayData) {
-        return dayData?.hours.some((hour) => hour.custumerId === '')
-    }
-    return false
+export const filterDaysByMonthAndYear = (data: DateProps[], selectedYear: number, selectedMonth: number): number[] => {
+    const daysSet = new Set(
+        data.filter((obj) => obj.year === selectedYear && obj.month === selectedMonth).map((obj) => obj.day)
+    )
+    return Array.from(daysSet)
+}
+
+export const hasEmptyCustomerId = (
+    data: Array<{ year: number; month: number; day: number; hour: number; custumerId: string }>,
+    selectedDay: number
+): boolean => {
+    return data.some((item) => item.day === selectedDay && item.custumerId === '')
 }
