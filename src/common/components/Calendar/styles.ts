@@ -78,8 +78,8 @@ export const UnavailableDayButton = styled(Box)({
     justifyContent: 'center',
     width: '35px',
     height: '35px',
-    border: '1px solid',
-    borderColor: COLORS.primary,
+    // border: '1px solid',
+    // borderColor: COLORS.primary,
     borderRadius: '6px',
     background: COLORS.background,
 

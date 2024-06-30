@@ -7,7 +7,7 @@ export const Container = styled(Box)({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginTop: '10px',
+    marginTop: '20px',
     width: '300px',
     height: 'auto',
     border: '1px solid',

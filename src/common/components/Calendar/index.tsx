@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Button } from '@mui/material'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_14_500 } from '../Typography'
 import { CalendarProps } from '@common/models'
@@ -25,10 +25,10 @@ import {
     CalendarControlContainer,
 } from './styles'
 
-export const Calendar = ({ data, handleDayClick }: CalendarProps) => {
+export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarProps) => {
     const todayDate = new Date()
     const [selectedDate, setSelectedDate] = useState<Date>(todayDate)
-    const [selecteMonth, setSelectedMonth] = useState<number>(todayDate.getMonth() + 1)
+    const [selecteMonth, setSelectedMonth] = useState<number>(todayDate.getMonth())
     const [selectedYear, setSelectedYear] = useState<number>(todayDate.getFullYear())
     const minMonth = getMinMonth(selectedDate)
 
@@ -37,6 +37,7 @@ export const Calendar = ({ data, handleDayClick }: CalendarProps) => {
         setSelectedDate(date)
         setSelectedMonth(month)
         setSelectedYear(year)
+        handleChangeMonth()
     }, [])
 
     const goToNextMonth = useCallback((selectedDate: Date) => {
@@ -44,6 +45,7 @@ export const Calendar = ({ data, handleDayClick }: CalendarProps) => {
         setSelectedDate(date)
         setSelectedMonth(month)
         setSelectedYear(year)
+        handleChangeMonth()
     }, [])
 
     const weekDays = getWeekDays({ short: true })
@@ -53,9 +55,6 @@ export const Calendar = ({ data, handleDayClick }: CalendarProps) => {
         const daysQtd = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate()
 
         const allDays = filterDaysByMonthAndYear(data, selectedYear, selecteMonth)
-
-        // console.log('allScheduleDays ', JSON.stringify(allScheduleDays)) // Todos os dias da agenda, com e sem horários
-        // console.log('allDays ', JSON.stringify(allDays)) // Números inteiros dos dias da agenda
 
         const buttons = []
 
@@ -68,8 +67,6 @@ export const Calendar = ({ data, handleDayClick }: CalendarProps) => {
             
             const isScheduleDays = allDays.includes(i)
             const isAvailable = hasEmptyCustomerId(data, i)
-
-
 
             const day = i
             buttons.push(
@@ -126,7 +123,7 @@ export const Calendar = ({ data, handleDayClick }: CalendarProps) => {
                         </DaysWeekContainer>
                     )
                 })}
-                {getCalendar()}
+                {data && getCalendar()}
             </CalendarContainer>
         </Container>
     )

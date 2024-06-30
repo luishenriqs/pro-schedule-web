@@ -98,3 +98,26 @@ export const hasEmptyCustomerId = (
 ): boolean => {
     return data.some((item) => item.day === selectedDay && item.custumerId === '')
 }
+
+export const formatDate = (day: number, month: number, year: number): string => {
+    const months = [
+        'janeiro',
+        'fevereiro',
+        'março',
+        'abril',
+        'maio',
+        'junho',
+        'julho',
+        'agosto',
+        'setembro',
+        'outubro',
+        'novembro',
+        'dezembro',
+    ]
+
+    if (month < 0 || month > 11) {
+        throw new Error('O mês deve estar entre 0 e 11.')
+    }
+
+    return `${day} de ${months[month]} de ${year}`
+}
