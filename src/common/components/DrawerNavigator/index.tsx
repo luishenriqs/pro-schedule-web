@@ -29,7 +29,7 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
     const availableMenuItems: MenuItem[] = [
         {
             order: 1,
-            title: 'Agendamento',
+            title: 'Novo Agendamento',
             route: '/',
             icon: '',
             onClickHandler: () => {
@@ -47,7 +47,7 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
         },
         {
             order: 3,
-            title: 'Anteriores',
+            title: 'Histórico',
             route: '/Previous',
             icon: '',
             onClickHandler: () => {
@@ -57,9 +57,10 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
     ]
 
     const menuOptions = useCallback(() => {
-        return availableMenuItems.map((item) => {
+        return availableMenuItems.map((item, index) => {
             return (
                 <ButtonIcon
+                    key={index}
                     onClick={() => (location.pathname === item.route ? router.refresh() : router.push(item.route))}
                 >
                     <Icon iconName={item.icon} color={COLORS.black} margin="0 8px 0 0" />
@@ -72,7 +73,7 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
     return (
         <Drawer anchor="left" open={open} onClose={() => setOpen(!isOpen)}>
             <Container>
-                <Imagem src={require('../../../../assets/ProSchedule/pro-schedule-logo.png')} alt={'logo'} />
+                <Imagem src={require('../../../../assets/Massaro/main-logo-removebg.png')} alt={'logo'} />
                 <MenuContainer>{menuOptions()}</MenuContainer>
             </Container>
         </Drawer>

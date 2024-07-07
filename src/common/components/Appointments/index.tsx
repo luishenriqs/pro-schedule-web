@@ -27,9 +27,9 @@ export const Appointments = (appointments: SelectedDataProps) => {
     }, [appointments])
 
     const getHours = useCallback(() => {
-        return selectedData.map((data) => {
+        return selectedData.map((data, index) => {
             return (
-                <HoursContainer>
+                <HoursContainer key={index}>
                     <Genos_Secondary_24_500 text={integerToTime(data.hour)} />
                 </HoursContainer>
             )

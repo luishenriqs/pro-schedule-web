@@ -74,15 +74,15 @@ export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarPr
                     {isScheduleDays ? 
                         isAvailable
                             ?                               
-                                <AvailableDayButton onClick={() => handleDayClick(day, selecteMonth, selectedYear)}>
+                                <AvailableDayButton key={i} onClick={() => handleDayClick(day, selecteMonth, selectedYear)}>
                                     <Genos_Secondary_24_500 text={day} />
                                 </AvailableDayButton>
                             :
-                                <UnavailableDayButton>
+                                <UnavailableDayButton key={i}>
                                     <Genos_Secondary_24_500 text={day} />
                                 </UnavailableDayButton>
                     : (
-                        <DisabledDayButton>
+                        <DisabledDayButton key={i}>
                             <Genos_Secondary_24_500 text={day} />
                         </DisabledDayButton>
                     )}
@@ -116,9 +116,9 @@ export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarPr
             </Header>
 
             <CalendarContainer>
-                {weekDays.map((day) => {
+                {weekDays.map((day, index) => {
                     return (
-                        <DaysWeekContainer>
+                        <DaysWeekContainer key={index}>
                             <Genos_White_14_500 text={day} />
                         </DaysWeekContainer>
                     )

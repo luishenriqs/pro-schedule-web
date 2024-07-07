@@ -83,7 +83,7 @@ export const InlineHeaderContainer = styled(Box)({
     height: '50px',
     padding: '0 200px',
 
-    background: rgba(0, 0, 0, 0.6),
+    background: rgba(0, 0, 0, 0.1),
 
     '@media (min-width:760px)': {
         height: '60px',
@@ -91,19 +91,31 @@ export const InlineHeaderContainer = styled(Box)({
     '@media (min-width:1024px)': {
         display: 'flex',
         padding: '0 50px',
+        height: '60px',
     },
     '@media (min-width:1440px)': {
         display: 'flex',
         padding: '0 150px',
+        height: '60px',
     },
     '@media (min-width:1840px)': {
         display: 'flex',
         padding: '0 250px',
+        height: '60px',
     },
     '@media (min-width:2040px)': {
         display: 'flex',
         padding: '0 350px',
+        height: '60px',
     },
+})
+export const ImageContainer = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '55%',
+    height: '60px',
 })
 
 export const MenuOptionsContainer = styled(Box)({
@@ -111,11 +123,16 @@ export const MenuOptionsContainer = styled(Box)({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '650px',
+    width: '45%',
     height: '60px',
 })
 
 export const Imagem = styled(Image)({
-    width: '200px',
+    width: '70px',
     height: 'auto',
+
+    '@media (min-width:760px)': {
+        width: '90px',
+        height: 'auto',
+    },
 })

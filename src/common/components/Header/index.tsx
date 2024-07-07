@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { DrawerNavigator } from '../DrawerNavigator'
-import { TertiaryButtonText } from '../ButtonText'
+import { GenosPrimaryButtonText } from '../ButtonText'
 import {
     Container,
     DrawerHeaderContainer,
@@ -12,6 +12,7 @@ import {
     Empty,
     InlineHeaderContainer,
     MenuOptionsContainer,
+    ImageContainer,
 } from './styles'
 
 function Header() {
@@ -22,7 +23,10 @@ function Header() {
         <Container>
             <DrawerHeaderContainer>
                 <HeaderContent>
-                    <Empty />
+                    <Imagem
+                        src={require('../../../../assets/Massaro/main-logo-removebg.png')}
+                        alt={'logo'}
+                    />
                     <ButtonIcon onClick={() => setOpen(!open)}>
                         <IconMenu />
                     </ButtonIcon>
@@ -30,24 +34,16 @@ function Header() {
                 <DrawerNavigator isOpen={open} />
             </DrawerHeaderContainer>
             <InlineHeaderContainer>
-                <Imagem
-                    src={require('../../../../assets/ProSchedule/pro-schedule-logo.png')}
-                    alt={'logo'}
-                />
+                <ImageContainer>                    
+                    <Imagem
+                        src={require('../../../../assets/Massaro/main-logo-removebg.png')}
+                        alt={'logo'}
+                    />
+                </ImageContainer>
                 <MenuOptionsContainer>
-                    <TertiaryButtonText title="Home" onClick={() => router.push('/Dash')} size="small" />
-                    <TertiaryButtonText title="Dr. Joyce Schwartz" onClick={() => router.push('/About')} size="small" />
-                    <TertiaryButtonText
-                        title="Tratamentos Corporais"
-                        onClick={() => router.push('/ContentOne')}
-                        size="small"
-                    />
-                    <TertiaryButtonText
-                        title="Tratamentos Faciais"
-                        onClick={() => router.push('/ContentTwo')}
-                        size="small"
-                    />
-                    <TertiaryButtonText title="Agendamento" onClick={() => router.push('/Scheduling')} size="small" />
+                    <GenosPrimaryButtonText title="Novo Agendamento" onClick={() => router.push('/')} size="medium" />
+                    <GenosPrimaryButtonText title="Agendados" onClick={() => router.push('/Scheduled')} size="medium" />
+                    <GenosPrimaryButtonText title="Histórico" onClick={() => router.push('/Previous')} size="medium" />
                 </MenuOptionsContainer>
             </InlineHeaderContainer>
         </Container>
