@@ -374,6 +374,10 @@ export const SchedulingComponent = () => {
         setSelectedData({} as dataSelectedProps)
     }, [])
 
+    const handleSetAppointments = useCallback((value: DateProps) => {
+        console.log('appointment ---->  ', value)
+    }, [])
+
     return (
         <Container>
             {isLoading ? (
@@ -391,9 +395,9 @@ export const SchedulingComponent = () => {
                                 <Legend />
                                 <Questrial_Secondary_20_500 text=' - Dias disponíveis' />
                             </LegendContainer>
-                            {selectedData.data?.length > 0 &&
+                            {selectedData?.data?.length > 0 &&
                                 <>
-                                    <Appointments appontmentsData={selectedData} />
+                                    <Appointments appontmentsData={selectedData} handleSetAppointments={(value) => handleSetAppointments(value)} />
                                 
                                     <LegendContainer>
                                         <Legend />

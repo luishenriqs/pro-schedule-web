@@ -8,28 +8,28 @@ import {
     TitleContainer,
 } from './styles'
 
-export const Appointments = (appointments: SelectedDataProps) => {
+export const Appointments = ({ appontmentsData, handleSetAppointments }: SelectedDataProps) => {
     const [selectedData, setSelectedData] = useState<DateProps[]>([] as DateProps[])
     const [date, setDate] = useState<string>('')
 
     useEffect(() => {
-        const result = appointments.appontmentsData.data.filter((obj) => {
-            const year = appointments.appontmentsData.year
-            const month = appointments.appontmentsData.month
-            const day = appointments.appontmentsData.day
+        const result = appontmentsData?.data?.filter((obj) => {
+            const year = appontmentsData?.year
+            const month = appontmentsData?.month
+            const day = appontmentsData?.day
             const date = formatDate(day, month, year)
             setDate(date)
 
             if (obj.year === year && obj.month === month && obj.day === day && obj.custumerId === '') return obj
         })
-        setSelectedData([...result])
+        setSelectedData(result)
 
-    }, [appointments])
+    }, [appontmentsData])
 
     const getHours = useCallback(() => {
-        return selectedData.map((data, index) => {
+        return selectedData?.map((data, index) => {
             return (
-                <HoursContainer key={index}>
+                <HoursContainer key={index} onClick={() => handleSetAppointments(data)}>
                     <Genos_Secondary_24_500 text={integerToTime(data.hour)} />
                 </HoursContainer>
             )

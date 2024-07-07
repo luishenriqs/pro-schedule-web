@@ -45,4 +45,5 @@ export type dataSelectedProps = {
 
 export type SelectedDataProps = {
     appontmentsData: dataSelectedProps
+    handleSetAppointments: (value: DateProps) => void
 }
