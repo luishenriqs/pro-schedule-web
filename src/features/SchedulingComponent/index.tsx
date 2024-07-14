@@ -186,31 +186,7 @@ export const SchedulingComponent = () => {
     const handleSetAppointments = useCallback((value: DateProps) => {
         console.log('appointment ---->  ', value)
     }, [])
-
-
-
-
-        /*
-
-            1 - CRIAR PÁGINA "MY AGENDA" PARA ADMIN SETAR SUA PROGRAMAÇÃO
-
-            2 - CRIAR MODAL DE CONFIRMAÇÃO DE RESERVA
-
-                PREENCHER PROP CUSTUMER ID COM ID DO USUÁRIO
-
-                const appointment = {
-                    year: 2024,
-                    month: 6,
-                    day: 22,
-                    hour: 705,
-                    custumerId: '' <== id do usuário
-                }
-
-        */ 
-
-
-
-                
+             
     return (
         <Container>
             {isLoading ? (

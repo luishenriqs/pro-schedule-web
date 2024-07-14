@@ -3,22 +3,11 @@ import { useRouter } from 'next/navigation'
 import { Drawer } from '@mui/material'
 import { Genos_Primary_20_500 } from '../Typography'
 import { Icon } from '../Icons'
-import { ButtonIcon, Container, Imagem, MenuContainer } from './styles'
+import { DrawerProps, MenuItem } from '@common/models'
 import { COLORS } from '@common/styles/theme'
+import { ButtonIcon, Container, Imagem, MenuContainer } from './styles'
 
-type DrawerProps = {
-    isOpen: boolean
-}
-
-type MenuItem = {
-    order: number
-    route: string
-    title: string
-    icon: string
-    onClickHandler: () => void
-}
-
-export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
+export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
     const router = useRouter()
     const [open, setOpen] = useState(false)
 
@@ -26,7 +15,7 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
         setOpen(isOpen)
     }, [isOpen])
 
-    const availableMenuItems: MenuItem[] = [
+    const userMenuItems: MenuItem[] = [
         {
             order: 1,
             title: 'Novo Agendamento',
@@ -56,8 +45,29 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
         },
     ]
 
-    const menuOptions = useCallback(() => {
-        return availableMenuItems.map((item, index) => {
+    const adminMenuItems: MenuItem[] = [
+        {
+            order: 1,
+            title: 'Novo Agendamento',
+            route: '/',
+            icon: '',
+            onClickHandler: () => {
+                location.pathname === '/Scheduling' ? router.refresh() : router.push('/Scheduling')
+            },
+        },
+        {
+            order: 2,
+            title: 'Minha Agenda',
+            route: '/MyAgenda',
+            icon: '',
+            onClickHandler: () => {
+                location.pathname === '/MyAgenda' ? router.refresh() : router.push('/MyAgenda')
+            },
+        },
+    ]
+
+    const menuOptions = useCallback((options: MenuItem[]) => {
+        return options.map((item, index) => {
             return (
                 <ButtonIcon
                     key={index}
@@ -74,7 +84,7 @@ export const DrawerNavigator = ({ isOpen }: DrawerProps) => {
         <Drawer anchor="left" open={open} onClose={() => setOpen(!isOpen)}>
             <Container>
                 <Imagem src={require('../../../../assets/Massaro/main-logo-removebg.png')} alt={'logo'} />
-                <MenuContainer>{menuOptions()}</MenuContainer>
+                <MenuContainer>{isAdmin ? menuOptions(adminMenuItems) : menuOptions(userMenuItems)}</MenuContainer>
             </Container>
         </Drawer>
     )

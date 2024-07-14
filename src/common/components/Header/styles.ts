@@ -19,11 +19,9 @@ export const Container = styled(Box)({
 
     '@media (min-width:760px)': {
         height: '70px',
-        paddingRight: '30px',
     },
     '@media (min-width:1024px)': {
         height: '60px',
-        paddingRight: '0px',
     },
 })
 
@@ -69,11 +67,6 @@ export const IconMenu = styled(MenuIcon)({
     },
 })
 
-export const Empty = styled(Box)({
-    width: '25px',
-    height: '25px',
-})
-
 export const InlineHeaderContainer = styled(Box)({
     display: 'none',
     flexDirection: 'row',
@@ -81,8 +74,6 @@ export const InlineHeaderContainer = styled(Box)({
     justifyContent: 'space-between',
     width: '100%',
     height: '50px',
-    padding: '0 200px',
-
     background: rgba(0, 0, 0, 0.1),
 
     '@media (min-width:760px)': {
@@ -90,23 +81,6 @@ export const InlineHeaderContainer = styled(Box)({
     },
     '@media (min-width:1024px)': {
         display: 'flex',
-        padding: '0 50px',
-        height: '60px',
-    },
-    '@media (min-width:1440px)': {
-        display: 'flex',
-        padding: '0 150px',
-        height: '60px',
-    },
-    '@media (min-width:1840px)': {
-        display: 'flex',
-        padding: '0 250px',
-        height: '60px',
-    },
-    '@media (min-width:2040px)': {
-        display: 'flex',
-        padding: '0 350px',
-        height: '60px',
     },
 })
 export const ImageContainer = styled(Box)({
@@ -114,8 +88,9 @@ export const ImageContainer = styled(Box)({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    width: '55%',
+    width: '50%',
     height: '60px',
+    paddingLeft: '40px',
 })
 
 export const MenuOptionsContainer = styled(Box)({
@@ -123,8 +98,16 @@ export const MenuOptionsContainer = styled(Box)({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '45%',
+    width: '50%',
     height: '60px',
+
+    '@media (min-width:1024px)': {
+        padding: '0 25px',
+    },
+
+    '@media (min-width:1440px)': {
+        padding: '0 50px',
+    },
 })
 
 export const Imagem = styled(Image)({

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { DrawerNavigator } from '../DrawerNavigator'
 import { GenosPrimaryButtonText } from '../ButtonText'
@@ -9,7 +9,6 @@ import {
     ButtonIcon,
     Imagem,
     IconMenu,
-    Empty,
     InlineHeaderContainer,
     MenuOptionsContainer,
     ImageContainer,
@@ -19,6 +18,10 @@ function Header() {
     const router = useRouter()
     const [open, setOpen] = useState(false)
 
+    const isUser =  true
+    const isAdmin =  false
+    const showMenu = !!isUser || !!isAdmin
+
     return (
         <Container>
             <DrawerHeaderContainer>
@@ -27,11 +30,13 @@ function Header() {
                         src={require('../../../../assets/Massaro/main-logo-removebg.png')}
                         alt={'logo'}
                     />
-                    <ButtonIcon onClick={() => setOpen(!open)}>
-                        <IconMenu />
-                    </ButtonIcon>
+                    {showMenu &&
+                        <ButtonIcon onClick={() => setOpen(!open)}>
+                            <IconMenu />
+                        </ButtonIcon>
+                    }
                 </HeaderContent>
-                <DrawerNavigator isOpen={open} />
+                <DrawerNavigator isOpen={open} isAdmin={isAdmin} />
             </DrawerHeaderContainer>
             <InlineHeaderContainer>
                 <ImageContainer>                    
@@ -40,11 +45,23 @@ function Header() {
                         alt={'logo'}
                     />
                 </ImageContainer>
-                <MenuOptionsContainer>
-                    <GenosPrimaryButtonText title="Novo Agendamento" onClick={() => router.push('/')} size="medium" />
-                    <GenosPrimaryButtonText title="Agendados" onClick={() => router.push('/Scheduled')} size="medium" />
-                    <GenosPrimaryButtonText title="Histórico" onClick={() => router.push('/Previous')} size="medium" />
-                </MenuOptionsContainer>
+                {showMenu &&
+                    <MenuOptionsContainer>
+                        {!isAdmin &&
+                            <>
+                                <GenosPrimaryButtonText title="Novo Agendamento" onClick={() => router.push('/')} size="medium" />
+                                <GenosPrimaryButtonText title="Agendados" onClick={() => router.push('/Scheduled')} size="medium" />
+                                <GenosPrimaryButtonText title="Histórico" onClick={() => router.push('/Previous')} size="medium" />
+                            </>
+                        }
+                        {isAdmin &&
+                            <>
+                                <GenosPrimaryButtonText title="Novo Agendamento" onClick={() => router.push('/')} size="medium" />
+                                <GenosPrimaryButtonText title="Minha Agenda" onClick={() => router.push('/MyAgenda')} size="medium" />
+                            </>
+                        }
+                    </MenuOptionsContainer>
+                }
             </InlineHeaderContainer>
         </Container>
     )
