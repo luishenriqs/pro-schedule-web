@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Calendar } from '@common/components/Calendar'
 import Header from '@common/components/Header'
+import { Calendar } from '@common/components/Calendar'
 import { LoadingComponent } from '@common/components/Loading'
 import { Appointments } from '@common/components/Appointments'
 import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
@@ -14,312 +14,46 @@ export const SchedulingComponent = () => {
     const [selectedData, setSelectedData] = useState<dataSelectedProps>({} as dataSelectedProps)
     
     const dataMock = [
-        {
-            year: 2024,
-            month: 5,
-            day: 1,
-            hour: 480,
-            custumerId: '1'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 1,
-            hour: 555,
-            custumerId: ''
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 1,
-            hour: 630,
-            custumerId: '2'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 1,
-            hour: 705,
-            custumerId: '4'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 3,
-            hour: 480,
-            custumerId: ''
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 3,
-            hour: 555,
-            custumerId: ''
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 3,
-            hour: 630,
-            custumerId: '4'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 3,
-            hour: 705,
-            custumerId: '6'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 5,
-            hour: 480,
-            custumerId: '2'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 5,
-            hour: 555,
-            custumerId: '5'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 5,
-            hour: 630,
-            custumerId: '4'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 5,
-            hour: 705,
-            custumerId: '6'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 10,
-            hour: 480,
-            custumerId: '2'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 10,
-            hour: 555,
-            custumerId: '1'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 10,
-            hour: 630,
-            custumerId: '4'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 10,
-            hour: 705,
-            custumerId: ''
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 12,
-            hour: 480,
-            custumerId: '3'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 12,
-            hour: 555,
-            custumerId: '4'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 12,
-            hour: 630,
-            custumerId: '8'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 12,
-            hour: 705,
-            custumerId: '1'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 18,
-            hour: 480,
-            custumerId: '3'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 18,
-            hour: 555,
-            custumerId: ''
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 18,
-            hour: 630,
-            custumerId: '1'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 18,
-            hour: 705,
-            custumerId: ''
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 18,
-            hour: 840,
-            custumerId: ''
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 18,
-            hour: 915,
-            custumerId: '2'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 18,
-            hour: 990,
-            custumerId: '5'
-        },
-        {
-            year: 2024,
-            month: 5,
-            day: 18,
-            hour: 1065,
-            custumerId: ''
-        },
-        // JULHO
+        // JULHO //==> 6, 7, 17, 26, 31
         {
             year: 2024,
             month: 6,
-            day: 3,
+            day: 2,
             hour: 480,
-            custumerId: '1'
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 3,
-            hour: 555,
             custumerId: ''
         },
         {
             year: 2024,
             month: 6,
             day: 3,
-            hour: 630,
-            custumerId: '2'
-        },
-        {
-            year: 2024,
-            month: 3,
-            day: 5,
             hour: 705,
-            custumerId: '4'
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 7,
-            hour: 480,
             custumerId: ''
         },
         {
             year: 2024,
             month: 6,
-            day: 7,
-            hour: 555,
-            custumerId: ''
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 7,
-            hour: 630,
-            custumerId: '4'
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 7,
-            hour: 705,
-            custumerId: '6'
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 8,
+            day: 4,
             hour: 480,
-            custumerId: '2'
+            custumerId: ''
         },
         {
             year: 2024,
             month: 6,
             day: 8,
             hour: 555,
-            custumerId: '5'
+            custumerId: ''
         },
         {
             year: 2024,
             month: 6,
-            day: 8,
+            day: 10,
             hour: 630,
-            custumerId: '4'
+            custumerId: ''
         },
         {
             year: 2024,
             month: 6,
-            day: 8,
-            hour: 705,
-            custumerId: '6'
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 11,
-            hour: 480,
-            custumerId: '2'
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 11,
-            hour: 555,
-            custumerId: '1'
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 11,
-            hour: 630,
-            custumerId: '4'
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 11,
+            day: 12,
             hour: 705,
             custumerId: ''
         },
@@ -328,29 +62,104 @@ export const SchedulingComponent = () => {
             month: 6,
             day: 15,
             hour: 480,
-            custumerId: '3'
+            custumerId: ''
         },
         {
             year: 2024,
             month: 6,
-            day: 15,
+            day: 20,
             hour: 555,
-            custumerId: '4'
+            custumerId: ''
         },
         {
             year: 2024,
             month: 6,
-            day: 15,
+            day: 22,
+            hour: 480,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 6,
+            day: 25,
+            hour: 555,
+            custumerId: ''
+        },
+ 
+
+
+        // AGOSTO //==> 5, 6, 12, 13, 14, 19, 22, 23, 28, 30
+        {
+            year: 2024,
+            month: 7,
+            day: 5,
+            hour: 480,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 7,
+            day: 6,
+            hour: 555,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 7,
+            day: 12,
             hour: 630,
-            custumerId: '8'
+            custumerId: ''
         },
         {
             year: 2024,
-            month: 6,
-            day: 15,
+            month: 7,
+            day: 13,
             hour: 705,
-            custumerId: '1'
+            custumerId: ''
         },
+        {
+            year: 2024,
+            month: 7,
+            day: 14,
+            hour: 480,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 7,
+            day: 19,
+            hour: 555,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 7,
+            day: 22,
+            hour: 630,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 7,
+            day: 23,
+            hour: 705,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 7,
+            day: 28,
+            hour: 480,
+            custumerId: ''
+        },
+        {
+            year: 2024,
+            month: 7,
+            day: 30,
+            hour: 555,
+            custumerId: ''
+        },
+    
     ]
 
     useEffect(() => {
@@ -378,6 +187,30 @@ export const SchedulingComponent = () => {
         console.log('appointment ---->  ', value)
     }, [])
 
+
+
+
+        /*
+
+            1 - CRIAR PÁGINA "MY AGENDA" PARA ADMIN SETAR SUA PROGRAMAÇÃO
+
+            2 - CRIAR MODAL DE CONFIRMAÇÃO DE RESERVA
+
+                PREENCHER PROP CUSTUMER ID COM ID DO USUÁRIO
+
+                const appointment = {
+                    year: 2024,
+                    month: 6,
+                    day: 22,
+                    hour: 705,
+                    custumerId: '' <== id do usuário
+                }
+
+        */ 
+
+
+
+                
     return (
         <Container>
             {isLoading ? (

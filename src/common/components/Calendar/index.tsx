@@ -3,7 +3,7 @@ import { Button } from '@mui/material'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_14_500 } from '../Typography'
 import { CalendarProps } from '@common/models'
 import {
-    filterDaysByMonthAndYear,
+    filterDaysByDateAndMonth,
     getMinMonth,
     getNextMonthDate,
     getPreviousMonthDate,
@@ -54,7 +54,7 @@ export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarPr
         const firstWeekdayOfMonthIndex = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1).getDay()
         const daysQtd = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate()
 
-        const allDays = filterDaysByMonthAndYear(data, selectedYear, selecteMonth)
+        const allDays = filterDaysByDateAndMonth(data, selectedYear, selecteMonth)
 
         const buttons = []
 

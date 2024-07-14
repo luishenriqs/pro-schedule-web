@@ -85,13 +85,6 @@ export const getMinMonth = (selectedDate: Date): Boolean => {
     return minMonth
 }
 
-export const filterDaysByMonthAndYear = (data: DateProps[], selectedYear: number, selectedMonth: number): number[] => {
-    const daysSet = new Set(
-        data.filter((obj) => obj.year === selectedYear && obj.month === selectedMonth).map((obj) => obj.day)
-    )
-    return Array.from(daysSet)
-}
-
 export const hasEmptyCustomerId = (
     data: Array<{ year: number; month: number; day: number; hour: number; custumerId: string }>,
     selectedDay: number
@@ -120,4 +113,25 @@ export const formatDate = (day: number, month: number, year: number): string => 
     }
 
     return `${day} de ${months[month]} de ${year}`
+}
+
+export const filterDaysByDateAndMonth = (data: DateProps[], selectedYear: number, selectedMonth: number): number[] => {
+    const currentDate = new Date()
+
+    data.map((obj) => {
+        return { ...obj, month: obj.month + 1 }
+    })
+
+    const filteredByCurrentDate = data.filter((item) => {
+        const itemDate = new Date(item.year, item.month, item.day)
+        return itemDate >= currentDate
+    })
+
+    const filteredByMonth = filteredByCurrentDate.filter(
+        (item) => item.year === selectedYear && item.month === selectedMonth
+    )
+
+    const days = filteredByMonth.map((item) => item.day)
+
+    return days
 }
