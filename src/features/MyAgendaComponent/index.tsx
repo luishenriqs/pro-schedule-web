@@ -8,10 +8,12 @@ import { DateProps, dataSelectedProps } from '@common/models'
 import { timeToInteger, integerToTime } from '@common/utils/helpers'
 import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
 
-export const SchedulingComponent = () => {
+export const MyAgendaComponent = () => {
     const [data, setData] = useState<DateProps[]>([] as DateProps[])
     const [isLoading, setIsLoading] = useState(true)
     const [selectedData, setSelectedData] = useState<dataSelectedProps>({} as dataSelectedProps)
+
+    const userName = 'Flávio'
     
     const dataMock = [
         // JULHO //==> 6, 7, 17, 26, 31
@@ -187,22 +189,35 @@ export const SchedulingComponent = () => {
         console.log('appointment ---->  ', value)
     }, [])
 
+
+
+
         /*
 
-            1 - CRIAR MODAL DE CONFIRMAÇÃO DE RESERVA
+            1 - CONFIGURAR BOTÕES DOS DIAS: 
+                - TODOS CLICLÁVEIS
+                    - DIAS DE ATENDIMENTO
+                    - DIAS DE LIVRES
 
-                PREENCHER PROP CUSTUMER ID COM ID DO USUÁRIO
+            2 - CONFIGURAR SELETOR DE HORÁRIOS DE TRABALHO
+
+            3 - CRIAR MODAL DE CONFIRMAÇÃO DE AGENDA
+
+                PREENCHER NOVO OBJETO APPOINTMENT
 
                 const appointment = {
                     year: 2024,
                     month: 6,
                     day: 22,
                     hour: 705,
-                    custumerId: '' <== id do usuário
+                    custumerId: '' <== VAZIO
                 }
 
         */ 
-             
+
+
+
+                
     return (
         <Container>
             {isLoading ? (
@@ -211,14 +226,15 @@ export const SchedulingComponent = () => {
                 <>
                     <Header />
                     <TitleContainer>
-                        <Genos_Secondary_24_500 text='Faça o seu agendamento' />
+                        <Genos_Secondary_24_500 text={'Olá ' + userName} />
+                        <Genos_Secondary_24_500 text='Defina a sua agenda' />
                     </TitleContainer >
                     <Content>
                         <SchedulingContent>
                             <Calendar data={data} handleDayClick={handleDayClick} handleChangeMonth={handleChangeMonth} />
                             <LegendContainer>
                                 <Legend />
-                                <Questrial_Secondary_20_500 text=' - Dias disponíveis' />
+                                <Questrial_Secondary_20_500 text=' - Dias de atendimento' />
                             </LegendContainer>
                             {selectedData?.data?.length > 0 &&
                                 <>

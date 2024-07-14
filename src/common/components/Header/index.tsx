@@ -19,7 +19,7 @@ function Header() {
     const [open, setOpen] = useState(false)
 
     const isUser =  true
-    const isAdmin =  false
+    const isAdmin =  true
     const showMenu = !!isUser || !!isAdmin
 
     return (

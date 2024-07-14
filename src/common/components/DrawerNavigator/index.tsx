@@ -22,7 +22,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             route: '/',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/Scheduling' ? router.refresh() : router.push('/Scheduling')
+                location.pathname === '/' ? router.refresh() : router.push('/')
             },
         },
         {
@@ -52,7 +52,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             route: '/',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/Scheduling' ? router.refresh() : router.push('/Scheduling')
+                location.pathname === '/' ? router.refresh() : router.push('/')
             },
         },
         {
