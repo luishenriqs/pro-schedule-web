@@ -43,6 +43,24 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
                 location.pathname === '/Previous' ? router.refresh() : router.push('/Previous')
             },
         },
+        {
+            order: 4,
+            title: 'Login',
+            route: '/SignIn',
+            icon: '',
+            onClickHandler: () => {
+                location.pathname === '/SignIn' ? router.refresh() : router.push('/SignIn')
+            },
+        },
+        {
+            order: 5,
+            title: 'Cadastro',
+            route: '/SignUp',
+            icon: '',
+            onClickHandler: () => {
+                location.pathname === '/SignUp' ? router.refresh() : router.push('/SignUp')
+            },
+        },
     ]
 
     const adminMenuItems: MenuItem[] = [
@@ -62,6 +80,25 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             icon: '',
             onClickHandler: () => {
                 location.pathname === '/MyAgenda' ? router.refresh() : router.push('/MyAgenda')
+            },
+            
+        },
+        {
+            order: 3,
+            title: 'Login',
+            route: '/SignIn',
+            icon: '',
+            onClickHandler: () => {
+                location.pathname === '/SignIn' ? router.refresh() : router.push('/SignIn')
+            },
+        },
+        {
+            order: 4,
+            title: 'Cadastro',
+            route: '/SignUp',
+            icon: '',
+            onClickHandler: () => {
+                location.pathname === '/SignUp' ? router.refresh() : router.push('/SignUp')
             },
         },
     ]

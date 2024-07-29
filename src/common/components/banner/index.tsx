@@ -21,15 +21,15 @@ export const Banner: React.FC = () => {
     }
 
     const images = [
-        require('../../../../assets/photos/clinic/main.png'),
-        require('../../../../assets/photos/clinic/secondary.png'),
-        require('../../../../assets/photos/clinic/tertiary.png'),
+        require('../../../../assets/clinic/banners/mainMobile.png'),
+        require('../../../../assets/clinic/banners/secondary.png'),
+        require('../../../../assets/clinic/banners/tertiary.png'),
     ]
 
     const imagesMobile = [
-        require('../../../../assets/photos/clinic/mainMobile.png'),
-        require('../../../../assets/photos/clinic/secondaryMobile.png'),
-        require('../../../../assets/photos/clinic/tertiaryMobile.png'),
+        require('../../../../assets/clinic/banners/mainMobile.png'),
+        require('../../../../assets/clinic/banners/secondaryMobile.png'),
+        require('../../../../assets/clinic/banners/tertiaryMobile.png'),
     ]
 
     return (

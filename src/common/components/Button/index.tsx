@@ -1,13 +1,11 @@
 import React from 'react'
 import { ButtonProps } from '@mui/material'
+import { Genos_Primary_20_500, Genos_Secondary_20_500 } from '../Typography'
 import {
     OutlinePrimaryContainer,
     OutlineSecondaryContainer,
     FilledPrimaryContainer,
     FilledSecondaryContainer,
-    WhiteText,
-    PrimaryText,
-    SecondaryText,
 } from './styles'
 
 type Props = ButtonProps & {
@@ -18,7 +16,7 @@ type Props = ButtonProps & {
 export function OutlinePrimaryButton({ title, onClick, ...rest }: Props) {
     return (
         <OutlinePrimaryContainer onClick={onClick} {...rest}>
-            <PrimaryText>{title}</PrimaryText>
+            <Genos_Secondary_20_500 text={title} />
         </OutlinePrimaryContainer>
     )
 }
@@ -26,7 +24,7 @@ export function OutlinePrimaryButton({ title, onClick, ...rest }: Props) {
 export function OutlineSecondaryButton({ title, onClick, ...rest }: Props) {
     return (
         <OutlineSecondaryContainer onClick={onClick} {...rest}>
-            <SecondaryText>{title}</SecondaryText>
+            <Genos_Primary_20_500 text={title} />
         </OutlineSecondaryContainer>
     )
 }
@@ -34,7 +32,7 @@ export function OutlineSecondaryButton({ title, onClick, ...rest }: Props) {
 export function FilledPrimaryButton({ title, onClick, ...rest }: Props) {
     return (
         <FilledPrimaryContainer onClick={onClick} {...rest}>
-            <WhiteText>{title}</WhiteText>
+            <Genos_Secondary_20_500 text={title} />
         </FilledPrimaryContainer>
     )
 }
@@ -42,7 +40,7 @@ export function FilledPrimaryButton({ title, onClick, ...rest }: Props) {
 export function FilledSecondaryButton({ title, onClick, ...rest }: Props) {
     return (
         <FilledSecondaryContainer onClick={onClick} {...rest}>
-            <WhiteText>{title}</WhiteText>
+            <Genos_Primary_20_500 text={title} />
         </FilledSecondaryContainer>
     )
 }

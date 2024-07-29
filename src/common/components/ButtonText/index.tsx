@@ -1,10 +1,10 @@
 import React from 'react'
 import { ButtonProps } from '@mui/material'
+import { Genos_Primary_24_500, Genos_Primary_16_500, Genos_Secondary_16_500, Genos_Secondary_24_500 } from '../Typography'
 import {
     Container,
     TitleContainer,
 } from './styles'
-import { Genos_Primary_24_500, Genos_Primary_16_500, Genos_Secondary_16_500, Genos_Secondary_24_500 } from '../Typography'
 
 type Props = ButtonProps & {
     title: string

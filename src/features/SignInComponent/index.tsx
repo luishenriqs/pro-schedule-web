@@ -7,12 +7,8 @@ import { FilledPrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
 import { GenosPrimaryButtonText, GenosSecondaryButtonText } from '@common/components/ButtonText'
 import { Questrial_Primary_16_500 } from '@common/components/Typography'
+import { FormValues } from '@common/models'
 import { Container, Imagem, SignUpContainer } from './styles'
-
-type FormValues = {
-    email: string
-    password: string
-}
 
 export const SignInComponent = () => {
     const router = useRouter()
@@ -47,7 +43,7 @@ export const SignInComponent = () => {
 
     return (
         <Container>
-            <Imagem src={require('../../../assets/pro-schedule-logo.png')} alt={'Pro-Schedule-logo'} />
+            <Imagem src={require('../../../assets/Massaro/main-logo-removebg.png')} alt={'Main-logo'} />
             <form onSubmit={handleSubmit(handleSignIn)}>
                 <TextField
                     label="Email"
@@ -55,7 +51,7 @@ export const SignInComponent = () => {
                     type="email"
                     size="small"
                     variant="outlined"
-                    style={{ width: '250px' }}
+                    style={{ width: '260px' }}
                     {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
                     error={!!errors.email}
                     helperText={errors.email && 'Email inválido'}
@@ -68,7 +64,7 @@ export const SignInComponent = () => {
                     type="password"
                     size="small"
                     variant="outlined"
-                    style={{ width: '250px' }}
+                    style={{ width: '260px' }}
                     {...register('password', { required: true, minLength: 6 })}
                     error={!!errors.password}
                     helperText={
@@ -77,6 +73,7 @@ export const SignInComponent = () => {
                             ? 'Senha é obrigatória'
                             : 'Senha deve ter no mínimo 6 caracteres')
                     }
+                    margin="normal"
                 />
                 <FilledPrimaryButton title="Login" type="submit" />
             </form>

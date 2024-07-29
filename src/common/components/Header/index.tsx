@@ -52,12 +52,16 @@ function Header() {
                                 <GenosPrimaryButtonText title="Novo Agendamento" onClick={() => router.push('/')} size="medium" />
                                 <GenosPrimaryButtonText title="Agendados" onClick={() => router.push('/Scheduled')} size="medium" />
                                 <GenosPrimaryButtonText title="Histórico" onClick={() => router.push('/Previous')} size="medium" />
+                                <GenosPrimaryButtonText title="Login" onClick={() => router.push('/SignIn')} size="medium" />
+                                <GenosPrimaryButtonText title="Cadastro" onClick={() => router.push('/SignUp')} size="medium" />
                             </>
                         }
                         {isAdmin &&
                             <>
                                 <GenosPrimaryButtonText title="Novo Agendamento" onClick={() => router.push('/')} size="medium" />
                                 <GenosPrimaryButtonText title="Minha Agenda" onClick={() => router.push('/MyAgenda')} size="medium" />
+                                <GenosPrimaryButtonText title="Login" onClick={() => router.push('/SignIn')} size="medium" />
+                                <GenosPrimaryButtonText title="Cadastro" onClick={() => router.push('/SignUp')} size="medium" />
                             </>
                         }
                     </MenuOptionsContainer>

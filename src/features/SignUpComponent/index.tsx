@@ -3,28 +3,10 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 import { useNotification } from '@common/hooks/useNotification'
 import { createAuth, writeData } from '@common/api'
-import { ButtonContainer, Container, FormContainer, Imagem } from './styles'
 import { FilledPrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
-
-type FormValues = {
-    isOwner: boolean
-    isManager: boolean
-    isAdmin: boolean
-    id: string
-    fullName: string
-    email: string
-    password: string
-    phone: string
-    birthday: string
-    cpf: string
-    cep: string
-    address: string
-    complement: string
-    neighborhood: string
-    city: string
-    state: string
-}
+import { FormValues } from '@common/models'
+import { ButtonContainer, Container, FormContainer, Imagem } from './styles'
 
 export const SignUpComponent = () => {
     const { emmitSuccess, emmitError } = useNotification()
@@ -36,10 +18,10 @@ export const SignUpComponent = () => {
 
     const handleSignUp: SubmitHandler<FormValues> = async (data) => {
         try {
-            data.id = uuidv4()
             data.isOwner = false
             data.isManager = false
             data.isAdmin = false
+            data.id = uuidv4()
             const resp = await createAuth(data) //==> Cria novo usuário no firebase/auth
 
             if (resp.status === 201) {
@@ -56,18 +38,29 @@ export const SignUpComponent = () => {
 
     return (
         <Container>
-            <Imagem src={require('../../../assets/pro-schedule-logo.png')} alt={'Pro-Schedule-logo'} />
-            <FormContainer>
-                <form onSubmit={handleSubmit(handleSignUp)} style={{ width: '100%' }}>
+            <Imagem src={require('../../../assets/Massaro/main-logo-removebg.png')} alt={'Main-logo'} />
+            {/* <FormContainer> */}
+                <form onSubmit={handleSubmit(handleSignUp)}>
                     <TextField
                         label="Nome Completo"
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '100%' }}
+                        style={{ width: '260px' }}
                         {...register('fullName', { required: true })}
                         error={!!errors.fullName}
                         helperText={errors.fullName && 'Nome é obrigatório'}
+                        margin="normal"
+                    />
+                    <TextField
+                        label="Telefone"
+                        InputLabelProps={{ shrink: true }}
+                        size="small"
+                        variant="outlined"
+                        style={{ width: '260px' }}
+                        {...register('phone', { required: true })}
+                        error={!!errors.phone}
+                        helperText={errors.phone && 'Telefone é obrigatório'}
                         margin="normal"
                     />
                     <TextField
@@ -75,7 +68,7 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '100%' }}
+                        style={{ width: '260px' }}
                         {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
                         error={!!errors.email}
                         helperText={errors.email && 'Email é obrigatório'}
@@ -87,30 +80,21 @@ export const SignUpComponent = () => {
                         type="password"
                         size="small"
                         variant="outlined"
-                        style={{ width: '100%' }}
+                        style={{ width: '260px' }}
                         {...register('password', { required: true })}
                         error={!!errors.password}
                         helperText={errors.password && 'Senha é obrigatória'}
                         margin="normal"
                     />
-                    <TextField
-                        label="Telefone"
-                        InputLabelProps={{ shrink: true }}
-                        size="small"
-                        variant="outlined"
-                        style={{ width: '100%' }}
-                        {...register('phone', { required: true })}
-                        error={!!errors.phone}
-                        helperText={errors.phone && 'Telefone é obrigatório'}
-                        margin="normal"
-                    />
-                    <TextField
+
+                    {/* Options for a complete form */}
+                    {/* <TextField
                         label="Data de Nascimento"
                         InputLabelProps={{ shrink: true }}
                         type="date"
                         size="small"
                         variant="outlined"
-                        style={{ width: '100%' }}
+                        style={{ width: '260px' }}
                         {...register('birthday', { required: false })}
                         margin="normal"
                     />
@@ -119,7 +103,7 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '100%' }}
+                        style={{ width: '260px' }}
                         {...register('cpf', { required: false })}
                         margin="normal"
                     />
@@ -128,7 +112,7 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '100%' }}
+                        style={{ width: '260px' }}
                         {...register('cep', { required: false })}
                         margin="normal"
                     />
@@ -137,7 +121,7 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '100%' }}
+                        style={{ width: '260px' }}
                         {...register('address', { required: false })}
                         margin="normal"
                     />
@@ -146,7 +130,7 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '100%' }}
+                        style={{ width: '260px' }}
                         {...register('complement', { required: false })}
                         margin="normal"
                     />
@@ -155,7 +139,7 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '100%' }}
+                        style={{ width: '260px' }}
                         {...register('neighborhood', { required: false })}
                         margin="normal"
                     />
@@ -164,7 +148,7 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '100%' }}
+                        style={{ width: '260px' }}
                         {...register('city', { required: false })}
                         margin="normal"
                     />
@@ -173,15 +157,15 @@ export const SignUpComponent = () => {
                         InputLabelProps={{ shrink: true }}
                         size="small"
                         variant="outlined"
-                        style={{ width: '100%' }}
+                        style={{ width: '260px' }}
                         {...register('state', { required: false })}
                         margin="normal"
-                    />
+                    /> */}
                     <ButtonContainer>
                         <FilledPrimaryButton title="Cadastre-se" type="submit" />
                     </ButtonContainer>
                 </form>
-            </FormContainer>
+            {/* </FormContainer> */}
         </Container>
     )
 }

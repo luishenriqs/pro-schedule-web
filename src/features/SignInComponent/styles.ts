@@ -1,14 +1,16 @@
 import Image from 'next/image'
 import { Box, styled } from '@mui/material'
+import { COLORS } from '@common/styles/theme'
 
 export const Container = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
-    width: '250px',
+    width: '260px',
     height: 'auto',
     alignItems: 'center',
     justifyContent: 'center',
     margin: '0 auto',
+    background: COLORS.white,
 })
 
 export const Imagem = styled(Image)({
@@ -25,7 +27,7 @@ export const Imagem = styled(Image)({
 export const SignUpContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
-    width: '200px',
+    width: '100%',
     height: 'auto',
     alignItems: 'center',
     justifyContent: 'center',

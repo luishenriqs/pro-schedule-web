@@ -9,40 +9,39 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth'
 import { firebaseConfig } from '../../../firebaseConfig'
+import { FormValues } from '@common/models'
 
 const app = initializeApp(firebaseConfig)
 const firestore = getFirestore(app)
 const auth = getAuth()
 
-type DataProps = {
-    email: string
-    password: string
-}
-
 //==> Cria novo usuário no firestore/auth
-export const createAuth = async (data: DataProps) => {
-    return createUserWithEmailAndPassword(auth, data.email, data.password)
-        .then((userCredential) => {
-            const user = userCredential.user
-            if (user) {
-                return { success: true, status: 201, message: 'Usuário cadastrado com sucesso!' }
-            }
-            return { success: false, status: 400, message: 'Falha ao cadastrar o usuário!' }
-        })
-        .catch((error) => {
-            console.error(error)
-            if (error.code === 'auth/email-already-in-use')
-                return { success: false, status: error.code, message: 'Email não disponível para uso!' }
-            if (error.code === 'auth/invalid-email')
-                return { success: false, status: error.code, message: 'Email inválido!' }
-            if (error.code === 'auth/weak-password')
-                return { success: false, status: error.code, message: 'Senha fraca!' }
-            return { success: false, status: 400, message: 'Falha na requisição!' }
-        })
+export const createAuth = async (data: FormValues) => {
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+        const user = userCredential.user;
+        if (user) {
+            return { success: true, status: 201, message: 'Usuário cadastrado com sucesso!' };
+        }
+
+        return { success: false, status: 400, message: 'Falha ao cadastrar o usuário!' };
+    } catch (error: any) {
+        console.error(error);
+        if (error.code === 'auth/email-already-in-use') {
+            return { success: false, status: error.code, message: 'Email não disponível para uso!' };
+        }
+        if (error.code === 'auth/invalid-email') {
+            return { success: false, status: error.code, message: 'Email inválido!' };
+        }
+        if (error.code === 'auth/weak-password') {
+            return { success: false, status: error.code, message: 'Senha fraca!' };
+        }
+        return { success: false, status: 400, message: 'Falha na requisição!' };
+    }
 }
 
 //==> Conecta usuário
-export const SignIn = async (data: DataProps) => {
+export const SignIn = async (data: FormValues) => {
     return signInWithEmailAndPassword(auth, data.email, data.password)
         .then((userCredential) => {
             const user = userCredential.user

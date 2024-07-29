@@ -60,3 +60,22 @@ export type MenuItem = {
     icon: string
     onClickHandler: () => void
 }
+
+export type FormValues = {
+    isOwner: boolean
+    isManager: boolean
+    isAdmin: boolean
+    id: string
+    fullName: string
+    phone: string
+    email: string
+    password: string
+    birthday: string
+    cpf: string
+    cep: string
+    address: string
+    complement: string
+    neighborhood: string
+    city: string
+    state: string
+}

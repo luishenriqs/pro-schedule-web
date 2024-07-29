@@ -14,73 +14,73 @@ export const SchedulingComponent = () => {
     const [selectedData, setSelectedData] = useState<dataSelectedProps>({} as dataSelectedProps)
     
     const dataMock = [
-        // JULHO //==> 6, 7, 17, 26, 31
+        // AGOSTO //==> 6, 7, 17, 26, 31
         {
             year: 2024,
-            month: 6,
+            month: 7,
             day: 2,
             hour: 480,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 6,
+            month: 7,
             day: 3,
             hour: 705,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 6,
+            month: 7,
             day: 4,
             hour: 480,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 6,
+            month: 7,
             day: 8,
             hour: 555,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 6,
+            month: 7,
             day: 10,
             hour: 630,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 6,
+            month: 7,
             day: 12,
             hour: 705,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 6,
+            month: 7,
             day: 15,
             hour: 480,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 6,
+            month: 7,
             day: 20,
             hour: 555,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 6,
+            month: 7,
             day: 22,
             hour: 480,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 6,
+            month: 7,
             day: 25,
             hour: 555,
             custumerId: ''
@@ -88,73 +88,73 @@ export const SchedulingComponent = () => {
  
 
 
-        // AGOSTO //==> 5, 6, 12, 13, 14, 19, 22, 23, 28, 30
+        // SETEMBRO //==> 5, 6, 12, 13, 14, 19, 22, 23, 28, 30
         {
             year: 2024,
-            month: 7,
+            month: 8,
             day: 5,
             hour: 480,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 7,
+            month: 8,
             day: 6,
             hour: 555,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 7,
+            month: 8,
             day: 12,
             hour: 630,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 7,
+            month: 8,
             day: 13,
             hour: 705,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 7,
+            month: 8,
             day: 14,
             hour: 480,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 7,
+            month: 8,
             day: 19,
             hour: 555,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 7,
+            month: 8,
             day: 22,
             hour: 630,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 7,
+            month: 8,
             day: 23,
             hour: 705,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 7,
+            month: 8,
             day: 28,
             hour: 480,
             custumerId: ''
         },
         {
             year: 2024,
-            month: 7,
+            month: 8,
             day: 30,
             hour: 555,
             custumerId: ''
