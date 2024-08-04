@@ -29,7 +29,7 @@ export const PreviousComponent = () => {
 
     useEffect(() => {
         getData(firebase)
-    }, [])
+    }, [firebase])
 
     return (
         <Container>

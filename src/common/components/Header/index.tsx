@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
 import { useRouter } from 'next/router'
 import { DrawerNavigator } from '../DrawerNavigator'
 import { GenosPrimaryButtonText } from '../ButtonText'
@@ -18,54 +19,84 @@ function Header() {
     const router = useRouter()
     const [open, setOpen] = useState(false)
 
-    const isUser =  true
-    const isAdmin =  true
+    const isUser = true
+    const isAdmin = true
     const showMenu = !!isUser || !!isAdmin
 
     return (
         <Container>
             <DrawerHeaderContainer>
                 <HeaderContent>
-                    <Imagem
-                        src={require('../../../../assets/Massaro/main-logo-removebg.png')}
-                        alt={'logo'}
-                    />
-                    {showMenu &&
+                    <Imagem src={mainLogoRemovebg} alt="Main Logo" />
+                    {showMenu && (
                         <ButtonIcon onClick={() => setOpen(!open)}>
                             <IconMenu />
                         </ButtonIcon>
-                    }
+                    )}
                 </HeaderContent>
                 <DrawerNavigator isOpen={open} isAdmin={isAdmin} />
             </DrawerHeaderContainer>
             <InlineHeaderContainer>
-                <ImageContainer>                    
-                    <Imagem
-                        src={require('../../../../assets/Massaro/main-logo-removebg.png')}
-                        alt={'logo'}
-                    />
+                <ImageContainer>
+                    <Imagem src={mainLogoRemovebg} alt="Main Logo" />
                 </ImageContainer>
-                {showMenu &&
+                {showMenu && (
                     <MenuOptionsContainer>
-                        {!isAdmin &&
+                        {!isAdmin && (
                             <>
-                                <GenosPrimaryButtonText title="Novo Agendamento" onClick={() => router.push('/')} size="medium" />
-                                <GenosPrimaryButtonText title="Agendados" onClick={() => router.push('/Scheduled')} size="medium" />
-                                <GenosPrimaryButtonText title="Histórico" onClick={() => router.push('/Previous')} size="medium" />
-                                <GenosPrimaryButtonText title="Login" onClick={() => router.push('/SignIn')} size="medium" />
-                                <GenosPrimaryButtonText title="Cadastro" onClick={() => router.push('/SignUp')} size="medium" />
+                                <GenosPrimaryButtonText
+                                    title="Novo Agendamento"
+                                    onClick={() => router.push('/')}
+                                    size="medium"
+                                />
+                                <GenosPrimaryButtonText
+                                    title="Agendados"
+                                    onClick={() => router.push('/Scheduled')}
+                                    size="medium"
+                                />
+                                <GenosPrimaryButtonText
+                                    title="Histórico"
+                                    onClick={() => router.push('/Previous')}
+                                    size="medium"
+                                />
+                                <GenosPrimaryButtonText
+                                    title="Login"
+                                    onClick={() => router.push('/SignIn')}
+                                    size="medium"
+                                />
+                                <GenosPrimaryButtonText
+                                    title="Cadastro"
+                                    onClick={() => router.push('/SignUp')}
+                                    size="medium"
+                                />
                             </>
-                        }
-                        {isAdmin &&
+                        )}
+                        {isAdmin && (
                             <>
-                                <GenosPrimaryButtonText title="Novo Agendamento" onClick={() => router.push('/')} size="medium" />
-                                <GenosPrimaryButtonText title="Minha Agenda" onClick={() => router.push('/MyAgenda')} size="medium" />
-                                <GenosPrimaryButtonText title="Login" onClick={() => router.push('/SignIn')} size="medium" />
-                                <GenosPrimaryButtonText title="Cadastro" onClick={() => router.push('/SignUp')} size="medium" />
+                                <GenosPrimaryButtonText
+                                    title="Novo Agendamento"
+                                    onClick={() => router.push('/')}
+                                    size="medium"
+                                />
+                                <GenosPrimaryButtonText
+                                    title="Minha Agenda"
+                                    onClick={() => router.push('/MyAgenda')}
+                                    size="medium"
+                                />
+                                <GenosPrimaryButtonText
+                                    title="Login"
+                                    onClick={() => router.push('/SignIn')}
+                                    size="medium"
+                                />
+                                <GenosPrimaryButtonText
+                                    title="Cadastro"
+                                    onClick={() => router.push('/SignUp')}
+                                    size="medium"
+                                />
                             </>
-                        }
+                        )}
                     </MenuOptionsContainer>
-                }
+                )}
             </InlineHeaderContainer>
         </Container>
     )

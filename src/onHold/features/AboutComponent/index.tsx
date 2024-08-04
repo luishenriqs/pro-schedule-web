@@ -29,7 +29,7 @@ export const AboutComponent = () => {
 
     useEffect(() => {
         getData(firebase)
-    }, [])
+    }, [firebase])
 
     return (
         <Container>

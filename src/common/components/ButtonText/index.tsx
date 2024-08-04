@@ -1,10 +1,12 @@
 import React from 'react'
 import { ButtonProps } from '@mui/material'
-import { Genos_Primary_24_500, Genos_Primary_16_500, Genos_Secondary_16_500, Genos_Secondary_24_500 } from '../Typography'
 import {
-    Container,
-    TitleContainer,
-} from './styles'
+    Genos_Primary_24_500,
+    Genos_Primary_16_500,
+    Genos_Secondary_16_500,
+    Genos_Secondary_24_500,
+} from '../Typography'
+import { Container, TitleContainer } from './styles'
 
 type Props = ButtonProps & {
     title: string
@@ -12,16 +14,11 @@ type Props = ButtonProps & {
     onClick?: () => void
 }
 
-
 export function GenosPrimaryButtonText({ title, size = 'medium', onClick, ...rest }: Props) {
     return (
         <Container onClick={onClick} {...rest}>
             <TitleContainer>
-                {size === 'medium' ? (
-                    <Genos_Primary_24_500 text={title} />
-                ) : (
-                    <Genos_Primary_16_500 text={title} />
-                )}
+                {size === 'medium' ? <Genos_Primary_24_500 text={title} /> : <Genos_Primary_16_500 text={title} />}
             </TitleContainer>
         </Container>
     )
@@ -31,14 +28,8 @@ export function GenosSecondaryButtonText({ title, size = 'medium', onClick, ...r
     return (
         <Container onClick={onClick} {...rest}>
             <TitleContainer>
-                {size === 'medium' ? (
-                    <Genos_Secondary_24_500 text={title} />
-                ) : (
-                    <Genos_Secondary_16_500 text={title} />
-                )}
+                {size === 'medium' ? <Genos_Secondary_24_500 text={title} /> : <Genos_Secondary_16_500 text={title} />}
             </TitleContainer>
         </Container>
     )
 }
-
-

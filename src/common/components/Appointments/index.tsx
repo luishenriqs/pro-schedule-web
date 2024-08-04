@@ -2,11 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Genos_Primary_24_500, Genos_Secondary_24_500 } from '../Typography'
 import { DateProps, SelectedDataProps } from '@common/models'
 import { formatDate, integerToTime } from '@common/utils/helpers'
-import {
-    Container,
-    HoursContainer,
-    TitleContainer,
-} from './styles'
+import { Container, HoursContainer, TitleContainer } from './styles'
 
 export const Appointments = ({ appontmentsData, handleSetAppointments }: SelectedDataProps) => {
     const [selectedData, setSelectedData] = useState<DateProps[]>([] as DateProps[])
@@ -23,7 +19,6 @@ export const Appointments = ({ appontmentsData, handleSetAppointments }: Selecte
             if (obj.year === year && obj.month === month && obj.day === day && obj.custumerId === '') return obj
         })
         setSelectedData(result)
-
     }, [appontmentsData])
 
     const getHours = useCallback(() => {
@@ -34,12 +29,12 @@ export const Appointments = ({ appontmentsData, handleSetAppointments }: Selecte
                 </HoursContainer>
             )
         })
-    }, [selectedData])
+    }, [handleSetAppointments, selectedData])
 
     return (
         <Container>
-            <TitleContainer>                
-                <Genos_Secondary_24_500 text='Escolha o seu horário' />
+            <TitleContainer>
+                <Genos_Secondary_24_500 text="Escolha o seu horário" />
                 <Genos_Primary_24_500 text={'Dia ' + date} />
             </TitleContainer>
             {getHours()}

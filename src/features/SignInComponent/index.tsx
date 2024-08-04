@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import mainLogo from '../../../assets/Massaro/main-logo-removebg.png'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useNotification } from '@common/hooks/useNotification'
-import { RecoverPassword, SignIn } from '@common/api'
+import { RecoverPassword, UseSignIn } from '@common/api'
 import { FilledPrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
 import { GenosPrimaryButtonText, GenosSecondaryButtonText } from '@common/components/ButtonText'
@@ -23,7 +24,7 @@ export const SignInComponent = () => {
 
     const handleSignIn: SubmitHandler<FormValues> = async (data) => {
         try {
-            const resp = await SignIn(data) //==> Valida autenticação do usuário
+            const resp = await UseSignIn(data) //==> Valida autenticação do usuário
             if (resp?.status === 200) emmitSuccess(resp?.message)
             if (resp?.status !== 200) emmitError(resp?.message)
         } catch (error) {
@@ -43,7 +44,7 @@ export const SignInComponent = () => {
 
     return (
         <Container>
-            <Imagem src={require('../../../assets/Massaro/main-logo-removebg.png')} alt={'Main-logo'} />
+            <Imagem src={mainLogo} alt="Main-logo" />
             <form onSubmit={handleSubmit(handleSignIn)}>
                 <TextField
                     label="Email"

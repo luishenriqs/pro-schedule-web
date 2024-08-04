@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
 import { useRouter } from 'next/navigation'
 import { Drawer } from '@mui/material'
 import { Genos_Primary_20_500 } from '../Typography'
@@ -15,6 +16,54 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
         setOpen(isOpen)
     }, [isOpen])
 
+    const onClickSchedluling = useCallback(() => {
+        if (location.pathname === '/') {
+            router.refresh()
+        } else {
+            router.push('/')
+        }
+    }, [router])
+
+    const onClickMyAgenda = useCallback(() => {
+        if (location.pathname === '/MyAgenda') {
+            router.refresh()
+        } else {
+            router.push('/MyAgenda')
+        }
+    }, [router])
+
+    const onClickSignIn = useCallback(() => {
+        if (location.pathname === '/SignIn') {
+            router.refresh()
+        } else {
+            router.push('/SignIn')
+        }
+    }, [router])
+
+    const onClickSignUp = useCallback(() => {
+        if (location.pathname === '/SignUp') {
+            router.refresh()
+        } else {
+            router.push('/SignUp')
+        }
+    }, [router])
+
+    const onClickScheduled = useCallback(() => {
+        if (location.pathname === '/Scheduled') {
+            router.refresh()
+        } else {
+            router.push('/Scheduled')
+        }
+    }, [router])
+
+    const onClickPrevious = useCallback(() => {
+        if (location.pathname === '/Previous') {
+            router.refresh()
+        } else {
+            router.push('/Previous')
+        }
+    }, [router])
+
     const userMenuItems: MenuItem[] = [
         {
             order: 1,
@@ -22,7 +71,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             route: '/',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/' ? router.refresh() : router.push('/')
+                onClickSchedluling()
             },
         },
         {
@@ -31,7 +80,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             route: '/Scheduled',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/Scheduled' ? router.refresh() : router.push('/Scheduled')
+                onClickScheduled()
             },
         },
         {
@@ -40,7 +89,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             route: '/Previous',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/Previous' ? router.refresh() : router.push('/Previous')
+                onClickPrevious()
             },
         },
         {
@@ -49,7 +98,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             route: '/SignIn',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/SignIn' ? router.refresh() : router.push('/SignIn')
+                onClickSignIn()
             },
         },
         {
@@ -58,7 +107,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             route: '/SignUp',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/SignUp' ? router.refresh() : router.push('/SignUp')
+                onClickSignUp()
             },
         },
     ]
@@ -70,7 +119,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             route: '/',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/' ? router.refresh() : router.push('/')
+                onClickSchedluling()
             },
         },
         {
@@ -79,9 +128,8 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             route: '/MyAgenda',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/MyAgenda' ? router.refresh() : router.push('/MyAgenda')
+                onClickMyAgenda()
             },
-            
         },
         {
             order: 3,
@@ -89,7 +137,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             route: '/SignIn',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/SignIn' ? router.refresh() : router.push('/SignIn')
+                onClickSignIn()
             },
         },
         {
@@ -98,29 +146,32 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             route: '/SignUp',
             icon: '',
             onClickHandler: () => {
-                location.pathname === '/SignUp' ? router.refresh() : router.push('/SignUp')
+                onClickSignUp()
             },
         },
     ]
 
-    const menuOptions = useCallback((options: MenuItem[]) => {
-        return options.map((item, index) => {
-            return (
-                <ButtonIcon
-                    key={index}
-                    onClick={() => (location.pathname === item.route ? router.refresh() : router.push(item.route))}
-                >
-                    <Icon iconName={item.icon} color={COLORS.black} margin="0 8px 0 0" />
-                    <Genos_Primary_20_500 text={item.title} />
-                </ButtonIcon>
-            )
-        })
-    }, [])
+    const menuOptions = useCallback(
+        (options: MenuItem[]) => {
+            return options.map((item, index) => {
+                return (
+                    <ButtonIcon
+                        key={index}
+                        onClick={() => (location.pathname === item.route ? router.refresh() : router.push(item.route))}
+                    >
+                        <Icon iconName={item.icon} color={COLORS.black} margin="0 8px 0 0" />
+                        <Genos_Primary_20_500 text={item.title} />
+                    </ButtonIcon>
+                )
+            })
+        },
+        [router]
+    )
 
     return (
         <Drawer anchor="left" open={open} onClose={() => setOpen(!isOpen)}>
             <Container>
-                <Imagem src={require('../../../../assets/Massaro/main-logo-removebg.png')} alt={'logo'} />
+                <Imagem src={mainLogoRemovebg} alt="Main Logo" />
                 <MenuContainer>{isAdmin ? menuOptions(adminMenuItems) : menuOptions(userMenuItems)}</MenuContainer>
             </Container>
         </Drawer>

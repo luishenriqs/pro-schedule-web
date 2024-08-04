@@ -29,7 +29,7 @@ export const ContentTwoComponent = () => {
 
     useEffect(() => {
         getData(firebase)
-    }, [])
+    }, [firebase])
 
     return (
         <Container>

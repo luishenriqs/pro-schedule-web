@@ -1,6 +1,41 @@
-import { DateProps, GetDateProps, GetWeekDaysParams, ScheduleProps } from '@common/models'
+import { v4 as uuidv4 } from 'uuid'
+import { CreateAuth, UseWriteData } from '@common/api'
+import { DateProps, GetDateProps, GetWeekDaysParams } from '@common/models'
 
-export function getWeekDays({ short = false }: GetWeekDaysParams = {}) {
+export const initialScript = async () => {
+    const payload = {
+        fullName: 'Luís Henrique Pereira',
+        phone: '16981011280',
+        email: 'lh.p@hotmail.com',
+        password: '123456',
+        isOwner: true,
+        isManager: true,
+        isAdmin: true,
+        id: uuidv4(),
+        birthday: '',
+        cpf: '',
+        cep: '',
+        address: '',
+        complement: '',
+        neighborhood: '',
+        city: '',
+        state: '',
+    }
+
+    try {
+        const resp = await CreateAuth(payload) //==> Cria o usuário OWNER no firebase/auth
+        if (resp.status === 201) {
+            const respData = await UseWriteData(payload, 'users') //==> Cria o usuário OWNER no firestore
+            return respData
+        } else {
+            return resp
+        }
+    } catch (error) {
+        return { success: false, status: 500, message: `${error}` }
+    }
+}
+
+export const getWeekDays = ({ short = false }: GetWeekDaysParams = {}) => {
     const formatter = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' })
 
     return Array.from(Array(7).keys())
@@ -53,7 +88,7 @@ export const getNextMonthDate = (currentDate: Date): GetDateProps => {
     return { date, month, year }
 }
 
-export function convertTimeStringToMinutes(timeString: string) {
+export const convertTimeStringToMinutes = (timeString: string) => {
     const [hours, minutes] = timeString.split(':').map(Number)
 
     return hours * 60 + minutes
@@ -75,7 +110,7 @@ export const integerToTime = (value: number): string => {
     return `${formattedHours}:${formattedMinutes}`
 }
 
-export const getMinMonth = (selectedDate: Date): Boolean => {
+export const getMinMonth = (selectedDate: Date): boolean => {
     const today = new Date()
     const currentYear = today.getFullYear()
     const currentMonth = today.getMonth()

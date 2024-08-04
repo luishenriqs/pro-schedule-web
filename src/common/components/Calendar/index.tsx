@@ -32,21 +32,27 @@ export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarPr
     const [selectedYear, setSelectedYear] = useState<number>(todayDate.getFullYear())
     const minMonth = getMinMonth(selectedDate)
 
-    const goToPreviousMonth = useCallback((selectedDate: Date) => {
-        const { date, month, year } = getPreviousMonthDate(selectedDate)
-        setSelectedDate(date)
-        setSelectedMonth(month)
-        setSelectedYear(year)
-        handleChangeMonth()
-    }, [])
+    const goToPreviousMonth = useCallback(
+        (selectedDate: Date) => {
+            const { date, month, year } = getPreviousMonthDate(selectedDate)
+            setSelectedDate(date)
+            setSelectedMonth(month)
+            setSelectedYear(year)
+            handleChangeMonth()
+        },
+        [handleChangeMonth]
+    )
 
-    const goToNextMonth = useCallback((selectedDate: Date) => {
-        const { date, month, year } = getNextMonthDate(selectedDate)
-        setSelectedDate(date)
-        setSelectedMonth(month)
-        setSelectedYear(year)
-        handleChangeMonth()
-    }, [])
+    const goToNextMonth = useCallback(
+        (selectedDate: Date) => {
+            const { date, month, year } = getNextMonthDate(selectedDate)
+            setSelectedDate(date)
+            setSelectedMonth(month)
+            setSelectedYear(year)
+            handleChangeMonth()
+        },
+        [handleChangeMonth]
+    )
 
     const weekDays = getWeekDays({ short: true })
 
@@ -64,24 +70,23 @@ export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarPr
         }
 
         for (let i = 1; i <= daysQtd; i++) {
-            
             const isScheduleDays = allDays.includes(i)
             const isAvailable = hasEmptyCustomerId(data, i)
 
             const day = i
             buttons.push(
                 <CalendarControlContainer key={i}>
-                    {isScheduleDays ? 
-                        isAvailable
-                            ?                               
-                                <AvailableDayButton key={i} onClick={() => handleDayClick(day, selecteMonth, selectedYear)}>
-                                    <Genos_Secondary_24_500 text={day} />
-                                </AvailableDayButton>
-                            :
-                                <UnavailableDayButton key={i}>
-                                    <Genos_Secondary_24_500 text={day} />
-                                </UnavailableDayButton>
-                    : (
+                    {isScheduleDays ? (
+                        isAvailable ? (
+                            <AvailableDayButton key={i} onClick={() => handleDayClick(day, selecteMonth, selectedYear)}>
+                                <Genos_Secondary_24_500 text={day} />
+                            </AvailableDayButton>
+                        ) : (
+                            <UnavailableDayButton key={i}>
+                                <Genos_Secondary_24_500 text={day} />
+                            </UnavailableDayButton>
+                        )
+                    ) : (
                         <DisabledDayButton key={i}>
                             <Genos_Secondary_24_500 text={day} />
                         </DisabledDayButton>
@@ -90,14 +95,14 @@ export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarPr
             )
         }
         return buttons
-    }, [selectedDate])
+    }, [data, handleDayClick, selecteMonth, selectedDate, selectedYear])
 
     return (
         <Container>
-            <Genos_Secondary_24_500 text='Escolha o seu dia' />
+            <Genos_Secondary_24_500 text="Escolha o seu dia" />
             <Header>
                 {!minMonth ? (
-                    <Button onClick={() => goToPreviousMonth(selectedDate)}  style={{ marginRight: '-20px' }}>
+                    <Button onClick={() => goToPreviousMonth(selectedDate)} style={{ marginRight: '-20px' }}>
                         <ArrowLeftIcon />
                     </Button>
                 ) : (

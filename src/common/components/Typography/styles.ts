@@ -5,6 +5,8 @@ import { COLORS, FONT_FAMILY, FONT_SIZE, FONT_WEIGHT } from '@common/styles/them
 export const TitleContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'row',
+    whiteSpace: 'pre-wrap',
+    textAlign: 'center',
 })
 
 // GENOS PRIMARY

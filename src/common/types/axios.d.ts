@@ -1,5 +1,4 @@
 /* eslint-disable unused-imports/no-unused-imports */
-import { AxiosResponse, AxiosError } from 'axios'
 
 declare module 'axios' {
     export interface AxiosResponse<T = any> extends AxiosResponse {

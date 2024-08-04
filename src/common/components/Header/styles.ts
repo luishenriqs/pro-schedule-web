@@ -3,7 +3,6 @@ import Image from 'next/image'
 import MenuIcon from '@mui/icons-material/Menu'
 import { Box, IconButton } from '@mui/material'
 import { COLORS } from '@common/styles/theme'
-import { rgba } from 'polished'
 
 export const Container = styled(Box)({
     display: 'flex',
@@ -74,7 +73,6 @@ export const InlineHeaderContainer = styled(Box)({
     justifyContent: 'space-between',
     width: '100%',
     height: '50px',
-    background: rgba(0, 0, 0, 0.1),
 
     '@media (min-width:760px)': {
         height: '60px',

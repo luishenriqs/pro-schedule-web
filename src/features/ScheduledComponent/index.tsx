@@ -29,7 +29,7 @@ export const ScheduledComponent = () => {
 
     useEffect(() => {
         getData(firebase)
-    }, [])
+    }, [firebase])
 
     return (
         <Container>

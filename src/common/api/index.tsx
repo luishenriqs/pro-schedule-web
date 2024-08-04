@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { collection, addDoc, getFirestore } from 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
 import {
@@ -16,32 +17,32 @@ const firestore = getFirestore(app)
 const auth = getAuth()
 
 //==> Cria novo usuário no firestore/auth
-export const createAuth = async (data: FormValues) => {
+export const CreateAuth = async (data: FormValues) => {
     try {
-        const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-        const user = userCredential.user;
+        const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password)
+        const user = userCredential.user
         if (user) {
-            return { success: true, status: 201, message: 'Usuário cadastrado com sucesso!' };
+            return { success: true, status: 201, message: 'Usuário cadastrado com sucesso!' }
         }
 
-        return { success: false, status: 400, message: 'Falha ao cadastrar o usuário!' };
+        return { success: false, status: 400, message: 'Falha ao cadastrar o usuário!' }
     } catch (error: any) {
-        console.error(error);
+        console.error(error)
         if (error.code === 'auth/email-already-in-use') {
-            return { success: false, status: error.code, message: 'Email não disponível para uso!' };
+            return { success: false, status: error.code, message: 'Email não disponível para uso!' }
         }
         if (error.code === 'auth/invalid-email') {
-            return { success: false, status: error.code, message: 'Email inválido!' };
+            return { success: false, status: error.code, message: 'Email inválido!' }
         }
         if (error.code === 'auth/weak-password') {
-            return { success: false, status: error.code, message: 'Senha fraca!' };
+            return { success: false, status: error.code, message: 'Senha fraca!' }
         }
-        return { success: false, status: 400, message: 'Falha na requisição!' };
+        return { success: false, status: 400, message: 'Falha na requisição!' }
     }
 }
 
 //==> Conecta usuário
-export const SignIn = async (data: FormValues) => {
+export const UseSignIn = async (data: FormValues) => {
     return signInWithEmailAndPassword(auth, data.email, data.password)
         .then((userCredential) => {
             const user = userCredential.user
@@ -69,7 +70,7 @@ export const SignIn = async (data: FormValues) => {
 }
 
 //==> Desconecta usuário
-export const SignOut = async () => {
+export const UseSignOut = async () => {
     return signOut(auth)
         .then(() => {
             return { success: true, status: 200, message: 'Usuário desconectado!' }
@@ -90,8 +91,23 @@ export const RecoverPassword = async (email: string) => {
         })
 }
 
+export const UseUser = () => {
+    const [user, setUser] = useState<any | null>(null)
+
+    useEffect(() => {
+        const auth = getAuth()
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setUser(user)
+        })
+
+        return () => unsubscribe()
+    }, [])
+
+    return user
+}
+
 //==> Verifica se ocorre alteração no status do usuário
-export const UserStateChanged = async () => {
+export const UseUserStateChanged = async () => {
     return onAuthStateChanged(auth, (user) => {
         if (user) {
             // console.log('na api ------> ', JSON.stringify(user))
@@ -103,13 +119,13 @@ export const UserStateChanged = async () => {
 }
 
 //==> Escreve dados nas coleções do firestore
-export const writeData = async (newData: any, entity: string) => {
+export const UseWriteData = async (newData: any, entity: string) => {
     try {
         const dataCollection = collection(firestore, entity)
         const newDocRef = await addDoc(dataCollection, newData)
         if (newDocRef) return { success: true, status: 201, message: 'Dados adicionados com sucesso!' }
         return { success: false, status: 400, message: 'Falha ao adicionar o documento!' }
     } catch (error) {
-        return { success: false, status: 400, message: 'Erro ao adicionar documento: ' + `${error}` }
+        return { success: false, status: 500, message: 'Erro ao adicionar documento: ' + `${error}` }
     }
 }

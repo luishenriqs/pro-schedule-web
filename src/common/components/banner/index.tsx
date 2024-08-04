@@ -1,4 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import main from '../../../../assets/clinic/banners/main.png'
+import secondary from '../../../../assets/clinic/banners/secondary.png'
+import tertiary from '../../../../assets/clinic/banners/tertiary.png'
+import mainMobile from '../../../../assets/clinic/banners/mainMobile.png'
+import secondaryMobile from '../../../../assets/clinic/banners/secondaryMobile.png'
+import tertiaryMobile from '../../../../assets/clinic/banners/tertiaryMobile.png'
 import { BackgroundButtonIcon } from '../ButtonIcon'
 import { BannerContainer, Image1, Image2 } from './styles'
 
@@ -20,17 +26,9 @@ export const Banner: React.FC = () => {
         setCurrentImage((prevImage) => (prevImage === 0 ? 2 : prevImage - 1))
     }
 
-    const images = [
-        require('../../../../assets/clinic/banners/mainMobile.png'),
-        require('../../../../assets/clinic/banners/secondary.png'),
-        require('../../../../assets/clinic/banners/tertiary.png'),
-    ]
+    const images = [main, secondary, tertiary]
 
-    const imagesMobile = [
-        require('../../../../assets/clinic/banners/mainMobile.png'),
-        require('../../../../assets/clinic/banners/secondaryMobile.png'),
-        require('../../../../assets/clinic/banners/tertiaryMobile.png'),
-    ]
+    const imagesMobile = [mainMobile, secondaryMobile, tertiaryMobile]
 
     return (
         <BannerContainer>

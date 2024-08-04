@@ -1,14 +1,18 @@
 import React from 'react'
+import mainLogo from '../../../assets/Massaro/main-logo-removebg.png'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
+import { useRouter } from 'next/router'
 import { useNotification } from '@common/hooks/useNotification'
-import { createAuth, writeData } from '@common/api'
+import { CreateAuth, UseWriteData } from '@common/api'
 import { FilledPrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
 import { FormValues } from '@common/models'
-import { ButtonContainer, Container, FormContainer, Imagem } from './styles'
+import { GenosPrimaryButtonText } from '@common/components/ButtonText'
+import { ButtonContainer, Container, Imagem } from './styles'
 
 export const SignUpComponent = () => {
+    const router = useRouter()
     const { emmitSuccess, emmitError } = useNotification()
     const {
         register,
@@ -16,16 +20,17 @@ export const SignUpComponent = () => {
         formState: { errors },
     } = useForm<FormValues>()
 
-    const handleSignUp: SubmitHandler<FormValues> = async (data) => {
+    const handleSignUp: SubmitHandler<FormValues> = async (payload) => {
         try {
-            data.isOwner = false
-            data.isManager = false
-            data.isAdmin = false
-            data.id = uuidv4()
-            const resp = await createAuth(data) //==> Cria novo usuário no firebase/auth
+            payload.isOwner = false
+            payload.isManager = false
+            payload.isAdmin = false
+            payload.id = uuidv4()
+            console.log('payload ', JSON.stringify(payload))
+            const resp = await CreateAuth(payload) //==> Cria novo usuário no firebase/auth
 
             if (resp.status === 201) {
-                const respData = await writeData(data, 'users') //==> Cria novo usuário no firestore
+                const respData = await UseWriteData(payload, 'users') //==> Cria novo usuário no firestore
                 if (respData?.status === 201) emmitSuccess(resp?.message)
                 if (respData?.status !== 201) emmitError(resp?.message)
             } else {
@@ -38,57 +43,57 @@ export const SignUpComponent = () => {
 
     return (
         <Container>
-            <Imagem src={require('../../../assets/Massaro/main-logo-removebg.png')} alt={'Main-logo'} />
+            <Imagem src={mainLogo} alt="Main-logo" />
             {/* <FormContainer> */}
-                <form onSubmit={handleSubmit(handleSignUp)}>
-                    <TextField
-                        label="Nome Completo"
-                        InputLabelProps={{ shrink: true }}
-                        size="small"
-                        variant="outlined"
-                        style={{ width: '260px' }}
-                        {...register('fullName', { required: true })}
-                        error={!!errors.fullName}
-                        helperText={errors.fullName && 'Nome é obrigatório'}
-                        margin="normal"
-                    />
-                    <TextField
-                        label="Telefone"
-                        InputLabelProps={{ shrink: true }}
-                        size="small"
-                        variant="outlined"
-                        style={{ width: '260px' }}
-                        {...register('phone', { required: true })}
-                        error={!!errors.phone}
-                        helperText={errors.phone && 'Telefone é obrigatório'}
-                        margin="normal"
-                    />
-                    <TextField
-                        label="Email"
-                        InputLabelProps={{ shrink: true }}
-                        size="small"
-                        variant="outlined"
-                        style={{ width: '260px' }}
-                        {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
-                        error={!!errors.email}
-                        helperText={errors.email && 'Email é obrigatório'}
-                        margin="normal"
-                    />
-                    <TextField
-                        label="Senha"
-                        InputLabelProps={{ shrink: true }}
-                        type="password"
-                        size="small"
-                        variant="outlined"
-                        style={{ width: '260px' }}
-                        {...register('password', { required: true })}
-                        error={!!errors.password}
-                        helperText={errors.password && 'Senha é obrigatória'}
-                        margin="normal"
-                    />
+            <form onSubmit={handleSubmit(handleSignUp)}>
+                <TextField
+                    label="Nome Completo"
+                    InputLabelProps={{ shrink: true }}
+                    size="small"
+                    variant="outlined"
+                    style={{ width: '260px' }}
+                    {...register('fullName', { required: true })}
+                    error={!!errors.fullName}
+                    helperText={errors.fullName && 'Nome é obrigatório'}
+                    margin="normal"
+                />
+                <TextField
+                    label="Telefone"
+                    InputLabelProps={{ shrink: true }}
+                    size="small"
+                    variant="outlined"
+                    style={{ width: '260px' }}
+                    {...register('phone', { required: true })}
+                    error={!!errors.phone}
+                    helperText={errors.phone && 'Telefone é obrigatório'}
+                    margin="normal"
+                />
+                <TextField
+                    label="Email"
+                    InputLabelProps={{ shrink: true }}
+                    size="small"
+                    variant="outlined"
+                    style={{ width: '260px' }}
+                    {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+                    error={!!errors.email}
+                    helperText={errors.email && 'Email é obrigatório'}
+                    margin="normal"
+                />
+                <TextField
+                    label="Senha"
+                    InputLabelProps={{ shrink: true }}
+                    type="password"
+                    size="small"
+                    variant="outlined"
+                    style={{ width: '260px' }}
+                    {...register('password', { required: true })}
+                    error={!!errors.password}
+                    helperText={errors.password && 'Senha é obrigatória'}
+                    margin="normal"
+                />
 
-                    {/* Options for a complete form */}
-                    {/* <TextField
+                {/* Options for a complete form */}
+                {/* <TextField
                         label="Data de Nascimento"
                         InputLabelProps={{ shrink: true }}
                         type="date"
@@ -161,11 +166,12 @@ export const SignUpComponent = () => {
                         {...register('state', { required: false })}
                         margin="normal"
                     /> */}
-                    <ButtonContainer>
-                        <FilledPrimaryButton title="Cadastre-se" type="submit" />
-                    </ButtonContainer>
-                </form>
+                <ButtonContainer>
+                    <FilledPrimaryButton title="Cadastre-se" type="submit" />
+                </ButtonContainer>
+            </form>
             {/* </FormContainer> */}
+            <GenosPrimaryButtonText title="Voltar para agenda" size="small" onClick={() => router.push('/')} />
         </Container>
     )
 }

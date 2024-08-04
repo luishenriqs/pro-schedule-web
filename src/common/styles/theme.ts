@@ -6,7 +6,7 @@ export const COLORS = {
     tertiary: '#F6EDCA',
     complementary: '#E7D8B7',
 
-    background: '#F5F5F5',
+    background: '#FDFDFD',
     white: '#FFFFFF',
     black: '#000000',
 

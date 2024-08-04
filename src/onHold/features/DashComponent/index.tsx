@@ -1,17 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Header from '@common/components/Header'
+import modelOffice from '../../../assets/photos/clinic/model-office-1x1.png'
+import serviceTitle from '../../../assets/photos/clinic/serviceTitle1.png'
+import serviceTitle2 from '../../../assets/photos/clinic/serviceTitle2.png'
+import serviceTitle3 from '../../../assets/photos/clinic/serviceTitle3.png'
 import { LoadingComponent } from '@common/components/Loading'
-import { UserStateChanged } from '@common/api'
 import { Banner } from '@common/components/banner'
 import { OutlinePrimaryButton } from '@common/components/Button'
 import { PrimaryButtonIcon } from '@common/components/ButtonIcon'
-import {
-    Genos_Primary_28_500,
-    Genos_Primary_34_500,
-    Genos_Primary_38_500,
-    Genos_White_48_500,
-    Questrial_Primary_20_500,
-} from '@common/components/Typography'
+import { Genos_Primary_28_500, Genos_Primary_34_500, Questrial_Primary_20_500 } from '@common/components/Typography'
 import {
     Container,
     DashContent,
@@ -24,12 +21,10 @@ import {
     MessageContent,
     ServicesContainer,
     Card,
-    ServiceImagem,
 } from './styles'
 
 export const DashComponent = () => {
     const [isLoading, setIsLoading] = useState(true)
-    const [user, setUser] = useState({})
     const [openDescription, setOpenDescription] = useState(false)
 
     const message =
@@ -42,12 +37,6 @@ export const DashComponent = () => {
         setIsLoading(false)
     }, 100)
 
-    useEffect(() => {
-        const user = UserStateChanged()
-        // console.log('Usuário logado ------> ', JSON.stringify(user))
-        user && setUser(user)
-    }, [])
-
     return (
         <>
             {isLoading ? (
@@ -58,10 +47,7 @@ export const DashComponent = () => {
                     <DashContent>
                         <Banner />
                         <PresentationContainer>
-                            <Imagem
-                                src={require('../../../assets/photos/clinic/model-office-1x1.png')}
-                                alt={'image profile'}
-                            />
+                            <Imagem src={modelOffice} alt="model office" />
                             <MessageMobileContainer>
                                 <MessageTitleContainer>
                                     <Genos_Primary_28_500 text="Dra. Joyce Schwartz" />
@@ -108,22 +94,13 @@ export const DashComponent = () => {
                         </PresentationContainer>
                         <ServicesContainer>
                             <Card>
-                                <ServiceImagem
-                                    src={require('../../../assets/photos/clinic/serviceTitle1.png')}
-                                    alt={'Service'}
-                                />
+                                <Imagem src={serviceTitle} alt="Service Title" />
                             </Card>
                             <Card>
-                                <ServiceImagem
-                                    src={require('../../../assets/photos/clinic/serviceTitle2.png')}
-                                    alt={'Service'}
-                                />
+                                <Imagem src={serviceTitle2} alt="Service Title" />
                             </Card>
                             <Card>
-                                <ServiceImagem
-                                    src={require('../../../assets/photos/clinic/serviceTitle3.png')}
-                                    alt={'Service'}
-                                />
+                                <Imagem src={serviceTitle3} alt="Service Title" />
                             </Card>
                         </ServicesContainer>
                     </DashContent>

@@ -5,7 +5,6 @@ import { LoadingComponent } from '@common/components/Loading'
 import { Appointments } from '@common/components/Appointments'
 import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
 import { DateProps, dataSelectedProps } from '@common/models'
-import { timeToInteger, integerToTime } from '@common/utils/helpers'
 import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
 
 export const MyAgendaComponent = () => {
@@ -14,7 +13,8 @@ export const MyAgendaComponent = () => {
     const [selectedData, setSelectedData] = useState<dataSelectedProps>({} as dataSelectedProps)
 
     const userName = 'Flávio'
-    
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const dataMock = [
         // JULHO //==> 6, 7, 17, 26, 31
         {
@@ -22,73 +22,71 @@ export const MyAgendaComponent = () => {
             month: 6,
             day: 2,
             hour: 480,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 6,
             day: 3,
             hour: 705,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 6,
             day: 4,
             hour: 480,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 6,
             day: 8,
             hour: 555,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 6,
             day: 10,
             hour: 630,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 6,
             day: 12,
             hour: 705,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 6,
             day: 15,
             hour: 480,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 6,
             day: 20,
             hour: 555,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 6,
             day: 22,
             hour: 480,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 6,
             day: 25,
             hour: 555,
-            custumerId: ''
+            custumerId: '',
         },
- 
-
 
         // AGOSTO //==> 5, 6, 12, 13, 14, 19, 22, 23, 28, 30
         {
@@ -96,72 +94,71 @@ export const MyAgendaComponent = () => {
             month: 7,
             day: 5,
             hour: 480,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 7,
             day: 6,
             hour: 555,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 7,
             day: 12,
             hour: 630,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 7,
             day: 13,
             hour: 705,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 7,
             day: 14,
             hour: 480,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 7,
             day: 19,
             hour: 555,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 7,
             day: 22,
             hour: 630,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 7,
             day: 23,
             hour: 705,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 7,
             day: 28,
             hour: 480,
-            custumerId: ''
+            custumerId: '',
         },
         {
             year: 2024,
             month: 7,
             day: 30,
             hour: 555,
-            custumerId: ''
+            custumerId: '',
         },
-    
     ]
 
     useEffect(() => {
@@ -169,6 +166,7 @@ export const MyAgendaComponent = () => {
         setTimeout(() => {
             setIsLoading(false)
         }, 100)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleDayClick = useCallback((day: number, month: number, year: number) => {
@@ -179,6 +177,7 @@ export const MyAgendaComponent = () => {
             year,
         }
         setSelectedData(dataSelected)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleChangeMonth = useCallback(() => {
@@ -189,12 +188,9 @@ export const MyAgendaComponent = () => {
         console.log('appointment ---->  ', value)
     }, [])
 
+    /*
 
-
-
-        /*
-
-            1 - CONFIGURAR BOTÕES DOS DIAS: 
+            1 - CONFIGURAR BOTÕES DOS DIAS:
                 - TODOS CLICLÁVEIS
                     - DIAS DE ATENDIMENTO
                     - DIAS DE LIVRES
@@ -213,11 +209,8 @@ export const MyAgendaComponent = () => {
                     custumerId: '' <== VAZIO
                 }
 
-        */ 
+        */
 
-
-
-                
     return (
         <Container>
             {isLoading ? (
@@ -227,25 +220,32 @@ export const MyAgendaComponent = () => {
                     <Header />
                     <TitleContainer>
                         <Genos_Secondary_24_500 text={'Olá ' + userName} />
-                        <Genos_Secondary_24_500 text='Defina a sua agenda' />
-                    </TitleContainer >
+                        <Genos_Secondary_24_500 text="Defina a sua agenda" />
+                    </TitleContainer>
                     <Content>
                         <SchedulingContent>
-                            <Calendar data={data} handleDayClick={handleDayClick} handleChangeMonth={handleChangeMonth} />
+                            <Calendar
+                                data={data}
+                                handleDayClick={handleDayClick}
+                                handleChangeMonth={handleChangeMonth}
+                            />
                             <LegendContainer>
                                 <Legend />
-                                <Questrial_Secondary_20_500 text=' - Dias de atendimento' />
+                                <Questrial_Secondary_20_500 text=" - Dias de atendimento" />
                             </LegendContainer>
-                            {selectedData?.data?.length > 0 &&
+                            {selectedData?.data?.length > 0 && (
                                 <>
-                                    <Appointments appontmentsData={selectedData} handleSetAppointments={(value) => handleSetAppointments(value)} />
-                                
+                                    <Appointments
+                                        appontmentsData={selectedData}
+                                        handleSetAppointments={(value) => handleSetAppointments(value)}
+                                    />
+
                                     <LegendContainer>
                                         <Legend />
-                                        <Questrial_Secondary_20_500 text=' - Horários disponíveis' />
+                                        <Questrial_Secondary_20_500 text=" - Horários disponíveis" />
                                     </LegendContainer>
                                 </>
-                            }
+                            )}
                         </SchedulingContent>
                     </Content>
                 </>

@@ -1,5 +1,4 @@
 import { styled } from '@mui/material/styles'
-import { rgba } from 'polished'
 import Image from 'next/image'
 import { Box } from '@mui/material'
 import { COLORS } from '@common/styles/theme'
@@ -123,8 +122,4 @@ export const Card = styled(Box)({
 export const ServiceImagem = styled(Image)({
     width: '100vw',
     height: '100vw',
-
-    // '@media (min-width:1024px)': {
-    //     width: '33%',
-    // },
 })

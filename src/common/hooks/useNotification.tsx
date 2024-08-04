@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { OptionsObject, useSnackbar } from 'notistack'
 
 export const AUTO_HIDE_DURATION_SHORT = 2000
