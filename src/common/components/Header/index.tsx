@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
 import { useRouter } from 'next/router'
 import { DrawerNavigator } from '../DrawerNavigator'
@@ -23,6 +23,10 @@ function Header() {
     const isAdmin = true
     const showMenu = !!isUser || !!isAdmin
 
+    useEffect(() => {
+        console.log('location.pathname ', location.pathname)
+    }, [])
+
     return (
         <Container>
             <DrawerHeaderContainer>
@@ -46,28 +50,31 @@ function Header() {
                             <>
                                 <GenosPrimaryButtonText
                                     title="Novo Agendamento"
-                                    onClick={() => router.push('/')}
                                     size="medium"
+                                    selected={location.pathname === '/'}
+                                    onClick={() => router.push('/')}
                                 />
                                 <GenosPrimaryButtonText
                                     title="Agendados"
-                                    onClick={() => router.push('/Scheduled')}
                                     size="medium"
+                                    selected={location.pathname === '/Scheduled'}
+                                    onClick={() => router.push('/Scheduled')}
                                 />
                                 <GenosPrimaryButtonText
                                     title="Histórico"
-                                    onClick={() => router.push('/Previous')}
                                     size="medium"
+                                    selected={location.pathname === '/Previous'}
+                                    onClick={() => router.push('/Previous')}
                                 />
                                 <GenosPrimaryButtonText
                                     title="Login"
-                                    onClick={() => router.push('/SignIn')}
                                     size="medium"
+                                    onClick={() => router.push('/SignIn')}
                                 />
                                 <GenosPrimaryButtonText
                                     title="Cadastro"
-                                    onClick={() => router.push('/SignUp')}
                                     size="medium"
+                                    onClick={() => router.push('/SignUp')}
                                 />
                             </>
                         )}
@@ -75,23 +82,25 @@ function Header() {
                             <>
                                 <GenosPrimaryButtonText
                                     title="Novo Agendamento"
-                                    onClick={() => router.push('/')}
                                     size="medium"
+                                    selected={location.pathname === '/'}
+                                    onClick={() => router.push('/')}
                                 />
                                 <GenosPrimaryButtonText
                                     title="Minha Agenda"
-                                    onClick={() => router.push('/MyAgenda')}
                                     size="medium"
+                                    selected={location.pathname === '/MyAgenda'}
+                                    onClick={() => router.push('/MyAgenda')}
                                 />
                                 <GenosPrimaryButtonText
                                     title="Login"
-                                    onClick={() => router.push('/SignIn')}
                                     size="medium"
+                                    onClick={() => router.push('/SignIn')}
                                 />
                                 <GenosPrimaryButtonText
                                     title="Cadastro"
-                                    onClick={() => router.push('/SignUp')}
                                     size="medium"
+                                    onClick={() => router.push('/SignUp')}
                                 />
                             </>
                         )}
