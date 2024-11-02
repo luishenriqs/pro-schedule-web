@@ -80,3 +80,22 @@ export type FormValues = {
     city: string
     state: string
 }
+
+export type UserData = {
+    state?: string
+    phone?: string
+    cpf?: string
+    cep?: string
+    fullName?: string
+    isAdmin?: boolean
+    password?: string
+    neighborhood?: string
+    id?: string
+    isManager?: boolean
+    isOwner?: boolean
+    city?: string
+    complement?: string
+    address?: string
+    email?: string
+    birthday?: string
+}

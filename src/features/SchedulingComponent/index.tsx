@@ -1,39 +1,84 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { initializeApp } from 'firebase/app'
+import { doc, getDoc, getFirestore } from 'firebase/firestore'
+import { UseUser } from '@common/api'
+import { firebaseConfig } from '../../../firebaseConfig'
 import Header from '@common/components/Header'
-import { useNotification } from '@common/hooks/useNotification'
 import { Calendar } from '@common/components/Calendar'
 import { LoadingComponent } from '@common/components/Loading'
 import { Appointments } from '@common/components/Appointments'
 import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
-import { DateProps, dataSelectedProps } from '@common/models'
+import { DateProps, UserData, dataSelectedProps } from '@common/models'
 import { initialScript } from '@common/utils/helpers'
 import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
 
 export const SchedulingComponent = () => {
-    const { emmitSuccess, emmitError } = useNotification()
+    const app = initializeApp(firebaseConfig)
+    const db = getFirestore(app)
 
+    const [user, setUser] = useState<UserData>({} as UserData)
     const [data, setData] = useState<DateProps[]>([] as DateProps[])
     const [isLoading, setIsLoading] = useState(true)
     const [selectedData, setSelectedData] = useState<dataSelectedProps>({} as dataSelectedProps)
 
-    const setOwner = useCallback(async () => {
+    // INICIAL SCRIPT
+    const createOwner = useCallback(async () => {
         const resp = await initialScript()
         if (resp?.success) {
-            emmitSuccess(resp?.message)
+            console.log('Owner user created successfully!')
         } else {
-            emmitError(resp?.message)
+            console.log('Error creating owner user')
         }
-    }, [emmitError, emmitSuccess])
+    }, [])
 
-    const user = false
+    const firstScript = useCallback(async () => {
+        const docRef = doc(db, 'users', 'lh.p@hotmail.com')
+        const docSnap = await getDoc(docRef)
+
+        if (!docSnap.exists()) {
+            createOwner()
+        }
+    }, [db, createOwner])
 
     useEffect(() => {
-        if (user) setOwner()
-    }, [setOwner, user])
+        firstScript()
+    }, [firstScript])
+
+    // LOGGED IN USER
+    const getData = useCallback(
+        async (email: string | null | undefined) => {
+            const docRef = email && doc(db, 'users', email)
+            const docSnap = docRef && (await getDoc(docRef))
+
+            if (docSnap && docSnap.exists()) {
+                const user = docSnap.data()
+                setUser(user)
+                console.log('Logged in user! ', JSON.stringify(user))
+            } else {
+                console.log('No logged in user!')
+            }
+        },
+        [db]
+    )
+
+    useEffect(() => {
+        const userLogged = UseUser()
+        if (userLogged) getData(userLogged)
+    }, [getData])
+
+    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
+    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
+    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
+    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
+    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
+    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
+    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
+    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
+    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const dataMock = [
-        // SETEMBRO //==> 6, 7, 17, 26, 31
+        // OCTOBER
         {
             year: 2024,
             month: 9,
@@ -105,7 +150,7 @@ export const SchedulingComponent = () => {
             custumerId: '',
         },
 
-        // OUTUBRO //==> 5, 6, 12, 13, 14, 19, 22, 23, 28, 30
+        // NOVEMBER
         {
             year: 2024,
             month: 10,
@@ -177,7 +222,7 @@ export const SchedulingComponent = () => {
             custumerId: '',
         },
 
-        // SETEMBRO //==> 6, 7, 17, 26, 31
+        // DECEMBER
         {
             year: 2024,
             month: 11,
@@ -249,7 +294,7 @@ export const SchedulingComponent = () => {
             custumerId: '',
         },
 
-        // OUTUBRO //==> 5, 6, 12, 13, 14, 19, 22, 23, 28, 30
+        // JANUARY
         {
             year: 2025,
             month: 0,

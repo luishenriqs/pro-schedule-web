@@ -25,7 +25,10 @@ export const SignInComponent = () => {
     const handleSignIn: SubmitHandler<FormValues> = async (data) => {
         try {
             const resp = await UseSignIn(data) //==> Valida autenticação do usuário
-            if (resp?.status === 200) emmitSuccess(resp?.message)
+            if (resp?.status === 200) {
+                emmitSuccess(resp?.message)
+                router.push('/')
+            }
             if (resp?.status !== 200) emmitError(resp?.message)
         } catch (error) {
             emmitError(`${error}`)

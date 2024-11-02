@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react'
-import { collection, addDoc, getFirestore } from 'firebase/firestore'
+import { collection, getFirestore, setDoc, doc } from 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
 import {
     getAuth,
@@ -91,19 +90,10 @@ export const RecoverPassword = async (email: string) => {
         })
 }
 
+//==> Recupera email usuário logado
 export const UseUser = () => {
-    const [user, setUser] = useState<any | null>(null)
-
-    useEffect(() => {
-        const auth = getAuth()
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setUser(user)
-        })
-
-        return () => unsubscribe()
-    }, [])
-
-    return user
+    const auth = getAuth()
+    return auth.currentUser?.email
 }
 
 //==> Verifica se ocorre alteração no status do usuário
@@ -121,10 +111,16 @@ export const UseUserStateChanged = async () => {
 //==> Escreve dados nas coleções do firestore
 export const UseWriteData = async (newData: any, entity: string) => {
     try {
+        if (!newData.email) {
+            return { success: false, status: 400, message: 'O campo email é obrigatório!' }
+        }
+
         const dataCollection = collection(firestore, entity)
-        const newDocRef = await addDoc(dataCollection, newData)
-        if (newDocRef) return { success: true, status: 201, message: 'Dados adicionados com sucesso!' }
-        return { success: false, status: 400, message: 'Falha ao adicionar o documento!' }
+        const newDocRef = doc(dataCollection, newData.email)
+
+        await setDoc(newDocRef, newData)
+
+        return { success: true, status: 201, message: 'Dados adicionados com sucesso!' }
     } catch (error) {
         return { success: false, status: 500, message: 'Erro ao adicionar documento: ' + `${error}` }
     }

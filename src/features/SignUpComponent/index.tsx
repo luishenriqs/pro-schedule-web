@@ -33,6 +33,7 @@ export const SignUpComponent = () => {
                 const respData = await UseWriteData(payload, 'users') //==> Cria novo usuário no firestore
                 if (respData?.status === 201) emmitSuccess(resp?.message)
                 if (respData?.status !== 201) emmitError(resp?.message)
+                router.push('/SignIn')
             } else {
                 emmitError('message: ' + `${resp.message}`)
             }
