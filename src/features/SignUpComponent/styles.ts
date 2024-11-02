@@ -10,6 +10,7 @@ export const Container = styled(Box)({
     alignItems: 'center',
     justifyContent: 'center',
     margin: '0 auto',
+    paddingBottom: '50px',
     background: COLORS.white,
 })
 

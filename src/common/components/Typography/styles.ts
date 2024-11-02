@@ -59,21 +59,6 @@ export const GenosPrimary16_500 = styled(Typography)({
     fontWeight: FONT_WEIGHT[500],
 })
 
-// QUESTRIAL PRIMARY
-export const QuestrialPrimary20_500 = styled(Typography)({
-    fontFamily: FONT_FAMILY.questrial,
-    color: COLORS.primary,
-    fontSize: FONT_SIZE[20],
-    fontWeight: FONT_WEIGHT[500],
-})
-
-export const QuestrialPrimary16_500 = styled(Typography)({
-    fontFamily: FONT_FAMILY.questrial,
-    color: COLORS.primary,
-    fontSize: FONT_SIZE[16],
-    fontWeight: FONT_WEIGHT[500],
-})
-
 // GENOS SECONDARY
 export const GenosSecondary24_500 = styled(Typography)({
     fontFamily: FONT_FAMILY.genos,
@@ -91,21 +76,6 @@ export const GenosSecondary20_500 = styled(Typography)({
 
 export const GenosSecondary16_500 = styled(Typography)({
     fontFamily: FONT_FAMILY.genos,
-    color: COLORS.secondary,
-    fontSize: FONT_SIZE[16],
-    fontWeight: FONT_WEIGHT[500],
-})
-
-// QUESTRIAL SECONDARY
-export const QuestrialSecondary20_500 = styled(Typography)({
-    fontFamily: FONT_FAMILY.questrial,
-    color: COLORS.secondary,
-    fontSize: FONT_SIZE[20],
-    fontWeight: FONT_WEIGHT[500],
-})
-
-export const QuestrialSecondary16_500 = styled(Typography)({
-    fontFamily: FONT_FAMILY.questrial,
     color: COLORS.secondary,
     fontSize: FONT_SIZE[16],
     fontWeight: FONT_WEIGHT[500],
@@ -137,5 +107,35 @@ export const GenosWhite14_500 = styled(Typography)({
     fontFamily: FONT_FAMILY.genos,
     color: COLORS.white,
     fontSize: FONT_SIZE[14],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+// QUESTRIAL PRIMARY
+export const QuestrialPrimary20_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.questrial,
+    color: COLORS.primary,
+    fontSize: FONT_SIZE[20],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const QuestrialPrimary16_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.questrial,
+    color: COLORS.primary,
+    fontSize: FONT_SIZE[16],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+// QUESTRIAL SECONDARY
+export const QuestrialSecondary20_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.questrial,
+    color: COLORS.secondary,
+    fontSize: FONT_SIZE[20],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const QuestrialSecondary16_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.questrial,
+    color: COLORS.secondary,
+    fontSize: FONT_SIZE[16],
     fontWeight: FONT_WEIGHT[500],
 })

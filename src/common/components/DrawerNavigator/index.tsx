@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
 import { useRouter } from 'next/navigation'
 import { Drawer } from '@mui/material'
-import { Genos_Primary_20_500 } from '../Typography'
+import { Genos_Primary_20_500, Genos_Secondary_20_500 } from '../Typography'
 import { Icon } from '../Icons'
 import { DrawerProps, MenuItem } from '@common/models'
 import { COLORS } from '@common/styles/theme'
@@ -70,6 +70,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             title: 'Novo Agendamento',
             route: '/',
             icon: '',
+            selected: location.pathname === '/',
             onClickHandler: () => {
                 onClickSchedluling()
             },
@@ -79,6 +80,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             title: 'Agendados',
             route: '/Scheduled',
             icon: '',
+            selected: location.pathname === '/Scheduled',
             onClickHandler: () => {
                 onClickScheduled()
             },
@@ -88,6 +90,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             title: 'Histórico',
             route: '/Previous',
             icon: '',
+            selected: location.pathname === '/Previous',
             onClickHandler: () => {
                 onClickPrevious()
             },
@@ -97,6 +100,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             title: 'Login',
             route: '/SignIn',
             icon: '',
+            selected: location.pathname === '/SignIn',
             onClickHandler: () => {
                 onClickSignIn()
             },
@@ -106,6 +110,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             title: 'Cadastro',
             route: '/SignUp',
             icon: '',
+            selected: location.pathname === '/SignUp',
             onClickHandler: () => {
                 onClickSignUp()
             },
@@ -118,6 +123,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             title: 'Novo Agendamento',
             route: '/',
             icon: '',
+            selected: location.pathname === '/',
             onClickHandler: () => {
                 onClickSchedluling()
             },
@@ -127,6 +133,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             title: 'Minha Agenda',
             route: '/MyAgenda',
             icon: '',
+            selected: location.pathname === '/MyAgenda',
             onClickHandler: () => {
                 onClickMyAgenda()
             },
@@ -136,6 +143,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             title: 'Login',
             route: '/SignIn',
             icon: '',
+            selected: location.pathname === '/SignIn',
             onClickHandler: () => {
                 onClickSignIn()
             },
@@ -145,6 +153,7 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
             title: 'Cadastro',
             route: '/SignUp',
             icon: '',
+            selected: location.pathname === '/SignUp',
             onClickHandler: () => {
                 onClickSignUp()
             },
@@ -160,7 +169,11 @@ export const DrawerNavigator = ({ isOpen, isAdmin }: DrawerProps) => {
                         onClick={() => (location.pathname === item.route ? router.refresh() : router.push(item.route))}
                     >
                         <Icon iconName={item.icon} color={COLORS.black} margin="0 8px 0 0" />
-                        <Genos_Primary_20_500 text={item.title} />
+                        {item.selected ? (
+                            <Genos_Primary_20_500 text={item.title} />
+                        ) : (
+                            <Genos_Secondary_20_500 text={item.title} />
+                        )}
                     </ButtonIcon>
                 )
             })

@@ -15,33 +15,46 @@ type Props = ButtonProps & {
     onClick?: () => void
 }
 
-const typographStyle = (size: string, selected: boolean, title: string) => {
+const primaryButtonStyle = (size: string, selected: boolean, title: string) => {
     switch (selected) {
         case true:
             return size === 'medium' ? <Genos_Primary_24_500 text={title} /> : <Genos_Primary_16_500 text={title} />
 
         case false:
-            return size === 'medium' ? <Genos_Secondary_24_500 text={title} /> : <Genos_Secondary_24_500 text={title} />
+            return size === 'medium' ? <Genos_Secondary_24_500 text={title} /> : <Genos_Secondary_16_500 text={title} />
 
         default:
             return size === 'medium' ? <Genos_Primary_24_500 text={title} /> : <Genos_Primary_16_500 text={title} />
     }
 }
 
+// STYLE PRIMARY IF SELECTED
 export function GenosPrimaryButtonText({ title, size = 'medium', selected = false, onClick, ...rest }: Props) {
     return (
         <Container onClick={onClick} {...rest}>
-            <TitleContainer>{typographStyle(size, selected, title)}</TitleContainer>
+            <TitleContainer>{primaryButtonStyle(size, selected, title)}</TitleContainer>
         </Container>
     )
 }
 
-export function GenosSecondaryButtonText({ title, size = 'medium', onClick, ...rest }: Props) {
+const secondaryButtonStyle = (size: string, selected: boolean, title: string) => {
+    switch (selected) {
+        case true:
+            return size === 'medium' ? <Genos_Secondary_24_500 text={title} /> : <Genos_Secondary_16_500 text={title} />
+
+        case false:
+            return size === 'medium' ? <Genos_Primary_24_500 text={title} /> : <Genos_Primary_16_500 text={title} />
+
+        default:
+            return size === 'medium' ? <Genos_Secondary_24_500 text={title} /> : <Genos_Secondary_16_500 text={title} />
+    }
+}
+
+// STYLE SECONDARY IF SELECTED
+export function GenosSecondaryButtonText({ title, size = 'medium', selected = false, onClick, ...rest }: Props) {
     return (
         <Container onClick={onClick} {...rest}>
-            <TitleContainer>
-                {size === 'medium' ? <Genos_Secondary_24_500 text={title} /> : <Genos_Secondary_16_500 text={title} />}
-            </TitleContainer>
+            <TitleContainer>{secondaryButtonStyle(size, selected, title)}</TitleContainer>
         </Container>
     )
 }

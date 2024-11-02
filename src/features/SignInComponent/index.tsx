@@ -7,7 +7,7 @@ import { RecoverPassword, UseSignIn } from '@common/api'
 import { FilledPrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
 import { GenosPrimaryButtonText, GenosSecondaryButtonText } from '@common/components/ButtonText'
-import { Questrial_Primary_16_500 } from '@common/components/Typography'
+import { Questrial_Secondary_16_500 } from '@common/components/Typography'
 import { FormValues } from '@common/models'
 import { Container, Imagem, SignUpContainer } from './styles'
 
@@ -79,10 +79,11 @@ export const SignInComponent = () => {
                 <FilledPrimaryButton title="Login" type="submit" />
             </form>
             <SignUpContainer>
-                <Questrial_Primary_16_500 text="Ainda não possui uma conta?" />
+                <Questrial_Secondary_16_500 text="Ainda não possui uma conta?" />
                 <GenosSecondaryButtonText title="Cadastre-se" size="medium" onClick={() => router.push('/SignUp')} />
             </SignUpContainer>
             <GenosPrimaryButtonText title="Recuperar senha" size="small" onClick={() => handleRecoverPassword()} />
+            <GenosPrimaryButtonText title="Voltar para agenda" size="small" onClick={() => router.push('/')} />
         </Container>
     )
 }

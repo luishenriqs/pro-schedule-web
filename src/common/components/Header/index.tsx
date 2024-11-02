@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
 import { useRouter } from 'next/router'
 import { DrawerNavigator } from '../DrawerNavigator'
@@ -22,10 +22,6 @@ function Header() {
     const isUser = true
     const isAdmin = true
     const showMenu = !!isUser || !!isAdmin
-
-    useEffect(() => {
-        console.log('location.pathname ', location.pathname)
-    }, [])
 
     return (
         <Container>

@@ -58,6 +58,7 @@ export type MenuItem = {
     route: string
     title: string
     icon: string
+    selected: boolean
     onClickHandler: () => void
 }
 

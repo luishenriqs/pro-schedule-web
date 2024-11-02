@@ -77,23 +77,6 @@ export const Genos_Primary_16_500 = ({ text }: any) => {
     )
 }
 
-// QUESTRIAL PRIMARY
-export const Questrial_Primary_20_500 = ({ text }: any) => {
-    return (
-        <TitleContainer>
-            <QuestrialPrimary20_500>{text}</QuestrialPrimary20_500>
-        </TitleContainer>
-    )
-}
-
-export const Questrial_Primary_16_500 = ({ text }: any) => {
-    return (
-        <TitleContainer>
-            <QuestrialPrimary16_500>{text}</QuestrialPrimary16_500>
-        </TitleContainer>
-    )
-}
-
 // GENOS SECONDARY
 export const Genos_Secondary_24_500 = ({ text }: any) => {
     return (
@@ -115,23 +98,6 @@ export const Genos_Secondary_16_500 = ({ text }: any) => {
     return (
         <TitleContainer>
             <GenosSecondary16_500>{text}</GenosSecondary16_500>
-        </TitleContainer>
-    )
-}
-
-// QUESTRIAL SECONDARY
-export const Questrial_Secondary_20_500 = ({ text }: any) => {
-    return (
-        <TitleContainer>
-            <QuestrialSecondary20_500>{text}</QuestrialSecondary20_500>
-        </TitleContainer>
-    )
-}
-
-export const Questrial_Secondary_16_500 = ({ text }: any) => {
-    return (
-        <TitleContainer>
-            <QuestrialSecondary16_500>{text}</QuestrialSecondary16_500>
         </TitleContainer>
     )
 }
@@ -165,6 +131,40 @@ export const Genos_White_14_500 = ({ text }: any) => {
     return (
         <TitleContainer>
             <GenosWhite14_500>{text}</GenosWhite14_500>
+        </TitleContainer>
+    )
+}
+
+// QUESTRIAL PRIMARY
+export const Questrial_Primary_20_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <QuestrialPrimary20_500>{text}</QuestrialPrimary20_500>
+        </TitleContainer>
+    )
+}
+
+export const Questrial_Primary_16_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <QuestrialPrimary16_500>{text}</QuestrialPrimary16_500>
+        </TitleContainer>
+    )
+}
+
+// QUESTRIAL SECONDARY
+export const Questrial_Secondary_20_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <QuestrialSecondary20_500>{text}</QuestrialSecondary20_500>
+        </TitleContainer>
+    )
+}
+
+export const Questrial_Secondary_16_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <QuestrialSecondary16_500>{text}</QuestrialSecondary16_500>
         </TitleContainer>
     )
 }
