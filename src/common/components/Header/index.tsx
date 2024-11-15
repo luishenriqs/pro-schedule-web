@@ -1,26 +1,14 @@
 import React, { useState } from 'react'
 import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
-import { useRouter } from 'next/router'
-import { DrawerNavigator } from '../DrawerNavigator'
-import { GenosPrimaryButtonText } from '../ButtonText'
-import {
-    Container,
-    DrawerHeaderContainer,
-    HeaderContent,
-    ButtonIcon,
-    Imagem,
-    IconMenu,
-    InlineHeaderContainer,
-    MenuOptionsContainer,
-    ImageContainer,
-} from './styles'
+import { NavigatorDrawer } from '../NavigatorDrawer'
+import { Container, DrawerHeaderContainer, HeaderContent, ButtonIcon, Imagem, IconMenu } from './styles'
+import { NavigatorInLine } from '../NavigatorInLine'
 
 function Header() {
-    const router = useRouter()
     const [open, setOpen] = useState(false)
 
     const isUser = true
-    const isAdmin = true
+    const isAdmin = false
     const showMenu = !!isUser || !!isAdmin
 
     return (
@@ -34,75 +22,9 @@ function Header() {
                         </ButtonIcon>
                     )}
                 </HeaderContent>
-                <DrawerNavigator isOpen={open} isAdmin={isAdmin} />
+                <NavigatorDrawer isOpen={open} isAdmin={isAdmin} />
             </DrawerHeaderContainer>
-            <InlineHeaderContainer>
-                <ImageContainer>
-                    <Imagem src={mainLogoRemovebg} alt="Main Logo" />
-                </ImageContainer>
-                {showMenu && (
-                    <MenuOptionsContainer>
-                        {!isAdmin && (
-                            <>
-                                <GenosPrimaryButtonText
-                                    title="Novo Agendamento"
-                                    size="medium"
-                                    selected={location.pathname === '/'}
-                                    onClick={() => router.push('/')}
-                                />
-                                <GenosPrimaryButtonText
-                                    title="Agendados"
-                                    size="medium"
-                                    selected={location.pathname === '/Scheduled'}
-                                    onClick={() => router.push('/Scheduled')}
-                                />
-                                <GenosPrimaryButtonText
-                                    title="Histórico"
-                                    size="medium"
-                                    selected={location.pathname === '/Previous'}
-                                    onClick={() => router.push('/Previous')}
-                                />
-                                <GenosPrimaryButtonText
-                                    title="Login"
-                                    size="medium"
-                                    onClick={() => router.push('/SignIn')}
-                                />
-                                <GenosPrimaryButtonText
-                                    title="Cadastro"
-                                    size="medium"
-                                    onClick={() => router.push('/SignUp')}
-                                />
-                            </>
-                        )}
-                        {isAdmin && (
-                            <>
-                                <GenosPrimaryButtonText
-                                    title="Novo Agendamento"
-                                    size="medium"
-                                    selected={location.pathname === '/'}
-                                    onClick={() => router.push('/')}
-                                />
-                                <GenosPrimaryButtonText
-                                    title="Minha Agenda"
-                                    size="medium"
-                                    selected={location.pathname === '/MyAgenda'}
-                                    onClick={() => router.push('/MyAgenda')}
-                                />
-                                <GenosPrimaryButtonText
-                                    title="Login"
-                                    size="medium"
-                                    onClick={() => router.push('/SignIn')}
-                                />
-                                <GenosPrimaryButtonText
-                                    title="Cadastro"
-                                    size="medium"
-                                    onClick={() => router.push('/SignUp')}
-                                />
-                            </>
-                        )}
-                    </MenuOptionsContainer>
-                )}
-            </InlineHeaderContainer>
+            <NavigatorInLine showMenu={showMenu} isAdmin={isAdmin} />
         </Container>
     )
 }

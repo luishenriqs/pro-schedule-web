@@ -48,9 +48,10 @@ export type SelectedDataProps = {
     handleSetAppointments: (value: DateProps) => void
 }
 
-export type DrawerProps = {
-    isOpen: boolean
+export type NavigatorsProps = {
+    isOpen?: boolean
     isAdmin: boolean
+    showMenu?: boolean
 }
 
 export type MenuItem = {
