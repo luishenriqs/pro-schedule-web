@@ -7,25 +7,32 @@ export type Hours = {
     custumerId: string
 }
 
-export type DateProps = {
+export type PayloadProps = {
     year: number
     month: number
     day: number
     hour: number
-    custumerId: string
+    custumerId?: string
+    userEmail?: string
+}
+
+export type PayloadContextType = {
+    payloads: PayloadProps[]
+    addPayload: (newPayload: PayloadProps) => void
+    clearPayloads: () => void
 }
 
 export type ScheduleProps = {
-    schedule: DateProps[]
+    schedule: PayloadProps[]
 }
 
 export type AvailableDaysProps = {
     allDays: number[]
-    allScheduleDays: DateProps
+    allScheduleDays: PayloadProps
 }
 
 export type CalendarProps = {
-    data: DateProps[]
+    data: PayloadProps[]
     handleDayClick: (day: number, month: number, year: number) => void
     handleChangeMonth: () => void
 }
@@ -37,7 +44,7 @@ export type GetDateProps = {
 }
 
 export type dataSelectedProps = {
-    data: DateProps[]
+    data: PayloadProps[]
     day: number
     month: number
     year: number
@@ -45,11 +52,11 @@ export type dataSelectedProps = {
 
 export type SelectedDataProps = {
     appontmentsData: dataSelectedProps
-    handleSetAppointments: (value: DateProps) => void
+    handleSetAppointments: (value: PayloadProps) => void
 }
 
 export type NavigatorsProps = {
-    isOpen?: boolean
+    isOpen: boolean
     isAdmin: boolean
     showMenu?: boolean
 }
@@ -68,7 +75,8 @@ export type FormValues = {
     isManager: boolean
     isAdmin: boolean
     id: string
-    fullName: string
+    firstName: string
+    lastName: string
     phone: string
     email: string
     password: string
@@ -87,7 +95,8 @@ export type UserData = {
     phone?: string
     cpf?: string
     cep?: string
-    fullName?: string
+    firstName?: string
+    lastName?: string
     isAdmin?: boolean
     password?: string
     neighborhood?: string

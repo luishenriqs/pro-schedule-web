@@ -100,7 +100,6 @@ export const UseUser = () => {
 export const UseUserStateChanged = async () => {
     return onAuthStateChanged(auth, (user) => {
         if (user) {
-            // console.log('na api ------> ', JSON.stringify(user))
             return user
         } else {
             return { message: 'Usuário desconectado!' }

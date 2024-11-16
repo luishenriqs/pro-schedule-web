@@ -12,6 +12,7 @@ import {
     GenosSecondary24_500,
     GenosSecondary20_500,
     GenosSecondary16_500,
+    QuestrialSecondary20_700,
     QuestrialSecondary20_500,
     QuestrialSecondary16_500,
     GenosWhite48_500,
@@ -153,6 +154,14 @@ export const Questrial_Primary_16_500 = ({ text }: any) => {
 }
 
 // QUESTRIAL SECONDARY
+export const Questrial_Secondary_20_700 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <QuestrialSecondary20_700>{text}</QuestrialSecondary20_700>
+        </TitleContainer>
+    )
+}
+
 export const Questrial_Secondary_20_500 = ({ text }: any) => {
     return (
         <TitleContainer>

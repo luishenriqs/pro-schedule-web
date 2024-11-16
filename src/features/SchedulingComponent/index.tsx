@@ -8,18 +8,26 @@ import { Calendar } from '@common/components/Calendar'
 import { LoadingComponent } from '@common/components/Loading'
 import { Appointments } from '@common/components/Appointments'
 import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
-import { DateProps, UserData, dataSelectedProps } from '@common/models'
-import { initialScript } from '@common/utils/helpers'
+import { PayloadProps, UserData, dataSelectedProps } from '@common/models'
+import { initialScript, isAppointmentValid } from '@common/utils/helpers'
 import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
+import { ModalSighUp } from '@common/components/ModalSighUp'
+import { ModalConfirmation } from '@common/components/ModalConfirmation'
+import { usePayload } from '@common/hooks/contexts/PayloadContext'
+import { useNotification } from '@common/hooks/useNotification'
 
 export const SchedulingComponent = () => {
     const app = initializeApp(firebaseConfig)
     const db = getFirestore(app)
+    const { payloads, addPayload } = usePayload()
+    const { emmitAlert } = useNotification()
 
     const [user, setUser] = useState<UserData>({} as UserData)
-    const [data, setData] = useState<DateProps[]>([] as DateProps[])
+    const [data, setData] = useState<PayloadProps[]>([] as PayloadProps[])
     const [isLoading, setIsLoading] = useState(true)
     const [selectedData, setSelectedData] = useState<dataSelectedProps>({} as dataSelectedProps)
+    const [openSighUpModal, setOpenSighUpModal] = useState(false)
+    const [openConfirmationModal, setOpenConfirmationModal] = useState(false)
 
     // INICIAL SCRIPT
     const createOwner = useCallback(async () => {
@@ -66,145 +74,56 @@ export const SchedulingComponent = () => {
         if (userLogged) getData(userLogged)
     }, [getData])
 
-    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
-    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
-    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
-    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
-    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
-    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
-    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
-    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
-    // TODO => SETAR TELA DE USUÁRIO LOGADO!!!
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const dataMock = [
-        // OCTOBER
+        // NOVEMBER
         {
             year: 2024,
-            month: 9,
+            month: 10,
             day: 2,
             hour: 480,
             custumerId: '',
         },
         {
             year: 2024,
-            month: 9,
+            month: 10,
             day: 3,
             hour: 705,
             custumerId: '',
         },
         {
             year: 2024,
-            month: 9,
+            month: 10,
             day: 4,
             hour: 480,
             custumerId: '',
         },
         {
             year: 2024,
-            month: 9,
+            month: 10,
             day: 8,
             hour: 555,
             custumerId: '',
         },
         {
             year: 2024,
-            month: 9,
+            month: 10,
             day: 10,
             hour: 630,
             custumerId: '',
         },
         {
             year: 2024,
-            month: 9,
+            month: 10,
             day: 12,
             hour: 705,
             custumerId: '',
         },
         {
             year: 2024,
-            month: 9,
+            month: 10,
             day: 15,
             hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 9,
-            day: 20,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 9,
-            day: 22,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 9,
-            day: 25,
-            hour: 555,
-            custumerId: '',
-        },
-
-        // NOVEMBER
-        {
-            year: 2024,
-            month: 10,
-            day: 5,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 6,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 12,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 13,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 14,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 19,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 22,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 23,
-            hour: 705,
             custumerId: '',
         },
         {
@@ -217,8 +136,15 @@ export const SchedulingComponent = () => {
         {
             year: 2024,
             month: 10,
-            day: 30,
+            day: 28,
             hour: 555,
+            custumerId: '',
+        },
+        {
+            year: 2024,
+            month: 10,
+            day: 28,
+            hour: 630,
             custumerId: '',
         },
 
@@ -226,56 +152,42 @@ export const SchedulingComponent = () => {
         {
             year: 2024,
             month: 11,
-            day: 2,
+            day: 5,
             hour: 480,
             custumerId: '',
         },
         {
             year: 2024,
             month: 11,
-            day: 3,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 11,
-            day: 4,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 11,
-            day: 8,
+            day: 6,
             hour: 555,
             custumerId: '',
         },
         {
             year: 2024,
             month: 11,
-            day: 10,
+            day: 12,
             hour: 630,
             custumerId: '',
         },
         {
             year: 2024,
             month: 11,
-            day: 12,
+            day: 13,
             hour: 705,
             custumerId: '',
         },
         {
             year: 2024,
             month: 11,
-            day: 15,
+            day: 14,
             hour: 480,
             custumerId: '',
         },
         {
             year: 2024,
             month: 11,
-            day: 20,
+            day: 19,
             hour: 555,
             custumerId: '',
         },
@@ -283,14 +195,35 @@ export const SchedulingComponent = () => {
             year: 2024,
             month: 11,
             day: 22,
+            hour: 630,
+            custumerId: '',
+        },
+        {
+            year: 2024,
+            month: 11,
+            day: 23,
+            hour: 705,
+            custumerId: '',
+        },
+        {
+            year: 2024,
+            month: 11,
+            day: 28,
             hour: 480,
             custumerId: '',
         },
         {
             year: 2024,
             month: 11,
-            day: 25,
+            day: 28,
             hour: 555,
+            custumerId: '',
+        },
+        {
+            year: 2024,
+            month: 11,
+            day: 28,
+            hour: 630,
             custumerId: '',
         },
 
@@ -298,42 +231,56 @@ export const SchedulingComponent = () => {
         {
             year: 2025,
             month: 0,
-            day: 5,
+            day: 2,
             hour: 480,
             custumerId: '',
         },
         {
             year: 2025,
             month: 0,
-            day: 6,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 0,
-            day: 12,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 0,
-            day: 13,
+            day: 3,
             hour: 705,
             custumerId: '',
         },
         {
             year: 2025,
             month: 0,
-            day: 14,
+            day: 4,
             hour: 480,
             custumerId: '',
         },
         {
             year: 2025,
             month: 0,
-            day: 19,
+            day: 8,
+            hour: 555,
+            custumerId: '',
+        },
+        {
+            year: 2025,
+            month: 0,
+            day: 10,
+            hour: 630,
+            custumerId: '',
+        },
+        {
+            year: 2025,
+            month: 0,
+            day: 12,
+            hour: 705,
+            custumerId: '',
+        },
+        {
+            year: 2025,
+            month: 0,
+            day: 15,
+            hour: 480,
+            custumerId: '',
+        },
+        {
+            year: 2025,
+            month: 0,
+            day: 20,
             hour: 555,
             custumerId: '',
         },
@@ -341,26 +288,84 @@ export const SchedulingComponent = () => {
             year: 2025,
             month: 0,
             day: 22,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 0,
-            day: 23,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 0,
-            day: 28,
             hour: 480,
             custumerId: '',
         },
         {
             year: 2025,
             month: 0,
+            day: 25,
+            hour: 555,
+            custumerId: '',
+        },
+
+        // FEBRUARY
+        {
+            year: 2025,
+            month: 1,
+            day: 5,
+            hour: 480,
+            custumerId: '',
+        },
+        {
+            year: 2025,
+            month: 1,
+            day: 6,
+            hour: 555,
+            custumerId: '',
+        },
+        {
+            year: 2025,
+            month: 1,
+            day: 12,
+            hour: 630,
+            custumerId: '',
+        },
+        {
+            year: 2025,
+            month: 1,
+            day: 13,
+            hour: 705,
+            custumerId: '',
+        },
+        {
+            year: 2025,
+            month: 1,
+            day: 14,
+            hour: 480,
+            custumerId: '',
+        },
+        {
+            year: 2025,
+            month: 1,
+            day: 19,
+            hour: 555,
+            custumerId: '',
+        },
+        {
+            year: 2025,
+            month: 1,
+            day: 22,
+            hour: 630,
+            custumerId: '',
+        },
+        {
+            year: 2025,
+            month: 1,
+            day: 23,
+            hour: 705,
+            custumerId: '',
+        },
+        {
+            year: 2025,
+            month: 1,
+            day: 28,
+            hour: 480,
+            custumerId: '',
+        },
+        {
+            year: 2025,
+            month: 1,
             day: 30,
             hour: 555,
             custumerId: '',
@@ -390,25 +395,42 @@ export const SchedulingComponent = () => {
         setSelectedData({} as dataSelectedProps)
     }, [])
 
-    const handleSetAppointments = useCallback((value: DateProps) => {
-        console.log('appointment ---->  ', value)
-    }, [])
+    const handleSetAppointments = useCallback(
+        (newPayload: PayloadProps) => {
+            if (user.id) {
+                newPayload.custumerId = user.id
+                newPayload.userEmail = user.email
 
-    /*
+                console.log('payloads ----> ', JSON.stringify(payloads))
 
-            1 - CRIAR MODAL DE CONFIRMAÇÃO DE RESERVA
+                // ESSA VALIDAÇÃO NÃO FUNCIONA
+                // ESSA VALIDAÇÃO NÃO FUNCIONA
+                // ESSA VALIDAÇÃO NÃO FUNCIONA
+                // ESSA VALIDAÇÃO NÃO FUNCIONA
+                // PRECISO ATUALIZAR O 'payloads' ANTES DE ADICIONAR NOVO HORÁRIO
+                // PRECISO ATUALIZAR O 'payloads' ANTES DE ADICIONAR NOVO HORÁRIO
+                // PRECISO ATUALIZAR O 'payloads' ANTES DE ADICIONAR NOVO HORÁRIO
+                // PRECISO ATUALIZAR O 'payloads' ANTES DE ADICIONAR NOVO HORÁRIO
+                // PRECISO ATUALIZAR O 'payloads' ANTES DE ADICIONAR NOVO HORÁRIO
 
-                PREENCHER PROP CUSTUMER ID COM ID DO USUÁRIO
+                const isValid = isAppointmentValid(payloads, newPayload)
 
-                const appointment = {
-                    year: 2024,
-                    month: 6,
-                    day: 22,
-                    hour: 705,
-                    custumerId: '' <== id do usuário
+                if (isValid) {
+                    addPayload(newPayload)
+                    setOpenConfirmationModal(true)
+                } else {
+                    emmitAlert('Esse horário já foi adicionado!')
                 }
+            } else {
+                setOpenSighUpModal(true)
+            }
+        },
+        [addPayload, emmitAlert, payloads, user.email, user.id]
+    )
 
-        */
+    useEffect(() => {
+        // console.log('payloads ----> ', JSON.stringify(payloads.length))
+    }, [payloads])
 
     return (
         <Container>
@@ -418,6 +440,7 @@ export const SchedulingComponent = () => {
                 <>
                     <Header />
                     <TitleContainer>
+                        {!!user.firstName && <Genos_Secondary_24_500 text={`Olá ${user.firstName}`} />}
                         <Genos_Secondary_24_500 text="Faça o seu agendamento" />
                     </TitleContainer>
                     <Content>
@@ -448,6 +471,18 @@ export const SchedulingComponent = () => {
                     </Content>
                 </>
             )}
+            <ModalSighUp
+                open={openSighUpModal}
+                handleClose={() => {
+                    setOpenSighUpModal(false)
+                }}
+            />
+            <ModalConfirmation
+                open={openConfirmationModal}
+                handleClose={() => {
+                    setOpenConfirmationModal(false)
+                }}
+            />
         </Container>
     )
 }

@@ -26,7 +26,6 @@ export const SignUpComponent = () => {
             payload.isManager = false
             payload.isAdmin = false
             payload.id = uuidv4()
-            console.log('payload ', JSON.stringify(payload))
             const resp = await CreateAuth(payload) //==> Cria novo usuário no firebase/auth
 
             if (resp.status === 201) {
@@ -48,18 +47,40 @@ export const SignUpComponent = () => {
             {/* <FormContainer> */}
             <form onSubmit={handleSubmit(handleSignUp)}>
                 <TextField
-                    label="Nome Completo"
+                    label="Primeiro Nome"
                     InputLabelProps={{ shrink: true }}
                     size="small"
                     variant="outlined"
                     style={{ width: '260px' }}
-                    {...register('fullName', { required: true })}
-                    error={!!errors.fullName}
-                    helperText={errors.fullName && 'Nome é obrigatório'}
+                    {...register('firstName', { required: true })}
+                    error={!!errors.firstName}
+                    helperText={errors.firstName && 'O primeiro nome é obrigatório'}
+                    margin="normal"
+                />
+                <TextField
+                    label="Último Nome"
+                    InputLabelProps={{ shrink: true }}
+                    size="small"
+                    variant="outlined"
+                    style={{ width: '260px' }}
+                    {...register('lastName', { required: true })}
+                    error={!!errors.lastName}
+                    helperText={errors.lastName && 'O último nome é obrigatório'}
+                    margin="normal"
+                />
+                <TextField
+                    label="CPF"
+                    placeholder="12345678910"
+                    InputLabelProps={{ shrink: true }}
+                    size="small"
+                    variant="outlined"
+                    style={{ width: '260px' }}
+                    {...register('cpf', { required: false })}
                     margin="normal"
                 />
                 <TextField
                     label="Telefone"
+                    placeholder="16999998888"
                     InputLabelProps={{ shrink: true }}
                     size="small"
                     variant="outlined"
@@ -71,6 +92,7 @@ export const SignUpComponent = () => {
                 />
                 <TextField
                     label="Email"
+                    placeholder="exemplo@email.com"
                     InputLabelProps={{ shrink: true }}
                     size="small"
                     variant="outlined"
@@ -82,6 +104,7 @@ export const SignUpComponent = () => {
                 />
                 <TextField
                     label="Senha"
+                    placeholder="******"
                     InputLabelProps={{ shrink: true }}
                     type="password"
                     size="small"
@@ -102,15 +125,6 @@ export const SignUpComponent = () => {
                         variant="outlined"
                         style={{ width: '260px' }}
                         {...register('birthday', { required: false })}
-                        margin="normal"
-                    />
-                    <TextField
-                        label="CPF"
-                        InputLabelProps={{ shrink: true }}
-                        size="small"
-                        variant="outlined"
-                        style={{ width: '260px' }}
-                        {...register('cpf', { required: false })}
                         margin="normal"
                     />
                     <TextField

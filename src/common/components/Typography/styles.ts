@@ -126,6 +126,13 @@ export const QuestrialPrimary16_500 = styled(Typography)({
 })
 
 // QUESTRIAL SECONDARY
+export const QuestrialSecondary20_700 = styled(Typography)({
+    fontFamily: FONT_FAMILY.questrial,
+    color: COLORS.secondary,
+    fontSize: FONT_SIZE[20],
+    fontWeight: FONT_WEIGHT[700],
+})
+
 export const QuestrialSecondary20_500 = styled(Typography)({
     fontFamily: FONT_FAMILY.questrial,
     color: COLORS.secondary,

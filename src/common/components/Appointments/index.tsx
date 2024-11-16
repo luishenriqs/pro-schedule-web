@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Genos_Primary_24_500, Genos_Secondary_24_500 } from '../Typography'
-import { DateProps, SelectedDataProps } from '@common/models'
+import { PayloadProps, SelectedDataProps } from '@common/models'
 import { formatDate, integerToTime } from '@common/utils/helpers'
 import { Container, HoursContainer, TitleContainer } from './styles'
 
 export const Appointments = ({ appontmentsData, handleSetAppointments }: SelectedDataProps) => {
-    const [selectedData, setSelectedData] = useState<DateProps[]>([] as DateProps[])
+    const [selectedData, setSelectedData] = useState<PayloadProps[]>([] as PayloadProps[])
     const [date, setDate] = useState<string>('')
 
     useEffect(() => {

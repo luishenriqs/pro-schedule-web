@@ -1,10 +1,11 @@
 import { v4 as uuidv4 } from 'uuid'
 import { CreateAuth, UseWriteData } from '@common/api'
-import { DateProps, GetDateProps, GetWeekDaysParams } from '@common/models'
+import { PayloadProps, GetDateProps, GetWeekDaysParams } from '@common/models'
 
 export const initialScript = async () => {
     const payload = {
-        fullName: 'Luís Henrique Pereira',
+        firstName: 'Luís Henrique',
+        lastName: 'Pereira',
         phone: '16981011280',
         email: 'lh.p@hotmail.com',
         password: '123456',
@@ -150,7 +151,11 @@ export const formatDate = (day: number, month: number, year: number): string => 
     return `${day} de ${months[month]} de ${year}`
 }
 
-export const filterDaysByDateAndMonth = (data: DateProps[], selectedYear: number, selectedMonth: number): number[] => {
+export const filterDaysByDateAndMonth = (
+    data: PayloadProps[],
+    selectedYear: number,
+    selectedMonth: number
+): number[] => {
     const currentDate = new Date()
 
     data.map((obj) => {
@@ -169,4 +174,31 @@ export const filterDaysByDateAndMonth = (data: DateProps[], selectedYear: number
     const days = filteredByMonth.map((item) => item.day)
 
     return days
+}
+
+// Verifica se novo agendamento já foi adicionado no carrinho
+export const isAppointmentValid = (
+    appointments: PayloadProps[],
+    newAppointment: PayloadProps
+): { isValid: boolean } => {
+    const isDuplicate = appointments.some(
+        (appointment) =>
+            appointment.year === newAppointment.year &&
+            appointment.month === newAppointment.month &&
+            appointment.day === newAppointment.day &&
+            appointment.hour === newAppointment.hour &&
+            appointment.custumerId === newAppointment.custumerId &&
+            appointment.userEmail === newAppointment.userEmail
+    )
+
+    return { isValid: !isDuplicate }
+}
+
+export const sortPayloadsByDate = (payloads: PayloadProps[]): PayloadProps[] => {
+    return payloads.sort((a, b) => {
+        const dateA = new Date(a.year, a.month, a.day, Math.floor(a.hour / 60), a.hour % 60)
+        const dateB = new Date(b.year, b.month, b.day, Math.floor(b.hour / 60), b.hour % 60)
+
+        return dateA.getTime() - dateB.getTime()
+    })
 }

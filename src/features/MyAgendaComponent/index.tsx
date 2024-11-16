@@ -4,11 +4,11 @@ import { Calendar } from '@common/components/Calendar'
 import { LoadingComponent } from '@common/components/Loading'
 import { Appointments } from '@common/components/Appointments'
 import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
-import { DateProps, dataSelectedProps } from '@common/models'
+import { PayloadProps, dataSelectedProps } from '@common/models'
 import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
 
 export const MyAgendaComponent = () => {
-    const [data, setData] = useState<DateProps[]>([] as DateProps[])
+    const [data, setData] = useState<PayloadProps[]>([] as PayloadProps[])
     const [isLoading, setIsLoading] = useState(true)
     const [selectedData, setSelectedData] = useState<dataSelectedProps>({} as dataSelectedProps)
 
@@ -184,7 +184,7 @@ export const MyAgendaComponent = () => {
         setSelectedData({} as dataSelectedProps)
     }, [])
 
-    const handleSetAppointments = useCallback((value: DateProps) => {
+    const handleSetAppointments = useCallback((value: PayloadProps) => {
         console.log('appointment ---->  ', value)
     }, [])
 
