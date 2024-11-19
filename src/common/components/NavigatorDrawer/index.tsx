@@ -4,11 +4,11 @@ import { useRouter } from 'next/navigation'
 import { Drawer } from '@mui/material'
 import { Genos_Primary_20_500, Genos_Secondary_20_500 } from '../Typography'
 import { Icon } from '../Icons'
-import { NavigatorsProps, MenuItem } from '@common/models'
+import { NavigatorDrawerProps, MenuItem } from '@common/models'
 import { COLORS } from '@common/styles/theme'
 import { ButtonIcon, Container, Imagem, MenuContainer } from './styles'
 
-export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorsProps) => {
+export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
     const router = useRouter()
     const [open, setOpen] = useState(false)
 

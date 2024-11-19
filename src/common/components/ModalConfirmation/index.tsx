@@ -8,8 +8,9 @@ import { Questrial_Secondary_16_500, Questrial_Secondary_20_700 } from '../Typog
 import { formatDate, integerToTime, sortPayloadsByDate } from '@common/utils/helpers'
 import { Container, AppointmentsContainer, ContentContainer } from './styles'
 
-export const ModalConfirmation = ({ open, handleClose, ...props }: ModalProps) => {
-    const { payloads, clearPayloads } = usePayload()
+export const ModalConfirmation = ({ open, handleCancelAppoitments, handleClose, ...props }: ModalProps) => {
+    const { payloads } = usePayload()
+
     return (
         <Modal
             open={open}
@@ -34,20 +35,19 @@ export const ModalConfirmation = ({ open, handleClose, ...props }: ModalProps) =
                             />
                         ))}
                 </AppointmentsContainer>
-                <Questrial_Secondary_16_500 text="Ir para pagamento?" />
-                <FilledPrimaryButton title="Pagamento" onClick={() => {}} />
                 <ContentContainer>
                     <Questrial_Secondary_16_500 text="Reservar mais horários?" />
                     <GenosSecondaryButtonText title="Novo Agendamento" size="medium" onClick={() => handleClose()} />
                 </ContentContainer>
+                <Questrial_Secondary_16_500 text="Para confirmar sua reserva efetue o pagamento:" />
+                <FilledPrimaryButton title="Pagamento" onClick={() => {}} />
                 <ContentContainer>
                     <Questrial_Secondary_16_500 text="Cancelar reservas?" />
                     <GenosSecondaryButtonText
                         title="Cancelar"
                         size="medium"
                         onClick={() => {
-                            handleClose()
-                            clearPayloads()
+                            handleCancelAppoitments()
                         }}
                     />
                 </ContentContainer>

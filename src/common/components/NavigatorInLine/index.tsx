@@ -1,12 +1,13 @@
 import React from 'react'
 import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
 import { useRouter } from 'next/navigation'
-import { NavigatorsProps } from '@common/models'
+import { NavigatorInLineProps } from '@common/models'
 import { GenosPrimaryButtonText } from '../ButtonText'
+import { Genos_White_14_500 } from '../Typography'
 import { Imagem } from '../Header/styles'
-import { Container, ImageContainer, MenuOptionsContainer } from './styles'
+import { ButtonIcon, CalendarMenu, Container, Empty, ImageContainer, MenuOptionsContainer, RedCircle } from './styles'
 
-export const NavigatorInLine = ({ showMenu, isAdmin }: NavigatorsProps) => {
+export const NavigatorInLine = ({ showMenu, isAdmin, payloads, handleOpenConfirmModal }: NavigatorInLineProps) => {
     const router = useRouter()
 
     return (
@@ -75,6 +76,16 @@ export const NavigatorInLine = ({ showMenu, isAdmin }: NavigatorsProps) => {
                         </>
                     )}
                 </MenuOptionsContainer>
+            )}
+            {payloads.length > 0 ? (
+                <ButtonIcon onClick={() => handleOpenConfirmModal()}>
+                    <CalendarMenu />
+                    <RedCircle>
+                        <Genos_White_14_500 text={payloads.length} />
+                    </RedCircle>
+                </ButtonIcon>
+            ) : (
+                <Empty />
             )}
         </Container>
     )

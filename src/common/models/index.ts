@@ -55,10 +55,16 @@ export type SelectedDataProps = {
     handleSetAppointments: (value: PayloadProps) => void
 }
 
-export type NavigatorsProps = {
+export type NavigatorDrawerProps = {
     isOpen: boolean
     isAdmin: boolean
+}
+
+export type NavigatorInLineProps = {
     showMenu?: boolean
+    isAdmin: boolean
+    payloads: PayloadProps[]
+    handleOpenConfirmModal: () => void
 }
 
 export type MenuItem = {

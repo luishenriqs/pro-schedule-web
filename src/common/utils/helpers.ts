@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { CreateAuth, UseWriteData } from '@common/api'
-import { PayloadProps, GetDateProps, GetWeekDaysParams } from '@common/models'
+import { PayloadProps, GetDateProps, GetWeekDaysParams, dataSelectedProps } from '@common/models'
 
 export const initialScript = async () => {
     const payload = {
@@ -176,24 +176,6 @@ export const filterDaysByDateAndMonth = (
     return days
 }
 
-// Verifica se novo agendamento já foi adicionado no carrinho
-export const isAppointmentValid = (
-    appointments: PayloadProps[],
-    newAppointment: PayloadProps
-): { isValid: boolean } => {
-    const isDuplicate = appointments.some(
-        (appointment) =>
-            appointment.year === newAppointment.year &&
-            appointment.month === newAppointment.month &&
-            appointment.day === newAppointment.day &&
-            appointment.hour === newAppointment.hour &&
-            appointment.custumerId === newAppointment.custumerId &&
-            appointment.userEmail === newAppointment.userEmail
-    )
-
-    return { isValid: !isDuplicate }
-}
-
 export const sortPayloadsByDate = (payloads: PayloadProps[]): PayloadProps[] => {
     return payloads.sort((a, b) => {
         const dateA = new Date(a.year, a.month, a.day, Math.floor(a.hour / 60), a.hour % 60)
@@ -201,4 +183,33 @@ export const sortPayloadsByDate = (payloads: PayloadProps[]): PayloadProps[] => 
 
         return dateA.getTime() - dateB.getTime()
     })
+}
+
+export const filterAppointmentsByDay = (selectedDay: dataSelectedProps): dataSelectedProps => {
+    const { data, day, month, year } = selectedDay
+
+    return {
+        data: data.filter(
+            (appointment) => appointment.day === day && appointment.month === month && appointment.year === year
+        ),
+        day,
+        month,
+        year,
+    }
+}
+
+export const removeAppointment = (selectedDay: dataSelectedProps, newPayload: PayloadProps): dataSelectedProps => {
+    return {
+        ...selectedDay,
+        data: selectedDay.data.filter(
+            (appointment) =>
+                !(
+                    appointment.year === newPayload.year &&
+                    appointment.month === newPayload.month &&
+                    appointment.day === newPayload.day &&
+                    appointment.hour === newPayload.hour &&
+                    appointment.custumerId === newPayload.custumerId
+                )
+        ),
+    }
 }

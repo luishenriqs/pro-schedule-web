@@ -29,7 +29,6 @@ export const AppointmentsContainer = styled(Box)({
     maxHeight: '200px',
     overflowY: 'scroll',
     marginTop: '6px',
-    marginBottom: '24px',
     borderRadius: '8px',
 })
 
@@ -40,5 +39,6 @@ export const ContentContainer = styled(Box)({
     height: 'auto',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '24px',
+    marginTop: '30px',
+    marginBottom: '30px',
 })

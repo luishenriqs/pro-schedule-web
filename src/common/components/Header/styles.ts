@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import Image from 'next/image'
 import MenuIcon from '@mui/icons-material/Menu'
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined'
 import { Box, IconButton } from '@mui/material'
 import { COLORS } from '@common/styles/theme'
 
@@ -56,6 +57,16 @@ export const ButtonIcon = styled(IconButton)({
     borderRadius: '50px',
 })
 
+export const Imagem = styled(Image)({
+    width: '70px',
+    height: 'auto',
+
+    '@media (min-width:760px)': {
+        width: '90px',
+        height: 'auto',
+    },
+})
+
 export const IconMenu = styled(MenuIcon)({
     color: COLORS.primary,
     width: '25px',
@@ -66,12 +77,30 @@ export const IconMenu = styled(MenuIcon)({
     },
 })
 
-export const Imagem = styled(Image)({
-    width: '70px',
-    height: 'auto',
-
+export const CalendarMenu = styled(CalendarMonthOutlinedIcon)({
+    color: COLORS.secondary,
+    width: '25px',
+    height: '25px',
     '@media (min-width:760px)': {
-        width: '90px',
-        height: 'auto',
+        width: '35px',
+        height: '35px',
     },
+})
+
+export const Empty = styled(Box)({
+    width: '25px',
+    height: '25px',
+})
+
+export const RedCircle = styled(Box)({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '15px',
+    height: '15px',
+    padding: '5px',
+    borderRadius: '50%',
+    marginTop: '-15px',
+    marginLeft: '-10px',
+    background: COLORS.error,
 })

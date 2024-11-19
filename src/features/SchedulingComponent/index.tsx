@@ -3,29 +3,27 @@ import { initializeApp } from 'firebase/app'
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import { UseUser } from '@common/api'
 import { firebaseConfig } from '../../../firebaseConfig'
+import { usePayload } from '@common/hooks/contexts/PayloadContext'
 import Header from '@common/components/Header'
 import { Calendar } from '@common/components/Calendar'
 import { LoadingComponent } from '@common/components/Loading'
 import { Appointments } from '@common/components/Appointments'
-import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
 import { PayloadProps, UserData, dataSelectedProps } from '@common/models'
-import { initialScript, isAppointmentValid } from '@common/utils/helpers'
-import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
 import { ModalSighUp } from '@common/components/ModalSighUp'
 import { ModalConfirmation } from '@common/components/ModalConfirmation'
-import { usePayload } from '@common/hooks/contexts/PayloadContext'
-import { useNotification } from '@common/hooks/useNotification'
+import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
+import { filterAppointmentsByDay, initialScript, removeAppointment } from '@common/utils/helpers'
+import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
 
 export const SchedulingComponent = () => {
     const app = initializeApp(firebaseConfig)
     const db = getFirestore(app)
-    const { payloads, addPayload } = usePayload()
-    const { emmitAlert } = useNotification()
+    const { addPayload, clearPayloads } = usePayload()
 
     const [user, setUser] = useState<UserData>({} as UserData)
     const [data, setData] = useState<PayloadProps[]>([] as PayloadProps[])
     const [isLoading, setIsLoading] = useState(true)
-    const [selectedData, setSelectedData] = useState<dataSelectedProps>({} as dataSelectedProps)
+    const [selectedDay, setSelectedDay] = useState<dataSelectedProps>({} as dataSelectedProps)
     const [openSighUpModal, setOpenSighUpModal] = useState(false)
     const [openConfirmationModal, setOpenConfirmationModal] = useState(false)
 
@@ -74,56 +72,66 @@ export const SchedulingComponent = () => {
         if (userLogged) getData(userLogged)
     }, [getData])
 
+    // ESSA REQUEST DEVE TRAZER APENAS OS HORÁRIOS DISPONÍVEIS (custumerId: '')
+    // ESSA REQUEST DEVE TRAZER APENAS OS HORÁRIOS DISPONÍVEIS (custumerId: '')
+    // ESSA REQUEST DEVE TRAZER APENAS OS HORÁRIOS DISPONÍVEIS (custumerId: '')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const dataMock = [
         // NOVEMBER
         {
             year: 2024,
             month: 10,
-            day: 2,
+            day: 26,
             hour: 480,
             custumerId: '',
         },
         {
             year: 2024,
             month: 10,
-            day: 3,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 4,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 8,
+            day: 26,
             hour: 555,
             custumerId: '',
         },
         {
             year: 2024,
             month: 10,
-            day: 10,
+            day: 26,
             hour: 630,
             custumerId: '',
         },
         {
             year: 2024,
             month: 10,
-            day: 12,
+            day: 26,
             hour: 705,
             custumerId: '',
         },
         {
             year: 2024,
             month: 10,
-            day: 15,
+            day: 27,
             hour: 480,
+            custumerId: '',
+        },
+        {
+            year: 2024,
+            month: 10,
+            day: 27,
+            hour: 555,
+            custumerId: '',
+        },
+        {
+            year: 2024,
+            month: 10,
+            day: 27,
+            hour: 630,
+            custumerId: '',
+        },
+        {
+            year: 2024,
+            month: 10,
+            day: 27,
+            hour: 705,
             custumerId: '',
         },
         {
@@ -387,50 +395,38 @@ export const SchedulingComponent = () => {
             month,
             year,
         }
-        setSelectedData(dataSelected)
+        setSelectedDay(filterAppointmentsByDay(dataSelected))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleChangeMonth = useCallback(() => {
-        setSelectedData({} as dataSelectedProps)
+        setSelectedDay({} as dataSelectedProps)
     }, [])
 
     const handleSetAppointments = useCallback(
         (newPayload: PayloadProps) => {
+            const daySelected = removeAppointment(selectedDay, newPayload)
+            setSelectedDay(daySelected)
+
             if (user.id) {
                 newPayload.custumerId = user.id
                 newPayload.userEmail = user.email
 
-                console.log('payloads ----> ', JSON.stringify(payloads))
-
-                // ESSA VALIDAÇÃO NÃO FUNCIONA
-                // ESSA VALIDAÇÃO NÃO FUNCIONA
-                // ESSA VALIDAÇÃO NÃO FUNCIONA
-                // ESSA VALIDAÇÃO NÃO FUNCIONA
-                // PRECISO ATUALIZAR O 'payloads' ANTES DE ADICIONAR NOVO HORÁRIO
-                // PRECISO ATUALIZAR O 'payloads' ANTES DE ADICIONAR NOVO HORÁRIO
-                // PRECISO ATUALIZAR O 'payloads' ANTES DE ADICIONAR NOVO HORÁRIO
-                // PRECISO ATUALIZAR O 'payloads' ANTES DE ADICIONAR NOVO HORÁRIO
-                // PRECISO ATUALIZAR O 'payloads' ANTES DE ADICIONAR NOVO HORÁRIO
-
-                const isValid = isAppointmentValid(payloads, newPayload)
-
-                if (isValid) {
-                    addPayload(newPayload)
-                    setOpenConfirmationModal(true)
-                } else {
-                    emmitAlert('Esse horário já foi adicionado!')
-                }
+                addPayload(newPayload)
+                setOpenConfirmationModal(true)
             } else {
                 setOpenSighUpModal(true)
             }
         },
-        [addPayload, emmitAlert, payloads, user.email, user.id]
+        [addPayload, selectedDay, user.email, user.id]
     )
 
-    useEffect(() => {
-        // console.log('payloads ----> ', JSON.stringify(payloads.length))
-    }, [payloads])
+    const handleCancelAppoitments = useCallback(() => {
+        setOpenConfirmationModal(false)
+        clearPayloads()
+        selectedDay.data = dataMock
+        setSelectedDay(filterAppointmentsByDay(selectedDay))
+    }, [clearPayloads, dataMock, selectedDay])
 
     return (
         <Container>
@@ -454,13 +450,13 @@ export const SchedulingComponent = () => {
                                 <Legend />
                                 <Questrial_Secondary_20_500 text=" - Dias disponíveis" />
                             </LegendContainer>
-                            {selectedData?.data?.length > 0 && (
+
+                            {selectedDay?.data?.length > 0 && (
                                 <>
                                     <Appointments
-                                        appontmentsData={selectedData}
+                                        appontmentsData={selectedDay}
                                         handleSetAppointments={(value) => handleSetAppointments(value)}
                                     />
-
                                     <LegendContainer>
                                         <Legend />
                                         <Questrial_Secondary_20_500 text=" - Horários disponíveis" />
@@ -479,9 +475,8 @@ export const SchedulingComponent = () => {
             />
             <ModalConfirmation
                 open={openConfirmationModal}
-                handleClose={() => {
-                    setOpenConfirmationModal(false)
-                }}
+                handleCancelAppoitments={handleCancelAppoitments}
+                handleClose={() => setOpenConfirmationModal(false)}
             />
         </Container>
     )

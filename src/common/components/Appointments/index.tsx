@@ -1,35 +1,27 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Genos_Primary_24_500, Genos_Secondary_24_500 } from '../Typography'
-import { PayloadProps, SelectedDataProps } from '@common/models'
+import { SelectedDataProps } from '@common/models'
 import { formatDate, integerToTime } from '@common/utils/helpers'
 import { Container, HoursContainer, TitleContainer } from './styles'
 
 export const Appointments = ({ appontmentsData, handleSetAppointments }: SelectedDataProps) => {
-    const [selectedData, setSelectedData] = useState<PayloadProps[]>([] as PayloadProps[])
     const [date, setDate] = useState<string>('')
 
     useEffect(() => {
-        const result = appontmentsData?.data?.filter((obj) => {
-            const year = appontmentsData?.year
-            const month = appontmentsData?.month
-            const day = appontmentsData?.day
-            const date = formatDate(day, month, year)
-            setDate(date)
-
-            if (obj.year === year && obj.month === month && obj.day === day && obj.custumerId === '') return obj
-        })
-        setSelectedData(result)
+        const { year, month, day } = appontmentsData
+        const date = formatDate(day, month, year)
+        setDate(date)
     }, [appontmentsData])
 
     const getHours = useCallback(() => {
-        return selectedData?.map((data, index) => {
+        return appontmentsData.data?.map((data, index) => {
             return (
                 <HoursContainer key={index} onClick={() => handleSetAppointments(data)}>
                     <Genos_Secondary_24_500 text={integerToTime(data.hour)} />
                 </HoursContainer>
             )
         })
-    }, [handleSetAppointments, selectedData])
+    }, [appontmentsData.data, handleSetAppointments])
 
     return (
         <Container>

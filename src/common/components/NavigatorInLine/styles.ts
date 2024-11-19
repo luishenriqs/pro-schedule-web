@@ -1,5 +1,7 @@
 import { styled } from '@mui/material/styles'
-import { Box } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined'
+import { COLORS } from '@common/styles/theme'
 
 export const Container = styled(Box)({
     display: 'none',
@@ -42,4 +44,39 @@ export const MenuOptionsContainer = styled(Box)({
     '@media (min-width:1440px)': {
         padding: '0 50px',
     },
+})
+
+export const ButtonIcon = styled(IconButton)({
+    width: '40px',
+    height: '40px',
+    borderRadius: '50px',
+    paddingRight: '40px',
+})
+
+export const CalendarMenu = styled(CalendarMonthOutlinedIcon)({
+    color: COLORS.secondary,
+    width: '25px',
+    height: '25px',
+    '@media (min-width:760px)': {
+        width: '35px',
+        height: '35px',
+    },
+})
+
+export const Empty = styled(Box)({
+    width: '25px',
+    height: '25px',
+})
+
+export const RedCircle = styled(Box)({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '15px',
+    height: '15px',
+    padding: '5px',
+    borderRadius: '50%',
+    marginTop: '-15px',
+    marginLeft: '-10px',
+    background: COLORS.error,
 })
