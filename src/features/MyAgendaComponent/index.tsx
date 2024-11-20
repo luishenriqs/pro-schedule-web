@@ -6,6 +6,8 @@ import { Appointments } from '@common/components/Appointments'
 import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
 import { PayloadProps, dataSelectedProps } from '@common/models'
 import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
+import { Box, Typography } from '@mui/material'
+import { TimePicker } from '@common/components/TimePicker'
 
 export const MyAgendaComponent = () => {
     const [data, setData] = useState<PayloadProps[]>([] as PayloadProps[])
@@ -211,6 +213,12 @@ export const MyAgendaComponent = () => {
 
         */
 
+    const [selectedTime, setSelectedTime] = useState('09:00')
+
+    const handleTimeChange = (newTime: string) => {
+        setSelectedTime(newTime)
+    }
+
     return (
         <Container>
             {isLoading ? (
@@ -218,6 +226,19 @@ export const MyAgendaComponent = () => {
             ) : (
                 <>
                     <Header />
+
+                    {/*##################################### DATA PICKER ############################*/}
+
+                    <Box sx={{ padding: 4 }}>
+                        <Typography variant="h5" mb={2}>
+                            Configure seu horário
+                        </Typography>
+                        <TimePicker label="Horário:" value={selectedTime} onChange={handleTimeChange} />
+                        <Typography mt={2}>Horário selecionado: {selectedTime}</Typography>
+                    </Box>
+
+                    {/*###############################################################################*/}
+
                     <TitleContainer>
                         <Genos_Secondary_24_500 text={'Olá ' + userName} />
                         <Genos_Secondary_24_500 text="Defina a sua agenda" />

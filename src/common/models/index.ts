@@ -115,3 +115,9 @@ export type UserData = {
     email?: string
     birthday?: string
 }
+
+export type TimePickerProps = {
+    label: string
+    value: string
+    onChange: (newTime: string) => void
+}
