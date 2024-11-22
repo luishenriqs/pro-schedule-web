@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { Drawer } from '@mui/material'
 import { Genos_Primary_20_500, Genos_Secondary_20_500 } from '../Typography'
 import { Icon } from '../Icons'
@@ -10,6 +10,8 @@ import { ButtonIcon, Container, Imagem, MenuContainer } from './styles'
 
 export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
     const router = useRouter()
+    const pathname = usePathname()
+
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
@@ -17,52 +19,60 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
     }, [isOpen])
 
     const onClickSchedluling = useCallback(() => {
-        if (location.pathname === '/') {
+        if (pathname === '/') {
             router.refresh()
         } else {
             router.push('/')
         }
-    }, [router])
+    }, [pathname, router])
+
+    const onClickAvailability = useCallback(() => {
+        if (pathname === '/Availability') {
+            router.refresh()
+        } else {
+            router.push('/Availability')
+        }
+    }, [pathname, router])
 
     const onClickMyAgenda = useCallback(() => {
-        if (location.pathname === '/MyAgenda') {
+        if (pathname === '/MyAgenda') {
             router.refresh()
         } else {
             router.push('/MyAgenda')
         }
-    }, [router])
+    }, [pathname, router])
 
     const onClickSignIn = useCallback(() => {
-        if (location.pathname === '/SignIn') {
+        if (pathname === '/SignIn') {
             router.refresh()
         } else {
             router.push('/SignIn')
         }
-    }, [router])
+    }, [pathname, router])
 
     const onClickSignUp = useCallback(() => {
-        if (location.pathname === '/SignUp') {
+        if (pathname === '/SignUp') {
             router.refresh()
         } else {
             router.push('/SignUp')
         }
-    }, [router])
+    }, [pathname, router])
 
     const onClickScheduled = useCallback(() => {
-        if (location.pathname === '/Scheduled') {
+        if (pathname === '/Scheduled') {
             router.refresh()
         } else {
             router.push('/Scheduled')
         }
-    }, [router])
+    }, [pathname, router])
 
     const onClickPrevious = useCallback(() => {
-        if (location.pathname === '/Previous') {
+        if (pathname === '/Previous') {
             router.refresh()
         } else {
             router.push('/Previous')
         }
-    }, [router])
+    }, [pathname, router])
 
     const userMenuItems: MenuItem[] = [
         {
@@ -70,7 +80,7 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
             title: 'Novo Agendamento',
             route: '/',
             icon: '',
-            selected: location.pathname === '/',
+            selected: pathname === '/',
             onClickHandler: () => {
                 onClickSchedluling()
             },
@@ -80,7 +90,7 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
             title: 'Agendados',
             route: '/Scheduled',
             icon: '',
-            selected: location.pathname === '/Scheduled',
+            selected: pathname === '/Scheduled',
             onClickHandler: () => {
                 onClickScheduled()
             },
@@ -90,7 +100,7 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
             title: 'Histórico',
             route: '/Previous',
             icon: '',
-            selected: location.pathname === '/Previous',
+            selected: pathname === '/Previous',
             onClickHandler: () => {
                 onClickPrevious()
             },
@@ -100,7 +110,7 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
             title: 'Login',
             route: '/SignIn',
             icon: '',
-            selected: location.pathname === '/SignIn',
+            selected: pathname === '/SignIn',
             onClickHandler: () => {
                 onClickSignIn()
             },
@@ -110,7 +120,7 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
             title: 'Cadastro',
             route: '/SignUp',
             icon: '',
-            selected: location.pathname === '/SignUp',
+            selected: pathname === '/SignUp',
             onClickHandler: () => {
                 onClickSignUp()
             },
@@ -123,37 +133,47 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
             title: 'Novo Agendamento',
             route: '/',
             icon: '',
-            selected: location.pathname === '/',
+            selected: pathname === '/',
             onClickHandler: () => {
                 onClickSchedluling()
             },
         },
         {
             order: 2,
+            title: 'Disponibilidade',
+            route: '/Availability',
+            icon: '',
+            selected: pathname === '/Availability',
+            onClickHandler: () => {
+                onClickAvailability()
+            },
+        },
+        {
+            order: 3,
             title: 'Minha Agenda',
             route: '/MyAgenda',
             icon: '',
-            selected: location.pathname === '/MyAgenda',
+            selected: pathname === '/MyAgenda',
             onClickHandler: () => {
                 onClickMyAgenda()
             },
         },
         {
-            order: 3,
+            order: 4,
             title: 'Login',
             route: '/SignIn',
             icon: '',
-            selected: location.pathname === '/SignIn',
+            selected: pathname === '/SignIn',
             onClickHandler: () => {
                 onClickSignIn()
             },
         },
         {
-            order: 4,
+            order: 5,
             title: 'Cadastro',
             route: '/SignUp',
             icon: '',
-            selected: location.pathname === '/SignUp',
+            selected: pathname === '/SignUp',
             onClickHandler: () => {
                 onClickSignUp()
             },
@@ -166,7 +186,7 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
                 return (
                     <ButtonIcon
                         key={index}
-                        onClick={() => (location.pathname === item.route ? router.refresh() : router.push(item.route))}
+                        onClick={() => (pathname === item.route ? router.refresh() : router.push(item.route))}
                     >
                         <Icon iconName={item.icon} color={COLORS.black} margin="0 8px 0 0" />
                         {item.selected ? (
@@ -178,7 +198,7 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
                 )
             })
         },
-        [router]
+        [pathname, router]
     )
 
     return (

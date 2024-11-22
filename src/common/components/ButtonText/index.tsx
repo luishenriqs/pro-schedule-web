@@ -5,6 +5,8 @@ import {
     Genos_Primary_16_500,
     Genos_Secondary_16_500,
     Genos_Secondary_24_500,
+    Genos_Error_24_500,
+    Genos_Error_16_500,
 } from '../Typography'
 import { Container, TitleContainer } from './styles'
 
@@ -55,6 +57,28 @@ export function GenosSecondaryButtonText({ title, size = 'medium', selected = fa
     return (
         <Container onClick={onClick} {...rest}>
             <TitleContainer>{secondaryButtonStyle(size, selected, title)}</TitleContainer>
+        </Container>
+    )
+}
+
+const errorButtonStyle = (size: string, selected: boolean, title: string) => {
+    switch (selected) {
+        case true:
+            return size === 'medium' ? <Genos_Error_24_500 text={title} /> : <Genos_Error_16_500 text={title} />
+
+        case false:
+            return size === 'medium' ? <Genos_Secondary_24_500 text={title} /> : <Genos_Secondary_16_500 text={title} />
+
+        default:
+            return size === 'medium' ? <Genos_Error_24_500 text={title} /> : <Genos_Error_16_500 text={title} />
+    }
+}
+
+// STYLE ERROR IF SELECTED
+export function GenosErrorButtonText({ title, size = 'medium', selected = false, onClick, ...rest }: Props) {
+    return (
+        <Container onClick={onClick} {...rest}>
+            <TitleContainer>{errorButtonStyle(size, selected, title)}</TitleContainer>
         </Container>
     )
 }

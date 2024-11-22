@@ -121,3 +121,38 @@ export type TimePickerProps = {
     value: string
     onChange: (newTime: string) => void
 }
+
+export type MonthYearSelectProps = {
+    onChange: (value: SelectedDate) => void
+}
+
+export type SelectedDate = {
+    month: number
+    name: string
+    year: number
+}
+
+export type DaysOfWeekSelectProps = {
+    onChange: (selectedDays: string[]) => void
+}
+
+export type TimeSelectionProps = {
+    onChange: (times: string[]) => void
+}
+
+export type AbsencePeriod = {
+    year: number
+    month: number
+    day: number
+}
+
+export type AbsencePeriodSelectorProps = {
+    selectedMonth: { year: number; month: number }
+    onChange: (period: AbsencePeriod[] | null) => void
+}
+
+export type PeriodProps = {
+    year: number
+    month: number
+    day: number
+}

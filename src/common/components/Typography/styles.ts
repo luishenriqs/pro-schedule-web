@@ -110,6 +110,78 @@ export const GenosWhite14_500 = styled(Typography)({
     fontWeight: FONT_WEIGHT[500],
 })
 
+// GENOS SUCCESS
+export const GenosSuccess48_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.success,
+    fontSize: FONT_SIZE[48],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const GenosSuccess24_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.success,
+    fontSize: FONT_SIZE[24],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const GenosSuccess20_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.success,
+    fontSize: FONT_SIZE[20],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const GenosSuccess16_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.success,
+    fontSize: FONT_SIZE[16],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const GenosSuccess14_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.success,
+    fontSize: FONT_SIZE[14],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+// GENOS ERROR
+export const GenosError48_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.error,
+    fontSize: FONT_SIZE[48],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const GenosError24_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.error,
+    fontSize: FONT_SIZE[24],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const GenosError20_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.error,
+    fontSize: FONT_SIZE[20],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const GenosError16_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.error,
+    fontSize: FONT_SIZE[16],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const GenosError14_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.error,
+    fontSize: FONT_SIZE[14],
+    fontWeight: FONT_WEIGHT[500],
+})
+
 // QUESTRIAL PRIMARY
 export const QuestrialPrimary20_500 = styled(Typography)({
     fontFamily: FONT_FAMILY.questrial,

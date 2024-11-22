@@ -19,6 +19,16 @@ import {
     GenosWhite24_500,
     GenosWhite20_500,
     GenosWhite14_500,
+    GenosError14_500,
+    GenosError20_500,
+    GenosError24_500,
+    GenosError48_500,
+    GenosError16_500,
+    GenosSuccess14_500,
+    GenosSuccess16_500,
+    GenosSuccess20_500,
+    GenosSuccess24_500,
+    GenosSuccess48_500,
 } from './styles'
 
 // GENOS PRIMARY
@@ -132,6 +142,88 @@ export const Genos_White_14_500 = ({ text }: any) => {
     return (
         <TitleContainer>
             <GenosWhite14_500>{text}</GenosWhite14_500>
+        </TitleContainer>
+    )
+}
+
+// GENOS SUCCESS
+export const Genos_Success_48_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosSuccess48_500>{text}</GenosSuccess48_500>
+        </TitleContainer>
+    )
+}
+
+export const Genos_Success_24_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosSuccess24_500>{text}</GenosSuccess24_500>
+        </TitleContainer>
+    )
+}
+
+export const Genos_Success_20_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosSuccess20_500>{text}</GenosSuccess20_500>
+        </TitleContainer>
+    )
+}
+
+export const Genos_Success_16_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosSuccess16_500>{text}</GenosSuccess16_500>
+        </TitleContainer>
+    )
+}
+
+export const Genos_Success_14_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosSuccess14_500>{text}</GenosSuccess14_500>
+        </TitleContainer>
+    )
+}
+
+// GENOS ERROR
+export const Genos_Error_48_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosError48_500>{text}</GenosError48_500>
+        </TitleContainer>
+    )
+}
+
+export const Genos_Error_24_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosError24_500>{text}</GenosError24_500>
+        </TitleContainer>
+    )
+}
+
+export const Genos_Error_20_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosError20_500>{text}</GenosError20_500>
+        </TitleContainer>
+    )
+}
+
+export const Genos_Error_16_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosError16_500>{text}</GenosError16_500>
+        </TitleContainer>
+    )
+}
+
+export const Genos_Error_14_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosError14_500>{text}</GenosError14_500>
         </TitleContainer>
     )
 }

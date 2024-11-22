@@ -10,7 +10,7 @@ export const Container = styled(Box)({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    width: '100vw',
+    width: '100%',
     height: '50px',
     zIndex: 2,
     borderBottom: '1px solid',
