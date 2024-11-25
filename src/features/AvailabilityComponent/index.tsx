@@ -37,7 +37,7 @@ export const AvailabilityComponent = () => {
         console.log('Data selecionada:', JSON.stringify(selectedMonth))
         console.log('Dias selecionados:', JSON.stringify(selectedWeekDays))
         console.log('Horários Selecionados:', JSON.stringify(selectedTime))
-        console.log('Ausência selecionada:', absencePeriod)
+        console.log('Ausência selecionada:', JSON.stringify(absencePeriod))
     }, [absencePeriod, selectedMonth, selectedTime, selectedWeekDays])
 
     return (
@@ -79,7 +79,10 @@ O primeiro é 'selectedMonth' e é um objeto como esse:
 O segundo é 'selectedWeekDays' e é um array como esse:
 ["segunda-feira","terça-feira","quinta-feira","sexta-feira"].
 
-O terceiro é 'selectedHours' que é um array como esse: ["08:30","09:30","11:00"]
+O terceiro é 'selectedTime' que é um array como esse: ["08:30","09:30","11:00"]
+
+ O quarto parâmetro é 'absencePeriod' que é um array como esse:
+ [{"year":2025,"month":0,"day":14},{"year":2025,"month":0,"day":29}]
 
 
 A função deve retornar um array de objetos como esse:
@@ -107,4 +110,11 @@ propriedades year, month e day com os horários definidos em 'selectedHours'
 Então, se na propriedade 'selectedHours' houver 4 horarios selecionados, haverá 4
 objetos para cada dia ao longo do mês, sempre respeitando o filtro dos dias da
 semana indicados na propriedade 'selectedWeekDays'
+
+A função deve excluir do retorno todos os objetos que poderiam ser criados com os
+dados dos primeiros parâmetros que se encontrem dentro do intervalo de datas
+encontradas nos dois objetos do parâmetro 'absencePeriod'.
+
+Devem ser criados objetos dentro do retorno para todas as datas e horários possíveis
+que se encaixem nos critérios mencionados acima
 */

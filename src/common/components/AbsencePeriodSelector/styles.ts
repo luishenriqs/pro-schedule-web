@@ -64,3 +64,22 @@ export const CalendarMenu = styled(CalendarMonthOutlinedIcon)({
         height: '35px',
     },
 })
+
+export const InfoMenu = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    '@media (min-width:760px)': {
+        flexDirection: 'row',
+    },
+})
+
+export const DateContent = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '0 10px',
+})
