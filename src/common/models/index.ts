@@ -116,20 +116,14 @@ export type UserData = {
     birthday?: string
 }
 
-export type TimePickerProps = {
-    label: string
-    value: string
-    onChange: (newTime: string) => void
-}
-
-export type MonthYearSelectProps = {
-    onChange: (value: SelectedDate) => void
-}
-
-export type SelectedDate = {
+export type SelectedDateProps = {
     month: number
     name: string
     year: number
+}
+
+export type MonthYearSelectProps = {
+    onChange: (value: SelectedDateProps) => void
 }
 
 export type DaysOfWeekSelectProps = {
@@ -155,4 +149,13 @@ export type PeriodProps = {
     year: number
     month: number
     day: number
+}
+
+export type ScheduleObjectProps = {
+    year: number
+    month: number
+    day: number
+    hour: number
+    custumerId: string
+    enable: boolean
 }

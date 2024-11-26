@@ -1,6 +1,6 @@
 import React from 'react'
 import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { NavigatorInLineProps } from '@common/models'
 import { GenosPrimaryButtonText } from '../ButtonText'
 import { Genos_White_14_500 } from '../Typography'
@@ -18,6 +18,7 @@ import {
 
 export const NavigatorInLine = ({ showMenu, isAdmin, payloads, handleOpenConfirmModal }: NavigatorInLineProps) => {
     const router = useRouter()
+    const pathname = usePathname()
 
     return (
         <Container>
@@ -32,19 +33,19 @@ export const NavigatorInLine = ({ showMenu, isAdmin, payloads, handleOpenConfirm
                                 <GenosPrimaryButtonText
                                     title="Novo Agendamento"
                                     size="medium"
-                                    selected={location.pathname === '/'}
+                                    selected={pathname === '/'}
                                     onClick={() => router.push('/')}
                                 />
                                 <GenosPrimaryButtonText
                                     title="Disponibilidade"
                                     size="medium"
-                                    selected={location.pathname === '/Availability'}
+                                    selected={pathname === '/Availability'}
                                     onClick={() => router.push('/Availability')}
                                 />
                                 <GenosPrimaryButtonText
                                     title="Agenda"
                                     size="medium"
-                                    selected={location.pathname === '/MyAgenda'}
+                                    selected={pathname === '/MyAgenda'}
                                     onClick={() => router.push('/MyAgenda')}
                                 />
                                 <GenosPrimaryButtonText
@@ -63,19 +64,19 @@ export const NavigatorInLine = ({ showMenu, isAdmin, payloads, handleOpenConfirm
                                 <GenosPrimaryButtonText
                                     title="Novo Agendamento"
                                     size="medium"
-                                    selected={location.pathname === '/'}
+                                    selected={pathname === '/'}
                                     onClick={() => router.push('/')}
                                 />
                                 <GenosPrimaryButtonText
                                     title="Agendados"
                                     size="medium"
-                                    selected={location.pathname === '/Scheduled'}
+                                    selected={pathname === '/Scheduled'}
                                     onClick={() => router.push('/Scheduled')}
                                 />
                                 <GenosPrimaryButtonText
                                     title="Histórico"
                                     size="medium"
-                                    selected={location.pathname === '/Previous'}
+                                    selected={pathname === '/Previous'}
                                     onClick={() => router.push('/Previous')}
                                 />
                                 <GenosPrimaryButtonText

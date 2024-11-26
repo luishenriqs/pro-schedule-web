@@ -27,7 +27,7 @@ import {
 
 export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarProps) => {
     const todayDate = new Date()
-    const [selectedDate, setSelectedDate] = useState<Date>(todayDate)
+    const [selectedDate, setSelectedDateProps] = useState<Date>(todayDate)
     const [selecteMonth, setSelectedMonth] = useState<number>(todayDate.getMonth())
     const [selectedYear, setSelectedYear] = useState<number>(todayDate.getFullYear())
     const minMonth = getMinMonth(selectedDate)
@@ -35,7 +35,7 @@ export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarPr
     const goToPreviousMonth = useCallback(
         (selectedDate: Date) => {
             const { date, month, year } = getPreviousMonthDate(selectedDate)
-            setSelectedDate(date)
+            setSelectedDateProps(date)
             setSelectedMonth(month)
             setSelectedYear(year)
             handleChangeMonth()
@@ -46,7 +46,7 @@ export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarPr
     const goToNextMonth = useCallback(
         (selectedDate: Date) => {
             const { date, month, year } = getNextMonthDate(selectedDate)
-            setSelectedDate(date)
+            setSelectedDateProps(date)
             setSelectedMonth(month)
             setSelectedYear(year)
             handleChangeMonth()

@@ -1,6 +1,14 @@
 import { v4 as uuidv4 } from 'uuid'
 import { CreateAuth, UseWriteData } from '@common/api'
-import { PayloadProps, GetDateProps, GetWeekDaysParams, dataSelectedProps } from '@common/models'
+import {
+    PayloadProps,
+    GetDateProps,
+    GetWeekDaysParams,
+    dataSelectedProps,
+    SelectedDateProps,
+    PeriodProps,
+    ScheduleObjectProps,
+} from '@common/models'
 
 export const initialScript = async () => {
     const payload = {
@@ -213,3 +221,134 @@ export const removeAppointment = (selectedDay: dataSelectedProps, newPayload: Pa
         ),
     }
 }
+
+export const generateSchedule = (
+    selectedMonth: SelectedDateProps,
+    selectedWeekDays: string[],
+    selectedTime: string[],
+    absencePeriod: PeriodProps[] | null
+): ScheduleObjectProps[] => {
+    // Helper to map weekdays to their respective numeric values
+    const weekDaysMap: { [key: string]: number } = {
+        domingo: 0,
+        'segunda-feira': 1,
+        'terça-feira': 2,
+        'quarta-feira': 3,
+        'quinta-feira': 4,
+        'sexta-feira': 5,
+        sábado: 6,
+    }
+
+    // Convert selected weekdays to their numeric equivalents
+    const selectedWeekDaysNumeric = selectedWeekDays.map((day) => weekDaysMap[day.toLowerCase()])
+
+    // Get the total days in the selected month
+    const daysInMonth = new Date(selectedMonth.year, selectedMonth.month + 1, 0).getDate()
+
+    // Convert absencePeriod into a range of dates for exclusion
+    const absenceRange: Set<string> = new Set()
+    if (absencePeriod && absencePeriod.length === 2) {
+        const start = new Date(absencePeriod[0].year, absencePeriod[0].month, absencePeriod[0].day)
+        const end = new Date(absencePeriod[1].year, absencePeriod[1].month, absencePeriod[1].day)
+
+        for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
+            const formattedDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+            absenceRange.add(formattedDate)
+        }
+    }
+
+    // Helper to convert time string to total minutes
+    const timeToMinutes = (time: string) => {
+        const [hours, minutes] = time.split(':').map(Number)
+        return hours * 60 + minutes
+    }
+
+    // Build the result array
+    const result: ScheduleObjectProps[] = []
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const currentDate = new Date(selectedMonth.year, selectedMonth.month, day)
+        const dayOfWeek = currentDate.getDay()
+
+        // Check if the current day matches the selected weekdays
+        if (selectedWeekDaysNumeric.includes(dayOfWeek)) {
+            for (const time of selectedTime) {
+                const totalMinutes = timeToMinutes(time)
+
+                // Skip if the day is within the absence range
+                const formattedDate = `${selectedMonth.year}-${selectedMonth.month}-${day}`
+                if (absenceRange.has(formattedDate)) {
+                    continue
+                }
+
+                // Add the object to the result array
+                result.push({
+                    year: selectedMonth.year,
+                    month: selectedMonth.month,
+                    day: day,
+                    hour: totalMinutes,
+                    custumerId: '',
+                    enable: true,
+                })
+            }
+        }
+    }
+    return result
+}
+
+/*
+Prompt para ChatGPT da função 'generateSchedule()'
+
+Em um projeto react typescript com next, uso a lib MUI.
+Quero que crie uma função que receba os seguintes parâmetros:
+
+O primeiro é 'selectedMonth' e é um objeto como esse:
+{"month":0,"name":"janeiro","year":2025}.
+
+O segundo é 'selectedWeekDays' e é um array como esse:
+["segunda-feira","terça-feira","quinta-feira","sexta-feira"].
+
+O terceiro é 'selectedTime' que é um array como esse: ["08:30","09:30","11:00"]
+
+ O quarto parâmetro é 'absencePeriod' que é um array como esse:
+ [{"year":2025,"month":0,"day":14},{"year":2025,"month":0,"day":29}]
+
+
+A função deve retornar um array de objetos como esse:
+{
+    year: 2024,
+    month: 10,
+    day: 26,
+    hour: 480,
+    custumerId: '',
+    enable: true,
+},
+Cada objeto do retorno deverá ter suas propriedades preenchidas da seguinte forma:
+    a propriedade 'year' receberá o valor de 'year' do parâmetro 'selectedMonth',
+    a propriedade 'month' receberá o valor de 'month' do parâmetro 'selectedMonth',
+    a propriedade 'day' será preenchida com o valor numérico de um dos dias do mês
+    correspondentes aos dias da semana selecionados no parâmetro 'selectedWeekDays',
+    a propriedade 'hour' será preenchida com o valor de um dos horários selecionados
+    na propriedade 'selectedHours',
+    a propriedade 'custumerId' terá seu valor inicial vazio,
+    a propriedade 'enable' terá seu valor inicial true
+
+Para cada dia do mês selecionado no parâmetro 'selectedMonth' que corresponda
+aos dias da semana indicados no parâmetro 'selectedWeekDays' devem ser criados os
+objetos do array de retorno. Um objeto para cada horário de 'selectedHours'
+
+Cada objeto do array de retorno deve combinar valores únicos a partir da data indicada nas
+propriedades year, month e day com os horários definidos em 'selectedHours'
+
+
+Então, se na propriedade 'selectedHours' houver 4 horarios selecionados, haverá 4
+objetos para cada dia ao longo do mês, sempre respeitando o filtro dos dias da
+semana indicados na propriedade 'selectedWeekDays'
+
+A função deve excluir do array de retorno todos os objetos que poderiam ser criados com os
+dados dos primeiros parâmetros que se encontrem dentro do intervalo de datas
+encontradas nos dois objetos do parâmetro 'absencePeriod'.
+
+Devem ser criados objetos dentro do retorno para todas as datas e horários possíveis
+que se encaixem nos critérios mencionados acima
+*/

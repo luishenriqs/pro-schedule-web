@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Header from '@common/components/Header'
-import { PeriodProps, SelectedDate } from '@common/models'
+import { PeriodProps, ScheduleObjectProps, SelectedDateProps } from '@common/models'
 import { FilledPrimaryButton } from '@common/components/Button'
 import { MonthYearSelect } from '@common/components/MonthYearSelect'
 import { DaysOfWeekSelect } from '@common/components/DaysOfWeekSelect'
@@ -8,12 +8,14 @@ import { TimeSelection } from '@common/components/TimeSelection'
 import { Genos_Secondary_24_500 } from '@common/components/Typography'
 import { Container, Content, DateContent, TitleContainer } from './styles'
 import { AbsencePeriodSelector } from '@common/components/AbsencePeriodSelector'
+import { generateSchedule } from '@common/utils/helpers'
 
 export const AvailabilityComponent = () => {
-    const [selectedMonth, setSelectedMonth] = useState<SelectedDate>({} as SelectedDate)
+    const [selectedMonth, setSelectedMonth] = useState<SelectedDateProps>({} as SelectedDateProps)
     const [selectedWeekDays, setSelectedWeekDays] = useState<string[]>([] as string[])
     const [selectedTime, setSelectedTime] = useState<string[]>([] as string[])
     const [absencePeriod, setAbsencePeriod] = useState<PeriodProps[] | null>(null)
+    const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
 
     const userName = 'Flávio'
 
@@ -33,12 +35,14 @@ export const AvailabilityComponent = () => {
         setAbsencePeriod(period)
     }
 
-    useEffect(() => {
-        console.log('Data selecionada:', JSON.stringify(selectedMonth))
-        console.log('Dias selecionados:', JSON.stringify(selectedWeekDays))
-        console.log('Horários Selecionados:', JSON.stringify(selectedTime))
-        console.log('Ausência selecionada:', JSON.stringify(absencePeriod))
+    const generateNewSchedule = useCallback(() => {
+        const newSchedule = generateSchedule(selectedMonth, selectedWeekDays, selectedTime, absencePeriod)
+        setSchedule(newSchedule)
     }, [absencePeriod, selectedMonth, selectedTime, selectedWeekDays])
+
+    useEffect(() => {
+        console.log('schedule:', JSON.stringify(schedule))
+    }, [schedule])
 
     return (
         <Container>
@@ -63,58 +67,8 @@ export const AvailabilityComponent = () => {
                 <DateContent>
                     <AbsencePeriodSelector selectedMonth={selectedMonth} onChange={handlePeriodChange} />
                 </DateContent>
-                <FilledPrimaryButton title="Gerar agenda" />
+                <FilledPrimaryButton title="Gerar agenda" onClick={generateNewSchedule} />
             </Content>
         </Container>
     )
 }
-
-/*
-Em um projeto react typescript com next, uso a lib MUI.
-Quero que crie uma função que receba os seguintes parâmetros:
-
-O primeiro é 'selectedMonth' e é um objeto como esse:
-{"month":0,"name":"janeiro","year":2025}.
-
-O segundo é 'selectedWeekDays' e é um array como esse:
-["segunda-feira","terça-feira","quinta-feira","sexta-feira"].
-
-O terceiro é 'selectedTime' que é um array como esse: ["08:30","09:30","11:00"]
-
- O quarto parâmetro é 'absencePeriod' que é um array como esse:
- [{"year":2025,"month":0,"day":14},{"year":2025,"month":0,"day":29}]
-
-
-A função deve retornar um array de objetos como esse:
-{
-    year: 2024,
-    month: 10,
-    day: 26,
-    hour: 480,
-    custumerId: '',
-    enable: true,
-},
-Cada objeto do retorno deverá ter suas propriedades preenchidas da seguinte forma:
-    a propriedade 'year' receberá o valor de 'year' do parâmetro 'selectedMonth',
-    a propriedade 'month' receberá o valor de 'month' do parâmetro 'selectedMonth',
-    a propriedade 'day' será preenchida com o valor numérico de um dos dias do mês
-    correspondentes aos dias da semana selecionados no parâmetro 'selectedWeekDays',
-    a propriedade 'hour' será preenchida com o valor de um dos horários selecionados
-    na propriedade 'selectedHours',
-    a propriedade 'custumerId' terá seu valor inicial vazio,
-    a propriedade 'enable' terá seu valor inicial true
-
-Cada objeto do retorno deve combinar valores únicos a partir da data indicada nas
-propriedades year, month e day com os horários definidos em 'selectedHours'
-
-Então, se na propriedade 'selectedHours' houver 4 horarios selecionados, haverá 4
-objetos para cada dia ao longo do mês, sempre respeitando o filtro dos dias da
-semana indicados na propriedade 'selectedWeekDays'
-
-A função deve excluir do retorno todos os objetos que poderiam ser criados com os
-dados dos primeiros parâmetros que se encontrem dentro do intervalo de datas
-encontradas nos dois objetos do parâmetro 'absencePeriod'.
-
-Devem ser criados objetos dentro do retorno para todas as datas e horários possíveis
-que se encaixem nos critérios mencionados acima
-*/

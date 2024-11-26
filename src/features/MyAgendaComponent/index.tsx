@@ -6,8 +6,6 @@ import { Appointments } from '@common/components/Appointments'
 import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
 import { PayloadProps, dataSelectedProps } from '@common/models'
 import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
-import { Box, Typography } from '@mui/material'
-import { TimePicker } from '@common/components/TimePicker'
 
 export const MyAgendaComponent = () => {
     const [data, setData] = useState<PayloadProps[]>([] as PayloadProps[])
@@ -190,35 +188,6 @@ export const MyAgendaComponent = () => {
         console.log('appointment ---->  ', value)
     }, [])
 
-    /*
-
-            1 - CONFIGURAR BOTÕES DOS DIAS:
-                - TODOS CLICLÁVEIS
-                    - DIAS DE ATENDIMENTO
-                    - DIAS DE LIVRES
-
-            2 - CONFIGURAR SELETOR DE HORÁRIOS DE TRABALHO
-
-            3 - CRIAR MODAL DE CONFIRMAÇÃO DE AGENDA
-
-                PREENCHER NOVO OBJETO APPOINTMENT
-
-                const appointment = {
-                    year: 2024,
-                    month: 6,
-                    day: 22,
-                    hour: 705,
-                    custumerId: '' <== VAZIO
-                }
-
-        */
-
-    const [selectedTime, setSelectedTime] = useState('09:00')
-
-    const handleTimeChange = (newTime: string) => {
-        setSelectedTime(newTime)
-    }
-
     return (
         <Container>
             {isLoading ? (
@@ -226,19 +195,6 @@ export const MyAgendaComponent = () => {
             ) : (
                 <>
                     <Header />
-
-                    {/*##################################### DATA PICKER ############################*/}
-
-                    <Box sx={{ padding: 4 }}>
-                        <Typography variant="h5" mb={2}>
-                            Configure seu horário
-                        </Typography>
-                        <TimePicker label="Horário:" value={selectedTime} onChange={handleTimeChange} />
-                        <Typography mt={2}>Horário selecionado: {selectedTime}</Typography>
-                    </Box>
-
-                    {/*###############################################################################*/}
-
                     <TitleContainer>
                         <Genos_Secondary_24_500 text={'Olá ' + userName} />
                         <Genos_Secondary_24_500 text="Defina a sua agenda" />
