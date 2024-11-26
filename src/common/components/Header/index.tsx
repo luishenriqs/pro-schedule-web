@@ -16,6 +16,7 @@ import {
     CalendarMenu,
     Empty,
     RedCircle,
+    InLineHeaderContainer,
 } from './styles'
 
 function Header() {
@@ -66,12 +67,14 @@ function Header() {
                 </HeaderContent>
                 <NavigatorDrawer isOpen={open} isAdmin={isAdmin} />
             </DrawerHeaderContainer>
-            <NavigatorInLine
-                showMenu={showMenu}
-                isAdmin={isAdmin}
-                payloads={payloads}
-                handleOpenConfirmModal={handleOpenConfirmModal}
-            />
+            <InLineHeaderContainer>
+                <NavigatorInLine
+                    showMenu={showMenu}
+                    isAdmin={isAdmin}
+                    payloads={payloads}
+                    handleOpenConfirmModal={handleOpenConfirmModal}
+                />
+            </InLineHeaderContainer>
             <ModalConfirmation
                 open={openConfirmationModal}
                 handleCancelAppoitments={handleCancelAppoitments}

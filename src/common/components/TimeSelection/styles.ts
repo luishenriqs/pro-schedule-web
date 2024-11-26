@@ -18,9 +18,8 @@ export const Content = styled(Box)({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: '30px',
 
-    '@media (min-width:1024px)': {
+    '@media (min-width:1224px)': {
         flexDirection: 'row',
     },
 })
@@ -30,7 +29,7 @@ export const TimeContent = styled(Box)({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: '30px',
+    margin: '30px 30px 0 30px',
 })
 
 export const SelectContainer = styled(Box)({

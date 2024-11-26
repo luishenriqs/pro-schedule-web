@@ -42,6 +42,18 @@ export const DrawerHeaderContainer = styled(Box)({
     },
 })
 
+export const InLineHeaderContainer = styled(Box)({
+    display: 'none',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+
+    '@media (min-width:1024px)': {
+        display: 'flex',
+    },
+})
+
 export const HeaderContent = styled(Box)({
     display: 'flex',
     flexDirection: 'row',

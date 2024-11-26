@@ -26,20 +26,56 @@ export const Content = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     width: '100vw',
-    height: 'auto',
+    height: '100vh',
     overflowY: 'auto',
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingBottom: '50px',
+    background: COLORS.background,
+
+    '@media (min-width:1024px)': {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+    },
+})
+
+export const LeftSide = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100vw',
+    height: 'auto',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    borderRight: '1px solid',
+    borderColor: COLORS.disabled_200,
+
+    '@media (min-width:1024px)': {
+        width: '50vw',
+    },
+})
+
+export const RightSide = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100vw',
+    height: 'auto',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    borderLeft: '1px solid',
+    borderColor: COLORS.disabled_200,
+
+    '@media (min-width:1024px)': {
+        width: '50vw',
+    },
 })
 
 export const DateContent = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
-    width: '100vw',
-    height: 'auto',
+    width: '100%',
     overflowY: 'auto',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginBottom: '30px',
+    padding: '30px 10px',
+    background: COLORS.background,
 })

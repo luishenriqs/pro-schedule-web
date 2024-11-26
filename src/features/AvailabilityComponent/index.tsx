@@ -5,10 +5,11 @@ import { FilledPrimaryButton } from '@common/components/Button'
 import { MonthYearSelect } from '@common/components/MonthYearSelect'
 import { DaysOfWeekSelect } from '@common/components/DaysOfWeekSelect'
 import { TimeSelection } from '@common/components/TimeSelection'
-import { Genos_Secondary_24_500 } from '@common/components/Typography'
-import { Container, Content, DateContent, TitleContainer } from './styles'
+import { LoadingComponent } from '@common/components/Loading'
 import { AbsencePeriodSelector } from '@common/components/AbsencePeriodSelector'
 import { generateSchedule } from '@common/utils/helpers'
+import { Genos_Secondary_24_500 } from '@common/components/Typography'
+import { Container, Content, DateContent, LeftSide, RightSide, TitleContainer } from './styles'
 
 export const AvailabilityComponent = () => {
     const [selectedMonth, setSelectedMonth] = useState<SelectedDateProps>({} as SelectedDateProps)
@@ -18,6 +19,12 @@ export const AvailabilityComponent = () => {
     const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
 
     const userName = 'Flávio'
+
+    const [isLoading, setIsLoading] = useState(true)
+
+    setTimeout(() => {
+        setIsLoading(false)
+    }, 100)
 
     const handleDateChange = (value: { month: number; name: string; year: number }) => {
         setSelectedMonth(value)
@@ -45,30 +52,40 @@ export const AvailabilityComponent = () => {
     }, [schedule])
 
     return (
-        <Container>
-            <Header />
-            <TitleContainer>
-                <Genos_Secondary_24_500 text={'Olá ' + userName} />
-                <Genos_Secondary_24_500 text="Defina a sua disponibilidade" />
-            </TitleContainer>
-            <Content>
-                <DateContent>
-                    <Genos_Secondary_24_500 text="Escolha o ano e o mês:" />
-                    <MonthYearSelect onChange={handleDateChange} />
-                </DateContent>
-                <DateContent>
-                    <Genos_Secondary_24_500 text="Escolha os dias da semana:" />
-                    <DaysOfWeekSelect onChange={handleDaysChange} />
-                </DateContent>
-                <DateContent>
-                    <Genos_Secondary_24_500 text="Escolha os horários de ínicio de cada atendimento:" />
-                    <TimeSelection onChange={handleTimeChange} />
-                </DateContent>
-                <DateContent>
-                    <AbsencePeriodSelector selectedMonth={selectedMonth} onChange={handlePeriodChange} />
-                </DateContent>
-                <FilledPrimaryButton title="Gerar agenda" onClick={generateNewSchedule} />
-            </Content>
-        </Container>
+        <>
+            {isLoading ? (
+                <LoadingComponent />
+            ) : (
+                <Container>
+                    <Header />
+                    <TitleContainer>
+                        <Genos_Secondary_24_500 text={'Olá ' + userName} />
+                        <Genos_Secondary_24_500 text="Defina a sua disponibilidade" />
+                    </TitleContainer>
+                    <Content>
+                        <LeftSide>
+                            <DateContent>
+                                <Genos_Secondary_24_500 text="Escolha o ano e o mês:" />
+                                <MonthYearSelect onChange={handleDateChange} />
+                            </DateContent>
+                            <DateContent>
+                                <Genos_Secondary_24_500 text="Escolha os dias da semana:" />
+                                <DaysOfWeekSelect onChange={handleDaysChange} />
+                            </DateContent>
+                        </LeftSide>
+                        <RightSide>
+                            <DateContent>
+                                <Genos_Secondary_24_500 text="Escolha os horários de ínicio de cada atendimento:" />
+                                <TimeSelection onChange={handleTimeChange} />
+                            </DateContent>
+                            <DateContent>
+                                <AbsencePeriodSelector selectedMonth={selectedMonth} onChange={handlePeriodChange} />
+                            </DateContent>
+                            <FilledPrimaryButton title="Gerar agenda" onClick={generateNewSchedule} />
+                        </RightSide>
+                    </Content>
+                </Container>
+            )}
+        </>
     )
 }
