@@ -8,7 +8,7 @@ import Header from '@common/components/Header'
 import { Calendar } from '@common/components/Calendar'
 import { LoadingComponent } from '@common/components/Loading'
 import { Appointments } from '@common/components/Appointments'
-import { PayloadProps, UserData, dataSelectedProps } from '@common/models'
+import { ScheduleObjectProps, UserData, dataSelectedProps } from '@common/models'
 import { ModalSighUp } from '@common/components/ModalSighUp'
 import { ModalConfirmation } from '@common/components/ModalConfirmation'
 import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
@@ -21,7 +21,7 @@ export const SchedulingComponent = () => {
     const { addPayload, clearPayloads } = usePayload()
 
     const [user, setUser] = useState<UserData>({} as UserData)
-    const [data, setData] = useState<PayloadProps[]>([] as PayloadProps[])
+    const [data, setData] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
     const [isLoading, setIsLoading] = useState(true)
     const [selectedDay, setSelectedDay] = useState<dataSelectedProps>({} as dataSelectedProps)
     const [openSighUpModal, setOpenSighUpModal] = useState(false)
@@ -404,7 +404,7 @@ export const SchedulingComponent = () => {
     }, [])
 
     const handleSetAppointments = useCallback(
-        (newPayload: PayloadProps) => {
+        (newPayload: ScheduleObjectProps) => {
             const daySelected = removeAppointment(selectedDay, newPayload)
             setSelectedDay(daySelected)
 
@@ -454,7 +454,7 @@ export const SchedulingComponent = () => {
                             {selectedDay?.data?.length > 0 && (
                                 <>
                                     <Appointments
-                                        appontmentsData={selectedDay}
+                                        appointmentsData={selectedDay}
                                         handleSetAppointments={(value) => handleSetAppointments(value)}
                                     />
                                     <LegendContainer>

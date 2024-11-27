@@ -4,11 +4,11 @@ import { Calendar } from '@common/components/Calendar'
 import { LoadingComponent } from '@common/components/Loading'
 import { Appointments } from '@common/components/Appointments'
 import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
-import { PayloadProps, dataSelectedProps } from '@common/models'
+import { ScheduleObjectProps, dataSelectedProps } from '@common/models'
 import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
 
 export const MyAgendaComponent = () => {
-    const [data, setData] = useState<PayloadProps[]>([] as PayloadProps[])
+    const [data, setData] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
     const [isLoading, setIsLoading] = useState(true)
     const [selectedData, setSelectedData] = useState<dataSelectedProps>({} as dataSelectedProps)
 
@@ -23,6 +23,7 @@ export const MyAgendaComponent = () => {
             day: 2,
             hour: 480,
             custumerId: '',
+            enable: true,
         },
         {
             year: 2024,
@@ -30,134 +31,7 @@ export const MyAgendaComponent = () => {
             day: 3,
             hour: 705,
             custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 4,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 8,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 10,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 12,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 15,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 20,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 22,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 6,
-            day: 25,
-            hour: 555,
-            custumerId: '',
-        },
-
-        // AGOSTO //==> 5, 6, 12, 13, 14, 19, 22, 23, 28, 30
-        {
-            year: 2024,
-            month: 7,
-            day: 5,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 7,
-            day: 6,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 7,
-            day: 12,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 7,
-            day: 13,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 7,
-            day: 14,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 7,
-            day: 19,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 7,
-            day: 22,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 7,
-            day: 23,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 7,
-            day: 28,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 7,
-            day: 30,
-            hour: 555,
-            custumerId: '',
+            enable: true,
         },
     ]
 
@@ -184,7 +58,7 @@ export const MyAgendaComponent = () => {
         setSelectedData({} as dataSelectedProps)
     }, [])
 
-    const handleSetAppointments = useCallback((value: PayloadProps) => {
+    const handleSetAppointments = useCallback((value: ScheduleObjectProps) => {
         console.log('appointment ---->  ', value)
     }, [])
 
@@ -203,6 +77,7 @@ export const MyAgendaComponent = () => {
                         <SchedulingContent>
                             <Calendar
                                 data={data}
+                                legend="Legenda"
                                 handleDayClick={handleDayClick}
                                 handleChangeMonth={handleChangeMonth}
                             />
@@ -213,7 +88,8 @@ export const MyAgendaComponent = () => {
                             {selectedData?.data?.length > 0 && (
                                 <>
                                     <Appointments
-                                        appontmentsData={selectedData}
+                                        appointmentsData={selectedData}
+                                        legend="Legenda"
                                         handleSetAppointments={(value) => handleSetAppointments(value)}
                                     />
 

@@ -1,13 +1,12 @@
 import { v4 as uuidv4 } from 'uuid'
 import { CreateAuth, UseWriteData } from '@common/api'
 import {
-    PayloadProps,
+    ScheduleObjectProps,
     GetDateProps,
     GetWeekDaysParams,
     dataSelectedProps,
     SelectedDateProps,
     PeriodProps,
-    ScheduleObjectProps,
 } from '@common/models'
 
 export const initialScript = async () => {
@@ -160,7 +159,7 @@ export const formatDate = (day: number, month: number, year: number): string => 
 }
 
 export const filterDaysByDateAndMonth = (
-    data: PayloadProps[],
+    data: ScheduleObjectProps[],
     selectedYear: number,
     selectedMonth: number
 ): number[] => {
@@ -184,7 +183,7 @@ export const filterDaysByDateAndMonth = (
     return days
 }
 
-export const sortPayloadsByDate = (payloads: PayloadProps[]): PayloadProps[] => {
+export const sortPayloadsByDate = (payloads: ScheduleObjectProps[]): ScheduleObjectProps[] => {
     return payloads.sort((a, b) => {
         const dateA = new Date(a.year, a.month, a.day, Math.floor(a.hour / 60), a.hour % 60)
         const dateB = new Date(b.year, b.month, b.day, Math.floor(b.hour / 60), b.hour % 60)
@@ -206,7 +205,10 @@ export const filterAppointmentsByDay = (selectedDay: dataSelectedProps): dataSel
     }
 }
 
-export const removeAppointment = (selectedDay: dataSelectedProps, newPayload: PayloadProps): dataSelectedProps => {
+export const removeAppointment = (
+    selectedDay: dataSelectedProps,
+    newPayload: ScheduleObjectProps
+): dataSelectedProps => {
     return {
         ...selectedDay,
         data: selectedDay.data.filter(
@@ -302,53 +304,17 @@ Prompt para ChatGPT da função 'generateSchedule()'
 Em um projeto react typescript com next, uso a lib MUI.
 Quero que crie uma função que receba os seguintes parâmetros:
 
-O primeiro é 'selectedMonth' e é um objeto como esse:
-{"month":0,"name":"janeiro","year":2025}.
+O primeiro é 'schedule' e é um array como esse:
+[{"year":2024,"month":11,"day":2,"hour":480,"custumerId":"","enable":true},{"year":2024,"month":11,"day":2,"hour":540,"custumerId":"","enable":true},{"year":2024,"month":11,"day":2,"hour":600,"custumerId":"","enable":true},{"year":2024,"month":11,"day":4,"hour":480,"custumerId":"","enable":true},{"year":2024,"month":11,"day":4,"hour":540,"custumerId":"","enable":true},{"year":2024,"month":11,"day":4,"hour":600,"custumerId":"","enable":true},{"year":2024,"month":11,"day":6,"hour":480,"custumerId":"","enable":true},{"year":2024,"month":11,"day":6,"hour":540,"custumerId":"","enable":true},{"year":2024,"month":11,"day":6,"hour":600,"custumerId":"","enable":true}]
 
-O segundo é 'selectedWeekDays' e é um array como esse:
-["segunda-feira","terça-feira","quinta-feira","sexta-feira"].
+O segundo é 'appointment' que é um objeto como esse:
+{"year":2024,"month":11,"day":2,"hour":600,"custumerId":"","enable":true}
 
-O terceiro é 'selectedTime' que é um array como esse: ["08:30","09:30","11:00"]
+A função deve editar e retornar o parâmetro 'schedule'.
+A função deve encontrar o objeto da propriedade 'data' do parâmetro 'schedule' que
+seja igual os parâmetro 'appointment' e alterar a propriedade 'enable'.
+Se o valor de 'enable' for true, deve alterar para false, e se for false, a função
+deve alterar para true.
+Essa alteração deve ocorrer apenas no objeto de data que for igual ao parâmetro 'appointment'
 
- O quarto parâmetro é 'absencePeriod' que é um array como esse:
- [{"year":2025,"month":0,"day":14},{"year":2025,"month":0,"day":29}]
-
-
-A função deve retornar um array de objetos como esse:
-{
-    year: 2024,
-    month: 10,
-    day: 26,
-    hour: 480,
-    custumerId: '',
-    enable: true,
-},
-Cada objeto do retorno deverá ter suas propriedades preenchidas da seguinte forma:
-    a propriedade 'year' receberá o valor de 'year' do parâmetro 'selectedMonth',
-    a propriedade 'month' receberá o valor de 'month' do parâmetro 'selectedMonth',
-    a propriedade 'day' será preenchida com o valor numérico de um dos dias do mês
-    correspondentes aos dias da semana selecionados no parâmetro 'selectedWeekDays',
-    a propriedade 'hour' será preenchida com o valor de um dos horários selecionados
-    na propriedade 'selectedHours',
-    a propriedade 'custumerId' terá seu valor inicial vazio,
-    a propriedade 'enable' terá seu valor inicial true
-
-Para cada dia do mês selecionado no parâmetro 'selectedMonth' que corresponda
-aos dias da semana indicados no parâmetro 'selectedWeekDays' devem ser criados os
-objetos do array de retorno. Um objeto para cada horário de 'selectedHours'
-
-Cada objeto do array de retorno deve combinar valores únicos a partir da data indicada nas
-propriedades year, month e day com os horários definidos em 'selectedHours'
-
-
-Então, se na propriedade 'selectedHours' houver 4 horarios selecionados, haverá 4
-objetos para cada dia ao longo do mês, sempre respeitando o filtro dos dias da
-semana indicados na propriedade 'selectedWeekDays'
-
-A função deve excluir do array de retorno todos os objetos que poderiam ser criados com os
-dados dos primeiros parâmetros que se encontrem dentro do intervalo de datas
-encontradas nos dois objetos do parâmetro 'absencePeriod'.
-
-Devem ser criados objetos dentro do retorno para todas as datas e horários possíveis
-que se encaixem nos critérios mencionados acima
 */

@@ -7,32 +7,34 @@ export type Hours = {
     custumerId: string
 }
 
-export type PayloadProps = {
+export type ScheduleObjectProps = {
     year: number
     month: number
     day: number
     hour: number
-    custumerId?: string
+    custumerId: string
+    enable: boolean
     userEmail?: string
 }
 
 export type PayloadContextType = {
-    payloads: PayloadProps[]
-    addPayload: (newPayload: PayloadProps) => void
+    payloads: ScheduleObjectProps[]
+    addPayload: (newPayload: ScheduleObjectProps) => void
     clearPayloads: () => void
 }
 
 export type ScheduleProps = {
-    schedule: PayloadProps[]
+    schedule: ScheduleObjectProps[]
 }
 
 export type AvailableDaysProps = {
     allDays: number[]
-    allScheduleDays: PayloadProps
+    allScheduleDays: ScheduleObjectProps
 }
 
 export type CalendarProps = {
-    data: PayloadProps[]
+    data: ScheduleObjectProps[]
+    legend: string
     handleDayClick: (day: number, month: number, year: number) => void
     handleChangeMonth: () => void
 }
@@ -44,15 +46,16 @@ export type GetDateProps = {
 }
 
 export type dataSelectedProps = {
-    data: PayloadProps[]
+    data: ScheduleObjectProps[]
     day: number
     month: number
     year: number
 }
 
 export type SelectedDataProps = {
-    appontmentsData: dataSelectedProps
-    handleSetAppointments: (value: PayloadProps) => void
+    appointmentsData: dataSelectedProps
+    legend: string
+    handleSetAppointments: (value: ScheduleObjectProps) => void
 }
 
 export type NavigatorDrawerProps = {
@@ -63,7 +66,7 @@ export type NavigatorDrawerProps = {
 export type NavigatorInLineProps = {
     showMenu?: boolean
     isAdmin: boolean
-    payloads: PayloadProps[]
+    payloads: ScheduleObjectProps[]
     handleOpenConfirmModal: () => void
 }
 
@@ -149,13 +152,4 @@ export type PeriodProps = {
     year: number
     month: number
     day: number
-}
-
-export type ScheduleObjectProps = {
-    year: number
-    month: number
-    day: number
-    hour: number
-    custumerId: string
-    enable: boolean
 }

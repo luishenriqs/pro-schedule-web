@@ -1,4 +1,4 @@
-import { collection, getFirestore, setDoc, doc } from 'firebase/firestore'
+import { collection, getFirestore, setDoc, doc, writeBatch } from 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
 import {
     getAuth,
@@ -122,5 +122,99 @@ export const UseWriteData = async (newData: any, entity: string) => {
         return { success: true, status: 201, message: 'Dados adicionados com sucesso!' }
     } catch (error) {
         return { success: false, status: 500, message: 'Erro ao adicionar documento: ' + `${error}` }
+    }
+}
+
+/*
+-------------------- UseWriteMultipleDataWithRetry --------------------
+
+Divisão em Blocos:
+
+O array de dados é dividido em blocos de tamanho chunkSize.
+Processamento Inicial:
+
+Cada bloco é processado com writeBatch.
+Se um bloco falhar, ele é armazenado em failedChunks.
+Reprocessamento com Limite de Tentativas:
+
+A lógica de reprocessamento tenta salvar os blocos que falharam, até o limite de
+maxRetries.
+
+Feedback Final:
+
+Se ainda houver falhas após o reprocessamento, a função retorna informações
+detalhadas sobre os blocos que não puderam ser salvos.
+*/
+
+export const UseWriteMultipleDataWithRetry = async (
+    dataArray: any[],
+    entity: string,
+    chunkSize = 100,
+    maxRetries = 3
+) => {
+    try {
+        const chunks = []
+        const failedChunks: any[][] = []
+
+        // Divide o array em blocos de tamanho 'chunkSize'
+        for (let i = 0; i < dataArray.length; i += chunkSize) {
+            chunks.push(dataArray.slice(i, i + chunkSize))
+        }
+
+        // Função para processar um único bloco
+        const processChunk = async (chunk: any[]) => {
+            try {
+                const batch = writeBatch(firestore)
+                const collectionRef = collection(firestore, entity)
+
+                chunk.forEach((data) => {
+                    const docRef = doc(
+                        collectionRef,
+                        data.email || `${data.year}-${data.month}-${data.day}-${data.hour}`
+                    )
+                    batch.set(docRef, data)
+                })
+
+                await batch.commit() // Salva o bloco no Firestore
+                return true
+            } catch (error) {
+                console.error('Erro ao processar bloco:', error)
+                return false
+            }
+        }
+
+        // Processa todos os blocos
+        for (const chunk of chunks) {
+            const success = await processChunk(chunk)
+            if (!success) {
+                failedChunks.push(chunk) // Adiciona o bloco à lista de falhas
+            }
+        }
+
+        // Tenta reprocessar os blocos que falharam
+        let retries = 0
+        while (failedChunks.length > 0 && retries < maxRetries) {
+            console.log(`Reprocessando blocos... Tentativa ${retries + 1}`)
+            const retryChunks = [...failedChunks]
+            failedChunks.length = 0 // Limpa a lista para registrar falhas novamente
+
+            for (const chunk of retryChunks) {
+                const success = await processChunk(chunk)
+                if (!success) {
+                    failedChunks.push(chunk) // Mantém os blocos que ainda falham
+                }
+            }
+            retries++
+        }
+
+        if (failedChunks.length > 0) {
+            console.warn('Alguns dados não puderam ser salvos após todas as tentativas.')
+            return { success: false, status: 207, message: 'Dados parcialmente salvos', failedChunks }
+        }
+
+        return { success: true, status: 201, message: 'Todos os dados foram salvos com sucesso!' }
+    } catch (error) {
+        console.error('Erro geral ao salvar dados:', error)
+        return { success: false, status: 500, message: 'Erro ao salvar dados: ' + `${error}` }
     }
 }
