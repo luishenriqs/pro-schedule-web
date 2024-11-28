@@ -33,7 +33,7 @@ export type AvailableDaysProps = {
 }
 
 export type CalendarProps = {
-    data: ScheduleObjectProps[]
+    schedule: ScheduleObjectProps[]
     legend: string
     handleDayClick: (day: number, month: number, year: number) => void
     handleChangeMonth: () => void
@@ -56,6 +56,10 @@ export type SelectedDataProps = {
     appointmentsData: dataSelectedProps
     legend: string
     handleSetAppointments: (value: ScheduleObjectProps) => void
+}
+
+export type HeaderProps = {
+    handleCancelAppoitments?: () => void
 }
 
 export type NavigatorDrawerProps = {

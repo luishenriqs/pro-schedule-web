@@ -76,7 +76,7 @@ export const MyAgendaComponent = () => {
                     <Content>
                         <SchedulingContent>
                             <Calendar
-                                data={data}
+                                schedule={data}
                                 legend="Legenda"
                                 handleDayClick={handleDayClick}
                                 handleChangeMonth={handleChangeMonth}

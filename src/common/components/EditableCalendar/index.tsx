@@ -18,7 +18,7 @@ import {
     CalendarControlContainer,
 } from './styles'
 
-export const EditableCalendar = ({ data, handleDayClick, legend, handleChangeMonth }: CalendarProps) => {
+export const EditableCalendar = ({ schedule, handleDayClick, legend, handleChangeMonth }: CalendarProps) => {
     const todayDate = new Date()
     const [selectedDate, setSelectedDate] = useState<Date>(todayDate)
     const [selectedMonth, setSelectedMonth] = useState<number>(todayDate.getMonth())
@@ -54,7 +54,7 @@ export const EditableCalendar = ({ data, handleDayClick, legend, handleChangeMon
         }
 
         for (let day = 1; day <= daysInMonth; day++) {
-            const dayObjects = data.filter(
+            const dayObjects = schedule.filter(
                 (item) => item.year === selectedYear && item.month === selectedMonth && item.day === day
             )
 
@@ -85,7 +85,7 @@ export const EditableCalendar = ({ data, handleDayClick, legend, handleChangeMon
             }
         }
         return buttons
-    }, [data, handleDayClick, selectedMonth, selectedYear])
+    }, [schedule, handleDayClick, selectedMonth, selectedYear])
 
     return (
         <Container>

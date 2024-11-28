@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter, usePathname } from 'next/navigation'
 import { usePayload } from '@common/hooks/contexts/PayloadContext'
 import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
 import { NavigatorDrawer } from '../NavigatorDrawer'
@@ -18,10 +18,12 @@ import {
     RedCircle,
     InLineHeaderContainer,
 } from './styles'
+import { HeaderProps } from '@common/models'
 
-function Header() {
+function Header({ handleCancelAppoitments }: HeaderProps) {
     const router = useRouter()
-    const { payloads, clearPayloads } = usePayload()
+    const pathname = usePathname()
+    const { payloads } = usePayload()
 
     const [open, setOpen] = useState(false)
     const [openConfirmationModal, setOpenConfirmationModal] = useState(false)
@@ -33,11 +35,6 @@ function Header() {
     const handleOpenConfirmModal = useCallback(() => {
         setOpenConfirmationModal(true)
     }, [])
-
-    const handleCancelAppoitments = useCallback(() => {
-        setOpenConfirmationModal(false)
-        clearPayloads()
-    }, [clearPayloads])
 
     const handleClose = useCallback(() => {
         setOpenConfirmationModal(false)
@@ -54,7 +51,7 @@ function Header() {
                         </ButtonIcon>
                     )}
                     <Imagem src={mainLogoRemovebg} alt="Main Logo" />
-                    {payloads.length > 0 ? (
+                    {pathname === '/' && payloads.length > 0 ? (
                         <ButtonIcon onClick={() => handleOpenConfirmModal()}>
                             <CalendarMenu />
                             <RedCircle>
@@ -77,7 +74,9 @@ function Header() {
             </InLineHeaderContainer>
             <ModalConfirmation
                 open={openConfirmationModal}
-                handleCancelAppoitments={handleCancelAppoitments}
+                handleCancelAppoitments={() =>
+                    handleCancelAppoitments && (handleCancelAppoitments(), setOpenConfirmationModal(false))
+                }
                 handleClose={handleClose}
             />
         </Container>

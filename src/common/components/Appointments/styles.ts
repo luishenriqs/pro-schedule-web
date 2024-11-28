@@ -37,7 +37,7 @@ export const TitleContainer = styled(Box)({
     },
 })
 
-export const HoursContainer = styled(Box)({
+export const EnabledContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -48,4 +48,19 @@ export const HoursContainer = styled(Box)({
     height: '40px',
     borderRadius: '6px',
     background: COLORS.primary,
+})
+
+export const DisabledContainer = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '10px',
+    padding: '10px',
+    width: '100%',
+    height: '40px',
+    borderRadius: '6px',
+    border: '1px solid',
+    borderColor: COLORS.primary,
+    background: COLORS.background,
 })

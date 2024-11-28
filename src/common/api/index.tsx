@@ -1,4 +1,4 @@
-import { collection, getFirestore, setDoc, doc, writeBatch } from 'firebase/firestore'
+import { collection, getFirestore, setDoc, doc, writeBatch, getDocs, query, where } from 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
 import {
     getAuth,
@@ -9,7 +9,7 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth'
 import { firebaseConfig } from '../../../firebaseConfig'
-import { FormValues } from '@common/models'
+import { FormValues, ScheduleObjectProps } from '@common/models'
 
 const app = initializeApp(firebaseConfig)
 const firestore = getFirestore(app)
@@ -149,7 +149,7 @@ detalhadas sobre os blocos que não puderam ser salvos.
 export const UseWriteMultipleDataWithRetry = async (
     dataArray: any[],
     entity: string,
-    chunkSize = 100,
+    chunkSize = 25,
     maxRetries = 3
 ) => {
     try {
@@ -216,5 +216,38 @@ export const UseWriteMultipleDataWithRetry = async (
     } catch (error) {
         console.error('Erro geral ao salvar dados:', error)
         return { success: false, status: 500, message: 'Erro ao salvar dados: ' + `${error}` }
+    }
+}
+
+// return ==> month fornecido, enable: Igual a true, custumerId: Vazio ("").
+export const UseAvailableScheduleByMonth = async (month: number): Promise<ScheduleObjectProps[]> => {
+    try {
+        const db = getFirestore()
+        const scheduleCollection = collection(db, 'schedule')
+
+        const q = query(scheduleCollection, where('month', '==', month), where('enable', '==', true))
+
+        // Obtenha os documentos da consulta
+        const querySnapshot = await getDocs(q)
+
+        // Mapeie os documentos para o tipo 'Schedule'
+        const schedules: ScheduleObjectProps[] = querySnapshot.docs
+            .map((doc) => {
+                const data = doc.data()
+                return {
+                    year: data.year,
+                    month: data.month,
+                    day: data.day,
+                    hour: data.hour,
+                    custumerId: data.custumerId,
+                    enable: data.enable,
+                }
+            })
+            .filter((schedule) => schedule.custumerId === '')
+
+        return schedules
+    } catch (error) {
+        console.error('Error fetching schedules:', error)
+        throw error
     }
 }

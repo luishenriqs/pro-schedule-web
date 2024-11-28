@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import Header from '@common/components/Header'
 import { EditableCalendar } from '@common/components/EditableCalendar'
 import { EditableAppointments } from '@common/components/EditableAppointments'
@@ -39,6 +39,7 @@ export const AvailabilityComponent = () => {
     const userName = 'Flávio'
 
     const [isLoading, setIsLoading] = useState(true)
+    const [isUpLoading, setIsUpLoading] = useState(false)
 
     setTimeout(() => {
         setIsLoading(false)
@@ -111,23 +112,23 @@ export const AvailabilityComponent = () => {
 
     const handleSave = useCallback(async () => {
         try {
+            setIsUpLoading(true)
             const response = await UseWriteMultipleDataWithRetry(schedule, 'schedule')
             if (response.status === 201) {
+                setIsUpLoading(false)
                 console.log('Message: ', response.status, response.message)
                 emmitSuccess(response.message)
             } else {
+                setIsUpLoading(false)
                 console.log('Message: ', response.status, response.message)
                 emmitAlert(response.message)
             }
         } catch (error) {
+            setIsUpLoading(false)
             console.error('Erro ao processar bloco:', error)
             emmitError('Erro ao processar bloco!')
         }
     }, [emmitAlert, emmitError, emmitSuccess, schedule])
-
-    useEffect(() => {
-        console.log('schedule:', JSON.stringify(schedule))
-    }, [schedule])
 
     return (
         <>
@@ -174,38 +175,44 @@ export const AvailabilityComponent = () => {
                         </Content>
                     ) : (
                         <Content>
-                            <SchedulingContent>
-                                <EditableCalendar
-                                    data={schedule}
-                                    legend="Escolha o dia"
-                                    handleDayClick={handleDayClick}
-                                    handleChangeMonth={handleChangeMonth}
-                                />
-                                <LegendContainer>
-                                    <Legend />
-                                    <Questrial_Secondary_20_500 text=" - Dias disponíveis" />
-                                </LegendContainer>
-
-                                {selectedDay?.data?.length > 0 && (
-                                    <>
-                                        <EditableAppointments
-                                            key={JSON.stringify(schedule)}
-                                            appointmentsData={selectedDay}
-                                            legend="Edite o horário"
-                                            handleSetAppointments={(value) => handleEditSchedule(value)}
+                            {isUpLoading ? (
+                                <LoadingComponent />
+                            ) : (
+                                <>
+                                    <SchedulingContent>
+                                        <EditableCalendar
+                                            schedule={schedule}
+                                            legend="Escolha o dia"
+                                            handleDayClick={handleDayClick}
+                                            handleChangeMonth={handleChangeMonth}
                                         />
                                         <LegendContainer>
                                             <Legend />
-                                            <Questrial_Secondary_20_500 text=" - Horários disponíveis" />
+                                            <Questrial_Secondary_20_500 text=" - Dias disponíveis" />
                                         </LegendContainer>
-                                        <LegendContainer>
-                                            <EmptyLegend />
-                                            <Questrial_Secondary_20_500 text=" - Horários desabilitados" />
-                                        </LegendContainer>
-                                    </>
-                                )}
-                            </SchedulingContent>
-                            <FilledPrimaryButton title="Salvar" onClick={handleSave} />
+
+                                        {selectedDay?.data?.length > 0 && (
+                                            <>
+                                                <EditableAppointments
+                                                    key={JSON.stringify(schedule)}
+                                                    appointmentsData={selectedDay}
+                                                    legend="Edite o horário"
+                                                    handleSetAppointments={(value) => handleEditSchedule(value)}
+                                                />
+                                                <LegendContainer>
+                                                    <Legend />
+                                                    <Questrial_Secondary_20_500 text=" - Horários disponíveis" />
+                                                </LegendContainer>
+                                                <LegendContainer>
+                                                    <EmptyLegend />
+                                                    <Questrial_Secondary_20_500 text=" - Horários desabilitados" />
+                                                </LegendContainer>
+                                            </>
+                                        )}
+                                    </SchedulingContent>
+                                    <FilledPrimaryButton title="Salvar" onClick={handleSave} />
+                                </>
+                            )}
                         </Content>
                     )}
                 </Container>

@@ -60,3 +60,15 @@ export const Legend = styled(Box)({
     marginRight: '10px',
     background: COLORS.primary,
 })
+
+export const EmptyLegend = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    width: '30px',
+    height: '15px',
+    borderRadius: '6px',
+    marginRight: '10px',
+    border: '1px solid',
+    borderColor: COLORS.primary,
+    background: COLORS.background,
+})

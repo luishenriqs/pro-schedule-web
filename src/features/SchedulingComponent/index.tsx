@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
-import { UseUser } from '@common/api'
+import { UseAvailableScheduleByMonth, UseUser } from '@common/api'
 import { firebaseConfig } from '../../../firebaseConfig'
 import { usePayload } from '@common/hooks/contexts/PayloadContext'
 import Header from '@common/components/Header'
@@ -12,8 +12,8 @@ import { ScheduleObjectProps, UserData, dataSelectedProps } from '@common/models
 import { ModalSighUp } from '@common/components/ModalSighUp'
 import { ModalConfirmation } from '@common/components/ModalConfirmation'
 import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
-import { filterAppointmentsByDay, initialScript, removeAppointment } from '@common/utils/helpers'
-import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
+import { filterAppointmentsByDay, initialScript } from '@common/utils/helpers'
+import { Container, Content, EmptyLegend, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
 
 export const SchedulingComponent = () => {
     const app = initializeApp(firebaseConfig)
@@ -21,7 +21,7 @@ export const SchedulingComponent = () => {
     const { addPayload, clearPayloads } = usePayload()
 
     const [user, setUser] = useState<UserData>({} as UserData)
-    const [data, setData] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
+    const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
     const [isLoading, setIsLoading] = useState(true)
     const [selectedDay, setSelectedDay] = useState<dataSelectedProps>({} as dataSelectedProps)
     const [openSighUpModal, setOpenSighUpModal] = useState(false)
@@ -67,366 +67,124 @@ export const SchedulingComponent = () => {
         [db]
     )
 
+    // REMOVER O FILTRO DE MONTH E TRAZER TODAS AS ENABLE E AVAILABLE
+    // REMOVER O FILTRO DE MONTH E TRAZER TODAS AS ENABLE E AVAILABLE
+    // REMOVER O FILTRO DE MONTH E TRAZER TODAS AS ENABLE E AVAILABLE
+    // REMOVER O FILTRO DE MONTH E TRAZER TODAS AS ENABLE E AVAILABLE
+    // REMOVER O FILTRO DE MONTH E TRAZER TODAS AS ENABLE E AVAILABLE
+
+    // FILTRAR POR MÊS SELECIONADO NO SELECT DATE - COMO?
+    // FILTRAR POR MÊS SELECIONADO NO SELECT DATE - COMO?
+    // FILTRAR POR MÊS SELECIONADO NO SELECT DATE - COMO?
+    // FILTRAR POR MÊS SELECIONADO NO SELECT DATE - COMO?
+    // FILTRAR POR MÊS SELECIONADO NO SELECT DATE - COMO?
+    // FILTRAR POR MÊS SELECIONADO NO SELECT DATE - COMO?
+
+    // GET SCHEDULE BY MONTH - ENABLE AND AVAILABLE
+    const getScheduleByMonth = useCallback(async () => {
+        const schedule = await UseAvailableScheduleByMonth(11)
+
+        if (schedule) {
+            setSchedule(schedule)
+            setIsLoading(false)
+        } else {
+            console.log('No schedule! ')
+            setIsLoading(false)
+        }
+    }, [])
+
     useEffect(() => {
         const userLogged = UseUser()
         if (userLogged) getData(userLogged)
-    }, [getData])
+        getScheduleByMonth()
+    }, [getData, getScheduleByMonth])
 
-    // ESSA REQUEST DEVE TRAZER APENAS OS HORÁRIOS DISPONÍVEIS (custumerId: '')
-    // ESSA REQUEST DEVE TRAZER APENAS OS HORÁRIOS DISPONÍVEIS (custumerId: '')
-    // ESSA REQUEST DEVE TRAZER APENAS OS HORÁRIOS DISPONÍVEIS (custumerId: '')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const dataMock = [
-        // NOVEMBER
-        {
-            year: 2024,
-            month: 10,
-            day: 26,
-            hour: 480,
-            custumerId: '',
+    const handleDayClick = useCallback(
+        (day: number, month: number, year: number) => {
+            const dataSelected = {
+                data: schedule,
+                day,
+                month,
+                year,
+            }
+            setSelectedDay(filterAppointmentsByDay(dataSelected))
         },
-        {
-            year: 2024,
-            month: 10,
-            day: 26,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 26,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 26,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 27,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 27,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 27,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 27,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 28,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 28,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 10,
-            day: 28,
-            hour: 630,
-            custumerId: '',
-        },
-
-        // DECEMBER
-        {
-            year: 2024,
-            month: 11,
-            day: 5,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 11,
-            day: 6,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 11,
-            day: 12,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 11,
-            day: 13,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 11,
-            day: 14,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 11,
-            day: 19,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 11,
-            day: 22,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 11,
-            day: 23,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 11,
-            day: 28,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 11,
-            day: 28,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2024,
-            month: 11,
-            day: 28,
-            hour: 630,
-            custumerId: '',
-        },
-
-        // JANUARY
-        {
-            year: 2025,
-            month: 0,
-            day: 2,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 0,
-            day: 3,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 0,
-            day: 4,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 0,
-            day: 8,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 0,
-            day: 10,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 0,
-            day: 12,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 0,
-            day: 15,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 0,
-            day: 20,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 0,
-            day: 22,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 0,
-            day: 25,
-            hour: 555,
-            custumerId: '',
-        },
-
-        // FEBRUARY
-        {
-            year: 2025,
-            month: 1,
-            day: 5,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 1,
-            day: 6,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 1,
-            day: 12,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 1,
-            day: 13,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 1,
-            day: 14,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 1,
-            day: 19,
-            hour: 555,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 1,
-            day: 22,
-            hour: 630,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 1,
-            day: 23,
-            hour: 705,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 1,
-            day: 28,
-            hour: 480,
-            custumerId: '',
-        },
-        {
-            year: 2025,
-            month: 1,
-            day: 30,
-            hour: 555,
-            custumerId: '',
-        },
-    ]
-
-    useEffect(() => {
-        setData(dataMock)
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 100)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    const handleDayClick = useCallback((day: number, month: number, year: number) => {
-        const dataSelected = {
-            data: dataMock,
-            day,
-            month,
-            year,
-        }
-        setSelectedDay(filterAppointmentsByDay(dataSelected))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+        [schedule]
+    )
 
     const handleChangeMonth = useCallback(() => {
         setSelectedDay({} as dataSelectedProps)
     }, [])
 
+    // SET APPOINTMENTS
     const handleSetAppointments = useCallback(
-        (newPayload: ScheduleObjectProps) => {
-            const daySelected = removeAppointment(selectedDay, newPayload)
-            setSelectedDay(daySelected)
+        (appointment: ScheduleObjectProps) => {
+            // Atualiza a visualização do calendário de agendamento
+            const updatedSchedule = schedule.map((item) =>
+                item.year === appointment.year &&
+                item.month === appointment.month &&
+                item.day === appointment.day &&
+                item.hour === appointment.hour &&
+                item.enable === true
+                    ? { ...item, custumerId: user.email ?? '' } // Cria um novo objeto
+                    : item
+            )
 
+            setSchedule(updatedSchedule)
+
+            // Recalcula selectedDay para refletir mudanças no schedule
+            setSelectedDay((prevSelectedDay) =>
+                filterAppointmentsByDay({
+                    data: updatedSchedule,
+                    day: prevSelectedDay.day,
+                    month: prevSelectedDay.month,
+                    year: prevSelectedDay.year,
+                })
+            )
+
+            // Adiciona o appointment no payload
             if (user.id) {
-                newPayload.custumerId = user.id
-                newPayload.userEmail = user.email
+                appointment.custumerId = user.id
+                appointment.userEmail = user.email
 
-                addPayload(newPayload)
+                addPayload(appointment)
                 setOpenConfirmationModal(true)
             } else {
                 setOpenSighUpModal(true)
             }
         },
-        [addPayload, selectedDay, user.email, user.id]
+        [addPayload, schedule, user.email, user.id]
     )
 
+    // CANCEL APPOINTMENTS
     const handleCancelAppoitments = useCallback(() => {
+        // Fecha o modal de confirmação
         setOpenConfirmationModal(false)
+
+        // Limpa os payloads pendentes
         clearPayloads()
-        selectedDay.data = dataMock
-        setSelectedDay(filterAppointmentsByDay(selectedDay))
-    }, [clearPayloads, dataMock, selectedDay])
+
+        // Atualiza o schedule removendo o 'custumerId' dos appointments marcados
+        const updatedSchedule = schedule.map(
+            (item) =>
+                item.custumerId // Verifica se 'custumerId' está preenchido
+                    ? { ...item, custumerId: '' } // Define como vazio
+                    : item // Mantém o objeto inalterado
+        )
+
+        // Atualiza o estado de schedule
+        setSchedule(updatedSchedule)
+
+        // Recalcula e atualiza o estado de selectedDay
+        setSelectedDay(
+            filterAppointmentsByDay({
+                data: updatedSchedule,
+                day: selectedDay.day,
+                month: selectedDay.month,
+                year: selectedDay.year,
+            })
+        )
+    }, [clearPayloads, schedule, selectedDay])
 
     return (
         <Container>
@@ -434,7 +192,7 @@ export const SchedulingComponent = () => {
                 <LoadingComponent />
             ) : (
                 <>
-                    <Header />
+                    <Header handleCancelAppoitments={handleCancelAppoitments} />
                     <TitleContainer>
                         {!!user.firstName && <Genos_Secondary_24_500 text={`Olá ${user.firstName}`} />}
                         <Genos_Secondary_24_500 text="Faça o seu agendamento" />
@@ -442,7 +200,9 @@ export const SchedulingComponent = () => {
                     <Content>
                         <SchedulingContent>
                             <Calendar
-                                data={data}
+                                key={JSON.stringify(schedule)}
+                                schedule={schedule}
+                                legend="Escolha o seu dia"
                                 handleDayClick={handleDayClick}
                                 handleChangeMonth={handleChangeMonth}
                             />
@@ -454,12 +214,18 @@ export const SchedulingComponent = () => {
                             {selectedDay?.data?.length > 0 && (
                                 <>
                                     <Appointments
+                                        key={JSON.stringify(schedule)}
                                         appointmentsData={selectedDay}
+                                        legend="Escolha o seu horário"
                                         handleSetAppointments={(value) => handleSetAppointments(value)}
                                     />
                                     <LegendContainer>
                                         <Legend />
                                         <Questrial_Secondary_20_500 text=" - Horários disponíveis" />
+                                    </LegendContainer>
+                                    <LegendContainer>
+                                        <EmptyLegend />
+                                        <Questrial_Secondary_20_500 text=" - Horários indisponíveis" />
                                     </LegendContainer>
                                 </>
                             )}

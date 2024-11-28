@@ -25,10 +25,10 @@ import {
     CalendarControlContainer,
 } from './styles'
 
-export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarProps) => {
+export const Calendar = ({ schedule, handleDayClick, handleChangeMonth }: CalendarProps) => {
     const todayDate = new Date()
     const [selectedDate, setSelectedDateProps] = useState<Date>(todayDate)
-    const [selecteMonth, setSelectedMonth] = useState<number>(todayDate.getMonth())
+    const [selectedMonth, setSelectedMonth] = useState<number>(todayDate.getMonth())
     const [selectedYear, setSelectedYear] = useState<number>(todayDate.getFullYear())
     const minMonth = getMinMonth(selectedDate)
 
@@ -60,7 +60,7 @@ export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarPr
         const firstWeekdayOfMonthIndex = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1).getDay()
         const daysQtd = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate()
 
-        const allDays = filterDaysByDateAndMonth(data, selectedYear, selecteMonth)
+        const allDays = filterDaysByDateAndMonth(schedule, selectedYear, selectedMonth)
 
         const buttons = []
 
@@ -71,18 +71,24 @@ export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarPr
 
         for (let i = 1; i <= daysQtd; i++) {
             const isScheduleDays = allDays.includes(i)
-            const isAvailable = hasEmptyCustomerId(data, i)
+            const isAvailable = hasEmptyCustomerId(schedule, i)
 
             const day = i
             buttons.push(
                 <CalendarControlContainer key={i}>
                     {isScheduleDays ? (
                         isAvailable ? (
-                            <AvailableDayButton key={i} onClick={() => handleDayClick(day, selecteMonth, selectedYear)}>
+                            <AvailableDayButton
+                                key={i}
+                                onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
+                            >
                                 <Genos_Secondary_24_500 text={day} />
                             </AvailableDayButton>
                         ) : (
-                            <UnavailableDayButton key={i}>
+                            <UnavailableDayButton
+                                key={i}
+                                onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
+                            >
                                 <Genos_Secondary_24_500 text={day} />
                             </UnavailableDayButton>
                         )
@@ -95,7 +101,7 @@ export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarPr
             )
         }
         return buttons
-    }, [data, handleDayClick, selecteMonth, selectedDate, selectedYear])
+    }, [schedule, handleDayClick, selectedMonth, selectedDate, selectedYear])
 
     return (
         <Container>
@@ -128,7 +134,7 @@ export const Calendar = ({ data, handleDayClick, handleChangeMonth }: CalendarPr
                         </DaysWeekContainer>
                     )
                 })}
-                {data && getCalendar()}
+                {schedule && getCalendar()}
             </CalendarContainer>
         </Container>
     )
