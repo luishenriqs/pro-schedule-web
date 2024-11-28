@@ -220,12 +220,17 @@ export const UseWriteMultipleDataWithRetry = async (
 }
 
 // return ==> month fornecido, enable: Igual a true, custumerId: Vazio ("").
-export const UseAvailableScheduleByMonth = async (month: number): Promise<ScheduleObjectProps[]> => {
+export const UseAvailableScheduleByMonth = async (year: number, month: number): Promise<ScheduleObjectProps[]> => {
     try {
         const db = getFirestore()
         const scheduleCollection = collection(db, 'schedule')
 
-        const q = query(scheduleCollection, where('month', '==', month), where('enable', '==', true))
+        const q = query(
+            scheduleCollection,
+            where('year', '==', year),
+            where('month', '==', month),
+            where('enable', '==', true)
+        )
 
         // Obtenha os documentos da consulta
         const querySnapshot = await getDocs(q)

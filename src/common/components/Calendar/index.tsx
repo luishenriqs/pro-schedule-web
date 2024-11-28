@@ -25,40 +25,46 @@ import {
     CalendarControlContainer,
 } from './styles'
 
-export const Calendar = ({ schedule, handleDayClick, handleChangeMonth }: CalendarProps) => {
+export const Calendar = ({
+    schedule,
+    handleDayClick,
+    handleChangeMonth,
+    onMonthChange,
+    onYearChange,
+    selectedMonth,
+    selectedYear,
+}: CalendarProps) => {
     const todayDate = new Date()
     const [selectedDate, setSelectedDateProps] = useState<Date>(todayDate)
-    const [selectedMonth, setSelectedMonth] = useState<number>(todayDate.getMonth())
-    const [selectedYear, setSelectedYear] = useState<number>(todayDate.getFullYear())
     const minMonth = getMinMonth(selectedDate)
 
     const goToPreviousMonth = useCallback(
         (selectedDate: Date) => {
             const { date, month, year } = getPreviousMonthDate(selectedDate)
             setSelectedDateProps(date)
-            setSelectedMonth(month)
-            setSelectedYear(year)
+            onMonthChange(month)
+            onYearChange(year)
             handleChangeMonth()
         },
-        [handleChangeMonth]
+        [handleChangeMonth, onMonthChange, onYearChange]
     )
 
     const goToNextMonth = useCallback(
         (selectedDate: Date) => {
             const { date, month, year } = getNextMonthDate(selectedDate)
             setSelectedDateProps(date)
-            setSelectedMonth(month)
-            setSelectedYear(year)
+            onMonthChange(month)
+            onYearChange(year)
             handleChangeMonth()
         },
-        [handleChangeMonth]
+        [handleChangeMonth, onMonthChange, onYearChange]
     )
 
     const weekDays = getWeekDays({ short: true })
 
     const getCalendar = useCallback(() => {
-        const firstWeekdayOfMonthIndex = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1).getDay()
-        const daysQtd = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate()
+        const firstWeekdayOfMonthIndex = new Date(selectedDate.getFullYear(), selectedMonth, 1).getDay()
+        const daysQtd = new Date(selectedDate.getFullYear(), selectedMonth + 1, 0).getDate()
 
         const allDays = filterDaysByDateAndMonth(schedule, selectedYear, selectedMonth)
 

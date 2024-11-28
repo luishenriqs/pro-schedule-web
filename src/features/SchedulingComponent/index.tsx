@@ -26,6 +26,8 @@ export const SchedulingComponent = () => {
     const [selectedDay, setSelectedDay] = useState<dataSelectedProps>({} as dataSelectedProps)
     const [openSighUpModal, setOpenSighUpModal] = useState(false)
     const [openConfirmationModal, setOpenConfirmationModal] = useState(false)
+    const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth())
+    const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear())
 
     // INICIAL SCRIPT
     const createOwner = useCallback(async () => {
@@ -67,22 +69,9 @@ export const SchedulingComponent = () => {
         [db]
     )
 
-    // REMOVER O FILTRO DE MONTH E TRAZER TODAS AS ENABLE E AVAILABLE
-    // REMOVER O FILTRO DE MONTH E TRAZER TODAS AS ENABLE E AVAILABLE
-    // REMOVER O FILTRO DE MONTH E TRAZER TODAS AS ENABLE E AVAILABLE
-    // REMOVER O FILTRO DE MONTH E TRAZER TODAS AS ENABLE E AVAILABLE
-    // REMOVER O FILTRO DE MONTH E TRAZER TODAS AS ENABLE E AVAILABLE
-
-    // FILTRAR POR MÊS SELECIONADO NO SELECT DATE - COMO?
-    // FILTRAR POR MÊS SELECIONADO NO SELECT DATE - COMO?
-    // FILTRAR POR MÊS SELECIONADO NO SELECT DATE - COMO?
-    // FILTRAR POR MÊS SELECIONADO NO SELECT DATE - COMO?
-    // FILTRAR POR MÊS SELECIONADO NO SELECT DATE - COMO?
-    // FILTRAR POR MÊS SELECIONADO NO SELECT DATE - COMO?
-
     // GET SCHEDULE BY MONTH - ENABLE AND AVAILABLE
     const getScheduleByMonth = useCallback(async () => {
-        const schedule = await UseAvailableScheduleByMonth(11)
+        const schedule = await UseAvailableScheduleByMonth(selectedYear, selectedMonth)
 
         if (schedule) {
             setSchedule(schedule)
@@ -91,7 +80,7 @@ export const SchedulingComponent = () => {
             console.log('No schedule! ')
             setIsLoading(false)
         }
-    }, [])
+    }, [selectedMonth, selectedYear])
 
     useEffect(() => {
         const userLogged = UseUser()
@@ -115,6 +104,15 @@ export const SchedulingComponent = () => {
     const handleChangeMonth = useCallback(() => {
         setSelectedDay({} as dataSelectedProps)
     }, [])
+
+    // Funções de callback para receber as mudanças de mês e ano
+    const handleMonthChange = (month: number) => {
+        setSelectedMonth(month)
+    }
+
+    const handleYearChange = (year: number) => {
+        setSelectedYear(year)
+    }
 
     // SET APPOINTMENTS
     const handleSetAppointments = useCallback(
@@ -200,11 +198,14 @@ export const SchedulingComponent = () => {
                     <Content>
                         <SchedulingContent>
                             <Calendar
-                                key={JSON.stringify(schedule)}
                                 schedule={schedule}
                                 legend="Escolha o seu dia"
                                 handleDayClick={handleDayClick}
                                 handleChangeMonth={handleChangeMonth}
+                                onMonthChange={handleMonthChange}
+                                onYearChange={handleYearChange}
+                                selectedMonth={selectedMonth}
+                                selectedYear={selectedYear}
                             />
                             <LegendContainer>
                                 <Legend />
