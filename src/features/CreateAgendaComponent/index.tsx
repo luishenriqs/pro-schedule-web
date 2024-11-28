@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react'
+import { useRouter } from 'next/router'
 import Header from '@common/components/Header'
-import { EditableCalendar } from '@common/components/EditableCalendar'
+import { CalendarCreateAgenda } from '@common/components/CalendarCreateAgenda'
 import { EditableAppointments } from '@common/components/EditableAppointments'
 import { dataSelectedProps, PeriodProps, ScheduleObjectProps, SelectedDateProps } from '@common/models'
 import { FilledPrimaryButton } from '@common/components/Button'
@@ -10,23 +11,26 @@ import { TimeSelection } from '@common/components/TimeSelection'
 import { LoadingComponent } from '@common/components/Loading'
 import { AbsencePeriodSelector } from '@common/components/AbsencePeriodSelector'
 import { filterAppointmentsByDay, generateSchedule } from '@common/utils/helpers'
+import { UseWriteMultipleDataWithRetry } from '@common/api'
+import { useNotification } from '@common/hooks/useNotification'
+import { GenosPrimaryButtonText } from '@common/components/ButtonText'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
 import {
+    ButtonsContainer,
     Container,
     Content,
     DateContent,
+    EditCalendarContainer,
     EmptyLegend,
     LeftSide,
     Legend,
     LegendContainer,
     RightSide,
-    SchedulingContent,
     TitleContainer,
 } from './styles'
-import { UseWriteMultipleDataWithRetry } from '@common/api'
-import { useNotification } from '@common/hooks/useNotification'
 
-export const AvailabilityComponent = () => {
+export const CreateAgendaComponent = () => {
+    const router = useRouter()
     const { emmitSuccess, emmitError, emmitAlert } = useNotification()
 
     const [selectedMonth, setSelectedMonth] = useState<SelectedDateProps>({} as SelectedDateProps)
@@ -63,8 +67,12 @@ export const AvailabilityComponent = () => {
 
     const generateNewSchedule = useCallback(() => {
         const newSchedule = generateSchedule(selectedMonth, selectedWeekDays, selectedTime, absencePeriod)
-        setSchedule(newSchedule)
-    }, [absencePeriod, selectedMonth, selectedTime, selectedWeekDays])
+        if (newSchedule.length > 0) {
+            setSchedule(newSchedule)
+        } else {
+            emmitAlert('Preencha todos os dados!')
+        }
+    }, [absencePeriod, emmitAlert, selectedMonth, selectedTime, selectedWeekDays])
 
     const handleDayClick = useCallback(
         (day: number, month: number, year: number) => {
@@ -118,6 +126,7 @@ export const AvailabilityComponent = () => {
                 setIsUpLoading(false)
                 console.log('Message: ', response.status, response.message)
                 emmitSuccess(response.message)
+                router.push('/')
             } else {
                 setIsUpLoading(false)
                 console.log('Message: ', response.status, response.message)
@@ -128,7 +137,28 @@ export const AvailabilityComponent = () => {
             console.error('Erro ao processar bloco:', error)
             emmitError('Erro ao processar bloco!')
         }
-    }, [emmitAlert, emmitError, emmitSuccess, schedule])
+    }, [emmitAlert, emmitError, emmitSuccess, router, schedule])
+
+    const handleGoBack = useCallback(() => {
+        setSchedule([])
+        setSelectedDay({} as dataSelectedProps)
+        setSelectedMonth({} as SelectedDateProps)
+        setSelectedWeekDays([] as string[])
+        setSelectedTime([] as string[])
+        setAbsencePeriod(null)
+    }, [])
+
+    /*
+        TO DO LIST:
+        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
+        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
+        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
+        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
+        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
+        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
+        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
+        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
+    */
 
     return (
         <>
@@ -141,7 +171,11 @@ export const AvailabilityComponent = () => {
                         {schedule.length === 0 ? (
                             <>
                                 <Genos_Primary_24_500 text={'Olá ' + userName} />
-                                <Genos_Secondary_24_500 text="Defina a sua disponibilidade" />
+                                <Genos_Secondary_24_500 text="Crie uma nova agenda" />
+                                <DateContent style={{ padding: '30px 10px 0' }}>
+                                    <Genos_Secondary_24_500 text="Escolha o ano e o mês:" />
+                                    <MonthYearSelect onChange={handleDateChange} />
+                                </DateContent>
                             </>
                         ) : (
                             <Genos_Secondary_24_500 text="Edite sua agenda" />
@@ -149,38 +183,38 @@ export const AvailabilityComponent = () => {
                     </TitleContainer>
                     {schedule.length === 0 ? (
                         <Content>
-                            <LeftSide>
-                                <DateContent>
-                                    <Genos_Secondary_24_500 text="Escolha o ano e o mês:" />
-                                    <MonthYearSelect onChange={handleDateChange} />
-                                </DateContent>
-                                <DateContent>
-                                    <Genos_Secondary_24_500 text="Escolha os dias da semana:" />
-                                    <DaysOfWeekSelect onChange={handleDaysChange} />
-                                </DateContent>
-                            </LeftSide>
-                            <RightSide>
-                                <DateContent>
-                                    <Genos_Secondary_24_500 text="Escolha os horários de ínicio de cada atendimento:" />
-                                    <TimeSelection onChange={handleTimeChange} />
-                                </DateContent>
-                                <DateContent>
-                                    <AbsencePeriodSelector
-                                        selectedMonth={selectedMonth}
-                                        onChange={handlePeriodChange}
-                                    />
-                                </DateContent>
-                                <FilledPrimaryButton title="Gerar agenda" onClick={generateNewSchedule} />
-                            </RightSide>
+                            {!!selectedMonth.name && (
+                                <>
+                                    <LeftSide>
+                                        <DateContent>
+                                            <Genos_Secondary_24_500 text="Escolha os dias da semana:" />
+                                            <DaysOfWeekSelect onChange={handleDaysChange} />
+                                        </DateContent>
+                                    </LeftSide>
+                                    <RightSide>
+                                        <DateContent>
+                                            <Genos_Secondary_24_500 text="Escolha os horários de ínicio de cada atendimento:" />
+                                            <TimeSelection onChange={handleTimeChange} />
+                                        </DateContent>
+                                        <DateContent>
+                                            <AbsencePeriodSelector
+                                                selectedMonth={selectedMonth}
+                                                onChange={handlePeriodChange}
+                                            />
+                                        </DateContent>
+                                        <FilledPrimaryButton title="Gerar agenda" onClick={generateNewSchedule} />
+                                    </RightSide>
+                                </>
+                            )}
                         </Content>
                     ) : (
                         <Content>
                             {isUpLoading ? (
                                 <LoadingComponent />
                             ) : (
-                                <>
-                                    <SchedulingContent>
-                                        <EditableCalendar
+                                <EditCalendarContainer>
+                                    <LeftSide>
+                                        <CalendarCreateAgenda
                                             schedule={schedule}
                                             legend="Escolha o dia"
                                             handleDayClick={handleDayClick}
@@ -190,7 +224,9 @@ export const AvailabilityComponent = () => {
                                             <Legend />
                                             <Questrial_Secondary_20_500 text=" - Dias disponíveis" />
                                         </LegendContainer>
+                                    </LeftSide>
 
+                                    <RightSide>
                                         {selectedDay?.data?.length > 0 && (
                                             <>
                                                 <EditableAppointments
@@ -209,9 +245,16 @@ export const AvailabilityComponent = () => {
                                                 </LegendContainer>
                                             </>
                                         )}
-                                    </SchedulingContent>
-                                    <FilledPrimaryButton title="Salvar" onClick={handleSave} />
-                                </>
+                                        <ButtonsContainer>
+                                            <FilledPrimaryButton title="Salvar" onClick={handleSave} />
+                                            <GenosPrimaryButtonText
+                                                title="Voltar"
+                                                size="medium"
+                                                onClick={() => handleGoBack()}
+                                            />
+                                        </ButtonsContainer>
+                                    </RightSide>
+                                </EditCalendarContainer>
                             )}
                         </Content>
                     )}

@@ -26,11 +26,11 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
         }
     }, [pathname, router])
 
-    const onClickAvailability = useCallback(() => {
-        if (pathname === '/Availability') {
+    const onClickCreateAgenda = useCallback(() => {
+        if (pathname === '/CreateAgenda') {
             router.refresh()
         } else {
-            router.push('/Availability')
+            router.push('/CreateAgenda')
         }
     }, [pathname, router])
 
@@ -140,12 +140,12 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
         },
         {
             order: 2,
-            title: 'Disponibilidade',
-            route: '/Availability',
+            title: 'Criar Agenda',
+            route: '/CreateAgenda',
             icon: '',
-            selected: pathname === '/Availability',
+            selected: pathname === '/CreateAgenda',
             onClickHandler: () => {
-                onClickAvailability()
+                onClickCreateAgenda()
             },
         },
         {

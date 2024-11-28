@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_14_500 } from '../Typography'
-import { EditableCalendarProps } from '@common/models'
+import { CalendarCreateAgendaProps } from '@common/models'
 import { getWeekDays } from '@common/utils/helpers'
 import {
     Container,
@@ -13,7 +13,7 @@ import {
     CalendarControlContainer,
 } from './styles'
 
-export const EditableCalendar = ({ schedule, handleDayClick, legend }: EditableCalendarProps) => {
+export const CalendarCreateAgenda = ({ schedule, handleDayClick, legend }: CalendarCreateAgendaProps) => {
     let firstValidSchedule = schedule.length > 0 ? schedule[0] : null
     if (!firstValidSchedule) {
         const today = new Date()

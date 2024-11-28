@@ -1,5 +1,5 @@
-import Scheduling from '@pages/Scheduling'
+import NewSchedule from '@pages/NewSchedule'
 
 export default function Home() {
-    return <Scheduling />
+    return <NewSchedule />
 }

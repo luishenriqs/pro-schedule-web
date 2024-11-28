@@ -43,6 +43,20 @@ export type CalendarProps = {
     onYearChange: (year: number) => void
 }
 
+export type EditableCalendarProps = {
+    schedule: ScheduleObjectProps[]
+    legend: string
+    handleDayClick: (day: number, month: number, year: number) => void
+    handleChangeMonth: () => void
+}
+
+export type CalendarCreateAgendaProps = {
+    schedule: ScheduleObjectProps[]
+    legend: string
+    handleDayClick: (day: number, month: number, year: number) => void
+    handleChangeMonth: () => void
+}
+
 export type GetDateProps = {
     date: Date
     month: number

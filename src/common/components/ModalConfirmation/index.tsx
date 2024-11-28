@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import { Modal } from '@mui/material'
 import { ModalProps } from './model'
 import { FilledPrimaryButton } from '../Button'
@@ -9,6 +10,7 @@ import { formatDate, integerToTime, sortPayloadsByDate } from '@common/utils/hel
 import { Container, AppointmentsContainer, ContentContainer } from './styles'
 
 export const ModalConfirmation = ({ open, handleCancelAppoitments, handleClose, ...props }: ModalProps) => {
+    const router = useRouter()
     const { payloads } = usePayload()
 
     return (
@@ -40,7 +42,7 @@ export const ModalConfirmation = ({ open, handleCancelAppoitments, handleClose, 
                     <GenosSecondaryButtonText title="Novo Agendamento" size="medium" onClick={() => handleClose()} />
                 </ContentContainer>
                 <Questrial_Secondary_16_500 text="Para confirmar sua reserva efetue o pagamento:" />
-                <FilledPrimaryButton title="Pagamento" onClick={() => {}} />
+                <FilledPrimaryButton title="Pagamento" onClick={() => router.push('/Payment')} />
                 <ContentContainer>
                     <Questrial_Secondary_16_500 text="Cancelar reservas?" />
                     <GenosSecondaryButtonText

@@ -19,6 +19,9 @@ export const Container = styled(Box)({
     '@media (min-width:750px)': {
         width: '400px',
     },
+    '@media (min-width:1024px)': {
+        marginTop: '0px',
+    },
 })
 
 export const TitleContainer = styled(Box)({

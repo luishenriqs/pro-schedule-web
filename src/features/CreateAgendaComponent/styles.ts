@@ -80,14 +80,17 @@ export const DateContent = styled(Box)({
     background: COLORS.background,
 })
 
-export const SchedulingContent = styled(Box)({
+export const EditCalendarContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     width: '100vw',
     height: 'auto',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
-    margin: '15px 0 25px',
+
+    '@media (min-width:1024px)': {
+        flexDirection: 'row',
+    },
 })
 
 export const LegendContainer = styled(Box)({
@@ -120,4 +123,14 @@ export const EmptyLegend = styled(Box)({
     border: '1px solid',
     borderColor: COLORS.primary,
     background: COLORS.background,
+})
+
+export const ButtonsContainer = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: 'auto',
+    marginTop: '20px',
 })

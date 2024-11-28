@@ -5,7 +5,7 @@ import { UseAvailableScheduleByMonth, UseUser } from '@common/api'
 import { firebaseConfig } from '../../../firebaseConfig'
 import { usePayload } from '@common/hooks/contexts/PayloadContext'
 import Header from '@common/components/Header'
-import { Calendar } from '@common/components/Calendar'
+import { CalendarNewSchedule } from '@common/components/CalendarNewSchedule'
 import { LoadingComponent } from '@common/components/Loading'
 import { Appointments } from '@common/components/Appointments'
 import { ScheduleObjectProps, UserData, dataSelectedProps } from '@common/models'
@@ -15,7 +15,7 @@ import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/comp
 import { filterAppointmentsByDay, initialScript } from '@common/utils/helpers'
 import { Container, Content, EmptyLegend, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
 
-export const SchedulingComponent = () => {
+export const NewScheduleComponent = () => {
     const app = initializeApp(firebaseConfig)
     const db = getFirestore(app)
     const { addPayload, clearPayloads } = usePayload()
@@ -61,7 +61,7 @@ export const SchedulingComponent = () => {
             if (docSnap && docSnap.exists()) {
                 const user = docSnap.data()
                 setUser(user)
-                console.log('Logged in user! ', JSON.stringify(user))
+                // console.log('Logged in user! ', JSON.stringify(user))
             } else {
                 console.log('No logged in user!')
             }
@@ -197,7 +197,7 @@ export const SchedulingComponent = () => {
                     </TitleContainer>
                     <Content>
                         <SchedulingContent>
-                            <Calendar
+                            <CalendarNewSchedule
                                 schedule={schedule}
                                 legend="Escolha o seu dia"
                                 handleDayClick={handleDayClick}

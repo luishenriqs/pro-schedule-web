@@ -37,10 +37,10 @@ export const NavigatorInLine = ({ showMenu, isAdmin, payloads, handleOpenConfirm
                                     onClick={() => router.push('/')}
                                 />
                                 <GenosPrimaryButtonText
-                                    title="Disponibilidade"
+                                    title="Criar Agenda"
                                     size="medium"
-                                    selected={pathname === '/Availability'}
-                                    onClick={() => router.push('/Availability')}
+                                    selected={pathname === '/CreateAgenda'}
+                                    onClick={() => router.push('/CreateAgenda')}
                                 />
                                 <GenosPrimaryButtonText
                                     title="Agenda"
@@ -94,7 +94,7 @@ export const NavigatorInLine = ({ showMenu, isAdmin, payloads, handleOpenConfirm
                     </MenuContainer>
                 </MenuOptionsContainer>
             )}
-            {payloads.length > 0 ? (
+            {pathname === '/' && payloads.length > 0 ? (
                 <ButtonIcon onClick={() => handleOpenConfirmModal()}>
                     <CalendarMenu />
                     <RedCircle>

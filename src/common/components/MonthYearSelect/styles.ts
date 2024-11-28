@@ -11,7 +11,7 @@ export const Container = styled(Box)({
     borderRadius: '8px',
     margin: '0 10px',
 
-    '@media (min-width:1224px)': {
+    '@media (min-width:1024px)': {
         flexDirection: 'row',
     },
 })
@@ -26,7 +26,7 @@ export const SelectContainer = styled(Box)({
     borderRadius: '8px',
     margin: '10px 0',
 
-    '@media (min-width:1224px)': {
+    '@media (min-width:1024px)': {
         margin: '0 10px',
     },
 })
