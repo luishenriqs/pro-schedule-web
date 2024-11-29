@@ -43,7 +43,7 @@ export const NavigatorInLine = ({ showMenu, isAdmin, payloads, handleOpenConfirm
                                     onClick={() => router.push('/CreateAgenda')}
                                 />
                                 <GenosPrimaryButtonText
-                                    title="Agenda"
+                                    title="Minha Agenda"
                                     size="medium"
                                     selected={pathname === '/MyAgenda'}
                                     onClick={() => router.push('/MyAgenda')}

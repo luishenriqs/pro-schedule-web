@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { Button } from '@mui/material'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_14_500 } from '../Typography'
-import { CalendarProps } from '@common/models'
+import { CalendarNewScheduleProps } from '@common/models'
 import {
     filterDaysByDateAndMonth,
     getMinMonth,
@@ -33,7 +33,7 @@ export const CalendarNewSchedule = ({
     onYearChange,
     selectedMonth,
     selectedYear,
-}: CalendarProps) => {
+}: CalendarNewScheduleProps) => {
     const todayDate = new Date()
     const [selectedDate, setSelectedDateProps] = useState<Date>(todayDate)
     const minMonth = getMinMonth(selectedDate)
