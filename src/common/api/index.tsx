@@ -1,4 +1,4 @@
-import { collection, getFirestore, setDoc, doc, writeBatch, getDocs, query, where } from 'firebase/firestore'
+import { collection, getFirestore, setDoc, doc, writeBatch, getDocs, query, where, getDoc } from 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
 import {
     getAuth,
@@ -9,7 +9,7 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth'
 import { firebaseConfig } from '../../../firebaseConfig'
-import { FormValues, ScheduleObjectProps } from '@common/models'
+import { FormValues, ScheduleObjectProps, User } from '@common/models'
 
 const app = initializeApp(firebaseConfig)
 const firestore = getFirestore(app)
@@ -125,27 +125,6 @@ export const UseWriteData = async (newData: any, entity: string) => {
     }
 }
 
-/*
--------------------- UseWriteMultipleDataWithRetry --------------------
-
-Divisão em Blocos:
-
-O array de dados é dividido em blocos de tamanho chunkSize.
-Processamento Inicial:
-
-Cada bloco é processado com writeBatch.
-Se um bloco falhar, ele é armazenado em failedChunks.
-Reprocessamento com Limite de Tentativas:
-
-A lógica de reprocessamento tenta salvar os blocos que falharam, até o limite de
-maxRetries.
-
-Feedback Final:
-
-Se ainda houver falhas após o reprocessamento, a função retorna informações
-detalhadas sobre os blocos que não puderam ser salvos.
-*/
-
 export const UseWriteMultipleDataWithRetry = async (
     dataArray: any[],
     entity: string,
@@ -251,6 +230,23 @@ export const UseAvailableScheduleByMonth = async (year: number, month: number): 
             .filter((schedule) => schedule.custumerId === '')
 
         return schedules
+    } catch (error) {
+        console.error('Error fetching schedules:', error)
+        throw error
+    }
+}
+
+export const GetUserById = async (id: string) => {
+    try {
+        const userRef = doc(firestore, 'users', id)
+        const userDoc = await getDoc(userRef)
+
+        if (userDoc.exists()) {
+            const userData = userDoc.data() as User
+            return userData
+        } else {
+            return {} as User
+        }
     } catch (error) {
         console.error('Error fetching schedules:', error)
         throw error

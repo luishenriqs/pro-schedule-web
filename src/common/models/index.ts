@@ -186,3 +186,31 @@ export type PeriodProps = {
     month: number
     day: number
 }
+
+export type User = {
+    address: string
+    birthday: string
+    cep: string
+    city: string
+    complement: string
+    cpf: string
+    email: string
+    firstName: string
+    id: string
+    isAdmin: boolean
+    isManager: boolean
+    isOwner: boolean
+    lastName: string
+    neighborhood: string
+    password: string
+    phone: string
+    state: string
+}
+
+export type PatientsComponentProps = {
+    users: User[]
+}
+
+export type PatientManagementProps = {
+    user: User
+}

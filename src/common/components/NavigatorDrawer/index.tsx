@@ -42,6 +42,14 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
         }
     }, [pathname, router])
 
+    const onClickMyPatients = useCallback(() => {
+        if (pathname === '/Patients') {
+            router.refresh()
+        } else {
+            router.push('/Patients')
+        }
+    }, [pathname, router])
+
     const onClickSignIn = useCallback(() => {
         if (pathname === '/SignIn') {
             router.refresh()
@@ -160,6 +168,16 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
         },
         {
             order: 4,
+            title: 'Pacientes',
+            route: '/Patients',
+            icon: '',
+            selected: pathname === '/Patients',
+            onClickHandler: () => {
+                onClickMyPatients()
+            },
+        },
+        {
+            order: 5,
             title: 'Login',
             route: '/SignIn',
             icon: '',
@@ -169,7 +187,7 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
             },
         },
         {
-            order: 5,
+            order: 6,
             title: 'Cadastro',
             route: '/SignUp',
             icon: '',
