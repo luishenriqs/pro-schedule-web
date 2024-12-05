@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { CreateAuth, UseWriteData } from '@common/api'
+import { CreateAuth, WriteData } from '@common/api'
 import {
     ScheduleObjectProps,
     GetDateProps,
@@ -11,29 +11,22 @@ import {
 
 export const initialScript = async () => {
     const payload = {
+        isManager: true,
+        isAdmin: true,
+        id: uuidv4(),
         firstName: 'Luís Henrique',
         lastName: 'Pereira',
         phone: '16981011280',
         email: 'lh.p@hotmail.com',
         password: '123456',
-        isOwner: true,
-        isManager: true,
-        isAdmin: true,
-        id: uuidv4(),
-        birthday: '',
-        cpf: '',
-        cep: '',
-        address: '',
-        complement: '',
-        neighborhood: '',
-        city: '',
-        state: '',
+        cpf: 29125240838,
+        credits: 0,
     }
 
     try {
         const resp = await CreateAuth(payload) //==> Cria o usuário OWNER no firebase/auth
         if (resp.status === 201) {
-            const respData = await UseWriteData(payload, 'users') //==> Cria o usuário OWNER no firestore
+            const respData = await WriteData(payload, 'users') //==> Cria o usuário OWNER no firestore
             return respData
         } else {
             return resp
@@ -297,24 +290,3 @@ export const generateSchedule = (
     }
     return result
 }
-
-/*
-Prompt para ChatGPT da função 'generateSchedule()'
-
-Em um projeto react typescript com next, uso a lib MUI.
-Quero que crie uma função que receba os seguintes parâmetros:
-
-O primeiro é 'schedule' e é um array como esse:
-[{"year":2024,"month":11,"day":2,"hour":480,"custumerId":"","enable":true},{"year":2024,"month":11,"day":2,"hour":540,"custumerId":"","enable":true},{"year":2024,"month":11,"day":2,"hour":600,"custumerId":"","enable":true},{"year":2024,"month":11,"day":4,"hour":480,"custumerId":"","enable":true},{"year":2024,"month":11,"day":4,"hour":540,"custumerId":"","enable":true},{"year":2024,"month":11,"day":4,"hour":600,"custumerId":"","enable":true},{"year":2024,"month":11,"day":6,"hour":480,"custumerId":"","enable":true},{"year":2024,"month":11,"day":6,"hour":540,"custumerId":"","enable":true},{"year":2024,"month":11,"day":6,"hour":600,"custumerId":"","enable":true}]
-
-O segundo é 'appointment' que é um objeto como esse:
-{"year":2024,"month":11,"day":2,"hour":600,"custumerId":"","enable":true}
-
-A função deve editar e retornar o parâmetro 'schedule'.
-A função deve encontrar o objeto da propriedade 'data' do parâmetro 'schedule' que
-seja igual os parâmetro 'appointment' e alterar a propriedade 'enable'.
-Se o valor de 'enable' for true, deve alterar para false, e se for false, a função
-deve alterar para true.
-Essa alteração deve ocorrer apenas no objeto de data que for igual ao parâmetro 'appointment'
-
-*/

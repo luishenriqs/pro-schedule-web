@@ -42,11 +42,11 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
         }
     }, [pathname, router])
 
-    const onClickMyPatients = useCallback(() => {
-        if (pathname === '/Patients') {
+    const onClickMyUsers = useCallback(() => {
+        if (pathname === '/Users') {
             router.refresh()
         } else {
-            router.push('/Patients')
+            router.push('/Users')
         }
     }, [pathname, router])
 
@@ -168,12 +168,12 @@ export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
         },
         {
             order: 4,
-            title: 'Pacientes',
-            route: '/Patients',
+            title: 'Usuários',
+            route: '/Users',
             icon: '',
-            selected: pathname === '/Patients',
+            selected: pathname === '/Users',
             onClickHandler: () => {
-                onClickMyPatients()
+                onClickMyUsers()
             },
         },
         {

@@ -1,4 +1,15 @@
-import { collection, getFirestore, setDoc, doc, writeBatch, getDocs, query, where, getDoc } from 'firebase/firestore'
+import {
+    collection,
+    getFirestore,
+    setDoc,
+    doc,
+    writeBatch,
+    getDocs,
+    query,
+    where,
+    getDoc,
+    updateDoc,
+} from 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
 import {
     getAuth,
@@ -9,17 +20,18 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth'
 import { firebaseConfig } from '../../../firebaseConfig'
-import { FormValues, ScheduleObjectProps, User } from '@common/models'
+import { UserProps, ScheduleObjectProps, RequestResponseProps } from '@common/models'
 
 const app = initializeApp(firebaseConfig)
 const firestore = getFirestore(app)
 const auth = getAuth()
 
 //==> Cria novo usuário no firestore/auth
-export const CreateAuth = async (data: FormValues) => {
+export const CreateAuth = async (data: UserProps) => {
     try {
-        const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password)
-        const user = userCredential.user
+        const userCredential =
+            data.email && data.password && (await createUserWithEmailAndPassword(auth, data.email, data.password))
+        const user = userCredential && userCredential.user
         if (user) {
             return { success: true, status: 201, message: 'Usuário cadastrado com sucesso!' }
         }
@@ -41,31 +53,33 @@ export const CreateAuth = async (data: FormValues) => {
 }
 
 //==> Conecta usuário
-export const UseSignIn = async (data: FormValues) => {
-    return signInWithEmailAndPassword(auth, data.email, data.password)
-        .then((userCredential) => {
-            const user = userCredential.user
-            if (user) {
-                return { success: true, status: 200, message: 'Usuário autenticado com sucesso!' }
-            }
-            return { success: false, status: 400, message: 'Falha ao autenticar o usuário!' }
-        })
-        .catch((error) => {
-            console.error(error.code)
-            if (error.code === 'auth/user-not-found')
-                return { success: false, status: error.code, message: 'Email ou senha inválidos!' }
-            if (error.code === 'auth/invalid-email' || error.code === 'auth/wrong-password')
-                return { success: false, status: error.code, message: 'Email ou senha inválidos!' }
-            if (error.code === 'auth/invalid-credential')
-                return { success: false, status: error.code, message: 'Email ou senha inválidos!' }
-            if (error.code === 'auth/too-many-requests')
-                return {
-                    success: false,
-                    status: error.code,
-                    message: 'Muitas tentativas, senha bloqueada. Resete sua senha e tente novamente mais tarde!',
-                }
-            return { success: false, status: 400, message: 'Falha na requisição!' }
-        })
+export const UseSignIn = async (data: UserProps): Promise<RequestResponseProps> => {
+    return data.email && data.password
+        ? signInWithEmailAndPassword(auth, data.email, data.password)
+              .then((userCredential) => {
+                  const user = userCredential.user
+                  if (user) {
+                      return { success: true, status: 200, message: 'Usuário autenticado com sucesso!' }
+                  }
+                  return { success: false, status: 400, message: 'Falha ao autenticar o usuário!' }
+              })
+              .catch((error) => {
+                  console.error(error.code)
+                  if (error.code === 'auth/user-not-found')
+                      return { success: false, status: error.code, message: 'Email ou senha inválidos!' }
+                  if (error.code === 'auth/invalid-email' || error.code === 'auth/wrong-password')
+                      return { success: false, status: error.code, message: 'Email ou senha inválidos!' }
+                  if (error.code === 'auth/invalid-credential')
+                      return { success: false, status: error.code, message: 'Email ou senha inválidos!' }
+                  if (error.code === 'auth/too-many-requests')
+                      return {
+                          success: false,
+                          status: error.code,
+                          message: 'Muitas tentativas, senha bloqueada. Resete sua senha e tente novamente mais tarde!',
+                      }
+                  return { success: false, status: 400, message: 'Falha na requisição!' }
+              })
+        : { success: false, status: 400, message: 'Falha na requisição!' }
 }
 
 //==> Desconecta usuário
@@ -91,13 +105,13 @@ export const RecoverPassword = async (email: string) => {
 }
 
 //==> Recupera email usuário logado
-export const UseUser = () => {
+export const GetUserEmail = () => {
     const auth = getAuth()
     return auth.currentUser?.email
 }
 
 //==> Verifica se ocorre alteração no status do usuário
-export const UseUserStateChanged = async () => {
+export const GetUserEmailStateChanged = async () => {
     return onAuthStateChanged(auth, (user) => {
         if (user) {
             return user
@@ -108,7 +122,7 @@ export const UseUserStateChanged = async () => {
 }
 
 //==> Escreve dados nas coleções do firestore
-export const UseWriteData = async (newData: any, entity: string) => {
+export const WriteData = async (newData: any, entity: string) => {
     try {
         if (!newData.email) {
             return { success: false, status: 400, message: 'O campo email é obrigatório!' }
@@ -125,12 +139,7 @@ export const UseWriteData = async (newData: any, entity: string) => {
     }
 }
 
-export const UseWriteMultipleDataWithRetry = async (
-    dataArray: any[],
-    entity: string,
-    chunkSize = 25,
-    maxRetries = 3
-) => {
+export const WriteMultipleDataWithRetry = async (dataArray: any[], entity: string, chunkSize = 25, maxRetries = 3) => {
     try {
         const chunks = []
         const failedChunks: any[][] = []
@@ -236,19 +245,50 @@ export const UseAvailableScheduleByMonth = async (year: number, month: number): 
     }
 }
 
+export const GetAllUsers = async (): Promise<UserProps[]> => {
+    try {
+        const usersCollectionRef = collection(firestore, 'users')
+        const querySnapshot = await getDocs(usersCollectionRef)
+
+        const users: UserProps[] = querySnapshot.docs.map((doc) => ({
+            ...(doc.data() as UserProps),
+            id: doc.id, // Adiciona o ID do documento, caso necessário
+        }))
+
+        return users
+    } catch (error) {
+        console.error('Error fetching users:', error)
+        throw error
+    }
+}
+
 export const GetUserById = async (id: string) => {
     try {
         const userRef = doc(firestore, 'users', id)
         const userDoc = await getDoc(userRef)
 
         if (userDoc.exists()) {
-            const userData = userDoc.data() as User
+            const userData = userDoc.data() as UserProps
             return userData
         } else {
-            return {} as User
+            return {} as UserProps
         }
     } catch (error) {
-        console.error('Error fetching schedules:', error)
+        console.error('Error fetching user:', error)
+        throw error
+    }
+}
+
+export const UpdateUser = async (userEmail: string, payload: UserProps) => {
+    try {
+        const db = getFirestore()
+        const userRef = doc(db, 'users', userEmail)
+
+        await updateDoc(userRef, payload)
+
+        return { success: true, status: 200, message: 'Usuário atualizado com sucesso!' }
+    } catch (error) {
+        console.error('Erro ao atualizar os dados do usuário: ', error)
         throw error
     }
 }

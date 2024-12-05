@@ -14,6 +14,7 @@ export const COLORS = {
     success: '#32CD32',
     warning: '#FF9A00',
 
+    disabled_100: '#f3f3f3',
     disabled_200: '#C4C4CC',
     disabled_600: '#363636',
     disabled_900: '#1C1C1C',

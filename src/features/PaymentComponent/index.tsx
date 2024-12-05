@@ -3,10 +3,10 @@ import { useRouter } from 'next/router'
 import { initializeApp } from 'firebase/app'
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import { firebaseConfig } from '../../../firebaseConfig'
-import { UseUser } from '@common/api'
+import { GetUserEmail } from '@common/api'
 import Header from '@common/components/Header'
 import { LoadingComponent } from '@common/components/Loading'
-import { UserData } from '@common/models'
+import { UserProps } from '@common/models'
 import { GenosPrimaryButtonText } from '@common/components/ButtonText'
 import { Genos_Secondary_24_500 } from '@common/components/Typography'
 import { Container, Content, TitleContainer } from './styles'
@@ -16,7 +16,7 @@ export const PaymentComponent = () => {
     const app = initializeApp(firebaseConfig)
     const db = getFirestore(app)
 
-    const [user, setUser] = useState<UserData>({} as UserData)
+    const [user, setUser] = useState<UserProps>({} as UserProps)
     const [isLoading, setIsLoading] = useState(true)
 
     setTimeout(() => {
@@ -41,7 +41,7 @@ export const PaymentComponent = () => {
     )
 
     useEffect(() => {
-        const userLogged = UseUser()
+        const userLogged = GetUserEmail()
         if (userLogged) getData(userLogged)
     }, [getData])
 

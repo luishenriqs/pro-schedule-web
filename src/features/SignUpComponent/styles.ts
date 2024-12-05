@@ -25,28 +25,6 @@ export const Imagem = styled(Image)({
     },
 })
 
-export const FormContainer = styled(Box)({
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    height: '350px',
-    overflowY: 'scroll',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    margin: '-60px 0 30px 0px',
-    paddingTop: '15px',
-
-    '@media (min-height:680px)': {
-        height: '400px',
-    },
-    '@media (min-height:780px)': {
-        height: '500px',
-    },
-    '@media (min-height:880px)': {
-        height: '600px',
-    },
-})
-
 export const ButtonContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'row',

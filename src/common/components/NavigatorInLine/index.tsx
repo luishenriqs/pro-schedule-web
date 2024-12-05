@@ -49,10 +49,10 @@ export const NavigatorInLine = ({ showMenu, isAdmin, payloads, handleOpenConfirm
                                     onClick={() => router.push('/MyAgenda')}
                                 />
                                 <GenosPrimaryButtonText
-                                    title="Pacientes"
+                                    title="Usuários"
                                     size="medium"
-                                    selected={pathname === '/Patients'}
-                                    onClick={() => router.push('/Patients')}
+                                    selected={pathname === '/Users'}
+                                    onClick={() => router.push('/Users')}
                                 />
                                 <GenosPrimaryButtonText
                                     title="Login"

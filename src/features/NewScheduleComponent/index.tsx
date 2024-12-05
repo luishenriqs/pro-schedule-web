@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
-import { UseAvailableScheduleByMonth, UseUser } from '@common/api'
+import { UseAvailableScheduleByMonth, GetUserEmail } from '@common/api'
 import { firebaseConfig } from '../../../firebaseConfig'
 import { usePayload } from '@common/hooks/contexts/PayloadContext'
 import Header from '@common/components/Header'
 import { CalendarNewSchedule } from '@common/components/CalendarNewSchedule'
 import { LoadingComponent } from '@common/components/Loading'
 import { Appointments } from '@common/components/Appointments'
-import { ScheduleObjectProps, UserData, dataSelectedProps } from '@common/models'
+import { ScheduleObjectProps, UserProps, dataSelectedProps } from '@common/models'
 import { ModalSighUp } from '@common/components/ModalSighUp'
 import { ModalConfirmation } from '@common/components/ModalConfirmation'
 import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
@@ -20,7 +20,7 @@ export const NewScheduleComponent = () => {
     const db = getFirestore(app)
     const { addPayload, clearPayloads } = usePayload()
 
-    const [user, setUser] = useState<UserData>({} as UserData)
+    const [user, setUser] = useState<UserProps>({} as UserProps)
     const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
     const [isLoading, setIsLoading] = useState(true)
     const [selectedDay, setSelectedDay] = useState<dataSelectedProps>({} as dataSelectedProps)
@@ -30,7 +30,7 @@ export const NewScheduleComponent = () => {
     const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear())
 
     // INICIAL SCRIPT
-    const createOwner = useCallback(async () => {
+    const createManager = useCallback(async () => {
         const resp = await initialScript()
         if (resp?.success) {
             console.log('Owner user created successfully!')
@@ -44,9 +44,9 @@ export const NewScheduleComponent = () => {
         const docSnap = await getDoc(docRef)
 
         if (!docSnap.exists()) {
-            createOwner()
+            createManager()
         }
-    }, [db, createOwner])
+    }, [db, createManager])
 
     useEffect(() => {
         firstScript()
@@ -83,7 +83,7 @@ export const NewScheduleComponent = () => {
     }, [selectedMonth, selectedYear])
 
     useEffect(() => {
-        const userLogged = UseUser()
+        const userLogged = GetUserEmail()
         if (userLogged) getData(userLogged)
         getScheduleByMonth()
     }, [getData, getScheduleByMonth])

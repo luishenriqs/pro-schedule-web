@@ -112,44 +112,23 @@ export type MenuItem = {
     onClickHandler: () => void
 }
 
-export type FormValues = {
-    isOwner: boolean
-    isManager: boolean
-    isAdmin: boolean
-    id: string
-    firstName: string
-    lastName: string
-    phone: string
-    email: string
-    password: string
-    birthday: string
-    cpf: string
-    cep: string
-    address: string
-    complement: string
-    neighborhood: string
-    city: string
-    state: string
-}
-
-export type UserData = {
-    state?: string
-    phone?: string
-    cpf?: string
-    cep?: string
+export type UserProps = {
+    isManager?: boolean
+    isAdmin?: boolean
+    id?: string
     firstName?: string
     lastName?: string
-    isAdmin?: boolean
-    password?: string
-    neighborhood?: string
-    id?: string
-    isManager?: boolean
-    isOwner?: boolean
-    city?: string
-    complement?: string
-    address?: string
+    phone?: string
     email?: string
-    birthday?: string
+    cpf?: number
+    password?: string
+    credits?: number
+}
+
+export type RequestResponseProps = {
+    success: boolean
+    status: number | any
+    message: string
 }
 
 export type SelectedDateProps = {
@@ -185,32 +164,4 @@ export type PeriodProps = {
     year: number
     month: number
     day: number
-}
-
-export type User = {
-    address: string
-    birthday: string
-    cep: string
-    city: string
-    complement: string
-    cpf: string
-    email: string
-    firstName: string
-    id: string
-    isAdmin: boolean
-    isManager: boolean
-    isOwner: boolean
-    lastName: string
-    neighborhood: string
-    password: string
-    phone: string
-    state: string
-}
-
-export type PatientsComponentProps = {
-    users: User[]
-}
-
-export type PatientManagementProps = {
-    user: User
 }

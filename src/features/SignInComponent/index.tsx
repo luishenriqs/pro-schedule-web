@@ -8,7 +8,7 @@ import { FilledPrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
 import { GenosPrimaryButtonText, GenosSecondaryButtonText } from '@common/components/ButtonText'
 import { Questrial_Secondary_16_500 } from '@common/components/Typography'
-import { FormValues } from '@common/models'
+import { UserProps } from '@common/models'
 import { Container, Imagem, SignUpContainer } from './styles'
 
 export const SignInComponent = () => {
@@ -18,11 +18,11 @@ export const SignInComponent = () => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<FormValues>()
+    } = useForm<UserProps>()
 
     const [email, setEmail] = useState<string>('')
 
-    const handleSignIn: SubmitHandler<FormValues> = async (data) => {
+    const handleSignIn: SubmitHandler<UserProps> = async (data) => {
         try {
             const resp = await UseSignIn(data) //==> Valida autenticação do usuário
             if (resp?.status === 200) {
@@ -51,7 +51,11 @@ export const SignInComponent = () => {
             <form onSubmit={handleSubmit(handleSignIn)}>
                 <TextField
                     label="Email"
-                    InputLabelProps={{ shrink: true }}
+                    slotProps={{
+                        inputLabel: {
+                            shrink: true,
+                        },
+                    }}
                     type="email"
                     size="small"
                     variant="outlined"
@@ -64,7 +68,11 @@ export const SignInComponent = () => {
                 />
                 <TextField
                     label="Senha"
-                    InputLabelProps={{ shrink: true }}
+                    slotProps={{
+                        inputLabel: {
+                            shrink: true,
+                        },
+                    }}
                     type="password"
                     size="small"
                     variant="outlined"

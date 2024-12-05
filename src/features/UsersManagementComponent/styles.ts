@@ -1,14 +1,16 @@
 import { styled } from '@mui/material/styles'
-import { Box, IconButton, TextField } from '@mui/material'
+import { Box, TextField } from '@mui/material'
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
+import { COLORS } from '@common/styles/theme'
 
 export const Container = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     width: '100vw',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     padding: '20px',
-    background: '#f5f5f5',
+    background: COLORS.background,
 })
 
 export const TitleContainer = styled(Box)({
@@ -21,9 +23,10 @@ export const TitleContainer = styled(Box)({
 export const Content = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: '100%',
     maxWidth: '800px',
-    gap: '15px',
 })
 
 export const UserRow = styled(Box)({
@@ -32,14 +35,14 @@ export const UserRow = styled(Box)({
     justifyContent: 'space-between',
     width: '100%',
     padding: '10px',
-    background: '#fff',
+    background: COLORS.white,
     borderRadius: '5px',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
 })
 
 export const Label = styled(Box)({
     fontWeight: 'bold',
-    color: '#333',
+    color: COLORS.disabled_600,
     flex: 1,
 })
 
@@ -47,13 +50,8 @@ export const Value = styled(Box)({
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
-    color: '#555',
+    color: COLORS.disabled_600,
     flex: 2,
-})
-
-export const EditIcon = styled(IconButton)({
-    color: '#1976d2',
-    cursor: 'pointer',
 })
 
 export const InputField = styled(TextField)({
@@ -73,15 +71,11 @@ export const UserInfo = styled(Box)({
     maxWidth: '500px',
     margin: '10px 0',
     padding: '10px',
-    border: '1px solid #ddd',
+    border: '1px solid',
+    borderColor: COLORS.disabled_200,
     borderRadius: '8px',
-    background: '#fff',
+    background: COLORS.white,
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-
-    '& span': {
-        fontWeight: 'bold',
-        marginRight: '10px',
-    },
 
     '& input': {
         flex: 1,
@@ -90,6 +84,30 @@ export const UserInfo = styled(Box)({
         fontSize: '14px',
         borderRadius: '4px',
         outline: 'none',
-        backgroundColor: '#f3f3f3',
+        backgroundColor: COLORS.disabled_100,
     },
+})
+
+export const LabelContainer = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    width: 'auto',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '0 10px',
+})
+
+export const InputContainer = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    width: 'auto',
+    alignItems: 'center',
+    justifyContent: 'center',
+})
+
+export const EditIcon = styled(ModeEditOutlineOutlinedIcon)({
+    color: COLORS.primary,
+    width: '25px',
+    height: '25px',
+    marginRight: '10px',
 })

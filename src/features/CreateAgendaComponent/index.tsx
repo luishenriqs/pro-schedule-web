@@ -11,7 +11,7 @@ import { TimeSelection } from '@common/components/TimeSelection'
 import { LoadingComponent } from '@common/components/Loading'
 import { AbsencePeriodSelector } from '@common/components/AbsencePeriodSelector'
 import { filterAppointmentsByDay, generateSchedule } from '@common/utils/helpers'
-import { UseWriteMultipleDataWithRetry } from '@common/api'
+import { WriteMultipleDataWithRetry } from '@common/api'
 import { useNotification } from '@common/hooks/useNotification'
 import { GenosPrimaryButtonText } from '@common/components/ButtonText'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
@@ -121,7 +121,7 @@ export const CreateAgendaComponent = () => {
     const handleSave = useCallback(async () => {
         try {
             setIsUpLoading(true)
-            const response = await UseWriteMultipleDataWithRetry(schedule, 'schedule')
+            const response = await WriteMultipleDataWithRetry(schedule, 'schedule')
             if (response.status === 201) {
                 setIsUpLoading(false)
                 console.log('Message: ', response.status, response.message)
