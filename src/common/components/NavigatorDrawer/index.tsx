@@ -1,229 +1,81 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
-import { useRouter, usePathname } from 'next/navigation'
+import React, { useCallback, useMemo } from 'react'
 import { Drawer } from '@mui/material'
-import { Genos_Primary_20_500, Genos_Secondary_20_500 } from '../Typography'
-import { Icon } from '../Icons'
+import { useRouter, usePathname } from 'next/navigation'
+import { UseSignOut } from '@common/api'
+import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
+import { useUser } from '@common/hooks/contexts/UserContext'
 import { NavigatorDrawerProps, MenuItem } from '@common/models'
-import { COLORS } from '@common/styles/theme'
-import { ButtonIcon, Container, Imagem, MenuContainer } from './styles'
+import { Genos_Primary_20_500, Genos_Secondary_20_500 } from '../Typography'
+import { ButtonIcon, Container, ExitIcon, LogoutContainer, Imagem, MenuContainer } from './styles'
 
-export const NavigatorDrawer = ({ isOpen, isAdmin }: NavigatorDrawerProps) => {
+export const NavigatorDrawer = ({ isOpen }: NavigatorDrawerProps) => {
     const router = useRouter()
     const pathname = usePathname()
+    const { user, clearUser } = useUser()
 
-    const [open, setOpen] = useState(false)
-
-    useEffect(() => {
-        setOpen(isOpen)
-    }, [isOpen])
-
-    const onClickSchedluling = useCallback(() => {
-        if (pathname === '/') {
+    // Função genérica para navegação
+    const handleNavigation = (route: string) => {
+        if (pathname === route) {
             router.refresh()
         } else {
-            router.push('/')
+            router.push(route)
         }
-    }, [pathname, router])
+    }
 
-    const onClickCreateAgenda = useCallback(() => {
-        if (pathname === '/CreateAgenda') {
-            router.refresh()
-        } else {
-            router.push('/CreateAgenda')
-        }
-    }, [pathname, router])
+    // Menu Items Base
+    const baseMenuItems: MenuItem[] = [{ order: 1, title: 'Novo Agendamento', route: '/' }]
 
-    const onClickMyAgenda = useCallback(() => {
-        if (pathname === '/MyAgenda') {
-            router.refresh()
-        } else {
-            router.push('/MyAgenda')
-        }
-    }, [pathname, router])
-
-    const onClickMyUsers = useCallback(() => {
-        if (pathname === '/Users') {
-            router.refresh()
-        } else {
-            router.push('/Users')
-        }
-    }, [pathname, router])
-
-    const onClickSignIn = useCallback(() => {
-        if (pathname === '/SignIn') {
-            router.refresh()
-        } else {
-            router.push('/SignIn')
-        }
-    }, [pathname, router])
-
-    const onClickSignUp = useCallback(() => {
-        if (pathname === '/SignUp') {
-            router.refresh()
-        } else {
-            router.push('/SignUp')
-        }
-    }, [pathname, router])
-
-    const onClickScheduled = useCallback(() => {
-        if (pathname === '/Scheduled') {
-            router.refresh()
-        } else {
-            router.push('/Scheduled')
-        }
-    }, [pathname, router])
-
-    const onClickPrevious = useCallback(() => {
-        if (pathname === '/Previous') {
-            router.refresh()
-        } else {
-            router.push('/Previous')
-        }
-    }, [pathname, router])
+    const noUserMenuItems: MenuItem[] = [...baseMenuItems, { order: 2, title: 'Login', route: '/SignIn' }]
 
     const userMenuItems: MenuItem[] = [
-        {
-            order: 1,
-            title: 'Novo Agendamento',
-            route: '/',
-            icon: '',
-            selected: pathname === '/',
-            onClickHandler: () => {
-                onClickSchedluling()
-            },
-        },
-        {
-            order: 2,
-            title: 'Agendados',
-            route: '/Scheduled',
-            icon: '',
-            selected: pathname === '/Scheduled',
-            onClickHandler: () => {
-                onClickScheduled()
-            },
-        },
-        {
-            order: 3,
-            title: 'Histórico',
-            route: '/Previous',
-            icon: '',
-            selected: pathname === '/Previous',
-            onClickHandler: () => {
-                onClickPrevious()
-            },
-        },
-        {
-            order: 4,
-            title: 'Login',
-            route: '/SignIn',
-            icon: '',
-            selected: pathname === '/SignIn',
-            onClickHandler: () => {
-                onClickSignIn()
-            },
-        },
-        {
-            order: 5,
-            title: 'Cadastro',
-            route: '/SignUp',
-            icon: '',
-            selected: pathname === '/SignUp',
-            onClickHandler: () => {
-                onClickSignUp()
-            },
-        },
+        ...baseMenuItems,
+        { order: 2, title: 'Agendados', route: '/Scheduled' },
+        { order: 3, title: 'Histórico', route: '/Previous' },
     ]
 
     const adminMenuItems: MenuItem[] = [
-        {
-            order: 1,
-            title: 'Novo Agendamento',
-            route: '/',
-            icon: '',
-            selected: pathname === '/',
-            onClickHandler: () => {
-                onClickSchedluling()
-            },
-        },
-        {
-            order: 2,
-            title: 'Criar Agenda',
-            route: '/CreateAgenda',
-            icon: '',
-            selected: pathname === '/CreateAgenda',
-            onClickHandler: () => {
-                onClickCreateAgenda()
-            },
-        },
-        {
-            order: 3,
-            title: 'Minha Agenda',
-            route: '/MyAgenda',
-            icon: '',
-            selected: pathname === '/MyAgenda',
-            onClickHandler: () => {
-                onClickMyAgenda()
-            },
-        },
-        {
-            order: 4,
-            title: 'Usuários',
-            route: '/Users',
-            icon: '',
-            selected: pathname === '/Users',
-            onClickHandler: () => {
-                onClickMyUsers()
-            },
-        },
-        {
-            order: 5,
-            title: 'Login',
-            route: '/SignIn',
-            icon: '',
-            selected: pathname === '/SignIn',
-            onClickHandler: () => {
-                onClickSignIn()
-            },
-        },
-        {
-            order: 6,
-            title: 'Cadastro',
-            route: '/SignUp',
-            icon: '',
-            selected: pathname === '/SignUp',
-            onClickHandler: () => {
-                onClickSignUp()
-            },
-        },
+        ...baseMenuItems,
+        { order: 2, title: 'Criar Agenda', route: '/CreateAgenda' },
+        { order: 3, title: 'Minha Agenda', route: '/MyAgenda' },
+        { order: 4, title: 'Usuários', route: '/Users' },
     ]
 
-    const menuOptions = useCallback(
-        (options: MenuItem[]) => {
-            return options.map((item, index) => {
-                return (
-                    <ButtonIcon
-                        key={index}
-                        onClick={() => (pathname === item.route ? router.refresh() : router.push(item.route))}
-                    >
-                        <Icon iconName={item.icon} color={COLORS.black} margin="0 8px 0 0" />
-                        {item.selected ? (
-                            <Genos_Primary_20_500 text={item.title} />
-                        ) : (
-                            <Genos_Secondary_20_500 text={item.title} />
-                        )}
-                    </ButtonIcon>
-                )
-            })
-        },
-        [pathname, router]
-    )
+    // Seleciona o menu baseado no usuário
+    const menuItems = useMemo(() => {
+        if (!user) return noUserMenuItems
+        if (user.isAdmin) return adminMenuItems
+        return userMenuItems
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user])
+
+    // Renderiza os itens do menu
+    const renderMenuItems = () =>
+        menuItems.map((item) => (
+            <ButtonIcon key={item.order} onClick={() => handleNavigation(item.route)}>
+                {pathname === item.route ? (
+                    <Genos_Primary_20_500 text={item.title} />
+                ) : (
+                    <Genos_Secondary_20_500 text={item.title} />
+                )}
+            </ButtonIcon>
+        ))
+
+    const handleExit = useCallback(() => {
+        UseSignOut()
+        setTimeout(() => clearUser(), 1000)
+    }, [clearUser])
 
     return (
-        <Drawer anchor="left" open={open} onClose={() => setOpen(!isOpen)}>
+        <Drawer anchor="left" open={isOpen} onClose={() => handleNavigation('/')}>
             <Container>
                 <Imagem src={mainLogoRemovebg} alt="Main Logo" />
-                <MenuContainer>{isAdmin ? menuOptions(adminMenuItems) : menuOptions(userMenuItems)}</MenuContainer>
+                <MenuContainer>{renderMenuItems()}</MenuContainer>
+                {user && (
+                    <LogoutContainer onClick={handleExit}>
+                        <ExitIcon />
+                        <Genos_Secondary_20_500 text="Sair" />
+                    </LogoutContainer>
+                )}
             </Container>
         </Drawer>
     )

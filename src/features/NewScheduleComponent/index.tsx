@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
-import { UseAvailableScheduleByMonth, GetUserEmail } from '@common/api'
+import { UseAvailableScheduleByMonth } from '@common/api'
 import { firebaseConfig } from '../../../firebaseConfig'
 import { usePayload } from '@common/hooks/contexts/PayloadContext'
+import { useUser } from '@common/hooks/contexts/UserContext'
 import Header from '@common/components/Header'
 import { CalendarNewSchedule } from '@common/components/CalendarNewSchedule'
 import { LoadingComponent } from '@common/components/Loading'
 import { Appointments } from '@common/components/Appointments'
-import { ScheduleObjectProps, UserProps, dataSelectedProps } from '@common/models'
+import { ScheduleObjectProps, dataSelectedProps } from '@common/models'
 import { ModalSighUp } from '@common/components/ModalSighUp'
 import { ModalConfirmation } from '@common/components/ModalConfirmation'
 import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
@@ -19,8 +20,8 @@ export const NewScheduleComponent = () => {
     const app = initializeApp(firebaseConfig)
     const db = getFirestore(app)
     const { addPayload, clearPayloads } = usePayload()
+    const { user } = useUser()
 
-    const [user, setUser] = useState<UserProps>({} as UserProps)
     const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
     const [isLoading, setIsLoading] = useState(true)
     const [selectedDay, setSelectedDay] = useState<dataSelectedProps>({} as dataSelectedProps)
@@ -52,23 +53,6 @@ export const NewScheduleComponent = () => {
         firstScript()
     }, [firstScript])
 
-    // LOGGED IN USER
-    const getData = useCallback(
-        async (email: string | null | undefined) => {
-            const docRef = email && doc(db, 'users', email)
-            const docSnap = docRef && (await getDoc(docRef))
-
-            if (docSnap && docSnap.exists()) {
-                const user = docSnap.data()
-                setUser(user)
-                // console.log('Logged in user! ', JSON.stringify(user))
-            } else {
-                console.log('No logged in user!')
-            }
-        },
-        [db]
-    )
-
     // GET SCHEDULE BY MONTH - ENABLE AND AVAILABLE
     const getScheduleByMonth = useCallback(async () => {
         const schedule = await UseAvailableScheduleByMonth(selectedYear, selectedMonth)
@@ -83,10 +67,8 @@ export const NewScheduleComponent = () => {
     }, [selectedMonth, selectedYear])
 
     useEffect(() => {
-        const userLogged = GetUserEmail()
-        if (userLogged) getData(userLogged)
         getScheduleByMonth()
-    }, [getData, getScheduleByMonth])
+    }, [getScheduleByMonth])
 
     const handleDayClick = useCallback(
         (day: number, month: number, year: number) => {
@@ -124,7 +106,7 @@ export const NewScheduleComponent = () => {
                 item.day === appointment.day &&
                 item.hour === appointment.hour &&
                 item.enable === true
-                    ? { ...item, custumerId: user.email ?? '' } // Cria um novo objeto
+                    ? { ...item, custumerId: (user && user.email) ?? '' } // Cria um novo objeto
                     : item
             )
 
@@ -141,7 +123,7 @@ export const NewScheduleComponent = () => {
             )
 
             // Adiciona o appointment no payload
-            if (user.id) {
+            if (user && user.id) {
                 appointment.custumerId = user.id
                 appointment.userEmail = user.email
 
@@ -151,7 +133,7 @@ export const NewScheduleComponent = () => {
                 setOpenSighUpModal(true)
             }
         },
-        [addPayload, schedule, user.email, user.id]
+        [addPayload, schedule, user]
     )
 
     // CANCEL APPOINTMENTS
@@ -192,7 +174,7 @@ export const NewScheduleComponent = () => {
                 <>
                     <Header handleCancelAppoitments={handleCancelAppoitments} />
                     <TitleContainer>
-                        {!!user.firstName && <Genos_Secondary_24_500 text={`Olá ${user.firstName}`} />}
+                        {user && <Genos_Secondary_24_500 text={`Olá ${user.firstName}`} />}
                         <Genos_Secondary_24_500 text="Faça o seu agendamento" />
                     </TitleContainer>
                     <Content>

@@ -8,7 +8,7 @@ import { FilledPrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
 import { GenosPrimaryButtonText, GenosSecondaryButtonText } from '@common/components/ButtonText'
 import { Questrial_Secondary_16_500 } from '@common/components/Typography'
-import { UserProps } from '@common/models'
+import { UserSighInProps } from '@common/models'
 import { Container, Imagem, SignUpContainer } from './styles'
 
 export const SignInComponent = () => {
@@ -18,11 +18,11 @@ export const SignInComponent = () => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<UserProps>()
+    } = useForm<UserSighInProps>()
 
     const [email, setEmail] = useState<string>('')
 
-    const handleSignIn: SubmitHandler<UserProps> = async (data) => {
+    const handleSignIn: SubmitHandler<UserSighInProps> = async (data) => {
         try {
             const resp = await UseSignIn(data) //==> Valida autenticação do usuário
             if (resp?.status === 200) {

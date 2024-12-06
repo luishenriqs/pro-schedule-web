@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { CreateAuth, WriteData } from '@common/api'
+import { SxProps, Theme } from '@mui/material/styles'
 import {
     ScheduleObjectProps,
     GetDateProps,
@@ -25,14 +26,26 @@ export const initialScript = async () => {
 
     try {
         const resp = await CreateAuth(payload) //==> Cria o usuário OWNER no firebase/auth
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, ...payloadWithoutPassword } = payload
+
         if (resp.status === 201) {
-            const respData = await WriteData(payload, 'users') //==> Cria o usuário OWNER no firestore
+            const respData = await WriteData(payloadWithoutPassword, 'users') //==> Cria o usuário OWNER no firestore
             return respData
         } else {
             return resp
         }
     } catch (error) {
         return { success: false, status: 500, message: `${error}` }
+    }
+}
+
+export const getSxProps = (sxProps?: SxProps<Theme>) => {
+    if (sxProps) {
+        return Array.isArray(sxProps) ? sxProps : [sxProps]
+    } else {
+        return []
     }
 }
 

@@ -7,7 +7,7 @@ import { useNotification } from '@common/hooks/useNotification'
 import { CreateAuth, WriteData } from '@common/api'
 import { FilledPrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
-import { UserProps } from '@common/models'
+import { UserSighUpProps } from '@common/models'
 import { GenosPrimaryButtonText } from '@common/components/ButtonText'
 import { ButtonContainer, Container, Imagem } from './styles'
 
@@ -18,9 +18,9 @@ export const SignUpComponent = () => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<UserProps>()
+    } = useForm<UserSighUpProps>()
 
-    const handleSignUp: SubmitHandler<UserProps> = async (payload) => {
+    const handleSignUp: SubmitHandler<UserSighUpProps> = async (payload) => {
         try {
             payload.isManager = false
             payload.isAdmin = false
@@ -28,8 +28,11 @@ export const SignUpComponent = () => {
             payload.credits = 0
             const resp = await CreateAuth(payload) //==> Cria novo usuário no firebase/auth
 
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { password, ...payloadWithoutPassword } = payload
+
             if (resp.status === 201) {
-                const respData = await WriteData(payload, 'users') //==> Cria novo usuário no firestore
+                const respData = await WriteData(payloadWithoutPassword, 'users') //==> Cria novo usuário no firestore
                 if (respData?.status === 201) emmitSuccess(resp?.message)
                 if (respData?.status !== 201) emmitError(resp?.message)
                 router.push('/')

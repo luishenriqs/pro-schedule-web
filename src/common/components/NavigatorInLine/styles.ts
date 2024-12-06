@@ -1,6 +1,7 @@
 import { styled } from '@mui/material/styles'
 import { Box, IconButton } from '@mui/material'
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined'
+import LogoutIcon from '@mui/icons-material/Logout'
 import { COLORS } from '@common/styles/theme'
 
 export const Container = styled(Box)({
@@ -77,4 +78,14 @@ export const RedCircle = styled(Box)({
     marginTop: '-15px',
     marginLeft: '-10px',
     background: COLORS.error,
+})
+
+export const ExitIcon = styled(LogoutIcon)({
+    color: COLORS.error,
+    width: '25px',
+    height: '25px',
+    '@media (min-width:760px)': {
+        width: '35px',
+        height: '35px',
+    },
 })

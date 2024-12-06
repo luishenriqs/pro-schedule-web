@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Box, IconButton } from '@mui/material'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined'
+import LogoutIcon from '@mui/icons-material/Logout'
 import { COLORS } from '@common/styles/theme'
 
 export const Container = styled(Box)({
@@ -64,4 +65,26 @@ export const IconCalendar = styled(CalendarMonthOutlinedIcon)({
     height: '30px',
     marginRight: '8px',
     color: COLORS.black,
+})
+
+export const LogoutContainer = styled(IconButton)({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '100%',
+    height: 'auto',
+    marginTop: '0px',
+    marginLeft: '20px',
+})
+
+export const ExitIcon = styled(LogoutIcon)({
+    color: COLORS.error,
+    width: '25px',
+    height: '25px',
+    marginRight: '10px',
+    '@media (min-width:760px)': {
+        width: '35px',
+        height: '35px',
+    },
 })

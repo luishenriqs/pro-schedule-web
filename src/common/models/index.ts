@@ -93,12 +93,12 @@ export type HeaderProps = {
 
 export type NavigatorDrawerProps = {
     isOpen: boolean
-    isAdmin: boolean
+    user: UserProps
 }
 
 export type NavigatorInLineProps = {
     showMenu?: boolean
-    isAdmin: boolean
+    user: UserProps
     payloads: ScheduleObjectProps[]
     handleOpenConfirmModal: () => void
 }
@@ -107,9 +107,6 @@ export type MenuItem = {
     order: number
     route: string
     title: string
-    icon: string
-    selected: boolean
-    onClickHandler: () => void
 }
 
 export type UserProps = {
@@ -121,8 +118,43 @@ export type UserProps = {
     phone?: string
     email?: string
     cpf?: number
-    password?: string
     credits?: number
+}
+
+export type UserLoggedInProps = {
+    isManager: boolean
+    isAdmin: boolean
+    id: string
+    firstName: string
+    lastName: string
+    phone: string
+    email: string
+    cpf: string
+    credits: number
+}
+
+export type UserSighInProps = {
+    email: string
+    password: string
+}
+
+export type UserSighUpProps = {
+    isManager: boolean
+    isAdmin: boolean
+    id: string
+    firstName: string
+    lastName: string
+    phone: string
+    email: string
+    password: string
+    cpf: number
+    credits?: number
+}
+
+export type UserLoggedInContextType = {
+    user: UserProps | null // Pode ser nulo se não houver usuário logado
+    saveUser: (user: UserProps) => void
+    clearUser: () => void
 }
 
 export type RequestResponseProps = {

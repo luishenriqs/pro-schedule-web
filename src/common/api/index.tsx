@@ -20,14 +20,14 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth'
 import { firebaseConfig } from '../../../firebaseConfig'
-import { UserProps, ScheduleObjectProps, RequestResponseProps } from '@common/models'
+import { UserProps, ScheduleObjectProps, RequestResponseProps, UserSighInProps } from '@common/models'
 
 const app = initializeApp(firebaseConfig)
 const firestore = getFirestore(app)
 const auth = getAuth()
 
 //==> Cria novo usuário no firestore/auth
-export const CreateAuth = async (data: UserProps) => {
+export const CreateAuth = async (data: UserSighInProps) => {
     try {
         const userCredential =
             data.email && data.password && (await createUserWithEmailAndPassword(auth, data.email, data.password))
@@ -53,7 +53,7 @@ export const CreateAuth = async (data: UserProps) => {
 }
 
 //==> Conecta usuário
-export const UseSignIn = async (data: UserProps): Promise<RequestResponseProps> => {
+export const UseSignIn = async (data: UserSighInProps): Promise<RequestResponseProps> => {
     return data.email && data.password
         ? signInWithEmailAndPassword(auth, data.email, data.password)
               .then((userCredential) => {
@@ -182,7 +182,7 @@ export const WriteMultipleDataWithRetry = async (dataArray: any[], entity: strin
         // Tenta reprocessar os blocos que falharam
         let retries = 0
         while (failedChunks.length > 0 && retries < maxRetries) {
-            console.log(`Reprocessando blocos... Tentativa ${retries + 1}`)
+            console.warn(`Reprocessando blocos... Tentativa ${retries + 1}`)
             const retryChunks = [...failedChunks]
             failedChunks.length = 0 // Limpa a lista para registrar falhas novamente
 
