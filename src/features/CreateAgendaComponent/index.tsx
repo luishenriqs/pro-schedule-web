@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
+import { useUser } from '@common/hooks/contexts/UserContext'
 import Header from '@common/components/Header'
 import { CalendarCreateAgenda } from '@common/components/CalendarCreateAgenda'
 import { EditableAppointments } from '@common/components/EditableAppointments'
@@ -31,6 +32,7 @@ import {
 
 export const CreateAgendaComponent = () => {
     const router = useRouter()
+    const { user } = useUser()
     const { emmitSuccess, emmitError, emmitAlert } = useNotification()
 
     const [selectedMonth, setSelectedMonth] = useState<SelectedDateProps>({} as SelectedDateProps)
@@ -39,8 +41,6 @@ export const CreateAgendaComponent = () => {
     const [absencePeriod, setAbsencePeriod] = useState<PeriodProps[] | null>(null)
     const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
     const [selectedDay, setSelectedDay] = useState<dataSelectedProps>({} as dataSelectedProps)
-
-    const userName = 'Flávio'
 
     const [isLoading, setIsLoading] = useState(true)
     const [isUpLoading, setIsUpLoading] = useState(false)
@@ -148,18 +148,6 @@ export const CreateAgendaComponent = () => {
         setAbsencePeriod(null)
     }, [])
 
-    /*
-        TO DO LIST:
-        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
-        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
-        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
-        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
-        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
-        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
-        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
-        CRIAR VALIDAÇÃO PARA QUE NÃO SEJA POSSÍVEL RECRIAR AGENDA!
-    */
-
     return (
         <>
             {isLoading ? (
@@ -170,7 +158,7 @@ export const CreateAgendaComponent = () => {
                     <TitleContainer>
                         {schedule.length === 0 ? (
                             <>
-                                <Genos_Primary_24_500 text={'Olá ' + userName} />
+                                <Genos_Primary_24_500 text={'Olá ' + user?.firstName} />
                                 <Genos_Secondary_24_500 text="Crie uma nova agenda" />
                                 <DateContent style={{ padding: '30px 10px 0' }}>
                                     <Genos_Secondary_24_500 text="Escolha o ano e o mês:" />

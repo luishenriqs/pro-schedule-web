@@ -12,7 +12,7 @@ import { Appointments } from '@common/components/Appointments'
 import { ScheduleObjectProps, dataSelectedProps } from '@common/models'
 import { ModalSighUp } from '@common/components/ModalSighUp'
 import { ModalConfirmation } from '@common/components/ModalConfirmation'
-import { Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
+import { Genos_Primary_24_500, Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
 import { filterAppointmentsByDay, initialScript } from '@common/utils/helpers'
 import { Container, Content, EmptyLegend, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
 
@@ -174,7 +174,7 @@ export const NewScheduleComponent = () => {
                 <>
                     <Header handleCancelAppoitments={handleCancelAppoitments} />
                     <TitleContainer>
-                        {user && <Genos_Secondary_24_500 text={`Olá ${user.firstName}`} />}
+                        {user && <Genos_Primary_24_500 text={`Olá ${user.firstName}`} />}
                         <Genos_Secondary_24_500 text="Faça o seu agendamento" />
                     </TitleContainer>
                     <Content>

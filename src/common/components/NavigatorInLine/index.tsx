@@ -3,6 +3,7 @@ import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
 import { UseSignOut } from '@common/api'
 import { useRouter, usePathname } from 'next/navigation'
 import { useUser } from '@common/hooks/contexts/UserContext'
+import { usePayload } from '@common/hooks/contexts/PayloadContext'
 import { NavigatorInLineProps } from '@common/models'
 import { GenosPrimaryButtonText } from '../ButtonText'
 import { Genos_White_14_500 } from '../Typography'
@@ -24,11 +25,16 @@ export const NavigatorInLine = ({ showMenu, payloads, handleOpenConfirmModal }: 
     const router = useRouter()
     const pathname = usePathname()
     const { user, clearUser } = useUser()
+    const { clearPayloads } = usePayload()
 
     const handleExit = useCallback(() => {
         UseSignOut()
-        setTimeout(() => clearUser(), 1000)
-    }, [clearUser])
+        setTimeout(() => {
+            clearUser()
+            clearPayloads()
+        }, 1000)
+        router.push('/')
+    }, [clearPayloads, clearUser, router])
 
     // Gerenciamento dos itens do menu
     const menuItems = useMemo(() => {
@@ -40,8 +46,8 @@ export const NavigatorInLine = ({ showMenu, payloads, handleOpenConfirmModal }: 
         ]
 
         const adminItems = [
-            { title: 'Criar Agenda', route: '/CreateAgenda', adminOnly: true },
             { title: 'Minha Agenda', route: '/MyAgenda', adminOnly: true },
+            { title: 'Criar Agenda', route: '/CreateAgenda', adminOnly: true },
             { title: 'Usuários', route: '/Users', adminOnly: true },
         ]
 
@@ -49,7 +55,7 @@ export const NavigatorInLine = ({ showMenu, payloads, handleOpenConfirmModal }: 
             return [...baseItems, { title: 'Login', route: '/SignIn', adminOnly: false }]
         }
 
-        return !user?.isAdmin ? [...baseItems, ...userItems] : [...baseItems, ...adminItems]
+        return !user?.isAdmin ? [...baseItems, ...userItems] : [...adminItems]
     }, [user])
 
     // Renderização de itens de menu

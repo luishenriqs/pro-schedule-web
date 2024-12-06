@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useUser } from '@common/hooks/contexts/UserContext'
-import Header from '@common/components/Header'
+import { usePayload } from '@common/hooks/contexts/PayloadContext'
 import { LoadingComponent } from '@common/components/Loading'
 import { GenosPrimaryButtonText } from '@common/components/ButtonText'
-import { Genos_Secondary_24_500 } from '@common/components/Typography'
+import { Genos_Primary_24_500, Genos_Secondary_24_500 } from '@common/components/Typography'
 import { Container, Content, TitleContainer } from './styles'
 
 export const PaymentComponent = () => {
     const router = useRouter()
     const { user } = useUser()
+    const { payloads } = usePayload()
 
     const [isLoading, setIsLoading] = useState(true)
 
@@ -17,23 +18,22 @@ export const PaymentComponent = () => {
         setIsLoading(false)
     }, 100)
 
+    useEffect(() => {
+        console.log('payloads ', JSON.stringify(payloads))
+    }, [payloads])
+
     return (
         <Container>
             {isLoading ? (
                 <LoadingComponent />
             ) : (
                 <>
-                    <Header />
                     <TitleContainer>
-                        {user && <Genos_Secondary_24_500 text={`Olá ${user.firstName}`} />}
-                        <Genos_Secondary_24_500 text="Faça o pagamento" />
+                        {user && <Genos_Primary_24_500 text={`Olá ${user.firstName}`} />}
+                        <Genos_Secondary_24_500 text="Finalize seu agendamento" />
                     </TitleContainer>
                     <Content>
-                        <GenosPrimaryButtonText
-                            title="Voltar para agenda"
-                            size="small"
-                            onClick={() => router.push('/')}
-                        />
+                        <GenosPrimaryButtonText title="Voltar" size="small" onClick={() => router.back()} />
                     </Content>
                 </>
             )}

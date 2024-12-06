@@ -1,5 +1,7 @@
 import { styled } from '@mui/material/styles'
 import { Box } from '@mui/material'
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
+import TimelineIcon from '@mui/icons-material/Timeline'
 import { COLORS } from '@common/styles/theme'
 
 export const Container = styled(Box)({
@@ -10,7 +12,6 @@ export const Container = styled(Box)({
     width: '100vw',
     height: '100vh',
     background: COLORS.background,
-    padding: '20px',
 })
 
 export const TitleContainer = styled(Box)({
@@ -47,9 +48,49 @@ export const UserRow = styled(Box)({
 
 export const ButtonsContainer = styled(Box)({
     display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 'auto',
+    height: 'auto',
+})
+
+export const ButtonsTextContainer = styled(Box)({
+    display: 'none',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     width: 'auto',
     height: 'auto',
+
+    '@media (min-width:1024px)': {
+        display: 'flex',
+    },
+})
+
+export const ButtonsIconsContainer = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 'auto',
+    height: 'auto',
+
+    '@media (min-width:1024px)': {
+        display: 'none',
+    },
+})
+
+export const EditIcon = styled(ModeEditOutlineOutlinedIcon)({
+    color: COLORS.primary,
+    width: '25px',
+    height: '25px',
+    marginRight: '10px',
+})
+
+export const HistoryIcon = styled(TimelineIcon)({
+    color: COLORS.secondary,
+    width: '25px',
+    height: '25px',
+    marginRight: '10px',
 })

@@ -26,9 +26,10 @@ export const TitleContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    height: '80px',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: '30px',
+    marginBottom: '30px',
 })
 
 export const SchedulingContent = styled(Box)({

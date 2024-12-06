@@ -4,6 +4,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { UseSignOut } from '@common/api'
 import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
 import { useUser } from '@common/hooks/contexts/UserContext'
+import { usePayload } from '@common/hooks/contexts/PayloadContext'
 import { NavigatorDrawerProps, MenuItem } from '@common/models'
 import { Genos_Primary_20_500, Genos_Secondary_20_500 } from '../Typography'
 import { ButtonIcon, Container, ExitIcon, LogoutContainer, Imagem, MenuContainer } from './styles'
@@ -12,6 +13,16 @@ export const NavigatorDrawer = ({ isOpen }: NavigatorDrawerProps) => {
     const router = useRouter()
     const pathname = usePathname()
     const { user, clearUser } = useUser()
+    const { clearPayloads } = usePayload()
+
+    const handleExit = useCallback(() => {
+        UseSignOut()
+        setTimeout(() => {
+            clearUser()
+            clearPayloads()
+        }, 1000)
+        router.push('/')
+    }, [clearPayloads, clearUser, router])
 
     // Função genérica para navegação
     const handleNavigation = (route: string) => {
@@ -34,10 +45,9 @@ export const NavigatorDrawer = ({ isOpen }: NavigatorDrawerProps) => {
     ]
 
     const adminMenuItems: MenuItem[] = [
-        ...baseMenuItems,
+        { order: 1, title: 'Minha Agenda', route: '/MyAgenda' },
         { order: 2, title: 'Criar Agenda', route: '/CreateAgenda' },
-        { order: 3, title: 'Minha Agenda', route: '/MyAgenda' },
-        { order: 4, title: 'Usuários', route: '/Users' },
+        { order: 3, title: 'Usuários', route: '/Users' },
     ]
 
     // Seleciona o menu baseado no usuário
@@ -59,11 +69,6 @@ export const NavigatorDrawer = ({ isOpen }: NavigatorDrawerProps) => {
                 )}
             </ButtonIcon>
         ))
-
-    const handleExit = useCallback(() => {
-        UseSignOut()
-        setTimeout(() => clearUser(), 1000)
-    }, [clearUser])
 
     return (
         <Drawer anchor="left" open={isOpen} onClose={() => handleNavigation('/')}>
