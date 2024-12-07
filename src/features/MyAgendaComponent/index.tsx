@@ -33,8 +33,8 @@ export const MyAgendaComponent = () => {
     }, [selectedMonth, selectedYear])
 
     useEffect(() => {
-        getScheduleByMonth()
-    }, [getScheduleByMonth])
+        if (user?.isAdmin) getScheduleByMonth()
+    }, [getScheduleByMonth, user?.isAdmin])
 
     const handleDayClick = useCallback(
         (day: number, month: number, year: number) => {
@@ -63,11 +63,13 @@ export const MyAgendaComponent = () => {
     }
 
     return (
-        <Container>
-            {isLoading ? (
-                <LoadingComponent />
+        <>
+            {!user?.isAdmin || isLoading ? (
+                <Container>
+                    <LoadingComponent />
+                </Container>
             ) : (
-                <>
+                <Container>
                     <Header />
                     <TitleContainer>
                         <Genos_Primary_24_500 text={'Olá ' + user?.firstName} />
@@ -110,8 +112,8 @@ export const MyAgendaComponent = () => {
                             )}
                         </SchedulingContent>
                     </Content>
-                </>
+                </Container>
             )}
-        </Container>
+        </>
     )
 }

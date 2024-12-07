@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/router'
-import { GetUserById, UpdateUser } from '@common/api'
+import { GetUserByEmail, UpdateUser } from '@common/api'
+import { useUser } from '@common/hooks/contexts/UserContext'
 import { Checkbox, TextField } from '@mui/material'
 import { useNotification } from '@common/hooks/useNotification'
 import { UserProps } from '@common/models'
@@ -18,43 +19,44 @@ import { Container, TitleContainer, Content, EditIcon, UserInfo, LabelContainer,
 
 export const UsersManagementComponent = () => {
     const router = useRouter()
+    const { user } = useUser()
     const { emmitAlert, emmitError, emmitSuccess } = useNotification()
     const { email } = router.query
 
-    const [user, setUser] = useState<UserProps | null>(null)
+    const [selectedUser, setSelectedUser] = useState<UserProps | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [isSaving, setIsSaving] = useState(false)
 
     const getUser = useCallback(async () => {
-        const selectedUser = typeof email === 'string' && (await GetUserById(email))
+        const userSelected = typeof email === 'string' && (await GetUserByEmail(email))
 
-        if (selectedUser) {
-            setUser(selectedUser)
+        if (userSelected) {
+            setSelectedUser(userSelected)
         } else {
-            setUser(null)
+            setSelectedUser(null)
             emmitAlert('Não foi possível recuperar os dados do usuário!')
         }
         setIsLoading(false)
     }, [email, emmitAlert])
 
     useEffect(() => {
-        getUser()
-    }, [getUser])
+        if (user?.isAdmin) getUser()
+    }, [getUser, user?.isAdmin])
 
     const handleEditField = (field: keyof UserProps, value: string | boolean | number | null) => {
-        if (user) {
-            const updatedUser = { ...user, [field]: value }
-            setUser(updatedUser)
+        if (selectedUser) {
+            const updatedUser = { ...selectedUser, [field]: value }
+            setSelectedUser(updatedUser)
         }
     }
 
     // Salva as alterações feitas no usuário
     const handleSaveUpdate = useCallback(async () => {
-        if (user) {
+        if (selectedUser) {
             setIsSaving(true)
             try {
-                if (user && user.email) {
-                    await UpdateUser(user.email, user)
+                if (selectedUser && selectedUser.email) {
+                    await UpdateUser(selectedUser.email, selectedUser)
                     emmitSuccess('Dados salvos com sucesso!')
                     router.back()
                 }
@@ -65,9 +67,9 @@ export const UsersManagementComponent = () => {
                 setIsSaving(false)
             }
         }
-    }, [emmitError, emmitSuccess, router, user])
+    }, [emmitError, emmitSuccess, router, selectedUser])
 
-    if (!user) {
+    if (!selectedUser) {
         return (
             <Container>
                 <TitleContainer>
@@ -85,10 +87,10 @@ export const UsersManagementComponent = () => {
             ) : (
                 <>
                     <TitleContainer>
-                        <Genos_Secondary_24_500 text={'Edite os dados de ' + user.firstName} />
+                        <Genos_Secondary_24_500 text={'Edite os dados de ' + selectedUser.firstName} />
                     </TitleContainer>
                     <Content>
-                        {Object.entries(user)
+                        {Object.entries(selectedUser)
                             .filter(([key]) => !['password', 'id', 'cpf'].includes(key))
                             .sort((a, b) => {
                                 const order = [

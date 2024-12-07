@@ -5,10 +5,10 @@ import { COLORS } from '@common/styles/theme'
 export const Container = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
-    width: '100vw',
-    height: 'auto',
     alignItems: 'center',
     justifyContent: 'flex-start',
+    width: '100vw',
+    height: '100vh',
     background: COLORS.background,
 })
 
@@ -27,7 +27,7 @@ export const Content = styled(Box)({
     flexDirection: 'column',
     width: '100vw',
     height: '100vh',
-    overflowY: 'auto',
+    overflowY: 'scroll',
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingBottom: '50px',

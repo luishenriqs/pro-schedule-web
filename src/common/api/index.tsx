@@ -56,12 +56,19 @@ export const CreateAuth = async (data: UserSighInProps) => {
 export const UseSignIn = async (data: UserSighInProps): Promise<RequestResponseProps> => {
     return data.email && data.password
         ? signInWithEmailAndPassword(auth, data.email, data.password)
-              .then((userCredential) => {
+              .then(async (userCredential) => {
                   const user = userCredential.user
+                  // Se autenticado com sucesso recupera dados do usuário
                   if (user) {
-                      return { success: true, status: 200, message: 'Usuário autenticado com sucesso!' }
+                      const selectedUser = await GetUserByEmail(data.email)
+                      return {
+                          success: true,
+                          status: 200,
+                          message: 'Usuário autenticado com sucesso!',
+                          user: selectedUser,
+                      }
                   }
-                  return { success: false, status: 400, message: 'Falha ao autenticar o usuário!' }
+                  return { success: false, status: 400, message: 'Falha ao autenticar o usuário!', user: {} }
               })
               .catch((error) => {
                   console.error(error.code)
@@ -79,7 +86,7 @@ export const UseSignIn = async (data: UserSighInProps): Promise<RequestResponseP
                       }
                   return { success: false, status: 400, message: 'Falha na requisição!' }
               })
-        : { success: false, status: 400, message: 'Falha na requisição!' }
+        : { success: false, status: 400, message: 'Falha na requisição!', user: {} }
 }
 
 //==> Desconecta usuário
@@ -262,7 +269,7 @@ export const GetAllUsers = async (): Promise<UserProps[]> => {
     }
 }
 
-export const GetUserById = async (id: string) => {
+export const GetUserByEmail = async (id: string) => {
     try {
         const userRef = doc(firestore, 'users', id)
         const userDoc = await getDoc(userRef)

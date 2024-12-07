@@ -32,18 +32,20 @@ export const PreviousComponent = () => {
     }, [firebase])
 
     return (
-        <Container>
+        <>
             {isLoading ? (
-                <LoadingComponent />
+                <Container>
+                    <LoadingComponent />
+                </Container>
             ) : (
-                <>
+                <Container>
                     <Header />
                     <PreviousContent>
                         <Genos_Primary_20_500 text="PreviousComponent - Genos" />
                         <Questrial_Primary_20_500 text="PreviousComponent - Questrial" />
                     </PreviousContent>
-                </>
+                </Container>
             )}
-        </Container>
+        </>
     )
 }

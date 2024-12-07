@@ -150,8 +150,10 @@ export const CreateAgendaComponent = () => {
 
     return (
         <>
-            {isLoading ? (
-                <LoadingComponent />
+            {!user?.isAdmin || isLoading ? (
+                <Container>
+                    <LoadingComponent />
+                </Container>
             ) : (
                 <Container>
                     <Header />

@@ -35,8 +35,8 @@ export const UsersComponent = () => {
 
     // Get All Users
     useEffect(() => {
-        getAllUsers()
-    }, [getAllUsers])
+        if (user?.isAdmin) getAllUsers()
+    }, [getAllUsers, user?.isAdmin])
 
     const handleEdit = (user: UserProps) => {
         router.push({
@@ -46,11 +46,13 @@ export const UsersComponent = () => {
     }
 
     return (
-        <Container>
-            {isLoading ? (
-                <LoadingComponent />
+        <>
+            {!user?.isAdmin || isLoading ? (
+                <Container>
+                    <LoadingComponent />
+                </Container>
             ) : (
-                <>
+                <Container>
                     <Header />
                     <TitleContainer>
                         <Genos_Primary_24_500 text={'Olá ' + user?.firstName} />
@@ -82,8 +84,8 @@ export const UsersComponent = () => {
                             </UserRow>
                         ))}
                     </Content>
-                </>
+                </Container>
             )}
-        </Container>
+        </>
     )
 }

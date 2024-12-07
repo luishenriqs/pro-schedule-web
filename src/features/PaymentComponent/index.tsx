@@ -23,11 +23,13 @@ export const PaymentComponent = () => {
     }, [payloads])
 
     return (
-        <Container>
+        <>
             {isLoading ? (
-                <LoadingComponent />
+                <Container>
+                    <LoadingComponent />
+                </Container>
             ) : (
-                <>
+                <Container>
                     <TitleContainer>
                         {user && <Genos_Primary_24_500 text={`Olá ${user.firstName}`} />}
                         <Genos_Secondary_24_500 text="Finalize seu agendamento" />
@@ -35,8 +37,8 @@ export const PaymentComponent = () => {
                     <Content>
                         <GenosPrimaryButtonText title="Voltar" size="small" onClick={() => router.back()} />
                     </Content>
-                </>
+                </Container>
             )}
-        </Container>
+        </>
     )
 }

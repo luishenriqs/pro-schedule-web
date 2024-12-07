@@ -25,8 +25,8 @@ export const NavigatorDrawer = ({ isOpen }: NavigatorDrawerProps) => {
     }, [clearPayloads, clearUser, router])
 
     // Função genérica para navegação
-    const handleNavigation = (route: string) => {
-        if (pathname === route) {
+    const handleNavigation = (route: string | null) => {
+        if (route === null || route === pathname) {
             router.refresh()
         } else {
             router.push(route)
@@ -71,7 +71,7 @@ export const NavigatorDrawer = ({ isOpen }: NavigatorDrawerProps) => {
         ))
 
     return (
-        <Drawer anchor="left" open={isOpen} onClose={() => handleNavigation('/')}>
+        <Drawer anchor="left" open={isOpen} onClose={() => handleNavigation(null)}>
             <Container>
                 <Imagem src={mainLogoRemovebg} alt="Main Logo" />
                 <MenuContainer>{renderMenuItems()}</MenuContainer>

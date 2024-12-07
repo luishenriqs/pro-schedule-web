@@ -93,12 +93,10 @@ export type HeaderProps = {
 
 export type NavigatorDrawerProps = {
     isOpen: boolean
-    user: UserProps
 }
 
 export type NavigatorInLineProps = {
     showMenu?: boolean
-    user: UserProps
     payloads: ScheduleObjectProps[]
     handleOpenConfirmModal: () => void
 }
@@ -161,6 +159,7 @@ export type RequestResponseProps = {
     success: boolean
     status: number | any
     message: string
+    user?: UserProps
 }
 
 export type SelectedDateProps = {

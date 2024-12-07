@@ -167,11 +167,13 @@ export const NewScheduleComponent = () => {
     }, [clearPayloads, schedule, selectedDay])
 
     return (
-        <Container>
+        <>
             {isLoading ? (
-                <LoadingComponent />
+                <Container>
+                    <LoadingComponent />
+                </Container>
             ) : (
-                <>
+                <Container>
                     <Header handleCancelAppoitments={handleCancelAppoitments} />
                     <TitleContainer>
                         {user && <Genos_Primary_24_500 text={`Olá ${user.firstName}`} />}
@@ -214,7 +216,7 @@ export const NewScheduleComponent = () => {
                             )}
                         </SchedulingContent>
                     </Content>
-                </>
+                </Container>
             )}
             <ModalSighUp
                 open={openSighUpModal}
@@ -227,6 +229,6 @@ export const NewScheduleComponent = () => {
                 handleCancelAppoitments={handleCancelAppoitments}
                 handleClose={() => setOpenConfirmationModal(false)}
             />
-        </Container>
+        </>
     )
 }

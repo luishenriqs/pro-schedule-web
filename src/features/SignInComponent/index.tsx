@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import mainLogo from '../../../assets/Massaro/main-logo-removebg.png'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useRouter } from 'next/router'
 import { useNotification } from '@common/hooks/useNotification'
+import { useUser } from '@common/hooks/contexts/UserContext'
 import { RecoverPassword, UseSignIn } from '@common/api'
 import { FilledPrimaryButton } from '@common/components/Button'
 import { TextField } from '@mui/material'
@@ -14,6 +15,7 @@ import { Container, Imagem, SignUpContainer } from './styles'
 export const SignInComponent = () => {
     const router = useRouter()
     const { emmitSuccess, emmitError, emmitAlert } = useNotification()
+    const { saveUser } = useUser()
     const {
         register,
         handleSubmit,
@@ -26,8 +28,13 @@ export const SignInComponent = () => {
         try {
             const resp = await UseSignIn(data) //==> Valida autenticação do usuário
             if (resp?.status === 200) {
+                if (resp.user) saveUser(resp.user) // Persiste usuário logado no contexto
                 emmitSuccess(resp?.message)
-                router.push('/')
+                if (resp.user?.isAdmin) {
+                    router.push('/MyAgenda')
+                } else {
+                    router.push('/')
+                }
             }
             if (resp?.status !== 200) emmitError(resp?.message)
         } catch (error) {

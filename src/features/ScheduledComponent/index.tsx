@@ -32,18 +32,20 @@ export const ScheduledComponent = () => {
     }, [firebase])
 
     return (
-        <Container>
+        <>
             {isLoading ? (
-                <LoadingComponent />
+                <Container>
+                    <LoadingComponent />
+                </Container>
             ) : (
-                <>
+                <Container>
                     <Header />
                     <ScheduledContent>
                         <Genos_Primary_20_500 text="ScheduledComponent - Genos" />
                         <Questrial_Primary_20_500 text="ScheduledComponent - Questrial" />
                     </ScheduledContent>
-                </>
+                </Container>
             )}
-        </Container>
+        </>
     )
 }
