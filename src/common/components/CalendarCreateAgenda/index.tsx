@@ -22,7 +22,7 @@ export const CalendarCreateAgenda = ({ schedule, handleDayClick, legend }: Calen
             month: today.getMonth(),
             day: today.getDate(),
             hour: 0,
-            custumerId: '',
+            userId: '',
             enable: true,
         }
     }

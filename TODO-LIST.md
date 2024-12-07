@@ -27,6 +27,7 @@
 
 **MyAgendaComponent**
 
+*Priority 1*
 1 - Criar função para trazer todos os 'appointments' do mês selecionado
 (Disponíves, Reservados e Desabilitados)
 
@@ -54,20 +55,7 @@
 ## User Area
 
 **PaymentComponent**
-1 - Criar função de update nos 'appointments'
-
-    Payload:
-    [
-        {
-            "year":2024,
-            "month":11,
-            "day":16,
-            "hour":480,
-            "custumerId":"0d3417f2-5c4b-4e4a-88c0-5875980f7fd7",
-            "enable":true,
-            "userEmail":"diego@email.com"
-        },
-    ]
+*DONE* - 1 - Criar função de update nos 'appointments' (Reserva de horários)
 
 2 - Criar Middleware para integração com meios de pagamento
 

@@ -4,7 +4,7 @@ export type GetWeekDaysParams = {
 
 export type Hours = {
     hour: number
-    custumerId: string
+    userId: string
 }
 
 export type ScheduleObjectProps = {
@@ -12,14 +12,24 @@ export type ScheduleObjectProps = {
     month: number
     day: number
     hour: number
-    custumerId: string
     enable: boolean
+    userId?: string
     userEmail?: string
 }
 
+export type SchedulePayloadProps = {
+    year: number
+    month: number
+    day: number
+    hour: number
+    enable: boolean
+    userId: string
+    userEmail: string
+}
+
 export type PayloadContextType = {
-    payloads: ScheduleObjectProps[]
-    addPayload: (newPayload: ScheduleObjectProps) => void
+    payloads: SchedulePayloadProps[]
+    addPayload: (newPayload: SchedulePayloadProps) => void
     clearPayloads: () => void
 }
 

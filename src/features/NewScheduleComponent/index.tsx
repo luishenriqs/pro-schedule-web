@@ -106,7 +106,7 @@ export const NewScheduleComponent = () => {
                 item.day === appointment.day &&
                 item.hour === appointment.hour &&
                 item.enable === true
-                    ? { ...item, custumerId: (user && user.email) ?? '' } // Cria um novo objeto
+                    ? { ...item, userId: (user && user.email) ?? '' } // Cria um novo objeto
                     : item
             )
 
@@ -124,7 +124,7 @@ export const NewScheduleComponent = () => {
 
             // Adiciona o appointment no payload
             if (user && user.id) {
-                appointment.custumerId = user.id
+                appointment.userId = user.id
                 appointment.userEmail = user.email
 
                 addPayload(appointment)
@@ -144,11 +144,11 @@ export const NewScheduleComponent = () => {
         // Limpa os payloads pendentes
         clearPayloads()
 
-        // Atualiza o schedule removendo o 'custumerId' dos appointments marcados
+        // Atualiza o schedule removendo o 'userId' dos appointments marcados
         const updatedSchedule = schedule.map(
             (item) =>
-                item.custumerId // Verifica se 'custumerId' está preenchido
-                    ? { ...item, custumerId: '' } // Define como vazio
+                item.userId // Verifica se 'userId' está preenchido
+                    ? { ...item, userId: '' } // Define como vazio
                     : item // Mantém o objeto inalterado
         )
 

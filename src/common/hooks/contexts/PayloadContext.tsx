@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { PayloadContextType, ScheduleObjectProps } from '@common/models'
+import { PayloadContextType, SchedulePayloadProps } from '@common/models'
 
 const PayloadContext = createContext<PayloadContextType | undefined>(undefined)
 
 export const PayloadProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [payloads, setPayloads] = useState<ScheduleObjectProps[]>([])
+    const [payloads, setPayloads] = useState<SchedulePayloadProps[]>([])
 
     // Carregar dados do localStorage ao iniciar
     useEffect(() => {
@@ -20,7 +20,7 @@ export const PayloadProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }, [payloads])
 
     // Adicionar novo payload de forma cumulativa
-    const addPayload = (newPayload: ScheduleObjectProps) => {
+    const addPayload = (newPayload: SchedulePayloadProps) => {
         setPayloads((prevPayloads) => [...prevPayloads, newPayload])
     }
 

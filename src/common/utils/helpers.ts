@@ -135,10 +135,10 @@ export const getMinMonth = (selectedDate: Date): boolean => {
 }
 
 export const hasEmptyCustomerId = (
-    data: Array<{ year: number; month: number; day: number; hour: number; custumerId: string }>,
+    data: Array<{ year: number; month: number; day: number; hour: number; userId: string }>,
     selectedDay: number
 ): boolean => {
-    return data.some((item) => item.day === selectedDay && item.custumerId === '')
+    return data.some((item) => item.day === selectedDay && item.userId === '')
 }
 
 export const formatDate = (day: number, month: number, year: number): string => {
@@ -224,7 +224,7 @@ export const removeAppointment = (
                     appointment.month === newPayload.month &&
                     appointment.day === newPayload.day &&
                     appointment.hour === newPayload.hour &&
-                    appointment.custumerId === newPayload.custumerId
+                    appointment.userId === newPayload.userId
                 )
         ),
     }
@@ -295,7 +295,8 @@ export const generateSchedule = (
                     month: selectedMonth.month,
                     day: day,
                     hour: totalMinutes,
-                    custumerId: '',
+                    userId: '',
+                    userEmail: '',
                     enable: true,
                 })
             }

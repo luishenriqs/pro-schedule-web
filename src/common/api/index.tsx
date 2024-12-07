@@ -214,7 +214,7 @@ export const WriteMultipleDataWithRetry = async (dataArray: any[], entity: strin
     }
 }
 
-// return ==> month fornecido, enable: Igual a true, custumerId: Vazio ("").
+// return ==> month fornecido, enable: Igual a true, userId: Vazio ("").
 export const UseAvailableScheduleByMonth = async (year: number, month: number): Promise<ScheduleObjectProps[]> => {
     try {
         const db = getFirestore()
@@ -239,11 +239,11 @@ export const UseAvailableScheduleByMonth = async (year: number, month: number): 
                     month: data.month,
                     day: data.day,
                     hour: data.hour,
-                    custumerId: data.custumerId,
+                    userId: data.userId,
                     enable: data.enable,
                 }
             })
-            .filter((schedule) => schedule.custumerId === '')
+            .filter((schedule) => schedule.userId === '')
 
         return schedules
     } catch (error) {
@@ -296,6 +296,65 @@ export const UpdateUser = async (userEmail: string, payload: UserProps) => {
         return { success: true, status: 200, message: 'Usuário atualizado com sucesso!' }
     } catch (error) {
         console.error('Erro ao atualizar os dados do usuário: ', error)
+        throw error
+    }
+}
+
+export const updateScheduleBatch = async (
+    payload: Array<{
+        year: number
+        month: number
+        day: number
+        hour: number
+        userId: string
+        userEmail: string
+    }>
+) => {
+    try {
+        const db = getFirestore()
+        const scheduleCollection = collection(db, 'schedule')
+
+        // Itera sobre cada item no payload para realizar as atualizações
+        const updatePromises = payload.map(async (item) => {
+            // Cria uma query para localizar o documento correto
+            const scheduleQuery = query(
+                scheduleCollection,
+                where('year', '==', item.year),
+                where('month', '==', item.month),
+                where('day', '==', item.day),
+                where('hour', '==', item.hour),
+                where('enable', '==', true) // Certifica-se de que está habilitado
+            )
+
+            // Buscar os documentos que correspondem à query
+            const querySnapshot = await getDocs(scheduleQuery)
+
+            if (querySnapshot.empty) {
+                console.warn(`Nenhum registro encontrado para:`, item)
+                return { success: false, item }
+            }
+
+            // Atualizar os documentos encontrados
+            const updates = querySnapshot.docs.map(async (docSnapshot) => {
+                const docRef = docSnapshot.ref
+                await updateDoc(docRef, {
+                    userId: item.userId,
+                    userEmail: item.userEmail,
+                })
+            })
+
+            // Aguarda a conclusão das atualizações para este item
+            await Promise.all(updates)
+
+            return { success: true, item }
+        })
+
+        // Aguarda a execução de todas as atualizações do payload
+        const results = await Promise.all(updatePromises)
+
+        return { success: true, results }
+    } catch (error) {
+        console.error('Erro ao atualizar os dados na coleção schedule: ', error)
         throw error
     }
 }

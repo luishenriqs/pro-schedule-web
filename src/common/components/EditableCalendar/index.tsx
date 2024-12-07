@@ -22,7 +22,7 @@ export const EditableCalendar = ({ schedule, handleDayClick, legend }: EditableC
             month: today.getMonth(),
             day: today.getDate(),
             hour: 0,
-            custumerId: '',
+            userId: '',
             enable: true,
         }
     }
