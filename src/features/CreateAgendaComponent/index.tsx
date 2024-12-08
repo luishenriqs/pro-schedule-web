@@ -65,14 +65,9 @@ export const CreateAgendaComponent = () => {
         setAbsencePeriod(period)
     }
 
-    const generateNewSchedule = useCallback(() => {
-        const newSchedule = generateSchedule(selectedMonth, selectedWeekDays, selectedTime, absencePeriod)
-        if (newSchedule.length > 0) {
-            setSchedule(newSchedule)
-        } else {
-            emmitAlert('Preencha todos os dados!')
-        }
-    }, [absencePeriod, emmitAlert, selectedMonth, selectedTime, selectedWeekDays])
+    const handleChangeMonth = useCallback(() => {
+        setSelectedDay({} as dataSelectedProps)
+    }, [])
 
     const handleDayClick = useCallback(
         (day: number, month: number, year: number) => {
@@ -87,10 +82,6 @@ export const CreateAgendaComponent = () => {
         },
         [schedule]
     )
-
-    const handleChangeMonth = useCallback(() => {
-        setSelectedDay({} as dataSelectedProps)
-    }, [])
 
     const handleEditSchedule = useCallback(
         (appointment: ScheduleObjectProps) => {
@@ -118,18 +109,25 @@ export const CreateAgendaComponent = () => {
         [schedule]
     )
 
+    const generateNewSchedule = useCallback(() => {
+        const newSchedule = generateSchedule(selectedMonth, selectedWeekDays, selectedTime, absencePeriod)
+        if (newSchedule.length > 0) {
+            setSchedule(newSchedule)
+        } else {
+            emmitAlert('Preencha todos os dados!')
+        }
+    }, [absencePeriod, emmitAlert, selectedMonth, selectedTime, selectedWeekDays])
+
     const handleSave = useCallback(async () => {
         try {
             setIsUpLoading(true)
             const response = await WriteMultipleDataWithRetry(schedule, 'schedule')
             if (response.status === 201) {
                 setIsUpLoading(false)
-                console.log('Message: ', response.status, response.message)
                 emmitSuccess(response.message)
                 router.push('/')
             } else {
                 setIsUpLoading(false)
-                console.log('Message: ', response.status, response.message)
                 emmitAlert(response.message)
             }
         } catch (error) {

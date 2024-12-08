@@ -13,16 +13,20 @@ export const Container = styled(Box)({
     margin: '0 10px',
 })
 
-export const Content = styled(Box)({
+type ContentProps = {
+    verticalVersion: boolean
+}
+
+export const Content = styled(Box)<ContentProps>(({ verticalVersion }) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
 
     '@media (min-width:1224px)': {
-        flexDirection: 'row',
+        flexDirection: verticalVersion ? 'column' : 'row',
     },
-})
+}))
 
 export const TimeContent = styled(Box)({
     display: 'flex',

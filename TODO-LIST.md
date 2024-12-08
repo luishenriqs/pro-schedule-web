@@ -2,7 +2,6 @@
 
 ## Bugs
 
-
 ## Toda Aplicação
 
 **TermsOfUse**
@@ -13,21 +12,25 @@
 
 1 - Criar serviço de notificações por WhatsApp e Email
 
-
 ## Admin Area
-
 
 **MyAgendaComponent**
 
 _Priority 1_
-1 - Criar função para trazer todos os 'appointments' do mês selecionado
-(Disponíves, Reservados e Desabilitados)
+1 - Criar novo componente 'ManageAppointments' personalizado para 'MyAgendaComponent' - Horário disponível - Legenda: Hora / Cor: Primary / onClick: desabilita/habilita (enable: false/true)
 
-2 - Configurar Calendário com novas opções de cores e ações
+    - Horário indisponível
+        - Legenda: Hora / Cor: Background / onClick: habilita/desabilita (enable: true/false)
 
-3 - Criar funções de update, create e delete
+    - Horário reservado
+        - Legenda: Hora + Nome do usuário / Cor: Background / onClick: abre modal de cancelamento + disable
 
-4 - Criar visualização de agenda em formato de lista
+    Se 'Reservado'
+    - Criar Modal Cancelamento - Cancela atendimento, desabilita horário, adiciona crédito para usuário
+
+    - Criar novo botão: "Adicionar horário" - Abre componente "CreateNewAppointments"
+
+2 - Criar visualização de agenda em formato de lista
 
 **CreateAgendaComponent**
 
@@ -53,8 +56,12 @@ _Priority 1_
 
 **PreviousComponent**
 
-2 - Criar página para usuário visualizar seu histórico de consultas
+1 - Criar página para usuário visualizar seu histórico de consultas
 
 **ScheduledComponents**
 
-3 - Criar página para usuário visualizar suas próximas consultas
+1 - Criar página para usuário visualizar suas próximas consultas
+
+**Profile**
+
+1 - Criar página de perfil para usuário visualizar seus dados e créditos

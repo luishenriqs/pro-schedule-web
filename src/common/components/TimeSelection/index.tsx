@@ -13,7 +13,7 @@ import {
     TimesContainer,
 } from './styles'
 
-export const TimeSelection = ({ onChange }: TimeSelectionProps) => {
+export const TimeSelection = ({ verticalVersion = false, onChange }: TimeSelectionProps) => {
     const [hours, setHours] = useState<string>('08')
     const [minutes, setMinutes] = useState<string>('00')
     const [selectedTimes, setSelectedTimes] = useState<string[]>([])
@@ -39,7 +39,7 @@ export const TimeSelection = ({ onChange }: TimeSelectionProps) => {
 
     return (
         <Container>
-            <Content>
+            <Content verticalVersion={verticalVersion}>
                 <SelectContainer>
                     <PickerContainer>
                         <Select value={hours} onChange={(e) => setHours(e.target.value)} fullWidth displayEmpty>

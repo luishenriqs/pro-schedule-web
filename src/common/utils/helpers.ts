@@ -8,6 +8,7 @@ import {
     dataSelectedProps,
     SelectedDateProps,
     PeriodProps,
+    selectNewDayProps,
 } from '@common/models'
 
 export const initialScript = async () => {
@@ -303,4 +304,16 @@ export const generateSchedule = (
         }
     }
     return result
+}
+
+export const createNewDayPayload = (selectNewDay: selectNewDayProps, selectedTime: string[]): ScheduleObjectProps[] => {
+    return selectedTime.map((time) => ({
+        year: selectNewDay.year,
+        month: selectNewDay.month,
+        day: selectNewDay.day,
+        hour: timeToInteger(time),
+        userId: '',
+        userEmail: '',
+        enable: true,
+    }))
 }
