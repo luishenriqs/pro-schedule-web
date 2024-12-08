@@ -17,7 +17,7 @@ export const Appointments = ({ appointmentsData, handleSetAppointments }: Select
         if (!appointmentsData || !appointmentsData.data) return null
 
         return appointmentsData.data.map((data, index) =>
-            data.userId.length === 0 ? (
+            data.userId && data.userId.length === 0 ? (
                 <EnabledContainer
                     key={index}
                     onClick={() => handleSetAppointments(data)}

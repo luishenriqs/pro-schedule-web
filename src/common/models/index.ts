@@ -28,8 +28,8 @@ export type SchedulePayloadProps = {
 }
 
 export type PayloadContextType = {
-    payloads: SchedulePayloadProps[]
-    addPayload: (newPayload: SchedulePayloadProps) => void
+    payloads: ScheduleObjectProps[]
+    addPayload: (newPayload: ScheduleObjectProps) => void
     clearPayloads: () => void
 }
 

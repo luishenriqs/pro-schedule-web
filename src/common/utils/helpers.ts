@@ -135,7 +135,7 @@ export const getMinMonth = (selectedDate: Date): boolean => {
 }
 
 export const hasEmptyCustomerId = (
-    data: Array<{ year: number; month: number; day: number; hour: number; userId: string }>,
+    data: Array<{ year: number; month: number; day: number; hour: number; userId?: string; userEmail?: string }>,
     selectedDay: number
 ): boolean => {
     return data.some((item) => item.day === selectedDay && item.userId === '')

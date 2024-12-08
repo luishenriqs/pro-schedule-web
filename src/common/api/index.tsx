@@ -306,8 +306,8 @@ export const updateScheduleBatch = async (
         month: number
         day: number
         hour: number
-        userId: string
-        userEmail: string
+        userId?: string
+        userEmail?: string
     }>
 ) => {
     try {
