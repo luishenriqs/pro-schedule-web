@@ -1,34 +1,81 @@
-import React, { useState } from 'react'
-import { DrawerNavigator } from '../DrawerNavigator'
-import { TextPrimary20_700, TextPrimary16_500 } from '@common/components/Typography'
-import { Container, HeaderWrapper, HeaderContent, IconContainer, ButtonIcon, Line, Imagem, IconMenu } from './styles'
+import React, { useCallback, useState } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
+import { usePayload } from '@common/hooks/contexts/PayloadContext'
+import mainLogoRemovebg from '../../../../assets/Massaro/main-logo-removebg.png'
+import { NavigatorDrawer } from '../NavigatorDrawer'
+import { NavigatorInLine } from '../NavigatorInLine'
+import { ModalConfirmation } from '../ModalConfirmation'
+import { HeaderProps } from '@common/models'
+import { Genos_White_14_500 } from '../Typography'
+import {
+    Container,
+    DrawerHeaderContainer,
+    HeaderContent,
+    ButtonIcon,
+    Imagem,
+    IconMenu,
+    CalendarMenu,
+    Empty,
+    RedCircle,
+    InLineHeaderContainer,
+} from './styles'
 
-type HeaderProps = {
-    title: string
-    text?: string
-}
+function Header({ handleCancelAppoitments }: HeaderProps) {
+    const router = useRouter()
+    const pathname = usePathname()
+    const { payloads } = usePayload()
 
-function Header({ title, text }: HeaderProps) {
     const [open, setOpen] = useState(false)
+    const [openConfirmationModal, setOpenConfirmationModal] = useState(false)
+
+    const showMenu = true
+
+    const handleOpenConfirmModal = useCallback(() => {
+        setOpenConfirmationModal(true)
+    }, [])
+
+    const handleClose = useCallback(() => {
+        setOpenConfirmationModal(false)
+        router.push('/')
+    }, [router])
 
     return (
         <Container>
-            <HeaderWrapper>
+            <DrawerHeaderContainer>
                 <HeaderContent>
-                    <IconContainer>
-                        <Imagem
-                            src={require('../../../../assets/schedule_icon.png')}
-                            alt={'Pro-Schedule-logo'}
-                        />
-                    </IconContainer>
-                    <TextPrimary20_700 text={title} />
-                    <ButtonIcon onClick={() => setOpen(!open)}>
-                        <IconMenu />
-                    </ButtonIcon>
+                    {showMenu && (
+                        <ButtonIcon onClick={() => setOpen(!open)}>
+                            <IconMenu />
+                        </ButtonIcon>
+                    )}
+                    <Imagem src={mainLogoRemovebg} alt="Main Logo" />
+                    {pathname === '/' && payloads.length > 0 ? (
+                        <ButtonIcon onClick={() => handleOpenConfirmModal()}>
+                            <CalendarMenu />
+                            <RedCircle>
+                                <Genos_White_14_500 text={payloads.length} />
+                            </RedCircle>
+                        </ButtonIcon>
+                    ) : (
+                        <Empty />
+                    )}
                 </HeaderContent>
-                {text && <TextPrimary16_500 text={text} />}
-            </HeaderWrapper>
-            <DrawerNavigator isOpen={open} />
+                <NavigatorDrawer isOpen={open} />
+            </DrawerHeaderContainer>
+            <InLineHeaderContainer>
+                <NavigatorInLine
+                    showMenu={showMenu}
+                    payloads={payloads}
+                    handleOpenConfirmModal={handleOpenConfirmModal}
+                />
+            </InLineHeaderContainer>
+            <ModalConfirmation
+                open={openConfirmationModal}
+                handleCancelAppoitments={() =>
+                    handleCancelAppoitments && (handleCancelAppoitments(), setOpenConfirmationModal(false))
+                }
+                handleClose={handleClose}
+            />
         </Container>
     )
 }
