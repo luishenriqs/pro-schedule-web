@@ -13,18 +13,8 @@ export type ScheduleObjectProps = {
     day: number
     hour: number
     enable: boolean
-    userId?: string
-    userEmail?: string
-}
-
-export type SchedulePayloadProps = {
-    year: number
-    month: number
-    day: number
-    hour: number
-    enable: boolean
-    userId: string
-    userEmail: string
+    userId?: string | undefined
+    userEmail?: string | undefined
 }
 
 export type PayloadContextType = {

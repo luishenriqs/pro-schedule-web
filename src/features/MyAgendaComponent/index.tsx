@@ -1,17 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { GetScheduleByMonth } from '@common/api'
+import { useNotification } from '@common/hooks/useNotification'
 import { useUser } from '@common/hooks/contexts/UserContext'
 import Header from '@common/components/Header'
 import { LoadingComponent } from '@common/components/Loading'
+import { CalendarNewSchedule } from '@common/components/CalendarNewSchedule'
+import { Appointments } from '@common/components/Appointments'
+import { filterAppointmentsByDay } from '@common/utils/helpers'
+import { dataSelectedProps, ScheduleObjectProps } from '@common/models'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
 import { Container, Content, EmptyLegend, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
-import { CalendarNewSchedule } from '@common/components/CalendarNewSchedule'
-import { UseAvailableScheduleByMonth } from '@common/api'
-import { dataSelectedProps, ScheduleObjectProps } from '@common/models'
-import { filterAppointmentsByDay } from '@common/utils/helpers'
-import { Appointments } from '@common/components/Appointments'
 
 export const MyAgendaComponent = () => {
     const { user } = useUser()
+    const { emmitAlert } = useNotification()
 
     const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
     const [isLoading, setIsLoading] = useState(true)
@@ -21,16 +23,18 @@ export const MyAgendaComponent = () => {
 
     // GET SCHEDULE BY MONTH - ENABLE AND AVAILABLE
     const getScheduleByMonth = useCallback(async () => {
-        const schedule = await UseAvailableScheduleByMonth(selectedYear, selectedMonth)
+        const schedule = await GetScheduleByMonth(selectedYear, selectedMonth)
+
+        console.log('schedule ', JSON.stringify(schedule))
 
         if (schedule) {
             setSchedule(schedule)
             setIsLoading(false)
         } else {
-            console.log('No schedule! ')
+            emmitAlert('Nenhuma reserva encontrada!')
             setIsLoading(false)
         }
-    }, [selectedMonth, selectedYear])
+    }, [emmitAlert, selectedMonth, selectedYear])
 
     useEffect(() => {
         if (user?.isAdmin) getScheduleByMonth()
@@ -79,7 +83,7 @@ export const MyAgendaComponent = () => {
                         <SchedulingContent>
                             <CalendarNewSchedule
                                 schedule={schedule}
-                                legend="Escolha o seu dia"
+                                legend="Escolha o dia"
                                 handleDayClick={handleDayClick}
                                 handleChangeMonth={handleChangeMonth}
                                 onMonthChange={handleMonthChange}
@@ -106,7 +110,7 @@ export const MyAgendaComponent = () => {
                                     </LegendContainer>
                                     <LegendContainer>
                                         <EmptyLegend />
-                                        <Questrial_Secondary_20_500 text=" - Horários indisponíveis" />
+                                        <Questrial_Secondary_20_500 text=" - Reservados / Desabilitados" />
                                     </LegendContainer>
                                 </>
                             )}

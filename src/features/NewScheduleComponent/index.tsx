@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
-import { UseAvailableScheduleByMonth } from '@common/api'
+import { GetAvailableScheduleByMonth } from '@common/api'
 import { firebaseConfig } from '../../../firebaseConfig'
 import { usePayload } from '@common/hooks/contexts/PayloadContext'
 import { useUser } from '@common/hooks/contexts/UserContext'
@@ -34,7 +34,7 @@ export const NewScheduleComponent = () => {
     const createManager = useCallback(async () => {
         const resp = await initialScript()
         if (resp?.success) {
-            console.log('Owner user created successfully!')
+            console.log('First user created successfully!')
         } else {
             console.log('Error creating owner user')
         }
@@ -55,7 +55,7 @@ export const NewScheduleComponent = () => {
 
     // GET SCHEDULE BY MONTH - ENABLE AND AVAILABLE
     const getScheduleByMonth = useCallback(async () => {
-        const schedule = await UseAvailableScheduleByMonth(selectedYear, selectedMonth)
+        const schedule = await GetAvailableScheduleByMonth(selectedYear, selectedMonth)
 
         if (schedule) {
             setSchedule(schedule)

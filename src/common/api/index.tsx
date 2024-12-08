@@ -214,8 +214,8 @@ export const WriteMultipleDataWithRetry = async (dataArray: any[], entity: strin
     }
 }
 
-// return ==> month fornecido, enable: Igual a true, userId: Vazio ("").
-export const UseAvailableScheduleByMonth = async (year: number, month: number): Promise<ScheduleObjectProps[]> => {
+// Retorna agenda filtrando por mês, enable: true, e disponível - userId: Vazio ("").
+export const GetAvailableScheduleByMonth = async (year: number, month: number): Promise<ScheduleObjectProps[]> => {
     try {
         const db = getFirestore()
         const scheduleCollection = collection(db, 'schedule')
@@ -240,11 +240,42 @@ export const UseAvailableScheduleByMonth = async (year: number, month: number): 
                     day: data.day,
                     hour: data.hour,
                     userId: data.userId,
+                    userEmail: data.userEmail,
                     enable: data.enable,
                 }
             })
             .filter((schedule) => schedule.userId === '')
+        return schedules
+    } catch (error) {
+        console.error('Error fetching schedules:', error)
+        throw error
+    }
+}
 
+// Retorna agenda completa filtrando por mês
+export const GetScheduleByMonth = async (year: number, month: number): Promise<ScheduleObjectProps[]> => {
+    try {
+        const db = getFirestore()
+        const scheduleCollection = collection(db, 'schedule')
+
+        const q = query(scheduleCollection, where('year', '==', year), where('month', '==', month))
+
+        // Obtenha os documentos da consulta
+        const querySnapshot = await getDocs(q)
+
+        // Mapeie os documentos para o tipo 'Schedule'
+        const schedules: ScheduleObjectProps[] = querySnapshot.docs.map((doc) => {
+            const data = doc.data()
+            return {
+                year: data.year,
+                month: data.month,
+                day: data.day,
+                hour: data.hour,
+                userId: data.userId,
+                userEmail: data.userEmail,
+                enable: data.enable,
+            }
+        })
         return schedules
     } catch (error) {
         console.error('Error fetching schedules:', error)
