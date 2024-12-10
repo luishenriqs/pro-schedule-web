@@ -8,13 +8,13 @@ import { useUser } from '@common/hooks/contexts/UserContext'
 import Header from '@common/components/Header'
 import { CalendarNewSchedule } from '@common/components/CalendarNewSchedule'
 import { LoadingComponent } from '@common/components/Loading'
-import { Appointments } from '@common/components/Appointments'
+import { AppointmentsSchedule } from '@common/components/AppointmentsSchedule'
 import { ScheduleObjectProps, dataSelectedProps } from '@common/models'
 import { ModalSighUp } from '@common/components/ModalSighUp'
 import { ModalConfirmation } from '@common/components/ModalConfirmation'
-import { Genos_Primary_24_500, Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
+import { Genos_Primary_24_500, Genos_Secondary_24_500, Questrial_Secondary_16_500 } from '@common/components/Typography'
 import { filterAppointmentsByDay, initialScript } from '@common/utils/helpers'
-import { Container, Content, EmptyLegend, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
+import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
 
 export const NewScheduleComponent = () => {
     const app = initializeApp(firebaseConfig)
@@ -193,12 +193,12 @@ export const NewScheduleComponent = () => {
                             />
                             <LegendContainer>
                                 <Legend />
-                                <Questrial_Secondary_20_500 text=" - Dias disponíveis" />
+                                <Questrial_Secondary_16_500 text=" - Dias disponíveis" />
                             </LegendContainer>
 
                             {selectedDay?.data?.length > 0 && (
                                 <>
-                                    <Appointments
+                                    <AppointmentsSchedule
                                         key={JSON.stringify(schedule)}
                                         appointmentsData={selectedDay}
                                         legend="Escolha o seu horário"
@@ -206,11 +206,7 @@ export const NewScheduleComponent = () => {
                                     />
                                     <LegendContainer>
                                         <Legend />
-                                        <Questrial_Secondary_20_500 text=" - Horários disponíveis" />
-                                    </LegendContainer>
-                                    <LegendContainer>
-                                        <EmptyLegend />
-                                        <Questrial_Secondary_20_500 text=" - Horários indisponíveis" />
+                                        <Questrial_Secondary_16_500 text=" - Horários disponíveis" />
                                     </LegendContainer>
                                 </>
                             )}

@@ -56,7 +56,7 @@ export type CalendarNewScheduleProps = {
     selectedMonth: number
     selectedYear: number
     handleDayClick: (day: number, month: number, year: number) => void
-    handleCriateNewSchedule?: (day: number, month: number, year: number) => void
+    handleCreateNewSchedule?: (day: number, month: number, year: number) => void
     handleChangeMonth: () => void
     onMonthChange: (month: number) => void
     onYearChange: (year: number) => void
@@ -88,10 +88,18 @@ export type selectNewDayProps = {
     year: number
 }
 
-export type SelectedDataProps = {
+export type AppointmentsScheduledProps = {
     appointmentsData: dataSelectedProps
     legend: string
     handleSetAppointments: (value: ScheduleObjectProps) => void
+}
+
+export type AppointmentsManagedProps = {
+    appointmentsData: dataSelectedProps
+    legend: string
+    handleToggleAvailability: (value: ScheduleObjectProps) => void
+    handleOpenCancelModal: (value: ScheduleObjectProps) => void
+    handleCreateNewSchedule: (day: number, month: number, year: number) => void
 }
 
 export type NewScheduleProps = {
@@ -209,4 +217,8 @@ export type PeriodProps = {
     year: number
     month: number
     day: number
+}
+
+export type LoadingProps = {
+    size?: 'small' | 'large'
 }

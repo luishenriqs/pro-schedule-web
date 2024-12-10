@@ -389,3 +389,50 @@ export const updateScheduleBatch = async (
         throw error
     }
 }
+
+export const UpdateScheduleAvailability = async (payload: {
+    year: number
+    month: number
+    day: number
+    hour: number
+}) => {
+    try {
+        const db = getFirestore()
+        const scheduleCollection = collection(db, 'schedule')
+
+        // Cria uma query para localizar o documento correto
+        const scheduleQuery = query(
+            scheduleCollection,
+            where('year', '==', payload.year),
+            where('month', '==', payload.month),
+            where('day', '==', payload.day),
+            where('hour', '==', payload.hour)
+        )
+
+        // Buscar os documentos que correspondem à query
+        const querySnapshot = await getDocs(scheduleQuery)
+
+        if (querySnapshot.empty) {
+            console.warn(`Nenhum registro encontrado para:`, payload)
+            return { success: false, message: 'Nenhum registro encontrado' }
+        }
+
+        // Atualiza o primeiro documento encontrado (assumindo que há apenas um documento para esta combinação de filtros)
+        const docSnapshot = querySnapshot.docs[0]
+        const docRef = docSnapshot.ref
+
+        // Recupera o valor atual de 'enable' e inverte
+        const currentData = docSnapshot.data()
+        const newEnableValue = !currentData.enable
+
+        // Atualiza o documento com o novo valor de 'enable'
+        await updateDoc(docRef, { enable: newEnableValue })
+
+        console.log(`Valor de 'enable' atualizado com sucesso para ${newEnableValue} no documento:`, docRef.id)
+
+        return { success: true, newEnableValue, docId: docRef.id }
+    } catch (error) {
+        console.error('Erro ao atualizar o valor de "enable":', error)
+        throw error
+    }
+}

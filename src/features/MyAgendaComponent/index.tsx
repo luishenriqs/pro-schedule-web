@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { GetScheduleByMonth, WriteMultipleDataWithRetry } from '@common/api'
+import { GetScheduleByMonth, UpdateScheduleAvailability, WriteMultipleDataWithRetry } from '@common/api'
 import { useNotification } from '@common/hooks/useNotification'
 import { useUser } from '@common/hooks/contexts/UserContext'
 import Header from '@common/components/Header'
 import { LoadingComponent } from '@common/components/Loading'
 import { CalendarMyAgenda } from '@common/components/CalendarMyAgenda'
-import { Appointments } from '@common/components/Appointments'
+import { AppointmentsManaged } from '@common/components/AppointmentsManaged'
 import { CreateNewAppointments } from '@common/components/CreateNewAppointments'
 import { filterAppointmentsByDay } from '@common/utils/helpers'
 import { dataSelectedProps, ScheduleObjectProps, selectNewDayProps } from '@common/models'
-import { Genos_Primary_24_500, Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
+import { Genos_Primary_24_500, Genos_Secondary_24_500, Questrial_Secondary_16_500 } from '@common/components/Typography'
 import { Container, Content, EmptyLegend, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
 
 export const MyAgendaComponent = () => {
@@ -20,6 +20,7 @@ export const MyAgendaComponent = () => {
 
     const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
     const [isLoading, setIsLoading] = useState(true)
+    const [isSaving, setIsSaving] = useState(false)
     const [isUpLoading, setIsUpLoading] = useState(false)
     const [selectedDay, setSelectedDay] = useState<dataSelectedProps>({} as dataSelectedProps)
     const [selectNewDay, setSelectNewDay] = useState<selectNewDayProps>({} as selectNewDayProps)
@@ -70,7 +71,7 @@ export const MyAgendaComponent = () => {
         [schedule]
     )
 
-    const handleCriateNewSchedule = useCallback((day: number, month: number, year: number) => {
+    const handleCreateNewSchedule = useCallback((day: number, month: number, year: number) => {
         const dataSelected = {
             day,
             month,
@@ -102,9 +103,30 @@ export const MyAgendaComponent = () => {
         [emmitAlert, emmitError, emmitSuccess, router]
     )
 
+    const handleToggleAvailability = useCallback(
+        async (payload: ScheduleObjectProps) => {
+            if (payload) {
+                setIsSaving(true)
+                try {
+                    await UpdateScheduleAvailability(payload)
+                    router.refresh()
+                    emmitSuccess('Atualizado com sucesso!')
+                } catch (error) {
+                    console.error('Erro ao atualizar os dados.', error)
+                    emmitError('Erro ao atualizar os dados.')
+                } finally {
+                    setIsSaving(false)
+                }
+            }
+        },
+        [emmitError, emmitSuccess, router]
+    )
+
+    const handleOpenCancelModal = () => {}
+
     return (
         <>
-            {!user?.isAdmin || isLoading ? (
+            {!user?.isAdmin ? (
                 <Container>
                     <LoadingComponent />
                 </Container>
@@ -116,15 +138,15 @@ export const MyAgendaComponent = () => {
                         <Genos_Secondary_24_500 text="Gerencie a sua agenda" />
                     </TitleContainer>
                     <Content>
-                        {isUpLoading ? (
-                            <LoadingComponent />
+                        {isLoading || isUpLoading ? (
+                            <LoadingComponent size="small" />
                         ) : (
                             <SchedulingContent>
                                 <CalendarMyAgenda
                                     schedule={schedule}
                                     legend="Escolha o dia"
                                     handleDayClick={handleDayClick}
-                                    handleCriateNewSchedule={handleCriateNewSchedule}
+                                    handleCreateNewSchedule={handleCreateNewSchedule}
                                     handleChangeMonth={handleChangeMonth}
                                     onMonthChange={handleMonthChange}
                                     onYearChange={handleYearChange}
@@ -133,24 +155,32 @@ export const MyAgendaComponent = () => {
                                 />
                                 <LegendContainer>
                                     <Legend />
-                                    <Questrial_Secondary_20_500 text=" - Dias disponíveis" />
+                                    <Questrial_Secondary_16_500 text=" - Dias disponíveis" />
                                 </LegendContainer>
 
                                 {selectedDay?.data?.length > 0 && (
                                     <>
-                                        <Appointments
-                                            key={JSON.stringify(schedule)}
-                                            appointmentsData={selectedDay}
-                                            legend="Escolha o seu horário"
-                                            handleSetAppointments={() => {}}
-                                        />
+                                        {isSaving ? (
+                                            <LoadingComponent size="small" />
+                                        ) : (
+                                            <AppointmentsManaged
+                                                key={JSON.stringify(schedule)}
+                                                appointmentsData={selectedDay}
+                                                legend="Agenda do dia"
+                                                handleToggleAvailability={(payload) =>
+                                                    handleToggleAvailability(payload)
+                                                }
+                                                handleOpenCancelModal={handleOpenCancelModal}
+                                                handleCreateNewSchedule={handleCreateNewSchedule}
+                                            />
+                                        )}
                                         <LegendContainer>
                                             <Legend />
-                                            <Questrial_Secondary_20_500 text=" - Horários disponíveis" />
+                                            <Questrial_Secondary_16_500 text=" - Horários disponíveis" />
                                         </LegendContainer>
                                         <LegendContainer>
                                             <EmptyLegend />
-                                            <Questrial_Secondary_20_500 text=" - Reservados / Desabilitados" />
+                                            <Questrial_Secondary_16_500 text=" - Reservados / Desabilitados" />
                                         </LegendContainer>
                                     </>
                                 )}

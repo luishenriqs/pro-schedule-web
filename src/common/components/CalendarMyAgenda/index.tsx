@@ -28,7 +28,7 @@ import {
 export const CalendarMyAgenda = ({
     schedule,
     handleDayClick,
-    handleCriateNewSchedule,
+    handleCreateNewSchedule,
     handleChangeMonth,
     onMonthChange,
     onYearChange,
@@ -103,7 +103,7 @@ export const CalendarMyAgenda = ({
                         <DisabledDayButton
                             key={i}
                             onClick={() =>
-                                handleCriateNewSchedule && handleCriateNewSchedule(day, selectedMonth, selectedYear)
+                                handleCreateNewSchedule && handleCreateNewSchedule(day, selectedMonth, selectedYear)
                             }
                         >
                             <Genos_Secondary_24_500 text={day} />
@@ -113,7 +113,7 @@ export const CalendarMyAgenda = ({
             )
         }
         return buttons
-    }, [handleCriateNewSchedule, handleDayClick, schedule, selectedDate, selectedMonth, selectedYear])
+    }, [handleCreateNewSchedule, handleDayClick, schedule, selectedDate, selectedMonth, selectedYear])
 
     return (
         <Container>

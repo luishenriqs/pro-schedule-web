@@ -1,10 +1,14 @@
 import React, { useMemo } from 'react'
 import { Genos_Primary_24_500, Genos_Secondary_24_500 } from '../Typography'
-import { SelectedDataProps } from '@common/models'
+import { AppointmentsScheduledProps } from '@common/models'
 import { formatDate, integerToTime } from '@common/utils/helpers'
 import { Container, DisabledContainer, EnabledContainer, TitleContainer } from './styles'
 
-export const EditableAppointments = ({ appointmentsData, legend, handleSetAppointments }: SelectedDataProps) => {
+export const EditableAppointments = ({
+    appointmentsData,
+    legend,
+    handleSetAppointments,
+}: AppointmentsScheduledProps) => {
     // Garantir que dados básicos estejam disponíveis
     const date = appointmentsData ? formatDate(appointmentsData.day, appointmentsData.month, appointmentsData.year) : ''
 

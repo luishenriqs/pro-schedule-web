@@ -17,18 +17,13 @@
 **MyAgendaComponent**
 
 _Priority 1_
-1 - Criar novo componente 'ManageAppointments' personalizado para 'MyAgendaComponent' - Horário disponível - Legenda: Hora / Cor: Primary / onClick: desabilita/habilita (enable: false/true)
-
-    - Horário indisponível
-        - Legenda: Hora / Cor: Background / onClick: habilita/desabilita (enable: true/false)
+1 - Criar função 'handleOpenCancelModal' para abrir modal de cancelamento
 
     - Horário reservado
         - Legenda: Hora + Nome do usuário / Cor: Background / onClick: abre modal de cancelamento + disable
 
     Se 'Reservado'
     - Criar Modal Cancelamento - Cancela atendimento, desabilita horário, adiciona crédito para usuário
-
-    - Criar novo botão: "Adicionar horário" - Abre componente "CreateNewAppointments"
 
 2 - Criar visualização de agenda em formato de lista
 
