@@ -15,6 +15,8 @@ export type ScheduleObjectProps = {
     enable: boolean
     userId?: string | undefined
     userEmail?: string | undefined
+    firstName?: string | undefined
+    lastName?: string | undefined
 }
 
 export type PayloadContextType = {

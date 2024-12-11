@@ -241,6 +241,8 @@ export const GetAvailableScheduleByMonth = async (year: number, month: number): 
                     hour: data.hour,
                     userId: data.userId,
                     userEmail: data.userEmail,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
                     enable: data.enable,
                 }
             })
@@ -273,6 +275,8 @@ export const GetScheduleByMonth = async (year: number, month: number): Promise<S
                 hour: data.hour,
                 userId: data.userId,
                 userEmail: data.userEmail,
+                firstName: data.firstName,
+                lastName: data.lastName,
                 enable: data.enable,
             }
         })
@@ -339,6 +343,8 @@ export const updateScheduleBatch = async (
         hour: number
         userId?: string
         userEmail?: string
+        firstName?: string
+        lastName?: string
     }>
 ) => {
     try {
@@ -371,6 +377,8 @@ export const updateScheduleBatch = async (
                 await updateDoc(docRef, {
                     userId: item.userId,
                     userEmail: item.userEmail,
+                    firstName: item.firstName,
+                    lastName: item.lastName,
                 })
             })
 
@@ -400,7 +408,6 @@ export const UpdateScheduleAvailability = async (payload: {
         const db = getFirestore()
         const scheduleCollection = collection(db, 'schedule')
 
-        // Cria uma query para localizar o documento correto
         const scheduleQuery = query(
             scheduleCollection,
             where('year', '==', payload.year),
@@ -409,7 +416,6 @@ export const UpdateScheduleAvailability = async (payload: {
             where('hour', '==', payload.hour)
         )
 
-        // Buscar os documentos que correspondem à query
         const querySnapshot = await getDocs(scheduleQuery)
 
         if (querySnapshot.empty) {
@@ -417,7 +423,6 @@ export const UpdateScheduleAvailability = async (payload: {
             return { success: false, message: 'Nenhum registro encontrado' }
         }
 
-        // Atualiza o primeiro documento encontrado (assumindo que há apenas um documento para esta combinação de filtros)
         const docSnapshot = querySnapshot.docs[0]
         const docRef = docSnapshot.ref
 
@@ -428,11 +433,75 @@ export const UpdateScheduleAvailability = async (payload: {
         // Atualiza o documento com o novo valor de 'enable'
         await updateDoc(docRef, { enable: newEnableValue })
 
-        console.log(`Valor de 'enable' atualizado com sucesso para ${newEnableValue} no documento:`, docRef.id)
-
         return { success: true, newEnableValue, docId: docRef.id }
     } catch (error) {
         console.error('Erro ao atualizar o valor de "enable":', error)
         throw error
+    }
+}
+
+export const updateUserCredits = async (userEmail: string, operation: 'plus' | 'minus', value: number) => {
+    try {
+        const db = getFirestore()
+        const userRef = doc(db, 'users', userEmail)
+
+        const userDoc = await getDoc(userRef)
+
+        if (userDoc.exists()) {
+            const userData = userDoc.data() as UserProps
+            let newCredits = userData.credits === undefined ? 0 : userData.credits
+
+            // Realizando a operação de soma ou subtração
+            if (operation === 'plus') {
+                newCredits += value
+            } else if (operation === 'minus') {
+                newCredits -= value
+            }
+
+            await updateDoc(userRef, { credits: newCredits })
+
+            return { success: true, status: 200, message: 'O crédito do usuário foi atualizado com sucesso!' }
+        } else {
+            console.log('Usuário não encontrado')
+        }
+    } catch (error) {
+        console.error('Erro ao atualizar os créditos do usuário:', error)
+    }
+}
+
+export const CancelAppointment = async (payload: { year: number; month: number; day: number; hour: number }) => {
+    try {
+        const db = getFirestore()
+        const scheduleCollection = collection(db, 'schedule')
+
+        const scheduleQuery = query(
+            scheduleCollection,
+            where('year', '==', payload.year),
+            where('month', '==', payload.month),
+            where('day', '==', payload.day),
+            where('hour', '==', payload.hour)
+        )
+
+        const querySnapshot = await getDocs(scheduleQuery)
+
+        if (querySnapshot.empty) {
+            console.warn(`Nenhum registro encontrado para:`, payload)
+            return { success: false, message: 'Nenhum registro encontrado' }
+        }
+
+        const docSnapshot = querySnapshot.docs[0]
+        const docRef = docSnapshot.ref
+
+        await updateDoc(docRef, {
+            userId: '',
+            userEmail: '',
+            firstName: '',
+            lastName: '',
+            enable: false,
+        })
+
+        return { success: true, status: 200, message: 'Atendimento cancelado!' }
+    } catch (error) {
+        console.error('Erro ao cancelar o agendamento:', error)
     }
 }

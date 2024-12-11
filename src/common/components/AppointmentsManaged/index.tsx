@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { GenosPrimaryButtonText } from '@common/components/ButtonText'
 import { AppointmentsManagedProps } from '@common/models'
-import { formatDate, integerToTime } from '@common/utils/helpers'
+import { formatDate, integerToTime, sortAppointmentsByHour } from '@common/utils/helpers'
 import { Genos_Primary_24_500, Genos_Secondary_24_500 } from '../Typography'
 import { ButtonContainer, Container, DisabledContainer, EnabledContainer, TitleContainer } from './styles'
 
@@ -23,7 +23,7 @@ export const AppointmentsManaged = ({
     const hoursList = useMemo(() => {
         if (!appointmentsData || !appointmentsData.data) return null
 
-        return appointmentsData.data.map((data, index) => {
+        return sortAppointmentsByHour(appointmentsData).data.map((data, index) => {
             if (data.enable && !data.userEmail && !data.userId) {
                 // Caso 1: Horário disponível
                 return (
@@ -54,7 +54,9 @@ export const AppointmentsManaged = ({
                         onClick={() => handleOpenCancelModal(data)}
                         aria-label={`Horário indisponível: ${integerToTime(data.hour)}`}
                     >
-                        <Genos_Secondary_24_500 text={integerToTime(data.hour) + ' - ' + data.userEmail} />
+                        <Genos_Secondary_24_500
+                            text={integerToTime(data.hour) + ' - ' + data.firstName + ' ' + data.lastName}
+                        />
                     </DisabledContainer>
                 )
             }

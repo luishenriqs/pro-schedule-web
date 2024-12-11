@@ -12,22 +12,24 @@ import { filterAppointmentsByDay } from '@common/utils/helpers'
 import { dataSelectedProps, ScheduleObjectProps, selectNewDayProps } from '@common/models'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Questrial_Secondary_16_500 } from '@common/components/Typography'
 import { Container, Content, EmptyLegend, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
+import { ModalCancellation } from '@common/components/ModalCancellation'
 
 export const MyAgendaComponent = () => {
     const router = useRouter()
     const { user } = useUser()
     const { emmitSuccess, emmitError, emmitAlert } = useNotification()
 
-    const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
+    const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [isSaving, setIsSaving] = useState(false)
+    const [openCancellationModal, setOpenCancellationModal] = useState(false)
+    const [payload, setPayload] = useState<ScheduleObjectProps>({} as ScheduleObjectProps)
     const [isUpLoading, setIsUpLoading] = useState(false)
     const [selectedDay, setSelectedDay] = useState<dataSelectedProps>({} as dataSelectedProps)
     const [selectNewDay, setSelectNewDay] = useState<selectNewDayProps>({} as selectNewDayProps)
     const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth())
     const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear())
 
-    // Funções de callback para receber as mudanças de mês e ano
     const handleMonthChange = (month: number) => {
         setSelectedMonth(month)
     }
@@ -40,17 +42,16 @@ export const MyAgendaComponent = () => {
         setSelectedDay({} as dataSelectedProps)
     }, [])
 
-    // GET SCHEDULE BY MONTH
     const getScheduleByMonth = useCallback(async () => {
-        const schedule = await GetScheduleByMonth(selectedYear, selectedMonth)
+        setIsLoading(true)
+        const fetchedSchedule = await GetScheduleByMonth(selectedYear, selectedMonth)
 
-        if (schedule) {
-            setSchedule(schedule)
-            setIsLoading(false)
+        if (fetchedSchedule) {
+            setSchedule(fetchedSchedule)
         } else {
             emmitAlert('Nenhuma reserva encontrada!')
-            setIsLoading(false)
         }
+        setIsLoading(false)
     }, [emmitAlert, selectedMonth, selectedYear])
 
     useEffect(() => {
@@ -72,12 +73,7 @@ export const MyAgendaComponent = () => {
     )
 
     const handleCreateNewSchedule = useCallback((day: number, month: number, year: number) => {
-        const dataSelected = {
-            day,
-            month,
-            year,
-        }
-        setSelectNewDay(dataSelected)
+        setSelectNewDay({ day, month, year })
         setSelectedDay({} as dataSelectedProps)
     }, [])
 
@@ -87,17 +83,16 @@ export const MyAgendaComponent = () => {
                 setIsUpLoading(true)
                 const response = await WriteMultipleDataWithRetry(newDayPayload, 'schedule')
                 if (response.status === 201) {
-                    setIsUpLoading(false)
                     emmitSuccess(response.message)
                     router.refresh()
                 } else {
-                    setIsUpLoading(false)
                     emmitAlert(response.message)
                 }
             } catch (error) {
-                setIsUpLoading(false)
                 console.error('Erro ao processar bloco:', error)
                 emmitError('Erro ao processar bloco!')
+            } finally {
+                setIsUpLoading(false)
             }
         },
         [emmitAlert, emmitError, emmitSuccess, router]
@@ -109,7 +104,26 @@ export const MyAgendaComponent = () => {
                 setIsSaving(true)
                 try {
                     await UpdateScheduleAvailability(payload)
-                    router.refresh()
+
+                    // Atualizar localmente o estado do agendamento
+                    setSchedule((prevSchedule) =>
+                        prevSchedule.map((item) =>
+                            item.userId === payload.userId && item.hour === payload.hour
+                                ? { ...item, enable: !item.enable }
+                                : item
+                        )
+                    )
+
+                    // Atualizar o dia selecionado, se aplicável
+                    setSelectedDay((prevSelectedDay) => ({
+                        ...prevSelectedDay,
+                        data: prevSelectedDay.data.map((item) =>
+                            item.userId === payload.userId && item.hour === payload.hour
+                                ? { ...item, enable: !item.enable }
+                                : item
+                        ),
+                    }))
+
                     emmitSuccess('Atualizado com sucesso!')
                 } catch (error) {
                     console.error('Erro ao atualizar os dados.', error)
@@ -119,10 +133,13 @@ export const MyAgendaComponent = () => {
                 }
             }
         },
-        [emmitError, emmitSuccess, router]
+        [emmitError, emmitSuccess]
     )
 
-    const handleOpenCancelModal = () => {}
+    const handleOpenCancelModal = useCallback((payload: ScheduleObjectProps) => {
+        setPayload(payload)
+        setOpenCancellationModal(true)
+    }, [])
 
     return (
         <>
@@ -134,7 +151,7 @@ export const MyAgendaComponent = () => {
                 <Container>
                     <Header />
                     <TitleContainer>
-                        <Genos_Primary_24_500 text={'Olá ' + user?.firstName} />
+                        <Genos_Primary_24_500 text={`Olá ${user?.firstName}`} />
                         <Genos_Secondary_24_500 text="Gerencie a sua agenda" />
                     </TitleContainer>
                     <Content>
@@ -164,12 +181,9 @@ export const MyAgendaComponent = () => {
                                             <LoadingComponent size="small" />
                                         ) : (
                                             <AppointmentsManaged
-                                                key={JSON.stringify(schedule)}
                                                 appointmentsData={selectedDay}
                                                 legend="Agenda do dia"
-                                                handleToggleAvailability={(payload) =>
-                                                    handleToggleAvailability(payload)
-                                                }
+                                                handleToggleAvailability={handleToggleAvailability}
                                                 handleOpenCancelModal={handleOpenCancelModal}
                                                 handleCreateNewSchedule={handleCreateNewSchedule}
                                             />
@@ -185,18 +199,20 @@ export const MyAgendaComponent = () => {
                                     </>
                                 )}
                                 {!!selectNewDay?.day && (
-                                    <>
-                                        <CreateNewAppointments
-                                            key={JSON.stringify(schedule)}
-                                            selectNewDay={selectNewDay}
-                                            legend="Adicione novos horários"
-                                            handleSetNewDay={(newDayPayload) => handleSave(newDayPayload)}
-                                        />
-                                    </>
+                                    <CreateNewAppointments
+                                        selectNewDay={selectNewDay}
+                                        legend="Adicione novos horários"
+                                        handleSetNewDay={handleSave}
+                                    />
                                 )}
                             </SchedulingContent>
                         )}
                     </Content>
+                    <ModalCancellation
+                        open={openCancellationModal}
+                        payload={payload}
+                        handleClose={() => setOpenCancellationModal(false)}
+                    />
                 </Container>
             )}
         </>

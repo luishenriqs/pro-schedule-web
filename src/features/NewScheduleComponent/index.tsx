@@ -126,6 +126,8 @@ export const NewScheduleComponent = () => {
             if (user && user.id) {
                 appointment.userId = user.id
                 appointment.userEmail = user.email
+                appointment.firstName = user.firstName
+                appointment.lastName = user.lastName
 
                 addPayload(appointment)
                 setOpenConfirmationModal(true)

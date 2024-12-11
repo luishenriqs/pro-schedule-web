@@ -136,7 +136,16 @@ export const getMinMonth = (selectedDate: Date): boolean => {
 }
 
 export const hasEmptyCustomerId = (
-    data: Array<{ year: number; month: number; day: number; hour: number; userId?: string; userEmail?: string }>,
+    data: Array<{
+        year: number
+        month: number
+        day: number
+        hour: number
+        userId?: string
+        userEmail?: string
+        firstName?: string
+        lastName?: string
+    }>,
     selectedDay: number
 ): boolean => {
     return data.some((item) => item.day === selectedDay && item.userId === '')
@@ -298,6 +307,8 @@ export const generateSchedule = (
                     hour: totalMinutes,
                     userId: '',
                     userEmail: '',
+                    firstName: '',
+                    lastName: '',
                     enable: true,
                 })
             }
@@ -314,6 +325,19 @@ export const createNewDayPayload = (selectNewDay: selectNewDayProps, selectedTim
         hour: timeToInteger(time),
         userId: '',
         userEmail: '',
+        firstName: '',
+        lastName: '',
         enable: true,
     }))
+}
+
+export const sortAppointmentsByHour = (appointmentsData: { data: any[]; day: number; month: number; year: number }) => {
+    if (!appointmentsData || !appointmentsData.data) {
+        throw new Error('Invalid input: appointmentsData is not properly structured.')
+    }
+
+    return {
+        ...appointmentsData,
+        data: appointmentsData.data.sort((a, b) => a.hour - b.hour),
+    }
 }
