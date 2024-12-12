@@ -17,15 +17,12 @@
 **MyAgendaComponent**
 
 _Priority 1_
-1 - Criar função 'handleOpenCancelModal' para abrir modal de cancelamento
+1 - Melhorar texto explicativo no Modal de Cancelamento 
+    - Descrever as 3 ações: Cancela atendimento, desabilita horário, adiciona crédito para usuário
 
-    - Horário reservado
-        - Legenda: Hora + Nome do usuário / Cor: Background / onClick: abre modal de cancelamento + disable
+2 - Criar validação para impedir adição de novo horário se já existênte.
 
-    Se 'Reservado'
-    - Criar Modal Cancelamento - Cancela atendimento, desabilita horário, adiciona crédito para usuário
-
-2 - Criar visualização de agenda em formato de lista
+3 - Criar visualização de agenda em formato de lista
 
 **CreateAgendaComponent**
 
@@ -56,6 +53,10 @@ _Priority 1_
 **ScheduledComponents**
 
 1 - Criar página para usuário visualizar suas próximas consultas
+
+2 - Funcionalidade para usuário cancelar agendamento
+    Regra de negócio - Cancelamento gratúito até 48 horas antes
+        - Conversão para crédito
 
 **Profile**
 

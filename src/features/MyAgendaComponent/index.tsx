@@ -8,11 +8,11 @@ import { LoadingComponent } from '@common/components/Loading'
 import { CalendarMyAgenda } from '@common/components/CalendarMyAgenda'
 import { AppointmentsManaged } from '@common/components/AppointmentsManaged'
 import { CreateNewAppointments } from '@common/components/CreateNewAppointments'
+import { ModalCancellation } from '@common/components/ModalCancellation'
 import { filterAppointmentsByDay } from '@common/utils/helpers'
 import { dataSelectedProps, ScheduleObjectProps, selectNewDayProps } from '@common/models'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Questrial_Secondary_16_500 } from '@common/components/Typography'
 import { Container, Content, EmptyLegend, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
-import { ModalCancellation } from '@common/components/ModalCancellation'
 
 export const MyAgendaComponent = () => {
     const router = useRouter()

@@ -287,6 +287,44 @@ export const GetScheduleByMonth = async (year: number, month: number): Promise<S
     }
 }
 
+// Retorna agenda do dia
+export const GetScheduleByDay = async (year: number, month: number, day: number): Promise<ScheduleObjectProps[]> => {
+    try {
+        const db = getFirestore()
+        const scheduleCollection = collection(db, 'schedule')
+
+        const q = query(
+            scheduleCollection,
+            where('year', '==', year),
+            where('month', '==', month),
+            where('day', '==', day)
+        )
+
+        // Obtenha os documentos da consulta
+        const querySnapshot = await getDocs(q)
+
+        // Mapeie os documentos para o tipo 'Schedule'
+        const schedules: ScheduleObjectProps[] = querySnapshot.docs.map((doc) => {
+            const data = doc.data()
+            return {
+                year: data.year,
+                month: data.month,
+                day: data.day,
+                hour: data.hour,
+                userId: data.userId,
+                userEmail: data.userEmail,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                enable: data.enable,
+            }
+        })
+        return schedules
+    } catch (error) {
+        console.error('Error fetching schedules:', error)
+        throw error
+    }
+}
+
 export const GetAllUsers = async (): Promise<UserProps[]> => {
     try {
         const usersCollectionRef = collection(firestore, 'users')

@@ -114,11 +114,11 @@ export const CalendarNewSchedule = ({
             <Genos_Secondary_24_500 text="Escolha o seu dia" />
             <Header>
                 {!minMonth ? (
-                    <Button onClick={() => goToPreviousMonth(selectedDate)} style={{ marginRight: '-20px' }}>
+                    <Button onClick={() => goToPreviousMonth(selectedDate)} style={{ marginRight: '-15px' }}>
                         <ArrowLeftIcon />
                     </Button>
                 ) : (
-                    <Button style={{ marginRight: '-20px' }}>
+                    <Button style={{ marginRight: '-15px' }}>
                         <ArrowLeftIconDisabled />
                     </Button>
                 )}
@@ -127,7 +127,7 @@ export const CalendarNewSchedule = ({
                         text={selectedDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
                     />
                 </HeaderLabel>
-                <Button onClick={() => goToNextMonth(selectedDate)} style={{ marginLeft: '-20px' }}>
+                <Button onClick={() => goToNextMonth(selectedDate)} style={{ marginLeft: '-15px' }}>
                     <ArrowRightIcon />
                 </Button>
             </Header>

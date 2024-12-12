@@ -106,7 +106,13 @@ export const NewScheduleComponent = () => {
                 item.day === appointment.day &&
                 item.hour === appointment.hour &&
                 item.enable === true
-                    ? { ...item, userId: (user && user.email) ?? '' } // Cria um novo objeto
+                    ? {
+                          ...item,
+                          userId: (user && user.id) ?? '',
+                          userEmail: (user && user.email) ?? '',
+                          firstName: (user && user.firstName) ?? '',
+                          lastName: (user && user.lastName) ?? '',
+                      } // Cria um novo objeto
                     : item
             )
 

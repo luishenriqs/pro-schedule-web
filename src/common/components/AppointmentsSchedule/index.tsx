@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Genos_Primary_24_500, Genos_Secondary_24_500 } from '../Typography'
 import { AppointmentsScheduledProps } from '@common/models'
-import { formatDate, integerToTime } from '@common/utils/helpers'
+import { formatDate, integerToTime, sortAppointmentsByHour } from '@common/utils/helpers'
 import { Container, DisabledContainer, EnabledContainer, TitleContainer } from './styles'
 
 export const AppointmentsSchedule = ({ appointmentsData, handleSetAppointments }: AppointmentsScheduledProps) => {
@@ -16,7 +16,7 @@ export const AppointmentsSchedule = ({ appointmentsData, handleSetAppointments }
     const hoursList = useMemo(() => {
         if (!appointmentsData || !appointmentsData.data) return null
 
-        return appointmentsData.data.map((data, index) =>
+        return sortAppointmentsByHour(appointmentsData).data.map((data, index) =>
             data.userEmail?.length === 0 ? (
                 <EnabledContainer
                     key={index}
