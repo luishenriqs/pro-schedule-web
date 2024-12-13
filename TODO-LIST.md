@@ -17,12 +17,9 @@
 **MyAgendaComponent**
 
 _Priority 1_
-1 - Melhorar texto explicativo no Modal de Cancelamento 
-    - Descrever as 3 ações: Cancela atendimento, desabilita horário, adiciona crédito para usuário
+1 - Criar validação para impedir adição de novo horário se já existênte.
 
-2 - Criar validação para impedir adição de novo horário se já existênte.
-
-3 - Criar visualização de agenda em formato de lista
+2 - Criar visualização de agenda em formato de lista
 
 **CreateAgendaComponent**
 
@@ -55,8 +52,7 @@ _Priority 1_
 1 - Criar página para usuário visualizar suas próximas consultas
 
 2 - Funcionalidade para usuário cancelar agendamento
-    Regra de negócio - Cancelamento gratúito até 48 horas antes
-        - Conversão para crédito
+Regra de negócio - Cancelamento gratúito até 48 horas antes - Conversão para crédito
 
 **Profile**
 
