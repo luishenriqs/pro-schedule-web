@@ -63,6 +63,9 @@ export const ModalCancellation = ({ open, payload, handleClose, ...props }: Moda
                     <Questrial_Secondary_16_500
                         text={`Você deseja cancelar o atendimento para ${payload.firstName} , no dia ${date}, as ${integerToTime(payload.hour)} horas?`}
                     />
+                    <Questrial_Secondary_16_500
+                        text={`Este horário ficará desabilitado e ${payload.firstName} receberá um crédito para agendamento de uma nova data.`}
+                    />
                 </ContentContainer>
                 <FilledPrimaryButton title="Confirmar" onClick={handleCancelAppointment} />
                 <ContentContainer>

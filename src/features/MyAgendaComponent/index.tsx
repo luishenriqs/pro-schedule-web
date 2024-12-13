@@ -12,7 +12,7 @@ import { ModalCancellation } from '@common/components/ModalCancellation'
 import { filterAppointmentsByDay } from '@common/utils/helpers'
 import { dataSelectedProps, ScheduleObjectProps, selectNewDayProps } from '@common/models'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Questrial_Secondary_16_500 } from '@common/components/Typography'
-import { Container, Content, EmptyLegend, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
+import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
 
 export const MyAgendaComponent = () => {
     const router = useRouter()
@@ -20,7 +20,6 @@ export const MyAgendaComponent = () => {
     const { emmitSuccess, emmitError, emmitAlert } = useNotification()
 
     const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([])
-    const [isLoading, setIsLoading] = useState(true)
     const [isSaving, setIsSaving] = useState(false)
     const [openCancellationModal, setOpenCancellationModal] = useState(false)
     const [payload, setPayload] = useState<ScheduleObjectProps>({} as ScheduleObjectProps)
@@ -43,7 +42,6 @@ export const MyAgendaComponent = () => {
     }, [])
 
     const getScheduleByMonth = useCallback(async () => {
-        setIsLoading(true)
         const fetchedSchedule = await GetScheduleByMonth(selectedYear, selectedMonth)
 
         if (fetchedSchedule) {
@@ -51,7 +49,6 @@ export const MyAgendaComponent = () => {
         } else {
             emmitAlert('Nenhuma reserva encontrada!')
         }
-        setIsLoading(false)
     }, [emmitAlert, selectedMonth, selectedYear])
 
     useEffect(() => {
@@ -103,28 +100,32 @@ export const MyAgendaComponent = () => {
             if (payload) {
                 setIsSaving(true)
                 try {
-                    await UpdateScheduleAvailability(payload)
+                    const resp = await UpdateScheduleAvailability(payload)
 
-                    // Atualizar localmente o estado do agendamento
-                    setSchedule((prevSchedule) =>
-                        prevSchedule.map((item) =>
-                            item.userId === payload.userId && item.hour === payload.hour
-                                ? { ...item, enable: !item.enable }
-                                : item
+                    if (resp.success) {
+                        // Atualizar localmente o estado do agendamento
+                        setSchedule((prevSchedule) =>
+                            prevSchedule.map((item) =>
+                                item.userId === payload.userId && item.day === payload.day && item.hour === payload.hour
+                                    ? { ...item, enable: !item.enable }
+                                    : item
+                            )
                         )
-                    )
 
-                    // Atualizar o dia selecionado, se aplicável
-                    setSelectedDay((prevSelectedDay) => ({
-                        ...prevSelectedDay,
-                        data: prevSelectedDay.data.map((item) =>
-                            item.userId === payload.userId && item.hour === payload.hour
-                                ? { ...item, enable: !item.enable }
-                                : item
-                        ),
-                    }))
+                        // Atualizar o dia selecionado, se aplicável
+                        setSelectedDay((prevSelectedDay) => ({
+                            ...prevSelectedDay,
+                            data: prevSelectedDay.data.map((item) =>
+                                item.userId === payload.userId && item.day === payload.day && item.hour === payload.hour
+                                    ? { ...item, enable: !item.enable }
+                                    : item
+                            ),
+                        }))
 
-                    emmitSuccess('Atualizado com sucesso!')
+                        emmitSuccess('Atualizado com sucesso!')
+                    } else {
+                        emmitAlert('Não foi possível atualizar os dados!')
+                    }
                 } catch (error) {
                     console.error('Erro ao atualizar os dados.', error)
                     emmitError('Erro ao atualizar os dados.')
@@ -133,12 +134,17 @@ export const MyAgendaComponent = () => {
                 }
             }
         },
-        [emmitError, emmitSuccess]
+        [emmitAlert, emmitError, emmitSuccess]
     )
 
     const handleOpenCancelModal = useCallback((payload: ScheduleObjectProps) => {
         setPayload(payload)
         setOpenCancellationModal(true)
+    }, [])
+
+    const handleCloseAppointments = useCallback(() => {
+        setSelectedDay({} as dataSelectedProps)
+        setSelectNewDay({} as selectNewDayProps)
     }, [])
 
     return (
@@ -155,7 +161,7 @@ export const MyAgendaComponent = () => {
                         <Genos_Secondary_24_500 text="Gerencie a sua agenda" />
                     </TitleContainer>
                     <Content>
-                        {isLoading || isUpLoading ? (
+                        {isUpLoading ? (
                             <LoadingComponent size="small" />
                         ) : (
                             <SchedulingContent>
@@ -165,14 +171,23 @@ export const MyAgendaComponent = () => {
                                     handleDayClick={handleDayClick}
                                     handleCreateNewSchedule={handleCreateNewSchedule}
                                     handleChangeMonth={handleChangeMonth}
+                                    handleCloseAppointments={handleCloseAppointments}
                                     onMonthChange={handleMonthChange}
                                     onYearChange={handleYearChange}
                                     selectedMonth={selectedMonth}
                                     selectedYear={selectedYear}
                                 />
                                 <LegendContainer>
-                                    <Legend />
-                                    <Questrial_Secondary_16_500 text=" - Dias disponíveis" />
+                                    <Legend color={'primary'} />
+                                    <Questrial_Secondary_16_500 text=" - Agenda Aberta" />
+                                </LegendContainer>
+                                <LegendContainer>
+                                    <Legend color={'background'} />
+                                    <Questrial_Secondary_16_500 text=" - Agenda Indisponível" />
+                                </LegendContainer>
+                                <LegendContainer>
+                                    <Legend color={'tertiary'} />
+                                    <Questrial_Secondary_16_500 text=" - Agenda Fechada" />
                                 </LegendContainer>
 
                                 {selectedDay?.data?.length > 0 && (
@@ -189,12 +204,16 @@ export const MyAgendaComponent = () => {
                                             />
                                         )}
                                         <LegendContainer>
-                                            <Legend />
-                                            <Questrial_Secondary_16_500 text=" - Horários disponíveis" />
+                                            <Legend color={'primary'} />
+                                            <Questrial_Secondary_16_500 text=" - Horário disponível" />
                                         </LegendContainer>
                                         <LegendContainer>
-                                            <EmptyLegend />
-                                            <Questrial_Secondary_16_500 text=" - Reservados / Desabilitados" />
+                                            <Legend color={'background'} />
+                                            <Questrial_Secondary_16_500 text=" - Horário Desabilitado" />
+                                        </LegendContainer>
+                                        <LegendContainer>
+                                            <Legend color={'tertiary'} />
+                                            <Questrial_Secondary_16_500 text=" - Horário Reservado" />
                                         </LegendContainer>
                                     </>
                                 )}

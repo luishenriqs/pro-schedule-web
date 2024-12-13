@@ -3,8 +3,7 @@ import './fonts.css'
 export const COLORS = {
     primary: '#AE8E1C',
     secondary: '#000000',
-    tertiary: '#F6EDCA',
-    complementary: '#E7D8B7',
+    tertiary: '#3A506B',
 
     background: '#FDFDFD',
     white: '#FFFFFF',
@@ -54,31 +53,3 @@ export const BREAKPOINTS = {
     desktop: 1200,
     full: 1536,
 }
-
-// PALETA 1
-// primary: '#8789C0',
-// secondary: '#C2CAE8',
-// tertiary: '#E1E5F4',
-// complementary: '#E1E1E6',
-
-// PALETA 2
-// primary: '#4D7298',
-// secondary: '#77A6B6',
-// extra_color: '#9DC3C2',
-// complementary: '#E1E1E6',
-
-// PALETA 3
-// primary: '#0D324D',
-// secondary: '#185B8C',
-// extra_color: '#73B7E7',
-// complementary: '#E1E1E6',
-
-// PALETA 4
-// primary: '#495867',
-// secondary: '#CE796B',
-// extra_color: '#FCB07E',
-// complementary: '#E1E1E6',
-
-// gray_200: '#C4C4CC',
-// gray_600: '#363636',
-// gray_900: '#1C1C1C',

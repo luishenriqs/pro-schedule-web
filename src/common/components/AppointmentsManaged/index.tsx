@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { GenosPrimaryButtonText } from '@common/components/ButtonText'
 import { AppointmentsManagedProps } from '@common/models'
+import { COLORS } from '@common/styles/theme'
 import { formatDate, integerToTime, sortAppointmentsByHour } from '@common/utils/helpers'
-import { Genos_Primary_24_500, Genos_Secondary_24_500 } from '../Typography'
+import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_24_500 } from '../Typography'
 import { ButtonContainer, Container, DisabledContainer, EnabledContainer, TitleContainer } from './styles'
 
 export const AppointmentsManaged = ({
@@ -53,8 +54,9 @@ export const AppointmentsManaged = ({
                         key={index}
                         onClick={() => handleOpenCancelModal(data)}
                         aria-label={`Horário indisponível: ${integerToTime(data.hour)}`}
+                        style={{ background: COLORS.tertiary }}
                     >
-                        <Genos_Secondary_24_500
+                        <Genos_White_24_500
                             text={integerToTime(data.hour) + ' - ' + data.firstName + ' ' + data.lastName}
                         />
                     </DisabledContainer>

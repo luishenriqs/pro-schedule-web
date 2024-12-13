@@ -60,6 +60,7 @@ export type CalendarNewScheduleProps = {
     handleDayClick: (day: number, month: number, year: number) => void
     handleCreateNewSchedule?: (day: number, month: number, year: number) => void
     handleChangeMonth: () => void
+    handleCloseAppointments: () => void
     onMonthChange: (month: number) => void
     onYearChange: (year: number) => void
 }
@@ -223,4 +224,10 @@ export type PeriodProps = {
 
 export type LoadingProps = {
     size?: 'small' | 'large'
+}
+
+export type ScheduleDay = {
+    day: number
+    enable: boolean
+    userId?: string
 }

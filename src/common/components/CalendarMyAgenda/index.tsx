@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from 'react'
 import { Button } from '@mui/material'
-import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_14_500 } from '../Typography'
+import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_14_500, Genos_White_24_500 } from '../Typography'
 import { CalendarNewScheduleProps } from '@common/models'
 import {
     filterDaysByDateAndMonth,
+    getDayButtonType,
     getMinMonth,
     getNextMonthDate,
     getPreviousMonthDate,
     getWeekDays,
-    hasEmptyCustomerId,
 } from '@common/utils/helpers'
 import {
     Container,
@@ -23,6 +23,7 @@ import {
     ArrowRightIcon,
     ArrowLeftIconDisabled,
     CalendarControlContainer,
+    CanceledDayButton,
 } from './styles'
 
 export const CalendarMyAgenda = ({
@@ -30,19 +31,21 @@ export const CalendarMyAgenda = ({
     handleDayClick,
     handleCreateNewSchedule,
     handleChangeMonth,
+    handleCloseAppointments,
     onMonthChange,
     onYearChange,
     selectedMonth,
     selectedYear,
+    legend,
 }: CalendarNewScheduleProps) => {
     const todayDate = new Date()
-    const [selectedDate, setSelectedDateProps] = useState<Date>(todayDate)
+    const [selectedDate, setSelectedDate] = useState<Date>(todayDate)
     const minMonth = getMinMonth(selectedDate)
 
     const goToPreviousMonth = useCallback(
         (selectedDate: Date) => {
             const { date, month, year } = getPreviousMonthDate(selectedDate)
-            setSelectedDateProps(date)
+            setSelectedDate(date)
             onMonthChange(month)
             onYearChange(year)
             handleChangeMonth()
@@ -53,7 +56,7 @@ export const CalendarMyAgenda = ({
     const goToNextMonth = useCallback(
         (selectedDate: Date) => {
             const { date, month, year } = getNextMonthDate(selectedDate)
-            setSelectedDateProps(date)
+            setSelectedDate(date)
             onMonthChange(month)
             onYearChange(year)
             handleChangeMonth()
@@ -67,9 +70,11 @@ export const CalendarMyAgenda = ({
         const firstWeekdayOfMonthIndex = new Date(selectedDate.getFullYear(), selectedMonth, 1).getDay()
         const daysQtd = new Date(selectedDate.getFullYear(), selectedMonth + 1, 0).getDate()
 
+        // Filtra todos os dias relevantes para o mês selecionado
         const allDays = filterDaysByDateAndMonth(schedule, selectedYear, selectedMonth)
 
         const buttons = []
+        const todayDate = new Date()
 
         // Alinha dias do mês aos dias da semana
         for (let i = 0; i < firstWeekdayOfMonthIndex; i++) {
@@ -78,32 +83,81 @@ export const CalendarMyAgenda = ({
 
         for (let i = 1; i <= daysQtd; i++) {
             const isScheduleDays = allDays.includes(i)
-            const isAvailable = hasEmptyCustomerId(schedule, i)
-
             const day = i
+
+            // Cria uma data para o dia atual do loop
+            const currentDate = new Date(selectedYear, selectedMonth, day)
+
+            // Verifica se o dia está no passado
+            const isExpired = currentDate < todayDate && currentDate.toDateString() !== todayDate.toDateString()
+
             buttons.push(
                 <CalendarControlContainer key={i}>
                     {isScheduleDays ? (
-                        isAvailable ? (
-                            <AvailableDayButton
-                                key={i}
-                                onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
-                            >
-                                <Genos_Secondary_24_500 text={day} />
-                            </AvailableDayButton>
-                        ) : (
-                            <UnavailableDayButton
-                                key={i}
-                                onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
-                            >
-                                <Genos_Secondary_24_500 text={day} />
-                            </UnavailableDayButton>
-                        )
+                        (() => {
+                            // Determina o tipo de botão baseado no dia selecionado
+                            const scheduleOfTheDay = schedule.filter((item) => item.day === day)
+                            const buttonType = getDayButtonType(scheduleOfTheDay, day, isExpired)
+                            switch (buttonType) {
+                                case 'Available':
+                                    return (
+                                        <AvailableDayButton
+                                            key={`available-${i}`}
+                                            onClick={
+                                                !isExpired
+                                                    ? () => handleDayClick(day, selectedMonth, selectedYear)
+                                                    : undefined
+                                            }
+                                        >
+                                            <Genos_Secondary_24_500 text={day} />
+                                        </AvailableDayButton>
+                                    )
+                                case 'Unavailable':
+                                    return (
+                                        <UnavailableDayButton
+                                            key={`unavailable-${i}`}
+                                            onClick={
+                                                !isExpired
+                                                    ? () => handleDayClick(day, selectedMonth, selectedYear)
+                                                    : undefined
+                                            }
+                                        >
+                                            <Genos_White_24_500 text={day} />
+                                        </UnavailableDayButton>
+                                    )
+                                case 'Canceled':
+                                    return (
+                                        <CanceledDayButton
+                                            key={`canceled-${i}`}
+                                            onClick={
+                                                !isExpired
+                                                    ? () => handleDayClick(day, selectedMonth, selectedYear)
+                                                    : undefined
+                                            }
+                                        >
+                                            <Genos_Secondary_24_500 text={day} />
+                                        </CanceledDayButton>
+                                    )
+                                case 'Disabled':
+                                    return (
+                                        <DisabledDayButton
+                                            key={`disabled-${i}`}
+                                            onClick={() => handleCloseAppointments()}
+                                        >
+                                            <Genos_Secondary_24_500 text={day} />
+                                        </DisabledDayButton>
+                                    )
+                            }
+                        })()
                     ) : (
                         <DisabledDayButton
-                            key={i}
-                            onClick={() =>
-                                handleCreateNewSchedule && handleCreateNewSchedule(day, selectedMonth, selectedYear)
+                            key={`disabled-${i}`}
+                            onClick={
+                                !isExpired
+                                    ? () =>
+                                          handleCreateNewSchedule &&
+                                          handleCreateNewSchedule(day, selectedMonth, selectedYear)
+                                    : () => handleCloseAppointments()
                             }
                         >
                             <Genos_Secondary_24_500 text={day} />
@@ -112,12 +166,21 @@ export const CalendarMyAgenda = ({
                 </CalendarControlContainer>
             )
         }
+
         return buttons
-    }, [handleCreateNewSchedule, handleDayClick, schedule, selectedDate, selectedMonth, selectedYear])
+    }, [
+        handleCloseAppointments,
+        handleCreateNewSchedule,
+        handleDayClick,
+        schedule,
+        selectedDate,
+        selectedMonth,
+        selectedYear,
+    ])
 
     return (
         <Container>
-            <Genos_Secondary_24_500 text="Escolha o seu dia" />
+            <Genos_Secondary_24_500 text={legend} />
             <Header>
                 {!minMonth ? (
                     <Button onClick={() => goToPreviousMonth(selectedDate)} style={{ marginRight: '-20px' }}>

@@ -46,7 +46,7 @@ export const DaysWeekContainer = styled(Box)({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: '10px',
-    background: COLORS.secondary,
+    background: COLORS.tertiary,
 })
 
 export const HeaderLabel = styled(Box)({
@@ -81,7 +81,7 @@ export const UnavailableDayButton = styled(Box)({
     border: '1px solid',
     borderColor: COLORS.primary,
     borderRadius: '6px',
-    background: COLORS.background,
+    background: COLORS.tertiary,
 
     '@media (min-width:750px)': {
         width: '45px',
@@ -96,6 +96,23 @@ export const DisabledDayButton = styled(Box)({
     width: '35px',
     height: '35px',
     borderRadius: '6px',
+    background: COLORS.background,
+
+    '@media (min-width:750px)': {
+        width: '45px',
+        height: '45px',
+    },
+})
+
+export const CanceledDayButton = styled(Box)({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '35px',
+    height: '35px',
+    borderRadius: '6px',
+    border: '1px solid',
+    borderColor: COLORS.primary,
     background: COLORS.background,
 
     '@media (min-width:750px)': {

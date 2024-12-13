@@ -145,10 +145,48 @@ export const hasEmptyCustomerId = (
         userEmail?: string
         firstName?: string
         lastName?: string
+        enable?: boolean
     }>,
     selectedDay: number
 ): boolean => {
-    return data.some((item) => item.day === selectedDay && item.userId === '')
+    return data.some((item) => item.day === selectedDay && item.userId === '' && item.enable === true)
+}
+
+// Função para determinar o tipo de botão a ser renderizado
+export const getDayButtonType = (
+    data: Array<{
+        year: number
+        month: number
+        day: number
+        hour: number
+        userId?: string
+        userEmail?: string
+        firstName?: string
+        lastName?: string
+        enable?: boolean
+    }>,
+    selectedDay: number,
+    isExpired: boolean
+): 'Available' | 'Unavailable' | 'Canceled' | 'Disabled' => {
+    const relevantDays = data.filter((item) => item.day === selectedDay)
+
+    // Caso 1: Existem dias com `userId` vazio e `enable` igual a true
+    if (relevantDays.some((item) => !item.userId && item.enable === true)) {
+        return 'Available'
+    }
+
+    // Caso 3: Todos os dias estão com `enable` igual a false e day não expirado
+    if (relevantDays.every((item) => item.enable === false) && !isExpired) {
+        return 'Canceled'
+    }
+
+    // Caso 4: Dia expirado
+    if (isExpired) {
+        return 'Disabled'
+    }
+
+    // Caso 2: Não existem dias com `userId` vazio, mas dias estão presentes
+    return 'Unavailable'
 }
 
 export const formatDate = (day: number, month: number, year: number): string => {

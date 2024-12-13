@@ -2,6 +2,10 @@ import { styled } from '@mui/material/styles'
 import { Box } from '@mui/material'
 import { COLORS } from '@common/styles/theme'
 
+type LegendProps = {
+    color: 'primary' | 'background' | 'tertiary'
+}
+
 export const Container = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
@@ -52,17 +56,7 @@ export const LegendContainer = styled(Box)({
     justifyContent: 'center',
 })
 
-export const Legend = styled(Box)({
-    display: 'flex',
-    flexDirection: 'column',
-    width: '30px',
-    height: '15px',
-    borderRadius: '6px',
-    marginRight: '10px',
-    background: COLORS.primary,
-})
-
-export const EmptyLegend = styled(Box)({
+export const Legend = styled(Box)<LegendProps>(({ color }) => ({
     display: 'flex',
     flexDirection: 'column',
     width: '30px',
@@ -71,5 +65,5 @@ export const EmptyLegend = styled(Box)({
     marginRight: '10px',
     border: '1px solid',
     borderColor: COLORS.primary,
-    background: COLORS.background,
-})
+    background: COLORS[color as keyof typeof COLORS] || color,
+}))

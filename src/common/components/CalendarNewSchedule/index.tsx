@@ -35,13 +35,13 @@ export const CalendarNewSchedule = ({
     selectedYear,
 }: CalendarNewScheduleProps) => {
     const todayDate = new Date()
-    const [selectedDate, setSelectedDateProps] = useState<Date>(todayDate)
+    const [selectedDate, setSelectedDate] = useState<Date>(todayDate)
     const minMonth = getMinMonth(selectedDate)
 
     const goToPreviousMonth = useCallback(
         (selectedDate: Date) => {
             const { date, month, year } = getPreviousMonthDate(selectedDate)
-            setSelectedDateProps(date)
+            setSelectedDate(date)
             onMonthChange(month)
             onYearChange(year)
             handleChangeMonth()
@@ -52,7 +52,7 @@ export const CalendarNewSchedule = ({
     const goToNextMonth = useCallback(
         (selectedDate: Date) => {
             const { date, month, year } = getNextMonthDate(selectedDate)
-            setSelectedDateProps(date)
+            setSelectedDate(date)
             onMonthChange(month)
             onYearChange(year)
             handleChangeMonth()
