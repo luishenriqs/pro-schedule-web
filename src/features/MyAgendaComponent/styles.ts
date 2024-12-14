@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles'
 import { Box } from '@mui/material'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
 import { COLORS } from '@common/styles/theme'
 
 type LegendProps = {
@@ -19,11 +20,21 @@ export const Container = styled(Box)({
 export const Content = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     width: '100vw',
     height: 'auto',
     overflowY: 'auto',
+})
+
+export const ButtonContainer = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
+    width: '140px',
+    height: 'auto',
+    marginTop: '15px',
 })
 
 export const TitleContainer = styled(Box)({
@@ -33,7 +44,7 @@ export const TitleContainer = styled(Box)({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: '30px',
-    marginBottom: '30px',
+    marginBottom: '10px',
 })
 
 export const SchedulingContent = styled(Box)({
@@ -67,3 +78,10 @@ export const Legend = styled(Box)<LegendProps>(({ color }) => ({
     borderColor: COLORS.primary,
     background: COLORS[color as keyof typeof COLORS] || color,
 }))
+
+export const RotateIcon = styled(AutorenewIcon)({
+    color: COLORS.primary,
+    width: '15px',
+    height: '15px',
+    marginLeft: '5px',
+})

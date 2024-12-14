@@ -212,6 +212,35 @@ export const formatDate = (day: number, month: number, year: number): string => 
     return `${day} de ${months[month]} de ${year}`
 }
 
+export const formatDateShortVersion = (day: number, month: number, year: number): string => {
+    const daysOfWeek = [
+        'Domingo',
+        'Segunda-feira',
+        'Terça-feira',
+        'Quarta-feira',
+        'Quinta-feira',
+        'Sexta-feira',
+        'Sábado',
+    ]
+
+    // Validação do mês (0-11)
+    if (month < 0 || month > 11) {
+        throw new Error('O mês deve estar entre 0 e 11.')
+    }
+
+    // Criação de um objeto Date para determinar o dia da semana
+    const date = new Date(year, month, day)
+
+    if (isNaN(date.getTime())) {
+        throw new Error('Data inválida.')
+    }
+
+    const dayOfWeek = daysOfWeek[date.getDay()]
+    const formattedDate = `${String(day).padStart(2, '0')}/${String(month + 1).padStart(2, '0')}/${year}`
+
+    return `${formattedDate} - ${dayOfWeek}`
+}
+
 export const filterDaysByDateAndMonth = (
     data: ScheduleObjectProps[],
     selectedYear: number,
@@ -378,4 +407,13 @@ export const sortAppointmentsByHour = (appointmentsData: { data: any[]; day: num
         ...appointmentsData,
         data: appointmentsData.data.sort((a, b) => a.hour - b.hour),
     }
+}
+
+export const sortSchedule = (schedule: ScheduleObjectProps[]): ScheduleObjectProps[] => {
+    return schedule.sort((a, b) => {
+        if (a.day === b.day) {
+            return a.hour - b.hour
+        }
+        return a.day - b.day
+    })
 }

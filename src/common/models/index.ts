@@ -72,6 +72,10 @@ export type CalendarCreateAgendaProps = {
     handleChangeMonth: () => void
 }
 
+export type ListScheduleProps = {
+    schedule: ScheduleObjectProps[]
+}
+
 export type GetDateProps = {
     date: Date
     month: number

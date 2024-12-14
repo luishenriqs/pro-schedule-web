@@ -8,11 +8,26 @@ import { LoadingComponent } from '@common/components/Loading'
 import { CalendarMyAgenda } from '@common/components/CalendarMyAgenda'
 import { AppointmentsManaged } from '@common/components/AppointmentsManaged'
 import { CreateNewAppointments } from '@common/components/CreateNewAppointments'
+import { ListSchedule } from '@common/components/ListSchedule'
 import { ModalCancellation } from '@common/components/ModalCancellation'
-import { filterAppointmentsByDay } from '@common/utils/helpers'
+import { filterAppointmentsByDay, sortSchedule } from '@common/utils/helpers'
 import { dataSelectedProps, ScheduleObjectProps, selectNewDayProps } from '@common/models'
-import { Genos_Primary_24_500, Genos_Secondary_24_500, Questrial_Secondary_16_500 } from '@common/components/Typography'
-import { Container, Content, Legend, LegendContainer, SchedulingContent, TitleContainer } from './styles'
+import {
+    Genos_Primary_24_500,
+    Genos_Secondary_16_500,
+    Genos_Secondary_24_500,
+    Questrial_Secondary_16_500,
+} from '@common/components/Typography'
+import {
+    ButtonContainer,
+    Container,
+    Content,
+    Legend,
+    LegendContainer,
+    RotateIcon,
+    SchedulingContent,
+    TitleContainer,
+} from './styles'
 
 export const MyAgendaComponent = () => {
     const router = useRouter()
@@ -21,6 +36,7 @@ export const MyAgendaComponent = () => {
 
     const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([])
     const [isSaving, setIsSaving] = useState(false)
+    const [seeCalendar, setSeeCalendar] = useState(true)
     const [openCancellationModal, setOpenCancellationModal] = useState(false)
     const [payload, setPayload] = useState<ScheduleObjectProps>({} as ScheduleObjectProps)
     const [isUpLoading, setIsUpLoading] = useState(false)
@@ -45,7 +61,7 @@ export const MyAgendaComponent = () => {
         const fetchedSchedule = await GetScheduleByMonth(selectedYear, selectedMonth)
 
         if (fetchedSchedule) {
-            setSchedule(fetchedSchedule)
+            setSchedule(sortSchedule(fetchedSchedule))
         } else {
             emmitAlert('Nenhuma reserva encontrada!')
         }
@@ -159,74 +175,102 @@ export const MyAgendaComponent = () => {
                     <TitleContainer>
                         <Genos_Primary_24_500 text={`Olá ${user?.firstName}`} />
                         <Genos_Secondary_24_500 text="Gerencie a sua agenda" />
+                        <ButtonContainer onClick={() => setSeeCalendar(!seeCalendar)}>
+                            <Genos_Secondary_16_500 text={seeCalendar ? 'Lista' : 'Calendário'} />
+                            <RotateIcon />
+                        </ButtonContainer>
                     </TitleContainer>
-                    <Content>
-                        {isUpLoading ? (
-                            <LoadingComponent size="small" />
-                        ) : (
-                            <SchedulingContent>
-                                <CalendarMyAgenda
-                                    schedule={schedule}
-                                    legend="Escolha o dia"
-                                    handleDayClick={handleDayClick}
-                                    handleCreateNewSchedule={handleCreateNewSchedule}
-                                    handleChangeMonth={handleChangeMonth}
-                                    handleCloseAppointments={handleCloseAppointments}
-                                    onMonthChange={handleMonthChange}
-                                    onYearChange={handleYearChange}
-                                    selectedMonth={selectedMonth}
-                                    selectedYear={selectedYear}
-                                />
-                                <LegendContainer>
-                                    <Legend color={'primary'} />
-                                    <Questrial_Secondary_16_500 text=" - Agenda Aberta" />
-                                </LegendContainer>
-                                <LegendContainer>
-                                    <Legend color={'background'} />
-                                    <Questrial_Secondary_16_500 text=" - Agenda Indisponível" />
-                                </LegendContainer>
-                                <LegendContainer>
-                                    <Legend color={'tertiary'} />
-                                    <Questrial_Secondary_16_500 text=" - Agenda Fechada" />
-                                </LegendContainer>
-
-                                {selectedDay?.data?.length > 0 && (
-                                    <>
-                                        {isSaving ? (
-                                            <LoadingComponent size="small" />
-                                        ) : (
-                                            <AppointmentsManaged
-                                                appointmentsData={selectedDay}
-                                                legend="Agenda do dia"
-                                                handleToggleAvailability={handleToggleAvailability}
-                                                handleOpenCancelModal={handleOpenCancelModal}
-                                                handleCreateNewSchedule={handleCreateNewSchedule}
-                                            />
-                                        )}
-                                        <LegendContainer>
-                                            <Legend color={'primary'} />
-                                            <Questrial_Secondary_16_500 text=" - Horário disponível" />
-                                        </LegendContainer>
-                                        <LegendContainer>
-                                            <Legend color={'background'} />
-                                            <Questrial_Secondary_16_500 text=" - Horário Desabilitado" />
-                                        </LegendContainer>
-                                        <LegendContainer>
-                                            <Legend color={'tertiary'} />
-                                            <Questrial_Secondary_16_500 text=" - Horário Reservado" />
-                                        </LegendContainer>
-                                    </>
-                                )}
-                                {!!selectNewDay?.day && (
-                                    <CreateNewAppointments
-                                        selectNewDay={selectNewDay}
-                                        legend="Adicione novos horários"
-                                        handleSetNewDay={handleSave}
+                    {seeCalendar ? (
+                        <Content>
+                            {isUpLoading ? (
+                                <LoadingComponent size="small" />
+                            ) : (
+                                <SchedulingContent>
+                                    <CalendarMyAgenda
+                                        schedule={schedule}
+                                        legend="Escolha o dia"
+                                        handleDayClick={handleDayClick}
+                                        handleCreateNewSchedule={handleCreateNewSchedule}
+                                        handleChangeMonth={handleChangeMonth}
+                                        handleCloseAppointments={handleCloseAppointments}
+                                        onMonthChange={handleMonthChange}
+                                        onYearChange={handleYearChange}
+                                        selectedMonth={selectedMonth}
+                                        selectedYear={selectedYear}
                                     />
-                                )}
-                            </SchedulingContent>
-                        )}
-                    </Content>
+                                    <LegendContainer>
+                                        <Legend color={'primary'} />
+                                        <Questrial_Secondary_16_500 text=" - Agenda Aberta" />
+                                    </LegendContainer>
+                                    <LegendContainer>
+                                        <Legend color={'background'} />
+                                        <Questrial_Secondary_16_500 text=" - Agenda Indisponível" />
+                                    </LegendContainer>
+                                    <LegendContainer>
+                                        <Legend color={'tertiary'} />
+                                        <Questrial_Secondary_16_500 text=" - Agenda Fechada" />
+                                    </LegendContainer>
+
+                                    {selectedDay?.data?.length > 0 && (
+                                        <>
+                                            {isSaving ? (
+                                                <LoadingComponent size="small" />
+                                            ) : (
+                                                <AppointmentsManaged
+                                                    appointmentsData={selectedDay}
+                                                    legend="Agenda do dia"
+                                                    handleToggleAvailability={handleToggleAvailability}
+                                                    handleOpenCancelModal={handleOpenCancelModal}
+                                                    handleCreateNewSchedule={handleCreateNewSchedule}
+                                                />
+                                            )}
+                                            <LegendContainer>
+                                                <Legend color={'primary'} />
+                                                <Questrial_Secondary_16_500 text=" - Horário disponível" />
+                                            </LegendContainer>
+                                            <LegendContainer>
+                                                <Legend color={'background'} />
+                                                <Questrial_Secondary_16_500 text=" - Horário Desabilitado" />
+                                            </LegendContainer>
+                                            <LegendContainer>
+                                                <Legend color={'tertiary'} />
+                                                <Questrial_Secondary_16_500 text=" - Horário Reservado" />
+                                            </LegendContainer>
+                                        </>
+                                    )}
+                                    {!!selectNewDay?.day && (
+                                        <CreateNewAppointments
+                                            selectNewDay={selectNewDay}
+                                            legend="Adicione novos horários"
+                                            handleSetNewDay={handleSave}
+                                        />
+                                    )}
+                                </SchedulingContent>
+                            )}
+                        </Content>
+                    ) : (
+                        <Content>
+                            {isUpLoading ? (
+                                <LoadingComponent size="small" />
+                            ) : (
+                                <SchedulingContent>
+                                    <ListSchedule schedule={schedule} />
+                                    <LegendContainer>
+                                        <Legend color={'primary'} />
+                                        <Questrial_Secondary_16_500 text=" - Horário disponível" />
+                                    </LegendContainer>
+                                    <LegendContainer>
+                                        <Legend color={'background'} />
+                                        <Questrial_Secondary_16_500 text=" - Horário Desabilitado" />
+                                    </LegendContainer>
+                                    <LegendContainer>
+                                        <Legend color={'tertiary'} />
+                                        <Questrial_Secondary_16_500 text=" - Horário Reservado" />
+                                    </LegendContainer>
+                                </SchedulingContent>
+                            )}
+                        </Content>
+                    )}
                     <ModalCancellation
                         open={openCancellationModal}
                         payload={payload}
