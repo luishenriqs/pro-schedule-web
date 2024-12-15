@@ -182,6 +182,28 @@ export const GenosError14_500 = styled(Typography)({
     fontWeight: FONT_WEIGHT[500],
 })
 
+// GENOS DISABLED
+export const GenosDisabled24_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.disabled_200,
+    fontSize: FONT_SIZE[24],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const GenosDisabled20_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.disabled_200,
+    fontSize: FONT_SIZE[20],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+export const GenosDisabled16_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.genos,
+    color: COLORS.disabled_200,
+    fontSize: FONT_SIZE[16],
+    fontWeight: FONT_WEIGHT[500],
+})
+
 // QUESTRIAL PRIMARY
 export const QuestrialPrimary20_500 = styled(Typography)({
     fontFamily: FONT_FAMILY.questrial,

@@ -29,6 +29,9 @@ import {
     GenosSuccess20_500,
     GenosSuccess24_500,
     GenosSuccess48_500,
+    GenosDisabled16_500,
+    GenosDisabled20_500,
+    GenosDisabled24_500,
 } from './styles'
 
 // GENOS PRIMARY
@@ -224,6 +227,31 @@ export const Genos_Error_14_500 = ({ text }: any) => {
     return (
         <TitleContainer>
             <GenosError14_500>{text}</GenosError14_500>
+        </TitleContainer>
+    )
+}
+
+// GENOS DISABLED
+export const Genos_Disabled_24_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosDisabled24_500>{text}</GenosDisabled24_500>
+        </TitleContainer>
+    )
+}
+
+export const Genos_Disabled_20_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosDisabled20_500>{text}</GenosDisabled20_500>
+        </TitleContainer>
+    )
+}
+
+export const Genos_Disabled_16_500 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <GenosDisabled16_500>{text}</GenosDisabled16_500>
         </TitleContainer>
     )
 }

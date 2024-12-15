@@ -254,7 +254,12 @@ export const MyAgendaComponent = () => {
                                 <LoadingComponent size="small" />
                             ) : (
                                 <SchedulingContent>
-                                    <ListSchedule schedule={schedule} />
+                                    <ListSchedule
+                                        schedule={schedule}
+                                        handleToggleAvailability={handleToggleAvailability}
+                                        handleOpenCancelModal={handleOpenCancelModal}
+                                        handleCreateNewSchedule={handleCreateNewSchedule}
+                                    />
                                     <LegendContainer>
                                         <Legend color={'primary'} />
                                         <Questrial_Secondary_16_500 text=" - Horário disponível" />

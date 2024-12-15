@@ -31,7 +31,7 @@ export const CalendarMyAgenda = ({
     handleDayClick,
     handleCreateNewSchedule,
     handleChangeMonth,
-    handleCloseAppointments,
+    // handleCloseAppointments,
     onMonthChange,
     onYearChange,
     selectedMonth,
@@ -83,6 +83,7 @@ export const CalendarMyAgenda = ({
 
         for (let i = 1; i <= daysQtd; i++) {
             const isScheduleDays = allDays.includes(i)
+            // console.log('isScheduleDays ', i, isScheduleDays)
             const day = i
 
             // Cria uma data para o dia atual do loop
@@ -103,11 +104,7 @@ export const CalendarMyAgenda = ({
                                     return (
                                         <AvailableDayButton
                                             key={`available-${i}`}
-                                            onClick={
-                                                !isExpired
-                                                    ? () => handleDayClick(day, selectedMonth, selectedYear)
-                                                    : undefined
-                                            }
+                                            onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
                                         >
                                             <Genos_Secondary_24_500 text={day} />
                                         </AvailableDayButton>
@@ -116,11 +113,7 @@ export const CalendarMyAgenda = ({
                                     return (
                                         <UnavailableDayButton
                                             key={`unavailable-${i}`}
-                                            onClick={
-                                                !isExpired
-                                                    ? () => handleDayClick(day, selectedMonth, selectedYear)
-                                                    : undefined
-                                            }
+                                            onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
                                         >
                                             <Genos_White_24_500 text={day} />
                                         </UnavailableDayButton>
@@ -129,11 +122,7 @@ export const CalendarMyAgenda = ({
                                     return (
                                         <CanceledDayButton
                                             key={`canceled-${i}`}
-                                            onClick={
-                                                !isExpired
-                                                    ? () => handleDayClick(day, selectedMonth, selectedYear)
-                                                    : undefined
-                                            }
+                                            onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
                                         >
                                             <Genos_Secondary_24_500 text={day} />
                                         </CanceledDayButton>
@@ -142,7 +131,7 @@ export const CalendarMyAgenda = ({
                                     return (
                                         <DisabledDayButton
                                             key={`disabled-${i}`}
-                                            onClick={() => handleCloseAppointments()}
+                                            onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
                                         >
                                             <Genos_Secondary_24_500 text={day} />
                                         </DisabledDayButton>
@@ -157,7 +146,7 @@ export const CalendarMyAgenda = ({
                                     ? () =>
                                           handleCreateNewSchedule &&
                                           handleCreateNewSchedule(day, selectedMonth, selectedYear)
-                                    : () => handleCloseAppointments()
+                                    : () => handleDayClick(day, selectedMonth, selectedYear)
                             }
                         >
                             <Genos_Secondary_24_500 text={day} />
@@ -168,15 +157,7 @@ export const CalendarMyAgenda = ({
         }
 
         return buttons
-    }, [
-        handleCloseAppointments,
-        handleCreateNewSchedule,
-        handleDayClick,
-        schedule,
-        selectedDate,
-        selectedMonth,
-        selectedYear,
-    ])
+    }, [handleCreateNewSchedule, handleDayClick, schedule, selectedDate, selectedMonth, selectedYear])
 
     return (
         <Container>

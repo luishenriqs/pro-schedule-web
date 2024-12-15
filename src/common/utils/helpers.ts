@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { CreateAuth, WriteData } from '@common/api'
 import { SxProps, Theme } from '@mui/material/styles'
+import { DateTime } from 'luxon'
 import {
     ScheduleObjectProps,
     GetDateProps,
@@ -189,6 +190,49 @@ export const getDayButtonType = (
     return 'Unavailable'
 }
 
+// TESTAR USO DO DATETIME DA LUXON - import { DateTime } from 'luxon'
+// TESTAR USO DO DATETIME DA LUXON - import { DateTime } from 'luxon'
+// TESTAR USO DO DATETIME DA LUXON - import { DateTime } from 'luxon'
+// TESTAR USO DO DATETIME DA LUXON - import { DateTime } from 'luxon'
+// TESTAR USO DO DATETIME DA LUXON - import { DateTime } from 'luxon'
+
+const fromZonedTime = (date: Date, timeZone: string) => {
+    return DateTime.fromJSDate(date, { zone: timeZone }).toJSDate()
+}
+
+export function getHourButtonType(data: ScheduleObjectProps): string {
+    const timezone = 'America/Sao_Paulo'
+
+    const date = new Date()
+    const nowInBrasiliaTime = fromZonedTime(date, timezone)
+
+    const scheduleDate = new Date(data.year, data.month, data.day, Math.floor(data.hour / 60), data.hour % 60)
+    const scheduleInBrasiliaTime = fromZonedTime(scheduleDate, timezone)
+
+    if (data.day === 14) {
+        console.log('##################################################')
+        console.log('nowInBrasiliaTime ', JSON.stringify(nowInBrasiliaTime))
+        console.log('scheduleInBrasiliaTime ', JSON.stringify(scheduleInBrasiliaTime))
+        console.log('scheduleInBrasiliaTime ', scheduleInBrasiliaTime > nowInBrasiliaTime)
+    }
+
+    // Regras de validação
+    if (scheduleInBrasiliaTime > nowInBrasiliaTime) {
+        if (data.enable) {
+            if (!data.userId) return 'Available'
+            return 'Unavailable'
+        } else {
+            return 'Disabled'
+        }
+    }
+
+    if (scheduleInBrasiliaTime <= nowInBrasiliaTime) {
+        return 'Expired'
+    }
+
+    return 'Unknown' // Valor de fallback
+}
+
 export const formatDate = (day: number, month: number, year: number): string => {
     const months = [
         'janeiro',
@@ -254,6 +298,7 @@ export const filterDaysByDateAndMonth = (
 
     const filteredByCurrentDate = data.filter((item) => {
         const itemDate = new Date(item.year, item.month, item.day)
+        itemDate.setHours(23, 59, 59, 999)
         return itemDate >= currentDate
     })
 
@@ -417,3 +462,161 @@ export const sortSchedule = (schedule: ScheduleObjectProps[]): ScheduleObjectPro
         return a.day - b.day
     })
 }
+
+export const isExpiredDay = (day: number, month: number, year: number): boolean => {
+    const inputDate = new Date(year, month, day)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    return inputDate < today
+}
+
+/*
+
+    TESTAR FUNÇÃO - getHourButtonType
+
+    Condições:
+
+    A função deve retornar 'Available' somente com o atendimento de todas as seguintes condições:
+        Se o dia indicado pelas propriedades day, month e year for um dia futuro.
+        Se o dia indicado pelas propriedades day, month e year for o dia de hoje e
+        o horário indicado e convertido pela propriedade 'hour' for maior do que
+        o horário atual de brasilia.
+        Se a propriedade 'userId' estiver vazia.
+        Se propriedade 'enable' for igual a true.
+
+    A função deve retornar 'Unavailable' somente com o atendimento de todas as seguintes condições:
+        Se o dia indicado pelas propriedades day, month e year for um dia futuro.
+        Se o dia indicado pelas propriedades day, month e year for o dia de hoje e
+        o horário indicado e convertido pela propriedade 'hour' for maior do que
+        o horário atual de brasilia.
+        Se a propriedade 'userId' estiver preenchida.
+
+    A função deve retornar 'Disabled' somente com o atendimento de todas as seguintes condições:
+        Se o dia indicado pelas propriedades day, month e year for um dia futuro.
+        Se o dia indicado pelas propriedades day, month e year for o dia de hoje e
+        o horário indicado e convertido pela propriedade 'hour' for maior do que
+        o horário atual de brasilia.
+        Se propriedade 'enable' for igual a false.
+
+    A função deve retornar 'Expired' com o atendimento de uma das seguintes condições:
+        Se o dia indicado pelas propriedades day, month e year for um dia passado.
+        Se o dia, indicado pelas propriedades day, month e year for o dia de hoje e
+        o horário indicado e convertido da propriedade 'data.hour' for passado em
+        relação a hora atual de brasilia.
+
+
+
+    TESTES:
+
+    [
+        {
+            "year":2024,
+            "month":11,
+            "day":14,
+            "hour":900,
+            "userId":"",
+            "userEmail":"",
+            "firstName":"",
+            "lastName":"",
+            "enable":true
+        },
+        {
+            "year":2024,
+            "month":11,
+            "day":14,
+            "hour":900,
+            "userId":"",
+            "userEmail":"",
+            "firstName":"",
+            "lastName":"",
+            "enable":false
+        },
+        {
+            "year":2024,
+            "month":11,
+            "day":14,
+            "hour":900,
+            "userId":"654654654",
+            "userEmail":"luis@email.com",
+            "firstName":"Luis",
+            "lastName":"Pereira",
+            "enable":true
+        },
+        {
+            "year":2024,
+            "month":11,
+            "day":14,
+            "hour":1800,
+            "userId":"",
+            "userEmail":"",
+            "firstName":"",
+            "lastName":"",
+            "enable":true
+        },
+        {
+            "year":2024,
+            "month":11,
+            "day":14,
+            "hour":1800,
+            "userId":"",
+            "userEmail":"",
+            "firstName":"",
+            "lastName":"",
+            "enable":false
+        },
+        {
+            "year":2024,
+            "month":11,
+            "day":14,
+            "hour":1800,
+            "userId":"654654654",
+            "userEmail":"luis@email.com",
+            "firstName":"Luis",
+            "lastName":"Pereira",
+            "enable":true
+        },
+    ]
+
+
+
+
+
+##################################################
+helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.961Z"
+helpers.ts:209 scheduleInBrasili  "2024-12-14T11:00:00.000Z"
+helpers.ts:210 scheduleInBrasili  false
+helpers.ts:207 ##################################################
+helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.961Z"
+helpers.ts:209 scheduleInBrasili  "2024-12-14T12:00:00.000Z"
+helpers.ts:210 scheduleInBrasili  false
+helpers.ts:207 ##################################################
+helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.961Z"
+helpers.ts:209 scheduleInBrasili  "2024-12-14T13:00:00.000Z"
+helpers.ts:210 scheduleInBrasili  false
+helpers.ts:207 ##################################################
+helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.962Z"
+helpers.ts:209 scheduleInBrasili  "2024-12-14T14:00:00.000Z"
+helpers.ts:210 scheduleInBrasili  false
+helpers.ts:207 ##################################################
+helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.962Z"
+helpers.ts:209 scheduleInBrasili  "2024-12-14T17:00:00.000Z"
+helpers.ts:210 scheduleInBrasili  false
+helpers.ts:207 ##################################################
+helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.962Z"
+helpers.ts:209 scheduleInBrasili  "2024-12-14T18:00:00.000Z"
+helpers.ts:210 scheduleInBrasili  false
+helpers.ts:207 ##################################################
+helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.963Z"
+helpers.ts:209 scheduleInBrasili  "2024-12-14T19:00:00.000Z"
+helpers.ts:210 scheduleInBrasili  false
+helpers.ts:207 ##################################################
+helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.963Z"
+helpers.ts:209 scheduleInBrasili  "2024-12-14T20:00:00.000Z"
+helpers.ts:210 scheduleInBrasili  false
+helpers.ts:207 ##################################################
+helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.964Z"
+helpers.ts:209 scheduleInBrasili  "2024-12-14T21:00:00.000Z"
+helpers.ts:210 scheduleInBrasili  false
+
+    
+*/

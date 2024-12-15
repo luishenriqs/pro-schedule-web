@@ -13,8 +13,9 @@ export const Container = styled(Box)({
     border: '1px solid',
     borderColor: COLORS.secondary,
     borderRadius: '6px',
-    padding: '15px',
+    padding: '15px 15px 30px',
     background: COLORS.background,
+    marginBottom: '5px',
 
     '@media (min-width:750px)': {
         width: '400px',
@@ -37,7 +38,14 @@ export const TitleContainer = styled(Box)({
     },
 })
 
-export const EnabledContainer = styled(Box)({
+export const ButtonContainer = styled(Box)({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '15px',
+})
+
+export const AvailableHourButton = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -50,7 +58,22 @@ export const EnabledContainer = styled(Box)({
     background: COLORS.primary,
 })
 
-export const DisabledContainer = styled(Box)({
+export const UnavailableHourButton = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '10px',
+    padding: '10px',
+    width: '100%',
+    height: '40px',
+    borderRadius: '6px',
+    border: '1px solid',
+    borderColor: COLORS.primary,
+    background: COLORS.tertiary,
+})
+
+export const DisabledHourButton = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -65,9 +88,17 @@ export const DisabledContainer = styled(Box)({
     background: COLORS.background,
 })
 
-export const ButtonContainer = styled(Box)({
+export const ExpiredHourButton = styled(Box)({
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '15px',
+    marginTop: '10px',
+    padding: '10px',
+    width: '100%',
+    height: '40px',
+    borderRadius: '6px',
+    border: '1px solid',
+    borderColor: COLORS.disabled_200,
+    background: COLORS.background,
 })

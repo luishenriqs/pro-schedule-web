@@ -17,6 +17,7 @@ export type ScheduleObjectProps = {
     userEmail?: string | undefined
     firstName?: string | undefined
     lastName?: string | undefined
+    isExpired?: boolean
 }
 
 export type PayloadContextType = {
@@ -74,6 +75,9 @@ export type CalendarCreateAgendaProps = {
 
 export type ListScheduleProps = {
     schedule: ScheduleObjectProps[]
+    handleToggleAvailability: (value: ScheduleObjectProps) => void
+    handleOpenCancelModal: (value: ScheduleObjectProps) => void
+    handleCreateNewSchedule: (day: number, month: number, year: number) => void
 }
 
 export type GetDateProps = {
@@ -234,4 +238,13 @@ export type ScheduleDay = {
     day: number
     enable: boolean
     userId?: string
+}
+
+export type DateParts = {
+    year?: string
+    month?: string
+    day?: string
+    hour?: string
+    minute?: string
+    second?: string
 }

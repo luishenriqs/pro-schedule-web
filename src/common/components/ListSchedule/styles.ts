@@ -16,6 +16,8 @@ export const Container = styled(Box)({
     borderColor: COLORS.secondary,
     borderRadius: '6px',
     padding: '16px',
+    marginBottom: '5px',
+
     '@media (min-width:750px)': {
         width: '400px',
     },
