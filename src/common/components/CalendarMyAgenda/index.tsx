@@ -5,7 +5,6 @@ import { CalendarNewScheduleProps } from '@common/models'
 import {
     filterDaysByDateAndMonth,
     getDayButtonType,
-    getMinMonth,
     getNextMonthDate,
     getPreviousMonthDate,
     getWeekDays,
@@ -22,7 +21,6 @@ import {
     DaysWeekContainer,
     ArrowLeftIcon,
     ArrowRightIcon,
-    ArrowLeftIconDisabled,
     CalendarControlContainer,
     CanceledDayButton,
 } from './styles'
@@ -39,7 +37,6 @@ export const CalendarMyAgenda = ({
     legend,
 }: CalendarNewScheduleProps) => {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date())
-    const minMonth = getMinMonth(selectedDate)
 
     const goToPreviousMonth = useCallback(
         (selectedDate: Date) => {
@@ -172,15 +169,9 @@ export const CalendarMyAgenda = ({
         <Container>
             <Genos_Secondary_24_500 text={legend} />
             <Header>
-                {!minMonth ? (
-                    <Button onClick={() => goToPreviousMonth(selectedDate)} style={{ marginRight: '-20px' }}>
-                        <ArrowLeftIcon />
-                    </Button>
-                ) : (
-                    <Button style={{ marginRight: '-20px' }}>
-                        <ArrowLeftIconDisabled />
-                    </Button>
-                )}
+                <Button onClick={() => goToPreviousMonth(selectedDate)} style={{ marginRight: '-20px' }}>
+                    <ArrowLeftIcon />
+                </Button>
                 <HeaderLabel>
                     <Genos_Primary_24_500
                         text={selectedDate.toLocaleString('default', { month: 'long', year: 'numeric' })}

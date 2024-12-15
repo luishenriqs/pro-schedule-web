@@ -17,13 +17,16 @@
 **MyAgendaComponent**
 
 _Priority 1_
-1 - Criar validação para impedir adição de novo horário se já existênte.
+1 - Implementar busca completa de agendamentos para lista em MyAgenda
 
-2 - Criar visualização de agenda em formato de lista
+2 - Implementar navegação em meses retroativos no Calendário da MyAgenda
+
+3 - Criar validação para impedir adição de novo horário se já existente.
 
 **CreateAgendaComponent**
+1 - Refatorar estilização do 'CalendarCreateAgenda'
 
-1 - Criar validação para que não seja possível recriar agenda já existente
+2 - Criar validação para que não seja possível recriar agenda já existente
 
 **UsersComponent**
 
