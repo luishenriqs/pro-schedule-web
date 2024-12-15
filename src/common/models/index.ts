@@ -248,3 +248,8 @@ export type DateParts = {
     minute?: string
     second?: string
 }
+
+export type formattedDateProps = {
+    formattedDate: string
+    dayOfWeek: string
+}

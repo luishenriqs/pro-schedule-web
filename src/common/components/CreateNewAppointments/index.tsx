@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Genos_Primary_24_500, Genos_Secondary_24_500 } from '../Typography'
 import { NewScheduleProps, ScheduleObjectProps } from '@common/models'
-import { createNewDayPayload, formatDate } from '@common/utils/helpers'
-import { ButtonsContainer, Container, DateContent, TitleContainer } from './styles'
 import { TimeSelection } from '../TimeSelection'
 import { FilledPrimaryButton } from '../Button'
+import { createNewDayPayload, formatDate } from '@common/utils/helpers'
+import { Genos_Primary_24_500, Genos_Secondary_24_500 } from '../Typography'
+import { ButtonsContainer, Container, DateContent, TitleContainer } from './styles'
 
 export const CreateNewAppointments = ({ selectNewDay, legend, handleSetNewDay }: NewScheduleProps) => {
     const [date, setDate] = useState<string>('')

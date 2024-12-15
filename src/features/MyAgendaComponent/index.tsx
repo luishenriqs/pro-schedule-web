@@ -10,8 +10,9 @@ import { AppointmentsManaged } from '@common/components/AppointmentsManaged'
 import { CreateNewAppointments } from '@common/components/CreateNewAppointments'
 import { ListSchedule } from '@common/components/ListSchedule'
 import { ModalCancellation } from '@common/components/ModalCancellation'
-import { filterAppointmentsByDay, sortSchedule } from '@common/utils/helpers'
+import { filterAppointmentsByDay, isExpiredDay, sortSchedule } from '@common/utils/helpers'
 import { dataSelectedProps, ScheduleObjectProps, selectNewDayProps } from '@common/models'
+import { COLORS } from '@common/styles/theme'
 import {
     Genos_Primary_24_500,
     Genos_Secondary_16_500,
@@ -131,7 +132,7 @@ export const MyAgendaComponent = () => {
                         // Atualizar o dia selecionado, se aplicável
                         setSelectedDay((prevSelectedDay) => ({
                             ...prevSelectedDay,
-                            data: prevSelectedDay.data.map((item) =>
+                            data: prevSelectedDay?.data?.map((item) =>
                                 item.userId === payload.userId && item.day === payload.day && item.hour === payload.hour
                                     ? { ...item, enable: !item.enable }
                                     : item
@@ -224,18 +225,32 @@ export const MyAgendaComponent = () => {
                                                     handleCreateNewSchedule={handleCreateNewSchedule}
                                                 />
                                             )}
-                                            <LegendContainer>
-                                                <Legend color={'primary'} />
-                                                <Questrial_Secondary_16_500 text=" - Horário disponível" />
-                                            </LegendContainer>
-                                            <LegendContainer>
-                                                <Legend color={'background'} />
-                                                <Questrial_Secondary_16_500 text=" - Horário Desabilitado" />
-                                            </LegendContainer>
-                                            <LegendContainer>
-                                                <Legend color={'tertiary'} />
-                                                <Questrial_Secondary_16_500 text=" - Horário Reservado" />
-                                            </LegendContainer>
+                                            {isExpiredDay(selectedDay.day, selectedDay.month, selectedDay.year) ? (
+                                                <>
+                                                    <LegendContainer>
+                                                        <Legend
+                                                            color={'background'}
+                                                            style={{ borderColor: COLORS.disabled_200 }}
+                                                        />
+                                                        <Questrial_Secondary_16_500 text=" - Horários Expirados" />
+                                                    </LegendContainer>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <LegendContainer>
+                                                        <Legend color={'primary'} />
+                                                        <Questrial_Secondary_16_500 text=" - Horário Disponível" />
+                                                    </LegendContainer>
+                                                    <LegendContainer>
+                                                        <Legend color={'background'} />
+                                                        <Questrial_Secondary_16_500 text=" - Horário Desabilitado" />
+                                                    </LegendContainer>
+                                                    <LegendContainer>
+                                                        <Legend color={'tertiary'} />
+                                                        <Questrial_Secondary_16_500 text=" - Horário Reservado" />
+                                                    </LegendContainer>
+                                                </>
+                                            )}
                                         </>
                                     )}
                                     {!!selectNewDay?.day && (
@@ -271,6 +286,10 @@ export const MyAgendaComponent = () => {
                                     <LegendContainer>
                                         <Legend color={'tertiary'} />
                                         <Questrial_Secondary_16_500 text=" - Horário Reservado" />
+                                    </LegendContainer>
+                                    <LegendContainer>
+                                        <Legend color={'background'} style={{ borderColor: COLORS.disabled_200 }} />
+                                        <Questrial_Secondary_16_500 text=" - Horários Expirados" />
                                     </LegendContainer>
                                 </SchedulingContent>
                             )}

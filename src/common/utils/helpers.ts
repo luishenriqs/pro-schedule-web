@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { CreateAuth, WriteData } from '@common/api'
 import { SxProps, Theme } from '@mui/material/styles'
-import { DateTime } from 'luxon'
+import { utcToZonedTime } from 'date-fns-tz'
 import {
     ScheduleObjectProps,
     GetDateProps,
@@ -10,6 +10,7 @@ import {
     SelectedDateProps,
     PeriodProps,
     selectNewDayProps,
+    formattedDateProps,
 } from '@common/models'
 
 export const initialScript = async () => {
@@ -190,34 +191,17 @@ export const getDayButtonType = (
     return 'Unavailable'
 }
 
-// TESTAR USO DO DATETIME DA LUXON - import { DateTime } from 'luxon'
-// TESTAR USO DO DATETIME DA LUXON - import { DateTime } from 'luxon'
-// TESTAR USO DO DATETIME DA LUXON - import { DateTime } from 'luxon'
-// TESTAR USO DO DATETIME DA LUXON - import { DateTime } from 'luxon'
-// TESTAR USO DO DATETIME DA LUXON - import { DateTime } from 'luxon'
-
-const fromZonedTime = (date: Date, timeZone: string) => {
-    return DateTime.fromJSDate(date, { zone: timeZone }).toJSDate()
-}
-
 export function getHourButtonType(data: ScheduleObjectProps): string {
-    const timezone = 'America/Sao_Paulo'
+    const timeZone = 'America/Sao_Paulo'
 
-    const date = new Date()
-    const nowInBrasiliaTime = fromZonedTime(date, timezone)
+    const scheduleTime = new Date(data.year, data.month, data.day, Math.floor(data.hour / 60), data.hour % 60)
+    const scheduleTimeTimestamp = utcToZonedTime(scheduleTime, timeZone).getTime()
 
-    const scheduleDate = new Date(data.year, data.month, data.day, Math.floor(data.hour / 60), data.hour % 60)
-    const scheduleInBrasiliaTime = fromZonedTime(scheduleDate, timezone)
-
-    if (data.day === 14) {
-        console.log('##################################################')
-        console.log('nowInBrasiliaTime ', JSON.stringify(nowInBrasiliaTime))
-        console.log('scheduleInBrasiliaTime ', JSON.stringify(scheduleInBrasiliaTime))
-        console.log('scheduleInBrasiliaTime ', scheduleInBrasiliaTime > nowInBrasiliaTime)
-    }
+    const utcTime = utcToZonedTime(new Date(), timeZone)
+    const brasiliaTimeTimestamp = utcToZonedTime(utcTime, timeZone).getTime()
 
     // Regras de validação
-    if (scheduleInBrasiliaTime > nowInBrasiliaTime) {
+    if (scheduleTimeTimestamp > brasiliaTimeTimestamp) {
         if (data.enable) {
             if (!data.userId) return 'Available'
             return 'Unavailable'
@@ -226,7 +210,7 @@ export function getHourButtonType(data: ScheduleObjectProps): string {
         }
     }
 
-    if (scheduleInBrasiliaTime <= nowInBrasiliaTime) {
+    if (scheduleTimeTimestamp <= brasiliaTimeTimestamp) {
         return 'Expired'
     }
 
@@ -256,7 +240,7 @@ export const formatDate = (day: number, month: number, year: number): string => 
     return `${day} de ${months[month]} de ${year}`
 }
 
-export const formatDateShortVersion = (day: number, month: number, year: number): string => {
+export const formatDateShortVersion = (day: number, month: number, year: number): formattedDateProps => {
     const daysOfWeek = [
         'Domingo',
         'Segunda-feira',
@@ -279,10 +263,15 @@ export const formatDateShortVersion = (day: number, month: number, year: number)
         throw new Error('Data inválida.')
     }
 
-    const dayOfWeek = daysOfWeek[date.getDay()]
     const formattedDate = `${String(day).padStart(2, '0')}/${String(month + 1).padStart(2, '0')}/${year}`
+    const dayOfWeek = daysOfWeek[date.getDay()]
 
-    return `${formattedDate} - ${dayOfWeek}`
+    const formatted = {
+        formattedDate,
+        dayOfWeek,
+    }
+
+    return formatted
 }
 
 export const filterDaysByDateAndMonth = (

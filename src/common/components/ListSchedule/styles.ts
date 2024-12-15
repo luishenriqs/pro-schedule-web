@@ -18,8 +18,12 @@ export const Container = styled(Box)({
     padding: '16px',
     marginBottom: '5px',
 
-    '@media (min-width:750px)': {
+    '@media (min-width:420px)': {
         width: '400px',
+    },
+
+    '@media (min-width:520px)': {
+        width: '500px',
     },
 })
 
@@ -39,6 +43,24 @@ export const DateSeparator = styled(Box)({
     padding: '8px',
     margin: '8px',
     borderRadius: '6px',
+})
+
+export const DateContentRow = styled(Box)({
+    display: 'none',
+    flexDirection: 'row',
+
+    '@media (min-width:420px)': {
+        display: 'flex',
+    },
+})
+
+export const DateContentColumn = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+
+    '@media (min-width:420px)': {
+        display: 'none',
+    },
 })
 
 export const Row = styled(Box)({

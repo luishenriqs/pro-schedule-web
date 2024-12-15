@@ -1,12 +1,26 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { ListScheduleProps, ScheduleObjectProps } from '@common/models'
-import { Genos_Disabled_20_500, Genos_Primary_24_500, Genos_Secondary_20_500, Genos_White_20_500 } from '../Typography'
-import { formatDateShortVersion, getHourButtonType, integerToTime } from '@common/utils/helpers'
-import { Container, Content, DateSeparator, HourContainer, NameContainer, Row } from './styles'
 import { COLORS } from '@common/styles/theme'
+import {
+    Genos_Disabled_20_500,
+    Genos_Disabled_24_500,
+    Genos_Primary_24_500,
+    Genos_Secondary_20_500,
+    Genos_White_20_500,
+} from '../Typography'
+import { formatDateShortVersion, getHourButtonType, integerToTime, isExpiredDay } from '@common/utils/helpers'
+import {
+    Container,
+    Content,
+    DateContentColumn,
+    DateContentRow,
+    DateSeparator,
+    HourContainer,
+    NameContainer,
+    Row,
+} from './styles'
 
 export const ListSchedule = ({ schedule, handleToggleAvailability, handleOpenCancelModal }: ListScheduleProps) => {
-    // Ordena o schedule por dia e hora
     const sortedSchedule = [...schedule].sort((a, b) => {
         if (a.day === b.day) {
             return a.hour - b.hour
@@ -21,10 +35,8 @@ export const ListSchedule = ({ schedule, handleToggleAvailability, handleOpenCan
         return acc
     }, {})
 
-    // Cria referência para a rolagem
     const currentDayRef = useRef<HTMLDivElement | null>(null)
 
-    // Calcula o dia atual
     const today = new Date()
     const currentDay = today.getDate()
 
@@ -165,14 +177,38 @@ export const ListSchedule = ({ schedule, handleToggleAvailability, handleOpenCan
         <Container>
             <Content>
                 {Object.entries(groupedSchedule).map(([day, items]) => {
+                    const expiredDay = isExpiredDay(items[0].day, items[0].month, items[0].year)
                     const isCurrentDay = parseInt(day, 10) === currentDay
                     const isNextAvailableDay = day === nextAvailableDay
+                    const formatted = formatDateShortVersion(items[0].day, items[0].month, items[0].year)
                     return (
                         <React.Fragment key={day}>
                             <DateSeparator ref={isCurrentDay || isNextAvailableDay ? currentDayRef : null}>
-                                <Genos_Primary_24_500
-                                    text={formatDateShortVersion(items[0].day, items[0].month, items[0].year)}
-                                />
+                                {expiredDay ? (
+                                    <>
+                                        <DateContentRow>
+                                            <Genos_Disabled_24_500
+                                                text={`${formatted.formattedDate} - ${formatted.dayOfWeek}`}
+                                            />
+                                        </DateContentRow>
+                                        <DateContentColumn>
+                                            <Genos_Disabled_24_500 text={formatted.formattedDate} />
+                                            <Genos_Disabled_24_500 text={formatted.dayOfWeek} />
+                                        </DateContentColumn>
+                                    </>
+                                ) : (
+                                    <>
+                                        <DateContentRow>
+                                            <Genos_Primary_24_500
+                                                text={`${formatted.formattedDate} - ${formatted.dayOfWeek}`}
+                                            />
+                                        </DateContentRow>
+                                        <DateContentColumn>
+                                            <Genos_Primary_24_500 text={formatted.formattedDate} />
+                                            <Genos_Primary_24_500 text={formatted.dayOfWeek} />
+                                        </DateContentColumn>
+                                    </>
+                                )}
                             </DateSeparator>
                             {hoursList(items)}
                         </React.Fragment>

@@ -17,8 +17,12 @@ export const Container = styled(Box)({
     background: COLORS.background,
     marginBottom: '5px',
 
-    '@media (min-width:750px)': {
+    '@media (min-width:420px)': {
         width: '400px',
+    },
+
+    '@media (min-width:520px)': {
+        width: '500px',
     },
 })
 

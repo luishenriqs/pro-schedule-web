@@ -112,8 +112,17 @@ export const AppointmentsManaged = ({
     return (
         <Container>
             <TitleContainer>
-                <Genos_Secondary_24_500 text={legend} />
-                <Genos_Primary_24_500 text={date} />
+                {expiredDay ? (
+                    <>
+                        <Genos_Disabled_24_500 text={legend} />
+                        <Genos_Disabled_24_500 text={date} />
+                    </>
+                ) : (
+                    <>
+                        <Genos_Secondary_24_500 text={legend} />
+                        <Genos_Primary_24_500 text={date} />
+                    </>
+                )}
             </TitleContainer>
             {hoursList}
             {!expiredDay && (
