@@ -174,10 +174,6 @@ export const NewScheduleComponent = () => {
         )
     }, [clearPayloads, schedule, selectedDay])
 
-    const handleCloseAppointments = useCallback(() => {
-        setSelectedDay({} as dataSelectedProps)
-    }, [])
-
     return (
         <>
             {isLoading ? (
@@ -198,7 +194,6 @@ export const NewScheduleComponent = () => {
                                 legend="Escolha o seu dia"
                                 handleDayClick={handleDayClick}
                                 handleChangeMonth={handleChangeMonth}
-                                handleCloseAppointments={handleCloseAppointments}
                                 onMonthChange={handleMonthChange}
                                 onYearChange={handleYearChange}
                                 selectedMonth={selectedMonth}

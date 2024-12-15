@@ -159,11 +159,6 @@ export const MyAgendaComponent = () => {
         setOpenCancellationModal(true)
     }, [])
 
-    const handleCloseAppointments = useCallback(() => {
-        setSelectedDay({} as dataSelectedProps)
-        setSelectNewDay({} as selectNewDayProps)
-    }, [])
-
     return (
         <>
             {!user?.isAdmin ? (
@@ -193,7 +188,6 @@ export const MyAgendaComponent = () => {
                                         handleDayClick={handleDayClick}
                                         handleCreateNewSchedule={handleCreateNewSchedule}
                                         handleChangeMonth={handleChangeMonth}
-                                        handleCloseAppointments={handleCloseAppointments}
                                         onMonthChange={handleMonthChange}
                                         onYearChange={handleYearChange}
                                         selectedMonth={selectedMonth}
@@ -289,7 +283,7 @@ export const MyAgendaComponent = () => {
                                     </LegendContainer>
                                     <LegendContainer>
                                         <Legend color={'background'} style={{ borderColor: COLORS.disabled_200 }} />
-                                        <Questrial_Secondary_16_500 text=" - Horários Expirados" />
+                                        <Questrial_Secondary_16_500 text=" - Horário Expirado" />
                                     </LegendContainer>
                                 </SchedulingContent>
                             )}

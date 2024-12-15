@@ -29,7 +29,6 @@ export const CalendarNewSchedule = ({
     schedule,
     handleDayClick,
     handleChangeMonth,
-    handleCloseAppointments,
     onMonthChange,
     onYearChange,
     selectedMonth,
@@ -100,7 +99,7 @@ export const CalendarNewSchedule = ({
                             </UnavailableDayButton>
                         )
                     ) : (
-                        <DisabledDayButton key={`disabled-${i}`} onClick={() => handleCloseAppointments()}>
+                        <DisabledDayButton key={`disabled-${i}`} onClick={() => {}}>
                             <Genos_Secondary_24_500 text={day} />
                         </DisabledDayButton>
                     )}
@@ -108,7 +107,7 @@ export const CalendarNewSchedule = ({
             )
         }
         return buttons
-    }, [handleCloseAppointments, handleDayClick, schedule, selectedDate, selectedMonth, selectedYear])
+    }, [handleDayClick, schedule, selectedDate, selectedMonth, selectedYear])
 
     return (
         <Container>

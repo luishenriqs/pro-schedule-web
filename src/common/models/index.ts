@@ -61,7 +61,6 @@ export type CalendarNewScheduleProps = {
     handleDayClick: (day: number, month: number, year: number) => void
     handleCreateNewSchedule?: (day: number, month: number, year: number) => void
     handleChangeMonth: () => void
-    handleCloseAppointments: () => void
     onMonthChange: (month: number) => void
     onYearChange: (year: number) => void
 }

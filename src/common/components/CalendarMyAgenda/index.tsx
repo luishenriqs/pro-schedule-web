@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Button } from '@mui/material'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_14_500, Genos_White_24_500 } from '../Typography'
 import { CalendarNewScheduleProps } from '@common/models'
@@ -9,6 +9,7 @@ import {
     getNextMonthDate,
     getPreviousMonthDate,
     getWeekDays,
+    isExpiredDay,
 } from '@common/utils/helpers'
 import {
     Container,
@@ -31,15 +32,13 @@ export const CalendarMyAgenda = ({
     handleDayClick,
     handleCreateNewSchedule,
     handleChangeMonth,
-    // handleCloseAppointments,
     onMonthChange,
     onYearChange,
     selectedMonth,
     selectedYear,
     legend,
 }: CalendarNewScheduleProps) => {
-    const todayDate = new Date()
-    const [selectedDate, setSelectedDate] = useState<Date>(todayDate)
+    const [selectedDate, setSelectedDate] = useState<Date>(new Date())
     const minMonth = getMinMonth(selectedDate)
 
     const goToPreviousMonth = useCallback(
@@ -66,7 +65,8 @@ export const CalendarMyAgenda = ({
 
     const weekDays = getWeekDays({ short: true })
 
-    const getCalendar = useCallback(() => {
+    // Memoização do calendário
+    const calendarButtons = useMemo(() => {
         const firstWeekdayOfMonthIndex = new Date(selectedDate.getFullYear(), selectedMonth, 1).getDay()
         const daysQtd = new Date(selectedDate.getFullYear(), selectedMonth + 1, 0).getDate()
 
@@ -74,7 +74,6 @@ export const CalendarMyAgenda = ({
         const allDays = filterDaysByDateAndMonth(schedule, selectedYear, selectedMonth)
 
         const buttons = []
-        const todayDate = new Date()
 
         // Alinha dias do mês aos dias da semana
         for (let i = 0; i < firstWeekdayOfMonthIndex; i++) {
@@ -83,28 +82,26 @@ export const CalendarMyAgenda = ({
 
         for (let i = 1; i <= daysQtd; i++) {
             const isScheduleDays = allDays.includes(i)
-            // console.log('isScheduleDays ', i, isScheduleDays)
             const day = i
 
-            // Cria uma data para o dia atual do loop
-            const currentDate = new Date(selectedYear, selectedMonth, day)
-
             // Verifica se o dia está no passado
-            const isExpired = currentDate < todayDate && currentDate.toDateString() !== todayDate.toDateString()
+            const isExpired = isExpiredDay(day, selectedMonth, selectedYear)
 
             buttons.push(
                 <CalendarControlContainer key={i}>
                     {isScheduleDays ? (
                         (() => {
-                            // Determina o tipo de botão baseado no dia selecionado
                             const scheduleOfTheDay = schedule.filter((item) => item.day === day)
                             const buttonType = getDayButtonType(scheduleOfTheDay, day, isExpired)
+
                             switch (buttonType) {
                                 case 'Available':
                                     return (
                                         <AvailableDayButton
                                             key={`available-${i}`}
                                             onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
+                                            aria-label={`Dia ${day} disponível`}
+                                            role="button"
                                         >
                                             <Genos_Secondary_24_500 text={day} />
                                         </AvailableDayButton>
@@ -114,6 +111,8 @@ export const CalendarMyAgenda = ({
                                         <UnavailableDayButton
                                             key={`unavailable-${i}`}
                                             onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
+                                            aria-label={`Dia ${day} indisponível`}
+                                            role="button"
                                         >
                                             <Genos_White_24_500 text={day} />
                                         </UnavailableDayButton>
@@ -123,6 +122,8 @@ export const CalendarMyAgenda = ({
                                         <CanceledDayButton
                                             key={`canceled-${i}`}
                                             onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
+                                            aria-label={`Dia ${day} cancelado`}
+                                            role="button"
                                         >
                                             <Genos_Secondary_24_500 text={day} />
                                         </CanceledDayButton>
@@ -132,6 +133,8 @@ export const CalendarMyAgenda = ({
                                         <DisabledDayButton
                                             key={`disabled-${i}`}
                                             onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
+                                            aria-label={`Dia ${day} desabilitado`}
+                                            role="button"
                                         >
                                             <Genos_Secondary_24_500 text={day} />
                                         </DisabledDayButton>
@@ -148,6 +151,12 @@ export const CalendarMyAgenda = ({
                                           handleCreateNewSchedule(day, selectedMonth, selectedYear)
                                     : () => handleDayClick(day, selectedMonth, selectedYear)
                             }
+                            aria-label={
+                                !isExpired
+                                    ? `Dia ${day} disponível para agendamento`
+                                    : `Dia ${day} indisponível no passado`
+                            }
+                            role="button"
                         >
                             <Genos_Secondary_24_500 text={day} />
                         </DisabledDayButton>
@@ -183,14 +192,12 @@ export const CalendarMyAgenda = ({
             </Header>
 
             <CalendarContainer>
-                {weekDays.map((day, index) => {
-                    return (
-                        <DaysWeekContainer key={index}>
-                            <Genos_White_14_500 text={day} />
-                        </DaysWeekContainer>
-                    )
-                })}
-                {schedule && getCalendar()}
+                {weekDays.map((day, index) => (
+                    <DaysWeekContainer key={index}>
+                        <Genos_White_14_500 text={day} />
+                    </DaysWeekContainer>
+                ))}
+                {calendarButtons}
             </CalendarContainer>
         </Container>
     )
