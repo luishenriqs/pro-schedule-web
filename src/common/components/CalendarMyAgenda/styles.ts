@@ -155,3 +155,9 @@ export const ArrowRightIcon = styled(KeyboardArrowRightOutlinedIcon)({
     width: '25px',
     height: '25px',
 })
+
+export const ArrowLeftIconDisabled = styled(KeyboardArrowLeftOutlinedIcon)({
+    color: COLORS.disabled_200,
+    width: '25px',
+    height: '25px',
+})

@@ -214,7 +214,7 @@ export const WriteMultipleDataWithRetry = async (dataArray: any[], entity: strin
     }
 }
 
-// Retorna agenda de 5 meses - Mês atual + mês passado + 3 meses a frente
+// Retorna agenda de 5 meses - Mês atual + mês passado + 12 meses a frente
 export const GetSchedule = async (): Promise<ScheduleObjectProps[]> => {
     try {
         const db = getFirestore()
@@ -227,7 +227,7 @@ export const GetSchedule = async (): Promise<ScheduleObjectProps[]> => {
         const currentMonth = brDate.getMonth()
 
         const monthsRange = []
-        for (let i = -1; i <= 3; i++) {
+        for (let i = -1; i <= 12; i++) {
             const targetDate = new Date(currentYear, currentMonth + i, 1)
             monthsRange.push({ year: targetDate.getFullYear(), month: targetDate.getMonth() })
         }

@@ -65,6 +65,7 @@ export const getWeekDays = ({ short = false }: GetWeekDaysParams = {}) => {
         })
 }
 
+// Permite navegação até 1 mês anterior a data atual
 export const getPreviousMonthDate = (selectedDate: Date): GetDateProps => {
     if (!(selectedDate instanceof Date) || isNaN(selectedDate.getTime())) {
         throw new Error('Invalid date')
@@ -73,18 +74,19 @@ export const getPreviousMonthDate = (selectedDate: Date): GetDateProps => {
     const today = new Date()
     const currentYear = today.getFullYear()
     const currentMonthIndex = today.getMonth()
-
     const selectedYear = selectedDate.getFullYear()
     const selectedMonth = selectedDate.getMonth()
 
-    const minMonth = selectedYear === currentYear && selectedMonth === currentMonthIndex
+    const currentDate = new Date(currentYear, currentMonthIndex, 1)
 
-    if (minMonth) {
-        const date = new Date(currentYear, currentMonthIndex, 1)
-        const month = currentMonthIndex
+    if (selectedDate < currentDate) {
+        // Se a data selecionada for anterior ao mês atual, retorna mês atual
+        const date = new Date(currentYear, currentMonthIndex - 1, 1)
+        const month = currentMonthIndex - 1
         const year = currentYear
         return { date, month, year }
     } else {
+        // Se a data selecionada NÃO for anterior ao mês atual, retorna mês anterior
         const previousMonth = selectedMonth === 0 ? 11 : selectedMonth - 1
         const previousYear = selectedMonth === 0 ? selectedYear - 1 : selectedYear
         const date = new Date(previousYear, previousMonth, 1)
@@ -130,11 +132,16 @@ export const integerToTime = (value: number): string => {
 export const getMinMonth = (selectedDate: Date): boolean => {
     const today = new Date()
     const currentYear = today.getFullYear()
-    const currentMonth = today.getMonth()
+    const currentMonth = today.getMonth() // Mês atual (0 a 11)
     const selectedYear = selectedDate.getFullYear()
-    const selectedMonth = selectedDate.getMonth()
-    const minMonth = selectedYear === currentYear && selectedMonth === currentMonth
-    return minMonth
+    const selectedMonth = selectedDate.getMonth() // Mês do selectedDate (0 a 11)
+
+    // Verifica se o mês selecionado é o mês imediatamente anterior ao mês atual
+    const isPreviousMonth =
+        (selectedYear === currentYear && selectedMonth === currentMonth - 1) ||
+        (currentMonth === 0 && selectedYear === currentYear - 1 && selectedMonth === 11)
+
+    return isPreviousMonth
 }
 
 export const hasEmptyCustomerId = (
@@ -458,154 +465,3 @@ export const isExpiredDay = (day: number, month: number, year: number): boolean 
     today.setHours(0, 0, 0, 0)
     return inputDate < today
 }
-
-/*
-
-    TESTAR FUNÇÃO - getHourButtonType
-
-    Condições:
-
-    A função deve retornar 'Available' somente com o atendimento de todas as seguintes condições:
-        Se o dia indicado pelas propriedades day, month e year for um dia futuro.
-        Se o dia indicado pelas propriedades day, month e year for o dia de hoje e
-        o horário indicado e convertido pela propriedade 'hour' for maior do que
-        o horário atual de brasilia.
-        Se a propriedade 'userId' estiver vazia.
-        Se propriedade 'enable' for igual a true.
-
-    A função deve retornar 'Unavailable' somente com o atendimento de todas as seguintes condições:
-        Se o dia indicado pelas propriedades day, month e year for um dia futuro.
-        Se o dia indicado pelas propriedades day, month e year for o dia de hoje e
-        o horário indicado e convertido pela propriedade 'hour' for maior do que
-        o horário atual de brasilia.
-        Se a propriedade 'userId' estiver preenchida.
-
-    A função deve retornar 'Disabled' somente com o atendimento de todas as seguintes condições:
-        Se o dia indicado pelas propriedades day, month e year for um dia futuro.
-        Se o dia indicado pelas propriedades day, month e year for o dia de hoje e
-        o horário indicado e convertido pela propriedade 'hour' for maior do que
-        o horário atual de brasilia.
-        Se propriedade 'enable' for igual a false.
-
-    A função deve retornar 'Expired' com o atendimento de uma das seguintes condições:
-        Se o dia indicado pelas propriedades day, month e year for um dia passado.
-        Se o dia, indicado pelas propriedades day, month e year for o dia de hoje e
-        o horário indicado e convertido da propriedade 'data.hour' for passado em
-        relação a hora atual de brasilia.
-
-
-
-    TESTES:
-
-    [
-        {
-            "year":2024,
-            "month":11,
-            "day":14,
-            "hour":900,
-            "userId":"",
-            "userEmail":"",
-            "firstName":"",
-            "lastName":"",
-            "enable":true
-        },
-        {
-            "year":2024,
-            "month":11,
-            "day":14,
-            "hour":900,
-            "userId":"",
-            "userEmail":"",
-            "firstName":"",
-            "lastName":"",
-            "enable":false
-        },
-        {
-            "year":2024,
-            "month":11,
-            "day":14,
-            "hour":900,
-            "userId":"654654654",
-            "userEmail":"luis@email.com",
-            "firstName":"Luis",
-            "lastName":"Pereira",
-            "enable":true
-        },
-        {
-            "year":2024,
-            "month":11,
-            "day":14,
-            "hour":1800,
-            "userId":"",
-            "userEmail":"",
-            "firstName":"",
-            "lastName":"",
-            "enable":true
-        },
-        {
-            "year":2024,
-            "month":11,
-            "day":14,
-            "hour":1800,
-            "userId":"",
-            "userEmail":"",
-            "firstName":"",
-            "lastName":"",
-            "enable":false
-        },
-        {
-            "year":2024,
-            "month":11,
-            "day":14,
-            "hour":1800,
-            "userId":"654654654",
-            "userEmail":"luis@email.com",
-            "firstName":"Luis",
-            "lastName":"Pereira",
-            "enable":true
-        },
-    ]
-
-
-
-
-
-##################################################
-helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.961Z"
-helpers.ts:209 scheduleInBrasili  "2024-12-14T11:00:00.000Z"
-helpers.ts:210 scheduleInBrasili  false
-helpers.ts:207 ##################################################
-helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.961Z"
-helpers.ts:209 scheduleInBrasili  "2024-12-14T12:00:00.000Z"
-helpers.ts:210 scheduleInBrasili  false
-helpers.ts:207 ##################################################
-helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.961Z"
-helpers.ts:209 scheduleInBrasili  "2024-12-14T13:00:00.000Z"
-helpers.ts:210 scheduleInBrasili  false
-helpers.ts:207 ##################################################
-helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.962Z"
-helpers.ts:209 scheduleInBrasili  "2024-12-14T14:00:00.000Z"
-helpers.ts:210 scheduleInBrasili  false
-helpers.ts:207 ##################################################
-helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.962Z"
-helpers.ts:209 scheduleInBrasili  "2024-12-14T17:00:00.000Z"
-helpers.ts:210 scheduleInBrasili  false
-helpers.ts:207 ##################################################
-helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.962Z"
-helpers.ts:209 scheduleInBrasili  "2024-12-14T18:00:00.000Z"
-helpers.ts:210 scheduleInBrasili  false
-helpers.ts:207 ##################################################
-helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.963Z"
-helpers.ts:209 scheduleInBrasili  "2024-12-14T19:00:00.000Z"
-helpers.ts:210 scheduleInBrasili  false
-helpers.ts:207 ##################################################
-helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.963Z"
-helpers.ts:209 scheduleInBrasili  "2024-12-14T20:00:00.000Z"
-helpers.ts:210 scheduleInBrasili  false
-helpers.ts:207 ##################################################
-helpers.ts:208 nowInBrasiliaTime  "2024-12-15T02:24:33.964Z"
-helpers.ts:209 scheduleInBrasili  "2024-12-14T21:00:00.000Z"
-helpers.ts:210 scheduleInBrasili  false
-
-    
-*/
