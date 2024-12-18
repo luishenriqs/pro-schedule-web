@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Button } from '@mui/material'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_14_500, Genos_White_24_500 } from '../Typography'
 import { CalendarNewScheduleProps } from '@common/models'
@@ -38,10 +38,13 @@ export const CalendarMyAgenda = ({
 }: CalendarNewScheduleProps) => {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date())
 
+    useEffect(() => {
+        setSelectedDate(new Date(selectedYear, selectedMonth, 1))
+    }, [selectedMonth, selectedYear])
+
     const goToPreviousMonth = useCallback(
         (selectedDate: Date) => {
-            const { date, month, year } = getPreviousMonthDate(selectedDate)
-            setSelectedDate(date)
+            const { month, year } = getPreviousMonthDate(selectedDate)
             onMonthChange(month)
             onYearChange(year)
             handleChangeMonth()
@@ -51,8 +54,7 @@ export const CalendarMyAgenda = ({
 
     const goToNextMonth = useCallback(
         (selectedDate: Date) => {
-            const { date, month, year } = getNextMonthDate(selectedDate)
-            setSelectedDate(date)
+            const { month, year } = getNextMonthDate(selectedDate)
             onMonthChange(month)
             onYearChange(year)
             handleChangeMonth()
