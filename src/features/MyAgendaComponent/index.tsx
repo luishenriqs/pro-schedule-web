@@ -6,36 +6,22 @@ import { useUser } from '@common/hooks/contexts/UserContext'
 import Header from '@common/components/Header'
 import { LoadingComponent } from '@common/components/Loading'
 import { CalendarMyAgenda } from '@common/components/CalendarMyAgenda'
+import { AppointmentsLegends, CalendarLegends, ExpiredAppointmentLegend } from './legends'
 import { AppointmentsManaged } from '@common/components/AppointmentsManaged'
 import { CreateNewAppointments } from '@common/components/CreateNewAppointments'
 import { ListSchedule } from '@common/components/ListSchedule'
 import { ModalCancellation } from '@common/components/ModalCancellation'
 import { filterAppointmentsByDay, isExpiredDay, sortSchedule } from '@common/utils/helpers'
 import { dataSelectedProps, ScheduleObjectProps, selectNewDayProps } from '@common/models'
-import { COLORS } from '@common/styles/theme'
-import {
-    Genos_Primary_24_500,
-    Genos_Secondary_16_500,
-    Genos_Secondary_24_500,
-    Questrial_Secondary_16_500,
-} from '@common/components/Typography'
-import {
-    ButtonContainer,
-    Container,
-    Content,
-    Legend,
-    LegendContainer,
-    RotateIcon,
-    SchedulingContent,
-    TitleContainer,
-} from './styles'
+import { Genos_Primary_24_500, Genos_Secondary_16_500, Genos_Secondary_24_500 } from '@common/components/Typography'
+import { ButtonContainer, Container, Content, RotateIcon, SchedulingContent, TitleContainer } from './styles'
 
 export const MyAgendaComponent = () => {
     const router = useRouter()
     const { user } = useUser()
     const { emmitSuccess, emmitError, emmitAlert } = useNotification()
 
-    const [allSchedule, setAllSchedule] = useState<ScheduleObjectProps[]>([])
+    const [fullSchedule, setFullSchedule] = useState<ScheduleObjectProps[]>([])
     const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([])
     const [isSaving, setIsSaving] = useState(false)
     const [seeCalendar, setSeeCalendar] = useState(true)
@@ -63,7 +49,7 @@ export const MyAgendaComponent = () => {
         const fetchedSchedule = await GetSchedule()
 
         if (fetchedSchedule) {
-            setAllSchedule(fetchedSchedule)
+            setFullSchedule(fetchedSchedule)
         } else {
             emmitAlert('Nenhuma reserva encontrada!')
         }
@@ -134,20 +120,41 @@ export const MyAgendaComponent = () => {
                     const resp = await UpdateScheduleAvailability(payload)
 
                     if (resp.success) {
-                        // Atualizar localmente o estado do agendamento
+                        // Atualiza localmente o estado do agendamento
                         setSchedule((prevSchedule) =>
                             prevSchedule.map((item) =>
-                                item.userId === payload.userId && item.day === payload.day && item.hour === payload.hour
+                                item.userId === payload.userId &&
+                                item.day === payload.day &&
+                                item.month === payload.month &&
+                                item.year === payload.year &&
+                                item.hour === payload.hour
                                     ? { ...item, enable: !item.enable }
                                     : item
                             )
                         )
 
-                        // Atualizar o dia selecionado, se aplicável
+                        // Atualiza o dia selecionado - ListSchedule Component
+                        setFullSchedule((prevFullSchedule) =>
+                            prevFullSchedule.map((item) =>
+                                item.userId === payload.userId &&
+                                item.day === payload.day &&
+                                item.month === payload.month &&
+                                item.year === payload.year &&
+                                item.hour === payload.hour
+                                    ? { ...item, enable: !item.enable }
+                                    : item
+                            )
+                        )
+
+                        // Atualiza o dia selecionado - AppointmentsManaged Component
                         setSelectedDay((prevSelectedDay) => ({
                             ...prevSelectedDay,
                             data: prevSelectedDay?.data?.map((item) =>
-                                item.userId === payload.userId && item.day === payload.day && item.hour === payload.hour
+                                item.userId === payload.userId &&
+                                item.day === payload.day &&
+                                item.month === payload.month &&
+                                item.year === payload.year &&
+                                item.hour === payload.hour
                                     ? { ...item, enable: !item.enable }
                                     : item
                             ),
@@ -207,18 +214,7 @@ export const MyAgendaComponent = () => {
                                         selectedMonth={selectedMonth}
                                         selectedYear={selectedYear}
                                     />
-                                    <LegendContainer>
-                                        <Legend color={'primary'} />
-                                        <Questrial_Secondary_16_500 text=" - Agenda Aberta" />
-                                    </LegendContainer>
-                                    <LegendContainer>
-                                        <Legend color={'background'} />
-                                        <Questrial_Secondary_16_500 text=" - Agenda Indisponível" />
-                                    </LegendContainer>
-                                    <LegendContainer>
-                                        <Legend color={'tertiary'} />
-                                        <Questrial_Secondary_16_500 text=" - Agenda Fechada" />
-                                    </LegendContainer>
+                                    <CalendarLegends />
 
                                     {selectedDay?.data?.length > 0 && (
                                         <>
@@ -234,30 +230,9 @@ export const MyAgendaComponent = () => {
                                                 />
                                             )}
                                             {isExpiredDay(selectedDay.day, selectedDay.month, selectedDay.year) ? (
-                                                <>
-                                                    <LegendContainer>
-                                                        <Legend
-                                                            color={'background'}
-                                                            style={{ borderColor: COLORS.disabled_200 }}
-                                                        />
-                                                        <Questrial_Secondary_16_500 text=" - Horários Expirados" />
-                                                    </LegendContainer>
-                                                </>
+                                                <ExpiredAppointmentLegend />
                                             ) : (
-                                                <>
-                                                    <LegendContainer>
-                                                        <Legend color={'primary'} />
-                                                        <Questrial_Secondary_16_500 text=" - Horário Disponível" />
-                                                    </LegendContainer>
-                                                    <LegendContainer>
-                                                        <Legend color={'background'} />
-                                                        <Questrial_Secondary_16_500 text=" - Horário Desabilitado" />
-                                                    </LegendContainer>
-                                                    <LegendContainer>
-                                                        <Legend color={'tertiary'} />
-                                                        <Questrial_Secondary_16_500 text=" - Horário Reservado" />
-                                                    </LegendContainer>
-                                                </>
+                                                <AppointmentsLegends />
                                             )}
                                         </>
                                     )}
@@ -278,27 +253,12 @@ export const MyAgendaComponent = () => {
                             ) : (
                                 <SchedulingContent>
                                     <ListSchedule
-                                        schedule={allSchedule}
+                                        schedule={fullSchedule}
                                         handleToggleAvailability={handleToggleAvailability}
                                         handleOpenCancelModal={handleOpenCancelModal}
                                         handleCreateNewSchedule={handleCreateNewSchedule}
                                     />
-                                    <LegendContainer>
-                                        <Legend color={'primary'} />
-                                        <Questrial_Secondary_16_500 text=" - Horário disponível" />
-                                    </LegendContainer>
-                                    <LegendContainer>
-                                        <Legend color={'background'} />
-                                        <Questrial_Secondary_16_500 text=" - Horário Desabilitado" />
-                                    </LegendContainer>
-                                    <LegendContainer>
-                                        <Legend color={'tertiary'} />
-                                        <Questrial_Secondary_16_500 text=" - Horário Reservado" />
-                                    </LegendContainer>
-                                    <LegendContainer>
-                                        <Legend color={'background'} style={{ borderColor: COLORS.disabled_200 }} />
-                                        <Questrial_Secondary_16_500 text=" - Horário Expirado" />
-                                    </LegendContainer>
+                                    <AppointmentsLegends />
                                 </SchedulingContent>
                             )}
                         </Content>
