@@ -214,6 +214,94 @@ export const WriteMultipleDataWithRetry = async (dataArray: any[], entity: strin
     }
 }
 
+// Retorna agenda de 5 meses - Mês atual + mês passado + 3 meses a frente
+export const GetSchedule = async (): Promise<ScheduleObjectProps[]> => {
+    try {
+        const db = getFirestore()
+        const scheduleCollection = collection(db, 'schedule')
+
+        const now = new Date()
+        const brDate = new Date(now.toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }))
+
+        const currentYear = brDate.getFullYear()
+        const currentMonth = brDate.getMonth()
+
+        const monthsRange = []
+        for (let i = -1; i <= 3; i++) {
+            const targetDate = new Date(currentYear, currentMonth + i, 1)
+            monthsRange.push({ year: targetDate.getFullYear(), month: targetDate.getMonth() })
+        }
+
+        const queries = monthsRange.map(({ year, month }) =>
+            query(scheduleCollection, where('year', '==', year), where('month', '==', month))
+        )
+
+        const allDocsPromises = queries.map((q) => getDocs(q))
+        const querySnapshots = await Promise.all(allDocsPromises)
+
+        const schedules: ScheduleObjectProps[] = querySnapshots.flatMap((querySnapshot) =>
+            querySnapshot.docs.map((doc) => {
+                const data = doc.data()
+                return {
+                    year: data.year,
+                    month: data.month,
+                    day: data.day,
+                    hour: data.hour,
+                    userId: data.userId,
+                    userEmail: data.userEmail,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    enable: data.enable,
+                }
+            })
+        )
+
+        schedules.sort((a, b) => {
+            const dateA = new Date(a.year, a.month, a.day, Math.floor(a.hour / 60), a.hour % 60)
+            const dateB = new Date(b.year, b.month, b.day, Math.floor(b.hour / 60), b.hour % 60)
+            return dateA.getTime() - dateB.getTime()
+        })
+
+        return schedules
+    } catch (error) {
+        console.error('Error fetching schedules:', error)
+        throw error
+    }
+}
+
+// Retorna agenda do mês
+export const GetScheduleByMonth = async (year: number, month: number): Promise<ScheduleObjectProps[]> => {
+    try {
+        const db = getFirestore()
+        const scheduleCollection = collection(db, 'schedule')
+
+        const q = query(scheduleCollection, where('year', '==', year), where('month', '==', month))
+
+        // Obtenha os documentos da consulta
+        const querySnapshot = await getDocs(q)
+
+        // Mapeie os documentos para o tipo 'Schedule'
+        const schedules: ScheduleObjectProps[] = querySnapshot.docs.map((doc) => {
+            const data = doc.data()
+            return {
+                year: data.year,
+                month: data.month,
+                day: data.day,
+                hour: data.hour,
+                userId: data.userId,
+                userEmail: data.userEmail,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                enable: data.enable,
+            }
+        })
+        return schedules
+    } catch (error) {
+        console.error('Error fetching schedules:', error)
+        throw error
+    }
+}
+
 // Retorna agenda filtrando por mês, enable: true, e disponível - userId: Vazio ("").
 export const GetAvailableScheduleByMonth = async (year: number, month: number): Promise<ScheduleObjectProps[]> => {
     try {
@@ -247,39 +335,6 @@ export const GetAvailableScheduleByMonth = async (year: number, month: number): 
                 }
             })
             .filter((schedule) => schedule.userId === '')
-        return schedules
-    } catch (error) {
-        console.error('Error fetching schedules:', error)
-        throw error
-    }
-}
-
-// Retorna agenda completa filtrando por mês
-export const GetScheduleByMonth = async (year: number, month: number): Promise<ScheduleObjectProps[]> => {
-    try {
-        const db = getFirestore()
-        const scheduleCollection = collection(db, 'schedule')
-
-        const q = query(scheduleCollection, where('year', '==', year), where('month', '==', month))
-
-        // Obtenha os documentos da consulta
-        const querySnapshot = await getDocs(q)
-
-        // Mapeie os documentos para o tipo 'Schedule'
-        const schedules: ScheduleObjectProps[] = querySnapshot.docs.map((doc) => {
-            const data = doc.data()
-            return {
-                year: data.year,
-                month: data.month,
-                day: data.day,
-                hour: data.hour,
-                userId: data.userId,
-                userEmail: data.userEmail,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                enable: data.enable,
-            }
-        })
         return schedules
     } catch (error) {
         console.error('Error fetching schedules:', error)
@@ -543,3 +598,45 @@ export const CancelAppointment = async (payload: { year: number; month: number; 
         console.error('Erro ao cancelar o agendamento:', error)
     }
 }
+
+/*
+    Em um projeto React utilizando TypeScript e Styled-components,
+    para uma aplicação Next.js com Material UI e integração com o Firebase,
+    crie uma função 'GetSchedule'.
+
+    Use essa função como referência:
+
+    export const GetScheduleByMonth = async (year: number, month: number): Promise<ScheduleObjectProps[]> => {
+        try {
+            const db = getFirestore()
+            const scheduleCollection = collection(db, 'schedule')
+
+            const q = query(scheduleCollection, where('year', '==', year), where('month', '==', month))
+
+            const querySnapshot = await getDocs(q)
+
+            const schedules: ScheduleObjectProps[] = querySnapshot.docs.map((doc) => {
+                const data = doc.data()
+                return {
+                    year: data.year,
+                    month: data.month,
+                    day: data.day,
+                    hour: data.hour,
+                    userId: data.userId,
+                    userEmail: data.userEmail,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    enable: data.enable,
+                }
+            })
+            return schedules
+        } catch (error) {
+            console.error('Error fetching schedules:', error)
+            throw error
+        }
+    }
+
+    Quero que essa nova função traga, em ordem cronológica, todos os dados da colection 'schedule' do mês
+    atual, do primeiro mês anterior ao atual, e dos próximos 3 meses a frente do mês
+    atual se existirem.
+*/

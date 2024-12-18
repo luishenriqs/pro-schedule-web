@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { GetScheduleByMonth, UpdateScheduleAvailability, WriteMultipleDataWithRetry } from '@common/api'
+import { GetSchedule, GetScheduleByMonth, UpdateScheduleAvailability, WriteMultipleDataWithRetry } from '@common/api'
 import { useNotification } from '@common/hooks/useNotification'
 import { useUser } from '@common/hooks/contexts/UserContext'
 import Header from '@common/components/Header'
@@ -35,6 +35,7 @@ export const MyAgendaComponent = () => {
     const { user } = useUser()
     const { emmitSuccess, emmitError, emmitAlert } = useNotification()
 
+    const [allSchedule, setAllSchedule] = useState<ScheduleObjectProps[]>([])
     const [schedule, setSchedule] = useState<ScheduleObjectProps[]>([])
     const [isSaving, setIsSaving] = useState(false)
     const [seeCalendar, setSeeCalendar] = useState(true)
@@ -58,6 +59,16 @@ export const MyAgendaComponent = () => {
         setSelectedDay({} as dataSelectedProps)
     }, [])
 
+    const getSchedule = useCallback(async () => {
+        const fetchedSchedule = await GetSchedule()
+
+        if (fetchedSchedule) {
+            setAllSchedule(fetchedSchedule)
+        } else {
+            emmitAlert('Nenhuma reserva encontrada!')
+        }
+    }, [emmitAlert])
+
     const getScheduleByMonth = useCallback(async () => {
         const fetchedSchedule = await GetScheduleByMonth(selectedYear, selectedMonth)
 
@@ -69,8 +80,11 @@ export const MyAgendaComponent = () => {
     }, [emmitAlert, selectedMonth, selectedYear])
 
     useEffect(() => {
-        if (user?.isAdmin) getScheduleByMonth()
-    }, [getScheduleByMonth, user?.isAdmin])
+        if (user?.isAdmin) {
+            getScheduleByMonth()
+            getSchedule()
+        }
+    }, [getSchedule, getScheduleByMonth, user?.isAdmin])
 
     const handleDayClick = useCallback(
         (day: number, month: number, year: number) => {
@@ -264,7 +278,7 @@ export const MyAgendaComponent = () => {
                             ) : (
                                 <SchedulingContent>
                                     <ListSchedule
-                                        schedule={schedule}
+                                        schedule={allSchedule}
                                         handleToggleAvailability={handleToggleAvailability}
                                         handleOpenCancelModal={handleOpenCancelModal}
                                         handleCreateNewSchedule={handleCreateNewSchedule}
