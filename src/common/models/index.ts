@@ -115,7 +115,7 @@ export type AppointmentsManagedProps = {
 export type NewScheduleProps = {
     selectNewDay: selectNewDayProps
     legend: string
-    handleSetNewDay: (newDayPayload: ScheduleObjectProps[]) => void
+    handleSetAppointment: (newDayPayload: ScheduleObjectProps[]) => void
 }
 
 export type HeaderProps = {

@@ -33,7 +33,6 @@ export const MyAgendaComponent = () => {
     const [seeCalendar, setSeeCalendar] = useState(true)
     const [openCancellationModal, setOpenCancellationModal] = useState(false)
     const [payload, setPayload] = useState<ScheduleObjectProps>({} as ScheduleObjectProps)
-    const [isUpLoading, setIsUpLoading] = useState(false)
     const [selectedDay, setSelectedDay] = useState<dataSelectedProps>({} as dataSelectedProps)
     const [selectNewDay, setSelectNewDay] = useState<selectNewDayProps>({} as selectNewDayProps)
     const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth())
@@ -42,7 +41,6 @@ export const MyAgendaComponent = () => {
     const cleanFirestore = useCallback(async () => {
         try {
             await DeleteOldSchedules()
-            console.info('Data model limpo com sucesso!')
         } catch (error) {
             console.error('Erro ao se limpar o data model', error)
         }
@@ -105,7 +103,6 @@ export const MyAgendaComponent = () => {
     const handleSave = useCallback(
         async (newDayPayload: ScheduleObjectProps[]) => {
             try {
-                setIsUpLoading(true)
                 const response = await WriteMultipleDataWithRetry(newDayPayload, 'schedule')
                 if (response.status === 201) {
                     emmitSuccess(response.message)
@@ -116,8 +113,6 @@ export const MyAgendaComponent = () => {
             } catch (error) {
                 console.error('Erro ao processar bloco:', error)
                 emmitError('Erro ao processar bloco!')
-            } finally {
-                setIsUpLoading(false)
             }
         },
         [emmitAlert, emmitError, emmitSuccess, router]
@@ -210,68 +205,60 @@ export const MyAgendaComponent = () => {
                     </TitleContainer>
                     {seeCalendar ? (
                         <Content>
-                            {isUpLoading ? (
-                                <LoadingComponent size="small" />
-                            ) : (
-                                <SchedulingContent>
-                                    <CalendarMyAgenda
-                                        schedule={schedule}
-                                        legend="Escolha o dia"
-                                        handleDayClick={handleDayClick}
-                                        handleCreateNewSchedule={handleCreateNewSchedule}
-                                        handleChangeMonth={handleChangeMonth}
-                                        onMonthChange={handleMonthChange}
-                                        onYearChange={handleYearChange}
-                                        selectedMonth={selectedMonth}
-                                        selectedYear={selectedYear}
-                                    />
-                                    <CalendarLegends />
+                            <SchedulingContent>
+                                <CalendarMyAgenda
+                                    schedule={schedule}
+                                    legend="Escolha o dia"
+                                    handleDayClick={handleDayClick}
+                                    handleCreateNewSchedule={handleCreateNewSchedule}
+                                    handleChangeMonth={handleChangeMonth}
+                                    onMonthChange={handleMonthChange}
+                                    onYearChange={handleYearChange}
+                                    selectedMonth={selectedMonth}
+                                    selectedYear={selectedYear}
+                                />
+                                <CalendarLegends />
 
-                                    {selectedDay?.data?.length > 0 && (
-                                        <>
-                                            {isSaving ? (
-                                                <LoadingComponent size="small" />
-                                            ) : (
-                                                <AppointmentsManaged
-                                                    appointmentsData={selectedDay}
-                                                    legend="Agenda do dia"
-                                                    handleToggleAvailability={handleToggleAvailability}
-                                                    handleOpenCancelModal={handleOpenCancelModal}
-                                                    handleCreateNewSchedule={handleCreateNewSchedule}
-                                                />
-                                            )}
-                                            {isExpiredDay(selectedDay.day, selectedDay.month, selectedDay.year) ? (
-                                                <ExpiredAppointmentLegend />
-                                            ) : (
-                                                <AppointmentsLegends />
-                                            )}
-                                        </>
-                                    )}
-                                    {!!selectNewDay?.day && (
-                                        <CreateNewAppointments
-                                            selectNewDay={selectNewDay}
-                                            legend="Adicione novos horários"
-                                            handleSetNewDay={handleSave}
-                                        />
-                                    )}
-                                </SchedulingContent>
-                            )}
+                                {selectedDay?.data?.length > 0 && (
+                                    <>
+                                        {isSaving ? (
+                                            <LoadingComponent size="small" />
+                                        ) : (
+                                            <AppointmentsManaged
+                                                appointmentsData={selectedDay}
+                                                legend="Agenda do dia"
+                                                handleToggleAvailability={handleToggleAvailability}
+                                                handleOpenCancelModal={handleOpenCancelModal}
+                                                handleCreateNewSchedule={handleCreateNewSchedule}
+                                            />
+                                        )}
+                                        {isExpiredDay(selectedDay.day, selectedDay.month, selectedDay.year) ? (
+                                            <ExpiredAppointmentLegend />
+                                        ) : (
+                                            <AppointmentsLegends />
+                                        )}
+                                    </>
+                                )}
+                                {!!selectNewDay?.day && (
+                                    <CreateNewAppointments
+                                        selectNewDay={selectNewDay}
+                                        legend="Adicione novos horários"
+                                        handleSetAppointment={handleSave}
+                                    />
+                                )}
+                            </SchedulingContent>
                         </Content>
                     ) : (
                         <Content>
-                            {isUpLoading ? (
-                                <LoadingComponent size="small" />
-                            ) : (
-                                <SchedulingContent>
-                                    <ListSchedule
-                                        schedule={fullSchedule}
-                                        handleToggleAvailability={handleToggleAvailability}
-                                        handleOpenCancelModal={handleOpenCancelModal}
-                                        handleCreateNewSchedule={handleCreateNewSchedule}
-                                    />
-                                    <AppointmentsLegends />
-                                </SchedulingContent>
-                            )}
+                            <SchedulingContent>
+                                <ListSchedule
+                                    schedule={fullSchedule}
+                                    handleToggleAvailability={handleToggleAvailability}
+                                    handleOpenCancelModal={handleOpenCancelModal}
+                                    handleCreateNewSchedule={handleCreateNewSchedule}
+                                />
+                                <AppointmentsLegends />
+                            </SchedulingContent>
                         </Content>
                     )}
                     <ModalCancellation

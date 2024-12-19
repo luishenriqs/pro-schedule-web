@@ -465,3 +465,21 @@ export const isExpiredDay = (day: number, month: number, year: number): boolean 
     today.setHours(0, 0, 0, 0)
     return inputDate < today
 }
+
+export const CheckNewDayPayloadAvailability = (
+    previusAgenda: ScheduleObjectProps[],
+    newPayload: ScheduleObjectProps[]
+): boolean => {
+    const existingHours = new Set(previusAgenda.map((item) => item.hour))
+
+    if (previusAgenda.length > 0 && newPayload.length > 0) {
+        for (const newItem of newPayload) {
+            if (existingHours.has(newItem.hour)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    return false
+}

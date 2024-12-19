@@ -631,8 +631,6 @@ export const DeleteOldSchedules = async (): Promise<void> => {
         })
 
         await Promise.all(batchDeletes)
-
-        console.info(`${batchDeletes.length} old schedules deleted successfully.`)
     } catch (error) {
         console.error('Error deleting old schedules:', error)
         throw error
