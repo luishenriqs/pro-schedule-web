@@ -55,14 +55,17 @@ export const NewScheduleComponent = () => {
 
     // GET SCHEDULE BY MONTH - ENABLE AND AVAILABLE
     const getScheduleByMonth = useCallback(async () => {
-        const schedule = await GetAvailableScheduleByMonth(selectedYear, selectedMonth)
-
-        if (schedule) {
-            setSchedule(schedule)
-            setIsLoading(false)
-        } else {
-            console.log('No schedule! ')
-            setIsLoading(false)
+        try {
+            const schedule = await GetAvailableScheduleByMonth(selectedYear, selectedMonth)
+            if (schedule) {
+                setSchedule(schedule)
+                setIsLoading(false)
+            } else {
+                console.log('No schedule! ')
+                setIsLoading(false)
+            }
+        } catch (error) {
+            console.error('Erro ao processar a requisição!', error)
         }
     }, [selectedMonth, selectedYear])
 

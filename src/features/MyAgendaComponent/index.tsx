@@ -1,6 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { GetSchedule, GetScheduleByMonth, UpdateScheduleAvailability, WriteMultipleDataWithRetry } from '@common/api'
+import {
+    DeleteOldSchedules,
+    GetSchedule,
+    GetScheduleByMonth,
+    UpdateScheduleAvailability,
+    WriteMultipleDataWithRetry,
+} from '@common/api'
 import { useNotification } from '@common/hooks/useNotification'
 import { useUser } from '@common/hooks/contexts/UserContext'
 import Header from '@common/components/Header'
@@ -33,6 +39,38 @@ export const MyAgendaComponent = () => {
     const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth())
     const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear())
 
+    const cleanFirestore = useCallback(async () => {
+        try {
+            await DeleteOldSchedules()
+            console.info('Data model limpo com sucesso!')
+        } catch (error) {
+            console.error('Erro ao se limpar o data model', error)
+        }
+    }, [])
+
+    useEffect(() => {
+        cleanFirestore()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const getSchedule = useCallback(async () => {
+        try {
+            const fullSchedule = await GetSchedule()
+            if (fullSchedule) setFullSchedule(fullSchedule)
+            const scheduleByMonth = await GetScheduleByMonth(selectedYear, selectedMonth)
+            if (scheduleByMonth) setSchedule(sortSchedule(scheduleByMonth))
+        } catch (error) {
+            console.error('Erro na requisição', error)
+            emmitError('Erro na requisição')
+        }
+    }, [emmitError, selectedMonth, selectedYear])
+
+    useEffect(() => {
+        if (user?.isAdmin) {
+            getSchedule()
+        }
+    }, [getSchedule, user?.isAdmin])
+
     const handleMonthChange = (month: number) => {
         setSelectedMonth(month)
     }
@@ -44,33 +82,6 @@ export const MyAgendaComponent = () => {
     const handleChangeMonth = useCallback(() => {
         setSelectedDay({} as dataSelectedProps)
     }, [])
-
-    const getSchedule = useCallback(async () => {
-        const fetchedSchedule = await GetSchedule()
-
-        if (fetchedSchedule) {
-            setFullSchedule(fetchedSchedule)
-        } else {
-            emmitAlert('Nenhuma reserva encontrada!')
-        }
-    }, [emmitAlert])
-
-    const getScheduleByMonth = useCallback(async () => {
-        const fetchedSchedule = await GetScheduleByMonth(selectedYear, selectedMonth)
-
-        if (fetchedSchedule) {
-            setSchedule(sortSchedule(fetchedSchedule))
-        } else {
-            emmitAlert('Nenhuma reserva encontrada!')
-        }
-    }, [emmitAlert, selectedMonth, selectedYear])
-
-    useEffect(() => {
-        if (user?.isAdmin) {
-            getScheduleByMonth()
-            getSchedule()
-        }
-    }, [getSchedule, getScheduleByMonth, user?.isAdmin])
 
     const handleDayClick = useCallback(
         (day: number, month: number, year: number) => {

@@ -9,6 +9,7 @@ import {
     where,
     getDoc,
     updateDoc,
+    deleteDoc,
 } from 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
 import {
@@ -599,6 +600,45 @@ export const CancelAppointment = async (payload: { year: number; month: number; 
     }
 }
 
+export const DeleteOldSchedules = async (): Promise<void> => {
+    try {
+        const db = getFirestore()
+        const scheduleCollection = collection(db, 'schedule')
+
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
+
+        const q = query(
+            scheduleCollection,
+            where('userId', '==', ''),
+            where('userEmail', '==', ''),
+            where('firstName', '==', ''),
+            where('lastName', '==', '')
+        )
+
+        const querySnapshot = await getDocs(q)
+
+        const batchDeletes: Promise<void>[] = querySnapshot.docs.map(async (docSnapshot) => {
+            const data = docSnapshot.data()
+
+            const docDate = new Date(data.year, data.month, data.day)
+            docDate.setHours(0, 0, 0, 0)
+
+            if (docDate < today) {
+                const documentRef = doc(db, 'schedule', docSnapshot.id)
+                await deleteDoc(documentRef)
+            }
+        })
+
+        await Promise.all(batchDeletes)
+
+        console.info(`${batchDeletes.length} old schedules deleted successfully.`)
+    } catch (error) {
+        console.error('Error deleting old schedules:', error)
+        throw error
+    }
+}
+
 /*
     Em um projeto React utilizando TypeScript e Styled-components,
     para uma aplicação Next.js com Material UI e integração com o Firebase,
@@ -636,7 +676,7 @@ export const CancelAppointment = async (payload: { year: number; month: number; 
         }
     }
 
-    Quero que essa nova função traga, em ordem cronológica, todos os dados da colection 'schedule' do mês
-    atual, do primeiro mês anterior ao atual, e dos próximos 3 meses a frente do mês
-    atual se existirem.
+    Quero que essa nova função delete todos os objetos dessa coleção que tiverem
+    uma data (formada pelas propriedades year, month e day) anterior ao dia de hoje
+    e que tenham as propriedades userId, userEmail, firstName e lastName vazia.
 */
