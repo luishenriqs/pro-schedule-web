@@ -4,7 +4,7 @@ import { GetScheduleByDay } from '@common/api'
 import { useNotification } from '@common/hooks/useNotification'
 import { TimeSelection } from '../TimeSelection'
 import { FilledPrimaryButton } from '../Button'
-import { CheckNewDayPayloadAvailability, createNewDayPayload, formatDate } from '@common/utils/helpers'
+import { CheckPayloadAvailability, createNewDayPayload, formatDate } from '@common/utils/helpers'
 import { Genos_Primary_24_500, Genos_Secondary_24_500 } from '../Typography'
 import { ButtonsContainer, Container, DateContent, TitleContainer } from './styles'
 
@@ -20,7 +20,7 @@ export const CreateNewAppointments = ({ selectNewDay, legend, handleSetAppointme
         try {
             const previusAgenda = await GetScheduleByDay(selectNewDay.year, selectNewDay.month, selectNewDay.day)
             if (previusAgenda) {
-                const payloadAvailable = CheckNewDayPayloadAvailability(previusAgenda, newPayload)
+                const payloadAvailable = CheckPayloadAvailability(previusAgenda, newPayload)
                 setPayloadAvailability(payloadAvailable)
             }
         } catch (error) {

@@ -466,7 +466,7 @@ export const isExpiredDay = (day: number, month: number, year: number): boolean 
     return inputDate < today
 }
 
-export const CheckNewDayPayloadAvailability = (
+export const CheckPayloadAvailability = (
     previusAgenda: ScheduleObjectProps[],
     newPayload: ScheduleObjectProps[]
 ): boolean => {

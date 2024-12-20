@@ -16,14 +16,10 @@
 
 **MyAgendaComponent**
 
-_Priority 1_
-
-1 - Criar validação para impedir adição de novo horário se já existente.
-
 **CreateAgendaComponent**
-1 - Refatorar estilização do 'CalendarCreateAgenda'
 
-2 - Criar validação para que não seja possível recriar agenda já existente
+_Priority 1_
+1 - Criar validação para que não seja possível recriar agenda já existente
 
 **UsersComponent**
 

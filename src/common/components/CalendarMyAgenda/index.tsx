@@ -1,31 +1,19 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Button } from '@mui/material'
-import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_14_500, Genos_White_24_500 } from '../Typography'
+import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_White_14_500 } from '../Typography'
 import { CalendarNewScheduleProps } from '@common/models'
-import {
-    filterDaysByDateAndMonth,
-    getDayButtonType,
-    getMinMonth,
-    getNextMonthDate,
-    getPreviousMonthDate,
-    getWeekDays,
-    isExpiredDay,
-} from '@common/utils/helpers'
+import { getMinMonth, getNextMonthDate, getPreviousMonthDate, getWeekDays } from '@common/utils/helpers'
 import {
     Container,
     CalendarContainer,
-    AvailableDayButton,
-    UnavailableDayButton,
-    DisabledDayButton,
     Header,
     HeaderLabel,
     DaysWeekContainer,
     ArrowLeftIcon,
     ArrowRightIcon,
-    CalendarControlContainer,
-    CanceledDayButton,
     ArrowLeftIconDisabled,
 } from './styles'
+import { calendarButtons } from './calendarButtons'
 
 export const CalendarMyAgenda = ({
     schedule,
@@ -67,109 +55,6 @@ export const CalendarMyAgenda = ({
 
     const weekDays = getWeekDays({ short: true })
 
-    // Memoização do calendário
-    const calendarButtons = useMemo(() => {
-        const firstWeekdayOfMonthIndex = new Date(selectedDate.getFullYear(), selectedMonth, 1).getDay()
-        const daysQtd = new Date(selectedDate.getFullYear(), selectedMonth + 1, 0).getDate()
-
-        // Filtra todos os dias relevantes para o mês selecionado
-        const allDays = filterDaysByDateAndMonth(schedule, selectedYear, selectedMonth)
-
-        const buttons = []
-
-        // Alinha dias do mês aos dias da semana
-        for (let i = 0; i < firstWeekdayOfMonthIndex; i++) {
-            buttons.push(<div key={`empty-${i}`} />)
-        }
-
-        for (let i = 1; i <= daysQtd; i++) {
-            const isScheduleDays = allDays.includes(i)
-            const day = i
-
-            // Verifica se o dia está no passado
-            const isExpired = isExpiredDay(day, selectedMonth, selectedYear)
-
-            buttons.push(
-                <CalendarControlContainer key={i}>
-                    {isScheduleDays ? (
-                        (() => {
-                            const scheduleOfTheDay = schedule.filter((item) => item.day === day)
-                            const buttonType = getDayButtonType(scheduleOfTheDay, day, isExpired)
-
-                            switch (buttonType) {
-                                case 'Available':
-                                    return (
-                                        <AvailableDayButton
-                                            key={`available-${i}`}
-                                            onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
-                                            aria-label={`Dia ${day} disponível`}
-                                            role="button"
-                                        >
-                                            <Genos_Secondary_24_500 text={day} />
-                                        </AvailableDayButton>
-                                    )
-                                case 'Unavailable':
-                                    return (
-                                        <UnavailableDayButton
-                                            key={`unavailable-${i}`}
-                                            onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
-                                            aria-label={`Dia ${day} indisponível`}
-                                            role="button"
-                                        >
-                                            <Genos_White_24_500 text={day} />
-                                        </UnavailableDayButton>
-                                    )
-                                case 'Canceled':
-                                    return (
-                                        <CanceledDayButton
-                                            key={`canceled-${i}`}
-                                            onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
-                                            aria-label={`Dia ${day} cancelado`}
-                                            role="button"
-                                        >
-                                            <Genos_Secondary_24_500 text={day} />
-                                        </CanceledDayButton>
-                                    )
-                                case 'Disabled':
-                                    return (
-                                        <DisabledDayButton
-                                            key={`disabled-${i}`}
-                                            onClick={() => handleDayClick(day, selectedMonth, selectedYear)}
-                                            aria-label={`Dia ${day} desabilitado`}
-                                            role="button"
-                                        >
-                                            <Genos_Secondary_24_500 text={day} />
-                                        </DisabledDayButton>
-                                    )
-                            }
-                        })()
-                    ) : (
-                        <DisabledDayButton
-                            key={`disabled-${i}`}
-                            onClick={
-                                !isExpired
-                                    ? () =>
-                                          handleCreateNewSchedule &&
-                                          handleCreateNewSchedule(day, selectedMonth, selectedYear)
-                                    : () => handleDayClick(day, selectedMonth, selectedYear)
-                            }
-                            aria-label={
-                                !isExpired
-                                    ? `Dia ${day} disponível para agendamento`
-                                    : `Dia ${day} indisponível no passado`
-                            }
-                            role="button"
-                        >
-                            <Genos_Secondary_24_500 text={day} />
-                        </DisabledDayButton>
-                    )}
-                </CalendarControlContainer>
-            )
-        }
-
-        return buttons
-    }, [handleCreateNewSchedule, handleDayClick, schedule, selectedDate, selectedMonth, selectedYear])
-
     return (
         <Container>
             <Genos_Secondary_24_500 text={legend} />
@@ -199,7 +84,14 @@ export const CalendarMyAgenda = ({
                         <Genos_White_14_500 text={day} />
                     </DaysWeekContainer>
                 ))}
-                {calendarButtons}
+                {calendarButtons({
+                    schedule,
+                    handleDayClick,
+                    handleCreateNewSchedule,
+                    selectedMonth,
+                    selectedYear,
+                    selectedDate,
+                })}
             </CalendarContainer>
         </Container>
     )

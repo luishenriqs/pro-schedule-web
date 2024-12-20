@@ -72,6 +72,15 @@ export type CalendarCreateAgendaProps = {
     handleChangeMonth: () => void
 }
 
+export type CalendarButtonsProps = {
+    schedule: ScheduleObjectProps[]
+    handleDayClick: (day: number, month: number, year: number) => void
+    handleCreateNewSchedule?: (day: number, month: number, year: number) => void
+    selectedMonth: number
+    selectedYear: number
+    selectedDate: Date
+}
+
 export type ListScheduleProps = {
     schedule: ScheduleObjectProps[]
     handleToggleAvailability: (value: ScheduleObjectProps) => void
