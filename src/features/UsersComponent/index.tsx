@@ -16,6 +16,9 @@ import {
     ButtonsIconsContainer,
     EditIcon,
     ButtonsTextContainer,
+    AdminIcon,
+    UserContainer,
+    ManagerIcon,
 } from './styles'
 
 export const UsersComponent = () => {
@@ -61,7 +64,11 @@ export const UsersComponent = () => {
                     <Content>
                         {users.map((user) => (
                             <UserRow key={user.id}>
-                                <Questrial_Secondary_20_500 text={user.firstName + ' ' + user.lastName} />
+                                <UserContainer>
+                                    <Questrial_Secondary_20_500 text={user.firstName + ' ' + user.lastName} />
+                                    {user.isAdmin && <AdminIcon />}
+                                    {user.isManager && <ManagerIcon />}
+                                </UserContainer>
                                 <ButtonsContainer>
                                     <ButtonsTextContainer>
                                         <FilledPrimaryButton

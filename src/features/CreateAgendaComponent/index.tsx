@@ -65,6 +65,7 @@ export const CreateAgendaComponent = () => {
                         setSelectedMonth(value)
                     } else {
                         emmitAlert('Este mês já possúi agendamentos!')
+                        setSelectedMonth({} as SelectedDateProps)
                     }
                 }
             } catch (error) {

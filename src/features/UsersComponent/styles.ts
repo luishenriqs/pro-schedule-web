@@ -1,6 +1,7 @@
 import { styled } from '@mui/material/styles'
 import { Box } from '@mui/material'
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
+import StarIcon from '@mui/icons-material/Star'
 import TimelineIcon from '@mui/icons-material/Timeline'
 import { COLORS } from '@common/styles/theme'
 
@@ -44,6 +45,15 @@ export const UserRow = styled(Box)({
     borderRadius: '5px',
     background: COLORS.background,
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+})
+
+export const UserContainer = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 'auto',
+    height: 'auto',
 })
 
 export const ButtonsContainer = styled(Box)({
@@ -93,4 +103,18 @@ export const HistoryIcon = styled(TimelineIcon)({
     width: '25px',
     height: '25px',
     marginRight: '10px',
+})
+
+export const AdminIcon = styled(StarIcon)({
+    color: COLORS.primary,
+    width: '25px',
+    height: '25px',
+    marginLeft: '10px',
+})
+
+export const ManagerIcon = styled(StarIcon)({
+    color: COLORS.error,
+    width: '25px',
+    height: '25px',
+    marginLeft: '10px',
 })
