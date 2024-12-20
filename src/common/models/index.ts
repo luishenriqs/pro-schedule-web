@@ -261,3 +261,9 @@ export type formattedDateProps = {
     formattedDate: string
     dayOfWeek: string
 }
+
+export type MonthsScheduledProps = {
+    month: number
+    name: string
+    year: number
+}

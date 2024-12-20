@@ -21,7 +21,14 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth'
 import { firebaseConfig } from '../../../firebaseConfig'
-import { UserProps, ScheduleObjectProps, RequestResponseProps, UserSighInProps } from '@common/models'
+import {
+    UserProps,
+    ScheduleObjectProps,
+    RequestResponseProps,
+    UserSighInProps,
+    MonthsScheduledProps,
+} from '@common/models'
+import { MONTH_NAMES } from '@common/models/enuns'
 
 const app = initializeApp(firebaseConfig)
 const firestore = getFirestore(app)
@@ -415,6 +422,43 @@ export const GetUserByEmail = async (id: string) => {
     }
 }
 
+export const GetMonthsScheduled = async (): Promise<MonthsScheduledProps[]> => {
+    try {
+        const db = getFirestore()
+        const scheduleCollection = collection(db, 'schedule')
+
+        const querySnapshot = await getDocs(scheduleCollection)
+
+        const uniqueMonths = new Set<string>()
+
+        querySnapshot.forEach((doc) => {
+            const data = doc.data()
+            if (
+                typeof data.year === 'number' &&
+                typeof data.month === 'number' &&
+                data.month >= 0 &&
+                data.month <= 11
+            ) {
+                uniqueMonths.add(`${data.year}-${data.month}`)
+            }
+        })
+
+        const scheduleMonths: MonthsScheduledProps[] = Array.from(uniqueMonths).map((item) => {
+            const [year, month] = item.split('-').map(Number)
+            return {
+                month,
+                name: MONTH_NAMES[month],
+                year,
+            }
+        })
+
+        return scheduleMonths
+    } catch (error) {
+        console.error('Error fetching schedule months:', error)
+        throw error
+    }
+}
+
 export const UpdateUser = async (userEmail: string, payload: UserProps) => {
     try {
         const db = getFirestore()
@@ -674,7 +718,16 @@ export const DeleteOldSchedules = async (): Promise<void> => {
         }
     }
 
-    Quero que essa nova função delete todos os objetos dessa coleção que tiverem
-    uma data (formada pelas propriedades year, month e day) anterior ao dia de hoje
-    e que tenham as propriedades userId, userEmail, firstName e lastName vazia.
+    Quero que essa nova função retorne um array de objetos como esse:
+
+    [
+        {"month":11,"name":"dezembro","year":2024}
+    ]
+
+    A função deve:
+    
+        Identificar todos os meses existentes na coleção levando em consideração a data completa, mês e ano.
+        Para cada mês identificado crir um objeto como esse: {"month":11,"name":"dezembro","year":2024}
+        Retornar um array com todos os objetos criados.
+
 */

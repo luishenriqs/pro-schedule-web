@@ -1,20 +1,26 @@
 import React, { useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useUser } from '@common/hooks/contexts/UserContext'
+import { GetMonthsScheduled, WriteMultipleDataWithRetry } from '@common/api'
 import Header from '@common/components/Header'
 import { CalendarCreateAgenda } from '@common/components/CalendarCreateAgenda'
 import { EditableAppointments } from '@common/components/EditableAppointments'
-import { dataSelectedProps, PeriodProps, ScheduleObjectProps, SelectedDateProps } from '@common/models'
 import { FilledPrimaryButton } from '@common/components/Button'
 import { MonthYearSelect } from '@common/components/MonthYearSelect'
 import { DaysOfWeekSelect } from '@common/components/DaysOfWeekSelect'
 import { TimeSelection } from '@common/components/TimeSelection'
 import { LoadingComponent } from '@common/components/Loading'
 import { AbsencePeriodSelector } from '@common/components/AbsencePeriodSelector'
-import { filterAppointmentsByDay, generateSchedule } from '@common/utils/helpers'
-import { WriteMultipleDataWithRetry } from '@common/api'
 import { useNotification } from '@common/hooks/useNotification'
 import { GenosPrimaryButtonText } from '@common/components/ButtonText'
+import {
+    dataSelectedProps,
+    MonthsScheduledProps,
+    PeriodProps,
+    ScheduleObjectProps,
+    SelectedDateProps,
+} from '@common/models'
+import { filterAppointmentsByDay, generateSchedule, isMonthNotInSchedule } from '@common/utils/helpers'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Questrial_Secondary_20_500 } from '@common/components/Typography'
 import {
     ButtonsContainer,
@@ -49,9 +55,25 @@ export const CreateAgendaComponent = () => {
         setIsLoading(false)
     }, 100)
 
-    const handleDateChange = (value: { month: number; name: string; year: number }) => {
-        setSelectedMonth(value)
-    }
+    const handleDateChange = useCallback(
+        async (value: MonthsScheduledProps) => {
+            try {
+                const fullSchedule = await GetMonthsScheduled()
+                if (fullSchedule) {
+                    const monthAvailable = isMonthNotInSchedule(fullSchedule, value)
+                    if (monthAvailable) {
+                        setSelectedMonth(value)
+                    } else {
+                        emmitAlert('Este mês já possúi agendamentos!')
+                    }
+                }
+            } catch (error) {
+                console.error('Erro na requisição', error)
+                emmitError('Erro na requisição')
+            }
+        },
+        [emmitAlert, emmitError]
+    )
 
     const handleDaysChange = (selectedDays: string[]) => {
         setSelectedWeekDays(selectedDays)

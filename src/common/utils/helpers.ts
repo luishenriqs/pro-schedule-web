@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { CreateAuth, WriteData } from '@common/api'
 import { SxProps, Theme } from '@mui/material/styles'
 import { utcToZonedTime } from 'date-fns-tz'
+import { MONTH_NAMES } from '@common/models/enuns'
 import {
     ScheduleObjectProps,
     GetDateProps,
@@ -11,6 +12,7 @@ import {
     PeriodProps,
     selectNewDayProps,
     formattedDateProps,
+    MonthsScheduledProps,
 } from '@common/models'
 
 export const initialScript = async () => {
@@ -225,26 +227,11 @@ export function getHourButtonType(data: ScheduleObjectProps): string {
 }
 
 export const formatDate = (day: number, month: number, year: number): string => {
-    const months = [
-        'janeiro',
-        'fevereiro',
-        'março',
-        'abril',
-        'maio',
-        'junho',
-        'julho',
-        'agosto',
-        'setembro',
-        'outubro',
-        'novembro',
-        'dezembro',
-    ]
-
     if (month < 0 || month > 11) {
         throw new Error('O mês deve estar entre 0 e 11.')
     }
 
-    return `${day} de ${months[month]} de ${year}`
+    return `${day} de ${MONTH_NAMES[month]} de ${year}`
 }
 
 export const formatDateShortVersion = (day: number, month: number, year: number): formattedDateProps => {
@@ -482,4 +469,16 @@ export const CheckPayloadAvailability = (
     }
 
     return false
+}
+
+export const isMonthNotInSchedule = (
+    fullSchedule: MonthsScheduledProps[],
+    selectedMonth: MonthsScheduledProps
+): boolean => {
+    return !fullSchedule.some(
+        (schedule) =>
+            schedule.year === selectedMonth.year &&
+            schedule.month === selectedMonth.month &&
+            schedule.name === selectedMonth.name
+    )
 }

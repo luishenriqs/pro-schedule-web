@@ -1,5 +1,5 @@
-import { ScheduleObjectProps } from '@common/models'
-import { CheckPayloadAvailability, isExpiredDay } from './helpers'
+import { MonthsScheduledProps, ScheduleObjectProps } from '@common/models'
+import { CheckPayloadAvailability, isExpiredDay, isMonthNotInSchedule } from './helpers'
 
 describe('isExpiredDay', () => {
     it('should return true if the input date is before today', () => {
@@ -101,6 +101,53 @@ describe('CheckPayloadAvailability', () => {
 
     it('should returns true if there are no conflicting times', () => {
         const result = CheckPayloadAvailability(previusAgendaWithoutConflicts, newPayload)
+        expect(result).toBe(true)
+    })
+})
+
+describe('isMonthNotInSchedule', () => {
+    const fullSchedule: MonthsScheduledProps[] = [
+        {
+            month: 11,
+            name: 'dezembro',
+            year: 2024,
+        },
+        {
+            month: 0,
+            name: 'janeiro',
+            year: 2025,
+        },
+        {
+            month: 1,
+            name: 'fevereiro',
+            year: 2025,
+        },
+        {
+            month: 2,
+            name: 'março',
+            year: 2025,
+        },
+    ]
+
+    const unavailableSelectedMonth = {
+        month: 1,
+        name: 'fevereiro',
+        year: 2025,
+    }
+
+    const availableSelectedMonth = {
+        month: 4,
+        name: 'maio',
+        year: 2025,
+    }
+
+    it('should return false if month already has appointments', () => {
+        const result = isMonthNotInSchedule(fullSchedule, unavailableSelectedMonth)
+        expect(result).toBe(false)
+    })
+
+    it('should return true if month has no appointments', () => {
+        const result = isMonthNotInSchedule(fullSchedule, availableSelectedMonth)
         expect(result).toBe(true)
     })
 })

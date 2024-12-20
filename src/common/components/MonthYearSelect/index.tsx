@@ -1,27 +1,13 @@
 import React, { useState } from 'react'
 import { MonthYearSelectProps } from '@common/models'
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
-import { Container, SelectContainer } from './styles'
+import { MONTHS } from '@common/models/enuns'
 import { Genos_Secondary_20_500 } from '../Typography'
+import { Container, SelectContainer } from './styles'
 
 export const MonthYearSelect = ({ onChange }: MonthYearSelectProps) => {
     const [selectedMonth, setSelectedMonth] = useState<number | null>(null)
     const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear())
-
-    const months = [
-        { index: 0, name: 'janeiro' },
-        { index: 1, name: 'fevereiro' },
-        { index: 2, name: 'março' },
-        { index: 3, name: 'abril' },
-        { index: 4, name: 'maio' },
-        { index: 5, name: 'junho' },
-        { index: 6, name: 'julho' },
-        { index: 7, name: 'agosto' },
-        { index: 8, name: 'setembro' },
-        { index: 9, name: 'outubro' },
-        { index: 10, name: 'novembro' },
-        { index: 11, name: 'dezembro' },
-    ]
 
     const currentDate = new Date()
     const currentMonth = currentDate.getMonth()
@@ -33,9 +19,9 @@ export const MonthYearSelect = ({ onChange }: MonthYearSelectProps) => {
     // Get months filtered based on selected year
     const getFilteredMonths = () => {
         if (selectedYear === currentYear) {
-            return months.filter((month) => month.index >= currentMonth) // Only current and future months
+            return MONTHS.filter((month) => month.index >= currentMonth) // Only current and future months
         }
-        return months // All months for future years
+        return MONTHS // All months for future years
     }
 
     const handleMonthChange = (event: SelectChangeEvent<number>) => {
@@ -45,7 +31,7 @@ export const MonthYearSelect = ({ onChange }: MonthYearSelectProps) => {
         // Emit the selected value
         const selected = {
             month: monthIndex,
-            name: months.find((month) => month.index === monthIndex)?.name || '',
+            name: MONTHS.find((month) => month.index === monthIndex)?.name || '',
             year: selectedYear,
         }
         onChange(selected)
