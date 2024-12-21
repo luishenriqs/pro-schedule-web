@@ -3,6 +3,7 @@ import { MonthsScheduledProps, ScheduleObjectProps } from '@common/models'
 import {
     CheckPayloadAvailability,
     filterExpiredAppointments,
+    filterFutureAppointments,
     getMinutesOfDayFromTimestamp,
     isExpiredDay,
     isMonthNotInSchedule,
@@ -156,6 +157,13 @@ describe('isMonthNotInSchedule', () => {
     it('should return true if month has no appointments', () => {
         const result = isMonthNotInSchedule(fullSchedule, availableSelectedMonth)
         expect(result).toBe(true)
+    })
+})
+
+describe('getMinutesOfDayFromTimestamp', () => {
+    it('should return the correct time in minutes', () => {
+        const result = getMinutesOfDayFromTimestamp(1734796578779)
+        expect(result).toEqual(776)
     })
 })
 
@@ -364,6 +372,221 @@ describe('filterExpiredAppointments', () => {
                 month: currentMonth,
                 day: currentDay,
                 hour: brasiliaTime + 60,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+        ])
+    })
+})
+
+describe('filterFutureAppointments', () => {
+    const timeZone = 'America/Sao_Paulo'
+    const today = utcToZonedTime(new Date(), timeZone)
+    const currentYear = today.getFullYear()
+    const currentMonth = today.getMonth()
+    const currentDay = today.getDate()
+    const utcTime = utcToZonedTime(new Date(), timeZone)
+    const brasiliaTime = getMinutesOfDayFromTimestamp(utcToZonedTime(utcTime, timeZone).getTime())
+
+    it('should maintain appointments from previous years', () => {
+        const schedulesPastYear: ScheduleObjectProps[] = [
+            {
+                year: 2023,
+                month: currentMonth,
+                day: currentDay,
+                hour: 600,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay,
+                hour: brasiliaTime + 60,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+        ]
+        const result = filterFutureAppointments(schedulesPastYear)
+        expect(result).toEqual([
+            {
+                year: 2023,
+                month: currentMonth,
+                day: currentDay,
+                hour: 600,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+        ])
+    })
+
+    it('should maintain appointments from previous months', () => {
+        const schedulesPastMonth: ScheduleObjectProps[] = [
+            {
+                year: currentYear,
+                month: currentMonth > 0 ? currentMonth - 1 : 0,
+                day: 1,
+                hour: 60,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay,
+                hour: brasiliaTime + 60,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+        ]
+        const result = filterFutureAppointments(schedulesPastMonth)
+        expect(result).toEqual([
+            {
+                year: currentYear,
+                month: currentMonth > 0 ? currentMonth - 1 : 0,
+                day: 1,
+                hour: 60,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+        ])
+    })
+
+    it('should maintain appointments from previous days', () => {
+        const schedulesPastDay: ScheduleObjectProps[] = [
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay > 1 ? currentDay - 1 : 1,
+                hour: 1320,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay,
+                hour: brasiliaTime + 60,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+        ]
+        const result = filterFutureAppointments(schedulesPastDay)
+        expect(result).toEqual([
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay > 1 ? currentDay - 1 : 1,
+                hour: 1320,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+        ])
+    })
+
+    it('should maintain previous appointments', () => {
+        const schedulesPastHour: ScheduleObjectProps[] = [
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay,
+                hour: 1,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay,
+                hour: brasiliaTime + 60,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+        ]
+        const result = filterFutureAppointments(schedulesPastHour)
+        expect(result).toEqual([
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay,
+                hour: 1,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+        ])
+    })
+
+    it('should maintain appointments from the current time slot', () => {
+        const schedulesCurrentHour: ScheduleObjectProps[] = [
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay,
+                hour: brasiliaTime,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay,
+                hour: brasiliaTime + 60,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+        ]
+        const result = filterFutureAppointments(schedulesCurrentHour)
+        expect(result).toEqual([
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay,
+                hour: brasiliaTime,
                 userId: '',
                 userEmail: '',
                 firstName: '',
