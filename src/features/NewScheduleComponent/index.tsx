@@ -61,7 +61,6 @@ export const NewScheduleComponent = () => {
                 setSchedule(schedule)
                 setIsLoading(false)
             } else {
-                console.log('No schedule! ')
                 setIsLoading(false)
             }
         } catch (error) {

@@ -494,6 +494,7 @@ export const getMinutesOfDayFromTimestamp = (timestamp: number): number => {
     return hours * 60 + minutes
 }
 
+// Retorna apenas agendamentos futuros
 export const filterExpiredAppointments = (schedules: ScheduleObjectProps[]) => {
     const timeZone = 'America/Sao_Paulo'
     const today = utcToZonedTime(new Date(), timeZone)
@@ -516,6 +517,33 @@ export const filterExpiredAppointments = (schedules: ScheduleObjectProps[]) => {
             return false // Horário já passou
 
         return true // Agendamento válido
+    })
+
+    return schedulesFiltered
+}
+
+export const filterFutureAppointments = (schedules: ScheduleObjectProps[]) => {
+    const timeZone = 'America/Sao_Paulo'
+    const today = utcToZonedTime(new Date(), timeZone)
+    const currentYear = today.getFullYear()
+    const currentMonth = today.getMonth()
+    const currentDay = today.getDate()
+    const utcTime = utcToZonedTime(new Date(), timeZone)
+    const brasiliaTime = getMinutesOfDayFromTimestamp(utcToZonedTime(utcTime, timeZone).getTime())
+
+    const schedulesFiltered = schedules.filter((schedule: ScheduleObjectProps) => {
+        if (schedule.year < currentYear) return true // Ano já passou
+        if (schedule.year === currentYear && schedule.month < currentMonth) return true // Mês já passou
+        if (schedule.year === currentYear && schedule.month === currentMonth && schedule.day < currentDay) return true // Dia já passou
+        if (
+            schedule.year === currentYear &&
+            schedule.month === currentMonth &&
+            schedule.day === currentDay &&
+            schedule.hour <= brasiliaTime
+        )
+            return true // Horário já passou
+
+        return false // Agendamento futuro
     })
 
     return schedulesFiltered

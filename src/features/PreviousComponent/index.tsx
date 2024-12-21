@@ -1,35 +1,44 @@
-import React, { useEffect, useState } from 'react'
-import { Firestore, collection, getDocs, getFirestore } from 'firebase/firestore'
-import { initializeApp } from 'firebase/app'
-import { firebaseConfig } from '../../../firebaseConfig'
+import React, { useCallback, useEffect, useState } from 'react'
+import { GetPreviusAppointments } from '@common/api'
+import { useUser } from '@common/hooks/contexts/UserContext'
 import Header from '@common/components/Header'
 import { LoadingComponent } from '@common/components/Loading'
-import { Genos_Primary_20_500, Questrial_Primary_20_500 } from '@common/components/Typography'
-import { Container, PreviousContent } from './styles'
+import { ScheduleObjectProps } from '@common/models'
+import { formatDateShortVersion, integerToTime } from '@common/utils/helpers'
+import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_Disabled_24_500 } from '@common/components/Typography'
+import {
+    AppointmentRow,
+    Container,
+    Content,
+    DateContentColumn,
+    DateContentRow,
+    InfoContent,
+    TitleContainer,
+} from './styles'
 
 export const PreviousComponent = () => {
-    const app = initializeApp(firebaseConfig)
-    const firebase = getFirestore(app)
+    const { user } = useUser()
 
     const [isLoading, setIsLoading] = useState(true)
+    const [previusSchedule, setPreviusSchedule] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
 
-    setTimeout(() => {
-        setIsLoading(false)
-    }, 100)
-
-    async function getData(firebase: Firestore) {
-        const users = collection(firebase, 'users')
-        const querySnapshot = await getDocs(users)
-        const dataList = querySnapshot.docs.map((doc) => doc.data())
-
-        // console.log('dataList ----> ', dataList)
-
-        return dataList
-    }
+    const getPrevius = useCallback(async () => {
+        try {
+            const previusSchedule = user?.email && (await GetPreviusAppointments(user?.email))
+            if (previusSchedule) {
+                setPreviusSchedule(previusSchedule)
+                setIsLoading(false)
+            } else {
+                setIsLoading(false)
+            }
+        } catch (error) {
+            console.error('Erro ao processar a requisição!', error)
+        }
+    }, [user?.email])
 
     useEffect(() => {
-        getData(firebase)
-    }, [firebase])
+        getPrevius()
+    }, [getPrevius])
 
     return (
         <>
@@ -40,10 +49,37 @@ export const PreviousComponent = () => {
             ) : (
                 <Container>
                     <Header />
-                    <PreviousContent>
-                        <Genos_Primary_20_500 text="PreviousComponent - Genos" />
-                        <Questrial_Primary_20_500 text="PreviousComponent - Questrial" />
-                    </PreviousContent>
+                    <TitleContainer>
+                        {user && <Genos_Primary_24_500 text={`Olá ${user.firstName}`} />}
+                        {previusSchedule.length > 0 && (
+                            <Genos_Secondary_24_500 text="Este é seu histórico de consultas:" />
+                        )}
+                    </TitleContainer>
+                    <Content>
+                        {previusSchedule.length > 0 ? (
+                            previusSchedule.map((schedule, index) => {
+                                const formatted = formatDateShortVersion(schedule.day, schedule.month, schedule.year)
+                                return (
+                                    <AppointmentRow key={index}>
+                                        <DateContentRow>
+                                            <Genos_Disabled_24_500
+                                                text={`${formatted.formattedDate} - ${formatted.dayOfWeek}`}
+                                            />
+                                        </DateContentRow>
+                                        <DateContentColumn>
+                                            <Genos_Disabled_24_500 text={formatted.formattedDate} />
+                                            <Genos_Disabled_24_500 text={formatted.dayOfWeek} />
+                                        </DateContentColumn>
+                                        <Genos_Disabled_24_500 text={integerToTime(schedule.hour) + ' ' + 'horas'} />
+                                    </AppointmentRow>
+                                )
+                            })
+                        ) : (
+                            <InfoContent>
+                                <Genos_Secondary_24_500 text="Não há histórico de consultas!" />
+                            </InfoContent>
+                        )}
+                    </Content>
                 </Container>
             )}
         </>

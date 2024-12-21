@@ -29,7 +29,7 @@ import {
     MonthsScheduledProps,
 } from '@common/models'
 import { MONTH_NAMES } from '@common/models/enuns'
-import { filterExpiredAppointments } from '@common/utils/helpers'
+import { filterExpiredAppointments, filterFutureAppointments } from '@common/utils/helpers'
 
 const app = initializeApp(firebaseConfig)
 const firestore = getFirestore(app)
@@ -457,6 +457,38 @@ export const GetMonthsScheduled = async (): Promise<MonthsScheduledProps[]> => {
     }
 }
 
+export const GetPreviusAppointments = async (userEmail: string): Promise<ScheduleObjectProps[]> => {
+    try {
+        const db = getFirestore()
+        const scheduleCollection = collection(db, 'schedule')
+
+        // Consulta para filtrar por userEmail
+        const q = query(scheduleCollection, where('userEmail', '==', userEmail))
+
+        const querySnapshot = await getDocs(q)
+
+        const schedules: ScheduleObjectProps[] = querySnapshot.docs.map((doc) => {
+            const data = doc.data()
+            return {
+                year: data.year,
+                month: data.month,
+                day: data.day,
+                hour: data.hour,
+                userId: data.userId,
+                userEmail: data.userEmail,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                enable: data.enable,
+            }
+        })
+
+        return filterFutureAppointments(schedules)
+    } catch (error) {
+        console.error('Error fetching schedules:', error)
+        throw error
+    }
+}
+
 export const UpdateUser = async (userEmail: string, payload: UserProps) => {
     try {
         const db = getFirestore()
@@ -716,16 +748,13 @@ export const DeleteOldSchedules = async (): Promise<void> => {
         }
     }
 
-    Quero que essa nova função retorne um array de objetos como esse:
-
-    [
-        {"month":11,"name":"dezembro","year":2024}
-    ]
+    A nova função receberá apena um parâmetro 'userEmail', e deve usálo para filtrar
+    os objetos da colection 'schedule' pela propriedade 'userEmail'
 
     A função deve:
     
-        Identificar todos os meses existentes na coleção levando em consideração a data completa, mês e ano.
-        Para cada mês identificado crir um objeto como esse: {"month":11,"name":"dezembro","year":2024}
-        Retornar um array com todos os objetos criados.
+        Retornar todos os objetos que tiverem a propriedade 'userEmail' preenchida
+        com o valor do parâmetro 'userEmail' e que tenham uma data, formada pelas
+        propriedades 'year', 'month' e 'day' anterior ao dia de hoje
 
 */

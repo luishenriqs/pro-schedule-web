@@ -11,12 +11,64 @@ export const Container = styled(Box)({
     justifyContent: 'flex-start',
 })
 
-export const PreviousContent = styled(Box)({
+export const TitleContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
-    width: '100vw',
-    height: '100vh',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: '30px',
+    marginBottom: '30px',
+})
+
+export const Content = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    maxWidth: '800px',
+    height: '100vh',
+    overflowY: 'scroll',
+    gap: '10px',
+    marginBottom: '30px',
+})
+
+export const AppointmentRow = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    padding: '10px 15px',
+    borderRadius: '5px',
     background: COLORS.background,
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+})
+
+export const DateContentRow = styled(Box)({
+    display: 'none',
+    flexDirection: 'row',
+    marginRight: '50px',
+
+    '@media (min-width:475px)': {
+        display: 'flex',
+    },
+})
+
+export const DateContentColumn = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    marginRight: '50px',
+
+    '@media (min-width:475px)': {
+        display: 'none',
+    },
+})
+
+export const InfoContent = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: 'auto',
 })
