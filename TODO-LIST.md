@@ -24,6 +24,10 @@ _Backlog_ 1 - Criar página de relatório financeiro e balanço do mês
 
 1 - Criar serviço de notificações por WhatsApp e Email
 
+**SignIn/SignUp**
+
+1 - Funcionalidade opened and closed eye in password field
+
 ## Admin Area
 
 **MyAgendaComponent**

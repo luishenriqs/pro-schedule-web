@@ -21,7 +21,6 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth'
 import { firebaseConfig } from '../../../firebaseConfig'
-import { utcToZonedTime } from 'date-fns-tz'
 import {
     UserProps,
     ScheduleObjectProps,
@@ -30,7 +29,7 @@ import {
     MonthsScheduledProps,
 } from '@common/models'
 import { MONTH_NAMES } from '@common/models/enuns'
-import { getMinutesOfDayFromTimestamp } from '@common/utils/helpers'
+import { filterExpiredAppointments } from '@common/utils/helpers'
 
 const app = initializeApp(firebaseConfig)
 const firestore = getFirestore(app)
@@ -317,16 +316,6 @@ export const GetAvailableSchedule = async (year: number, month: number): Promise
         const db = getFirestore()
         const scheduleCollection = collection(db, 'schedule')
 
-        const timeZone = 'America/Sao_Paulo'
-        const today = utcToZonedTime(new Date(), timeZone)
-        const currentYear = today.getFullYear()
-        const currentMonth = today.getMonth()
-        const currentDay = today.getDate()
-
-        // Configuração do fuso horário de Brasília
-        const utcTime = utcToZonedTime(new Date(), timeZone)
-        const brasiliaTime = getMinutesOfDayFromTimestamp(utcToZonedTime(utcTime, timeZone).getTime())
-
         const q = query(
             scheduleCollection,
             where('year', '==', year),
@@ -337,37 +326,22 @@ export const GetAvailableSchedule = async (year: number, month: number): Promise
 
         const querySnapshot = await getDocs(q)
 
-        const schedules: ScheduleObjectProps[] = querySnapshot.docs
-            .map((doc) => {
-                const data = doc.data()
-                return {
-                    year: data.year,
-                    month: data.month,
-                    day: data.day,
-                    hour: data.hour,
-                    userId: data.userId,
-                    userEmail: data.userEmail,
-                    firstName: data.firstName,
-                    lastName: data.lastName,
-                    enable: data.enable,
-                }
-            })
-            .filter((schedule) => {
-                if (year < currentYear) return false // Ano já passou
-                if (year === currentYear && month < currentMonth) return false // Mês já passou
-                if (year === currentYear && month === currentMonth && schedule.day < currentDay) return false // Dia já passou
-                if (
-                    year === currentYear &&
-                    month === currentMonth &&
-                    schedule.day === currentDay &&
-                    schedule.hour <= brasiliaTime
-                )
-                    return false // Horário já passou
+        const schedules: ScheduleObjectProps[] = querySnapshot.docs.map((doc) => {
+            const data = doc.data()
+            return {
+                year: data.year,
+                month: data.month,
+                day: data.day,
+                hour: data.hour,
+                userId: data.userId,
+                userEmail: data.userEmail,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                enable: data.enable,
+            }
+        })
 
-                return true // Agendamento válido
-            })
-
-        return schedules
+        return filterExpiredAppointments(schedules)
     } catch (error) {
         console.error('Error fetching schedules:', error)
         throw error
