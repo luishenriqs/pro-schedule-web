@@ -13,6 +13,7 @@ import {
     selectNewDayProps,
     formattedDateProps,
     MonthsScheduledProps,
+    DeadlineObject,
 } from '@common/models'
 
 export const initialScript = async () => {
@@ -483,6 +484,24 @@ export const isMonthNotInSchedule = (
     )
 }
 
+export const getBrasiliaOfficialTime = () => {
+    const timeZone = 'America/Sao_Paulo'
+    const utcTime = utcToZonedTime(new Date(), timeZone)
+    const brasiliaOfficialTime = getMinutesOfDayFromTimestamp(utcToZonedTime(utcTime, timeZone).getTime())
+
+    return brasiliaOfficialTime
+}
+
+export const getTodayDate = () => {
+    const timeZone = 'America/Sao_Paulo'
+    const today = utcToZonedTime(new Date(), timeZone)
+    const currentYear = today.getFullYear()
+    const currentMonth = today.getMonth()
+    const currentDay = today.getDate()
+
+    return { currentYear, currentMonth, currentDay }
+}
+
 export const getMinutesOfDayFromTimestamp = (timestamp: number): number => {
     const timeZone = 'America/Sao_Paulo'
 
@@ -496,13 +515,8 @@ export const getMinutesOfDayFromTimestamp = (timestamp: number): number => {
 
 // Retorna apenas agendamentos futuros
 export const filterExpiredAppointments = (schedules: ScheduleObjectProps[]) => {
-    const timeZone = 'America/Sao_Paulo'
-    const today = utcToZonedTime(new Date(), timeZone)
-    const currentYear = today.getFullYear()
-    const currentMonth = today.getMonth()
-    const currentDay = today.getDate()
-    const utcTime = utcToZonedTime(new Date(), timeZone)
-    const brasiliaTime = getMinutesOfDayFromTimestamp(utcToZonedTime(utcTime, timeZone).getTime())
+    const { currentYear, currentMonth, currentDay } = getTodayDate()
+    const brasiliaOfficialTime = getBrasiliaOfficialTime()
 
     const schedulesFiltered = schedules.filter((schedule: ScheduleObjectProps) => {
         if (schedule.year < currentYear) return false // Ano já passou
@@ -512,7 +526,7 @@ export const filterExpiredAppointments = (schedules: ScheduleObjectProps[]) => {
             schedule.year === currentYear &&
             schedule.month === currentMonth &&
             schedule.day === currentDay &&
-            schedule.hour <= brasiliaTime
+            schedule.hour <= brasiliaOfficialTime
         )
             return false // Horário já passou
 
@@ -522,14 +536,10 @@ export const filterExpiredAppointments = (schedules: ScheduleObjectProps[]) => {
     return schedulesFiltered
 }
 
+// Retorna apenas agendamentos expirados
 export const filterFutureAppointments = (schedules: ScheduleObjectProps[]) => {
-    const timeZone = 'America/Sao_Paulo'
-    const today = utcToZonedTime(new Date(), timeZone)
-    const currentYear = today.getFullYear()
-    const currentMonth = today.getMonth()
-    const currentDay = today.getDate()
-    const utcTime = utcToZonedTime(new Date(), timeZone)
-    const brasiliaTime = getMinutesOfDayFromTimestamp(utcToZonedTime(utcTime, timeZone).getTime())
+    const { currentYear, currentMonth, currentDay } = getTodayDate()
+    const brasiliaOfficialTime = getBrasiliaOfficialTime()
 
     const schedulesFiltered = schedules.filter((schedule: ScheduleObjectProps) => {
         if (schedule.year < currentYear) return true // Ano já passou
@@ -539,7 +549,7 @@ export const filterFutureAppointments = (schedules: ScheduleObjectProps[]) => {
             schedule.year === currentYear &&
             schedule.month === currentMonth &&
             schedule.day === currentDay &&
-            schedule.hour <= brasiliaTime
+            schedule.hour <= brasiliaOfficialTime
         )
             return true // Horário já passou
 
@@ -548,3 +558,60 @@ export const filterFutureAppointments = (schedules: ScheduleObjectProps[]) => {
 
     return schedulesFiltered
 }
+
+export const availableCancellationTime = (payload: ScheduleObjectProps, deadLine: DeadlineObject): boolean => {
+    const createDateFromPayload = (schedule: { year: number; month: number; day: number; hour: number }): Date => {
+        const date = new Date(schedule.year, schedule.month - 1, schedule.day)
+        date.setMinutes(schedule.hour)
+        return date
+    }
+
+    const appointmentDate = createDateFromPayload(payload)
+    const deadlineDate = createDateFromPayload(deadLine)
+
+    const timeDifference = appointmentDate.getTime() - deadlineDate.getTime()
+
+    const fortyEightHoursInMs = 48 * 60 * 60 * 1000
+
+    // Retorna true se o tempo entre as datas for maior que 48 horas
+    return timeDifference > fortyEightHoursInMs
+}
+
+/*
+    Em um projeto React utilizando TypeScript e Styled-components,
+    para uma aplicação Next.js com Material UI e integração com o Firebase,
+    crie uma função 'availableCancellationTime'.
+
+    A função receberá dois parâmetros, o primeiro 'payload' é um array como esse:
+        {
+            "year":2024,
+            "month":11,
+            "day":25,
+            "hour":600,
+            "userId":"af4c2eb6-e9c7-4f53-bb43-b2434d046b8f",
+            "userEmail":"du@email.com",
+            "firstName":"Eduardo",
+            "lastName":"Pereira",
+            "enable":true
+        }
+
+    O segundo é 'deadLine' que é um objeto como esse:
+        {
+            "year":2024,
+            "month":11,
+            "day":23,
+            "hour":300,
+        }
+
+    A função deve:
+    
+        Calcular se o momento indicado no parâmetro 'deadLine' é 48 horas antecedente
+        a hora indicada no payload.
+        A função deve considerar todas as propriedades que se referam a tempo,
+        year, month, day e hour.
+
+    O retorno será true se o intervalo de tempo entre o momento indicado no parâmetro
+    'deadLine' e o indicado no 'payload' for maior do que 48 horas
+    O retorno será false se o intervalo de tempo entre o momento indicado no parâmetro
+    'deadLine' e o indicado no 'payload' for igual ou menor do que 48 horas
+*/

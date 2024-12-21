@@ -29,7 +29,7 @@ import {
     MonthsScheduledProps,
 } from '@common/models'
 import { MONTH_NAMES } from '@common/models/enuns'
-import { filterExpiredAppointments, filterFutureAppointments } from '@common/utils/helpers'
+import { filterExpiredAppointments } from '@common/utils/helpers'
 
 const app = initializeApp(firebaseConfig)
 const firestore = getFirestore(app)
@@ -457,7 +457,7 @@ export const GetMonthsScheduled = async (): Promise<MonthsScheduledProps[]> => {
     }
 }
 
-export const GetPreviusAppointments = async (userEmail: string): Promise<ScheduleObjectProps[]> => {
+export const GetAppointments = async (userEmail: string): Promise<ScheduleObjectProps[]> => {
     try {
         const db = getFirestore()
         const scheduleCollection = collection(db, 'schedule')
@@ -482,7 +482,7 @@ export const GetPreviusAppointments = async (userEmail: string): Promise<Schedul
             }
         })
 
-        return filterFutureAppointments(schedules)
+        return schedules
     } catch (error) {
         console.error('Error fetching schedules:', error)
         throw error
@@ -637,7 +637,7 @@ export const updateUserCredits = async (userEmail: string, operation: 'plus' | '
     }
 }
 
-export const CancelAppointment = async (payload: { year: number; month: number; day: number; hour: number }) => {
+export const CancelAppointment = async (payload: ScheduleObjectProps) => {
     try {
         const db = getFirestore()
         const scheduleCollection = collection(db, 'schedule')
@@ -647,7 +647,8 @@ export const CancelAppointment = async (payload: { year: number; month: number; 
             where('year', '==', payload.year),
             where('month', '==', payload.month),
             where('day', '==', payload.day),
-            where('hour', '==', payload.hour)
+            where('hour', '==', payload.hour),
+            where('userId', '==', payload.userId)
         )
 
         const querySnapshot = await getDocs(scheduleQuery)
@@ -714,47 +715,47 @@ export const DeleteOldSchedules = async (): Promise<void> => {
 /*
     Em um projeto React utilizando TypeScript e Styled-components,
     para uma aplicação Next.js com Material UI e integração com o Firebase,
-    crie uma função 'GetSchedule'.
+    crie uma função 'GetScheduled'.
 
     Use essa função como referência:
 
-    export const GetScheduleByMonth = async (year: number, month: number): Promise<ScheduleObjectProps[]> => {
-        try {
-            const db = getFirestore()
-            const scheduleCollection = collection(db, 'schedule')
+        export const GetPreviusAppointment = async (userEmail: string): Promise<ScheduleObjectProps[]> => {
+            try {
+                const db = getFirestore()
+                const scheduleCollection = collection(db, 'schedule')
 
-            const q = query(scheduleCollection, where('year', '==', year), where('month', '==', month))
+                // Consulta para filtrar por userEmail
+                const q = query(scheduleCollection, where('userEmail', '==', userEmail))
 
-            const querySnapshot = await getDocs(q)
+                const querySnapshot = await getDocs(q)
 
-            const schedules: ScheduleObjectProps[] = querySnapshot.docs.map((doc) => {
-                const data = doc.data()
-                return {
-                    year: data.year,
-                    month: data.month,
-                    day: data.day,
-                    hour: data.hour,
-                    userId: data.userId,
-                    userEmail: data.userEmail,
-                    firstName: data.firstName,
-                    lastName: data.lastName,
-                    enable: data.enable,
-                }
-            })
-            return schedules
-        } catch (error) {
-            console.error('Error fetching schedules:', error)
-            throw error
+                const schedules: ScheduleObjectProps[] = querySnapshot.docs.map((doc) => {
+                    const data = doc.data()
+                    return {
+                        year: data.year,
+                        month: data.month,
+                        day: data.day,
+                        hour: data.hour,
+                        userId: data.userId,
+                        userEmail: data.userEmail,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        enable: data.enable,
+                    }
+                })
+
+                return filterFutureAppointments(schedules)
+            } catch (error) {
+                console.error('Error fetching schedules:', error)
+                throw error
+            }
         }
-    }
 
-    A nova função receberá apena um parâmetro 'userEmail', e deve usálo para filtrar
+    A nova função receberá apena um parâmetro 'userEmail', e deve usá-lo para filtrar
     os objetos da colection 'schedule' pela propriedade 'userEmail'
 
     A função deve:
     
         Retornar todos os objetos que tiverem a propriedade 'userEmail' preenchida
-        com o valor do parâmetro 'userEmail' e que tenham uma data, formada pelas
-        propriedades 'year', 'month' e 'day' anterior ao dia de hoje
-
+        com o valor do parâmetro 'userEmail'
 */

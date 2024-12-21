@@ -267,3 +267,10 @@ export type MonthsScheduledProps = {
     name: string
     year: number
 }
+
+export type DeadlineObject = {
+    year: number
+    month: number
+    day: number
+    hour: number
+}

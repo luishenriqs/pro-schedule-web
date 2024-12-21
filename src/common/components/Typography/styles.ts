@@ -234,9 +234,24 @@ export const QuestrialSecondary20_500 = styled(Typography)({
     fontWeight: FONT_WEIGHT[500],
 })
 
+export const QuestrialSecondary16_700 = styled(Typography)({
+    fontFamily: FONT_FAMILY.questrial,
+    color: COLORS.secondary,
+    fontSize: FONT_SIZE[16],
+    fontWeight: FONT_WEIGHT[700],
+})
+
 export const QuestrialSecondary16_500 = styled(Typography)({
     fontFamily: FONT_FAMILY.questrial,
     color: COLORS.secondary,
+    fontSize: FONT_SIZE[16],
+    fontWeight: FONT_WEIGHT[500],
+})
+
+// QUESTRIAL ERROR
+export const QuestrialError16_500 = styled(Typography)({
+    fontFamily: FONT_FAMILY.questrial,
+    color: COLORS.error,
     fontSize: FONT_SIZE[16],
     fontWeight: FONT_WEIGHT[500],
 })

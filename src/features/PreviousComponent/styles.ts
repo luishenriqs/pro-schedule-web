@@ -26,10 +26,12 @@ export const Content = styled(Box)({
     flexDirection: 'column',
     width: '100%',
     maxWidth: '800px',
-    height: '100vh',
+    height: 'auto',
+    maxHeight: '600px',
     overflowY: 'scroll',
     gap: '10px',
     marginBottom: '30px',
+    padding: '10px',
 })
 
 export const AppointmentRow = styled(Box)({
@@ -49,7 +51,7 @@ export const DateContentRow = styled(Box)({
     flexDirection: 'row',
     marginRight: '50px',
 
-    '@media (min-width:475px)': {
+    '@media (min-width:495px)': {
         display: 'flex',
     },
 })
@@ -59,7 +61,7 @@ export const DateContentColumn = styled(Box)({
     flexDirection: 'column',
     marginRight: '50px',
 
-    '@media (min-width:475px)': {
+    '@media (min-width:495px)': {
         display: 'none',
     },
 })

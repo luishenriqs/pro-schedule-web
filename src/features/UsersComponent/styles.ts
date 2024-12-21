@@ -34,6 +34,7 @@ export const Content = styled(Box)({
     overflowY: 'scroll',
     gap: '10px',
     marginBottom: '30px',
+    padding: '10px',
 })
 
 export const UserRow = styled(Box)({

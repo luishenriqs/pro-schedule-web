@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { GetPreviusAppointments } from '@common/api'
+import { GetAppointments } from '@common/api'
 import { useUser } from '@common/hooks/contexts/UserContext'
 import Header from '@common/components/Header'
 import { LoadingComponent } from '@common/components/Loading'
 import { ScheduleObjectProps } from '@common/models'
-import { formatDateShortVersion, integerToTime } from '@common/utils/helpers'
+import { filterFutureAppointments, formatDateShortVersion, integerToTime } from '@common/utils/helpers'
 import { Genos_Primary_24_500, Genos_Secondary_24_500, Genos_Disabled_24_500 } from '@common/components/Typography'
 import {
     AppointmentRow,
@@ -24,9 +24,9 @@ export const PreviousComponent = () => {
 
     const getPrevius = useCallback(async () => {
         try {
-            const previusSchedule = user?.email && (await GetPreviusAppointments(user?.email))
+            const previusSchedule = user?.email && (await GetAppointments(user?.email))
             if (previusSchedule) {
-                setPreviusSchedule(previusSchedule)
+                setPreviusSchedule(filterFutureAppointments(previusSchedule))
                 setIsLoading(false)
             } else {
                 setIsLoading(false)

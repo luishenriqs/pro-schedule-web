@@ -1,9 +1,11 @@
 import { utcToZonedTime } from 'date-fns-tz'
-import { MonthsScheduledProps, ScheduleObjectProps } from '@common/models'
+import { DeadlineObject, MonthsScheduledProps, ScheduleObjectProps } from '@common/models'
 import {
+    availableCancellationTime,
     CheckPayloadAvailability,
     filterExpiredAppointments,
     filterFutureAppointments,
+    getBrasiliaOfficialTime,
     getMinutesOfDayFromTimestamp,
     isExpiredDay,
     isMonthNotInSchedule,
@@ -173,8 +175,7 @@ describe('filterExpiredAppointments', () => {
     const currentYear = today.getFullYear()
     const currentMonth = today.getMonth()
     const currentDay = today.getDate()
-    const utcTime = utcToZonedTime(new Date(), timeZone)
-    const brasiliaTime = getMinutesOfDayFromTimestamp(utcToZonedTime(utcTime, timeZone).getTime())
+    const brasiliaTime = getBrasiliaOfficialTime()
 
     it('should remove appointments from previous years', () => {
         const schedulesPastYear: ScheduleObjectProps[] = [
@@ -388,8 +389,7 @@ describe('filterFutureAppointments', () => {
     const currentYear = today.getFullYear()
     const currentMonth = today.getMonth()
     const currentDay = today.getDate()
-    const utcTime = utcToZonedTime(new Date(), timeZone)
-    const brasiliaTime = getMinutesOfDayFromTimestamp(utcToZonedTime(utcTime, timeZone).getTime())
+    const brasiliaTime = getBrasiliaOfficialTime()
 
     it('should maintain appointments from previous years', () => {
         const schedulesPastYear: ScheduleObjectProps[] = [
@@ -594,5 +594,51 @@ describe('filterFutureAppointments', () => {
                 enable: true,
             },
         ])
+    })
+})
+
+describe('availableCancellationTime', () => {
+    const payload: ScheduleObjectProps = {
+        year: 2024,
+        month: 11,
+        day: 20,
+        hour: 600,
+        userId: 'af4c2eb6-e9c7-4f53-bb43-b2434d046b8f',
+        userEmail: 'du@email.com',
+        firstName: 'Eduardo',
+        lastName: 'Pereira',
+        enable: true,
+    }
+    it('Should return true if more than 48 hours in advance', () => {
+        const deadLine: DeadlineObject = {
+            year: 2024,
+            month: 11,
+            day: 18,
+            hour: 540,
+        }
+        const result = availableCancellationTime(payload, deadLine)
+        expect(result).toBe(true)
+    })
+
+    it('Should return false if at the same time', () => {
+        const deadLine: DeadlineObject = {
+            year: 2024,
+            month: 11,
+            day: 20,
+            hour: 600,
+        }
+        const result = availableCancellationTime(payload, deadLine)
+        expect(result).toBe(false)
+    })
+
+    it('Should return false if less than 48 hours in advance', () => {
+        const deadLine: DeadlineObject = {
+            year: 2024,
+            month: 11,
+            day: 20,
+            hour: 660,
+        }
+        const result = availableCancellationTime(payload, deadLine)
+        expect(result).toBe(false)
     })
 })
