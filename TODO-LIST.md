@@ -1,4 +1,16 @@
-### Backlog de tarefas
+### Backlog
+
+**Admin Area - UsersComponent**
+
+_Backlog_ 1 - Criar Filtros para usuários, critérios: Admin, Manager, Nome
+
+_Backlog_ 2 - Criar página 'History' - Histórico de consultas do paciente
+
+- Campo de texto (Observações) para resgistro de informações clínicas
+
+**Relatório Financeiro**
+
+_Backlog_ 1 - Criar página de relatório financeiro e balanço do mês
 
 ## Bugs
 
@@ -18,29 +30,15 @@
 
 **CreateAgendaComponent**
 
-_Priority 1_
-1 - Criar validação para que não seja possível recriar agenda já existente
-
 **UsersComponent**
-
-1 - Criar Filtros para usuários, critérios: Admin, Manager, Nome, Data
-
-2 - Criar SortBy por critérios: Mais Recentes, Mais Frequentes
-
-3 - Criar página 'History' - Histórico de consultas do paciente - Campo de texto (Observações) para resgistro de informações clínicas
 
 **Relatório Financeiro**
 
-1 - Criar página de relatório financeiro e balanço do mês
-
 ## User Area
-
-**PaymentComponent**
-
-1 - Criar Middleware para integração com meios de pagamento
 
 **PreviousComponent**
 
+_Priority 1_
 1 - Criar página para usuário visualizar seu histórico de consultas
 
 **ScheduledComponents**
@@ -53,3 +51,7 @@ Regra de negócio - Cancelamento gratúito até 48 horas antes - Conversão para
 **Profile**
 
 1 - Criar página de perfil para usuário visualizar seus dados e créditos
+
+**PaymentComponent**
+
+1 - Criar Middleware para integração com meios de pagamento

@@ -21,6 +21,7 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth'
 import { firebaseConfig } from '../../../firebaseConfig'
+import { utcToZonedTime } from 'date-fns-tz'
 import {
     UserProps,
     ScheduleObjectProps,
@@ -29,6 +30,7 @@ import {
     MonthsScheduledProps,
 } from '@common/models'
 import { MONTH_NAMES } from '@common/models/enuns'
+import { getMinutesOfDayFromTimestamp } from '@common/utils/helpers'
 
 const app = initializeApp(firebaseConfig)
 const firestore = getFirestore(app)
@@ -310,23 +312,31 @@ export const GetScheduleByMonth = async (year: number, month: number): Promise<S
     }
 }
 
-// Retorna agenda filtrando por mês, enable: true, e disponível - userId: Vazio ("").
-export const GetAvailableScheduleByMonth = async (year: number, month: number): Promise<ScheduleObjectProps[]> => {
+export const GetAvailableSchedule = async (year: number, month: number): Promise<ScheduleObjectProps[]> => {
     try {
         const db = getFirestore()
         const scheduleCollection = collection(db, 'schedule')
+
+        const timeZone = 'America/Sao_Paulo'
+        const today = utcToZonedTime(new Date(), timeZone)
+        const currentYear = today.getFullYear()
+        const currentMonth = today.getMonth()
+        const currentDay = today.getDate()
+
+        // Configuração do fuso horário de Brasília
+        const utcTime = utcToZonedTime(new Date(), timeZone)
+        const brasiliaTime = getMinutesOfDayFromTimestamp(utcToZonedTime(utcTime, timeZone).getTime())
 
         const q = query(
             scheduleCollection,
             where('year', '==', year),
             where('month', '==', month),
-            where('enable', '==', true)
+            where('enable', '==', true),
+            where('userId', '==', '')
         )
 
-        // Obtenha os documentos da consulta
         const querySnapshot = await getDocs(q)
 
-        // Mapeie os documentos para o tipo 'Schedule'
         const schedules: ScheduleObjectProps[] = querySnapshot.docs
             .map((doc) => {
                 const data = doc.data()
@@ -342,7 +352,21 @@ export const GetAvailableScheduleByMonth = async (year: number, month: number): 
                     enable: data.enable,
                 }
             })
-            .filter((schedule) => schedule.userId === '')
+            .filter((schedule) => {
+                if (year < currentYear) return false // Ano já passou
+                if (year === currentYear && month < currentMonth) return false // Mês já passou
+                if (year === currentYear && month === currentMonth && schedule.day < currentDay) return false // Dia já passou
+                if (
+                    year === currentYear &&
+                    month === currentMonth &&
+                    schedule.day === currentDay &&
+                    schedule.hour <= brasiliaTime
+                )
+                    return false // Horário já passou
+
+                return true // Agendamento válido
+            })
+
         return schedules
     } catch (error) {
         console.error('Error fetching schedules:', error)

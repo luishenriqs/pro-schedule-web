@@ -32,7 +32,6 @@ export const CalendarContainer = styled(Box)({
     display: 'grid',
     gridTemplateColumns: 'repeat(7, 1fr)',
     gap: '5px',
-
     width: '100%',
 })
 

@@ -16,8 +16,12 @@ export const Container = styled(Box)({
     padding: '15px',
     background: COLORS.background,
 
-    '@media (min-width:750px)': {
+    '@media (min-width:420px)': {
         width: '400px',
+    },
+
+    '@media (min-width:520px)': {
+        width: '500px',
     },
 })
 

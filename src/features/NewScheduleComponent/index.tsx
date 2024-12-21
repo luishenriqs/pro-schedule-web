@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
-import { GetAvailableScheduleByMonth } from '@common/api'
+import { GetAvailableSchedule } from '@common/api'
 import { firebaseConfig } from '../../../firebaseConfig'
 import { usePayload } from '@common/hooks/contexts/PayloadContext'
 import { useUser } from '@common/hooks/contexts/UserContext'
@@ -56,7 +56,7 @@ export const NewScheduleComponent = () => {
     // GET SCHEDULE BY MONTH - ENABLE AND AVAILABLE
     const getScheduleByMonth = useCallback(async () => {
         try {
-            const schedule = await GetAvailableScheduleByMonth(selectedYear, selectedMonth)
+            const schedule = await GetAvailableSchedule(selectedYear, selectedMonth)
             if (schedule) {
                 setSchedule(schedule)
                 setIsLoading(false)
@@ -152,14 +152,17 @@ export const NewScheduleComponent = () => {
         // Fecha o modal de confirmação
         setOpenConfirmationModal(false)
 
-        // Limpa os payloads pendentes
-        clearPayloads()
-
         // Atualiza o schedule removendo o 'userId' dos appointments marcados
         const updatedSchedule = schedule.map(
             (item) =>
                 item.userId // Verifica se 'userId' está preenchido
-                    ? { ...item, userId: '' } // Define como vazio
+                    ? {
+                          ...item,
+                          userId: '',
+                          userEmail: '',
+                          firstName: '',
+                          lastName: '',
+                      } // Define como vazio
                     : item // Mantém o objeto inalterado
         )
 
@@ -175,6 +178,9 @@ export const NewScheduleComponent = () => {
                 year: selectedDay.year,
             })
         )
+
+        // Limpa os payloads pendentes
+        clearPayloads()
     }, [clearPayloads, schedule, selectedDay])
 
     return (

@@ -482,3 +482,14 @@ export const isMonthNotInSchedule = (
             schedule.name === selectedMonth.name
     )
 }
+
+export const getMinutesOfDayFromTimestamp = (timestamp: number): number => {
+    const timeZone = 'America/Sao_Paulo'
+
+    const zonedTime = utcToZonedTime(timestamp, timeZone)
+
+    const hours = zonedTime.getHours()
+    const minutes = zonedTime.getMinutes()
+
+    return hours * 60 + minutes
+}

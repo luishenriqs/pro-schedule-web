@@ -44,7 +44,7 @@ export const ModalConfirmation = ({ open, handleCancelAppoitments, handleClose, 
                 <Questrial_Secondary_16_500 text="Para confirmar sua reserva efetue o pagamento:" />
                 <FilledPrimaryButton title="Pagamento" onClick={() => router.push('/Payment')} />
                 <ContentContainer>
-                    <Questrial_Secondary_16_500 text="Cancelar reservas?" />
+                    <Questrial_Secondary_16_500 text="Cancelar pedido?" />
                     <GenosSecondaryButtonText
                         title="Cancelar"
                         size="medium"
