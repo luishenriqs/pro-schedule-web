@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Modal } from '@mui/material'
-import { useRouter } from 'next/navigation'
 import { useNotification } from '@common/hooks/useNotification'
+import { CancelAppointment, updateUserCredits } from '@common/api'
 import { FilledPrimaryButton } from '../Button'
 import { GenosSecondaryButtonText } from '../ButtonText'
 import { ModalProps } from './model'
+import { DeadlineObject } from '@common/models'
+import { ModalCancelInfo } from '../ModalCancelInfo'
 import {
     availableCancellationTime,
     formatDate,
@@ -19,14 +21,14 @@ import {
     Questrial_Secondary_16_700,
 } from '../Typography'
 import { Container, ContentContainer, MessageContainer } from './styles'
-import { DeadlineObject } from '@common/models'
-import { CancelAppointment, updateUserCredits } from '@common/api'
 
 export const ModalUserCancellation = ({ open, payload, handleClose, ...props }: ModalProps) => {
-    const router = useRouter()
-    const { emmitSuccess, emmitError } = useNotification()
+    const { emmitError } = useNotification()
 
     const [date, setDate] = useState<string>('')
+    const [openCancelInfoModal, setOpenCancelInfoModal] = useState(false)
+    const [cancelInfoMessage, setCancelInfoMessage] = useState('')
+    const [infoMessage, setInfoMessage] = useState('')
 
     useEffect(() => {
         const formattedDate = formatDate(payload.day, payload.month, payload.year)
@@ -55,9 +57,15 @@ export const ModalUserCancellation = ({ open, payload, handleClose, ...props }: 
             if (cancelResponse?.success) {
                 if (payload.userEmail && receivesCredit) {
                     const resp = await updateUserCredits(payload.userEmail, 'plus', 1)
-                    if (resp?.success) emmitSuccess('Consulta cancelada, você recebeu um crédito para reagendamento!')
+                    if (resp?.success) {
+                        setCancelInfoMessage('Consulta cancelada com sucesso!')
+                        setInfoMessage('Você recebeu um crédito para reagendamento!')
+                        setOpenCancelInfoModal(true)
+                    }
                 } else {
-                    emmitSuccess('Consulta cancelada com sucesso!')
+                    setCancelInfoMessage('Consulta cancelada com sucesso!')
+                    setInfoMessage('')
+                    setOpenCancelInfoModal(true)
                 }
             } else {
                 console.error('Erro ao cancelar o agendamento.')
@@ -66,10 +74,8 @@ export const ModalUserCancellation = ({ open, payload, handleClose, ...props }: 
         } catch (error) {
             console.error('Erro na requisição.', error)
             emmitError('Não foi possível completar a requisição!')
-        } finally {
-            router.refresh()
         }
-    }, [emmitError, emmitSuccess, payload, receivesCredit, router])
+    }, [emmitError, payload, receivesCredit])
 
     return (
         <Modal
@@ -87,9 +93,13 @@ export const ModalUserCancellation = ({ open, payload, handleClose, ...props }: 
                         <Questrial_Secondary_16_500
                             text={`Você deseja cancelar a consulta com o Dr. Flávio , no dia ${date}, as ${integerToTime(payload.hour)} horas?`}
                         />
-                        {receivesCredit && (
+                        {receivesCredit ? (
                             <Questrial_Secondary_16_700
                                 text={`Em caso afirmativo você receberá um crédito para agendamento de uma nova data.`}
+                            />
+                        ) : (
+                            <Questrial_Secondary_16_700
+                                text={`Este cancelamento não gerará crédito para reagendamento!`}
                             />
                         )}
                     </MessageContainer>
@@ -99,8 +109,14 @@ export const ModalUserCancellation = ({ open, payload, handleClose, ...props }: 
                 </ContentContainer>
                 <FilledPrimaryButton title="Confirmar" onClick={handleCancelAppointment} />
                 <ContentContainer>
-                    <GenosSecondaryButtonText title="Fechar" size="medium" onClick={handleClose} />
+                    <GenosSecondaryButtonText title="Voltar" size="medium" onClick={handleClose} />
                 </ContentContainer>
+                <ModalCancelInfo
+                    open={openCancelInfoModal}
+                    message={cancelInfoMessage}
+                    info={infoMessage}
+                    handleClose={() => setOpenCancelInfoModal(false)}
+                />
             </Container>
         </Modal>
     )

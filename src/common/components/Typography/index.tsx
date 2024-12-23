@@ -34,6 +34,7 @@ import {
     GenosDisabled24_500,
     QuestrialError16_500,
     QuestrialSecondary16_700,
+    QuestrialError16_700,
 } from './styles'
 
 // GENOS PRIMARY
@@ -309,6 +310,14 @@ export const Questrial_Secondary_16_500 = ({ text }: any) => {
 }
 
 // QUESTRIAL ERROR
+export const Questrial_Error_16_700 = ({ text }: any) => {
+    return (
+        <TitleContainer>
+            <QuestrialError16_700>{text}</QuestrialError16_700>
+        </TitleContainer>
+    )
+}
+
 export const Questrial_Error_16_500 = ({ text }: any) => {
     return (
         <TitleContainer>

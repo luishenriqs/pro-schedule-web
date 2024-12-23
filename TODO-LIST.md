@@ -42,17 +42,11 @@ _Backlog_ 1 - Criar página de relatório financeiro e balanço do mês
 
 **PreviousComponent**
 
-_Priority 1_
-1 - Criar página para usuário visualizar seu histórico de consultas
-
 **ScheduledComponents**
 
-1 - Criar página para usuário visualizar suas próximas consultas
-
-2 - Funcionalidade para usuário cancelar agendamento
-Regra de negócio - Cancelamento gratúito até 48 horas antes - Conversão para crédito
-
 **Profile**
+
+_Priority 1_
 
 1 - Criar página de perfil para usuário visualizar seus dados e créditos
 

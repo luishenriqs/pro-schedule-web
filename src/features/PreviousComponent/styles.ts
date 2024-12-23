@@ -49,9 +49,12 @@ export const AppointmentRow = styled(Box)({
 export const DateContentRow = styled(Box)({
     display: 'none',
     flexDirection: 'row',
-    marginRight: '50px',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: '25px',
+    width: '300px',
 
-    '@media (min-width:495px)': {
+    '@media (min-width:605px)': {
         display: 'flex',
     },
 })
@@ -59,9 +62,12 @@ export const DateContentRow = styled(Box)({
 export const DateContentColumn = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
-    marginRight: '50px',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: '25px',
+    width: '150px',
 
-    '@media (min-width:495px)': {
+    '@media (min-width:605px)': {
         display: 'none',
     },
 })
@@ -73,4 +79,30 @@ export const InfoContent = styled(Box)({
     justifyContent: 'center',
     width: '100%',
     height: 'auto',
+})
+
+export const HourContentRow = styled(Box)({
+    display: 'none',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: '25px',
+    width: '125px',
+
+    '@media (min-width:460px)': {
+        display: 'flex',
+    },
+})
+
+export const HourContentColumn = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: '25px',
+    width: '65px',
+
+    '@media (min-width:460px)': {
+        display: 'none',
+    },
 })

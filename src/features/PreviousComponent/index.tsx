@@ -12,6 +12,8 @@ import {
     Content,
     DateContentColumn,
     DateContentRow,
+    HourContentColumn,
+    HourContentRow,
     InfoContent,
     TitleContainer,
 } from './styles'
@@ -70,7 +72,15 @@ export const PreviousComponent = () => {
                                             <Genos_Disabled_24_500 text={formatted.formattedDate} />
                                             <Genos_Disabled_24_500 text={formatted.dayOfWeek} />
                                         </DateContentColumn>
-                                        <Genos_Disabled_24_500 text={integerToTime(schedule.hour) + ' ' + 'horas'} />
+                                        <HourContentRow>
+                                            <Genos_Disabled_24_500
+                                                text={integerToTime(schedule.hour) + ' ' + 'horas'}
+                                            />
+                                        </HourContentRow>
+                                        <HourContentColumn>
+                                            <Genos_Disabled_24_500 text={integerToTime(schedule.hour)} />
+                                            <Genos_Disabled_24_500 text="horas" />
+                                        </HourContentColumn>
                                     </AppointmentRow>
                                 )
                             })
