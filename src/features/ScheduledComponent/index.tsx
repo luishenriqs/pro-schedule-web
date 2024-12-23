@@ -25,6 +25,7 @@ export const ScheduledComponent = () => {
     const { user } = useUser()
 
     const [isLoading, setIsLoading] = useState(true)
+    const [isRefreshing, setIsRefreshing] = useState(true)
     const [scheduled, setScheduled] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
     const [openCancellationModal, setOpenCancellationModal] = useState(false)
     const [payload, setPayload] = useState<ScheduleObjectProps>({} as ScheduleObjectProps)
@@ -35,8 +36,10 @@ export const ScheduledComponent = () => {
             if (scheduled) {
                 setScheduled(filterExpiredAppointments(scheduled))
                 setIsLoading(false)
+                setIsRefreshing(false)
             } else {
                 setIsLoading(false)
+                setIsRefreshing(false)
             }
         } catch (error) {
             console.error('Erro ao processar a requisição!', error)
@@ -45,6 +48,7 @@ export const ScheduledComponent = () => {
 
     useEffect(() => {
         getScheduled()
+        setIsRefreshing(true)
     }, [getScheduled])
 
     const handleOpenCancelModal = useCallback((payload: ScheduleObjectProps) => {
@@ -66,7 +70,9 @@ export const ScheduledComponent = () => {
                         {scheduled.length > 0 && <Genos_Secondary_24_500 text="Suas próximas consultas:" />}
                     </TitleContainer>
                     <Content>
-                        {scheduled.length > 0 ? (
+                        {isRefreshing ? (
+                            <LoadingComponent />
+                        ) : scheduled.length > 0 ? (
                             scheduled.map((schedule, index) => {
                                 const formatted = formatDateShortVersion(schedule.day, schedule.month, schedule.year)
                                 return (

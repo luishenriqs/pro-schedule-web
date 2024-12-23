@@ -22,6 +22,7 @@ export const PreviousComponent = () => {
     const { user } = useUser()
 
     const [isLoading, setIsLoading] = useState(true)
+    const [isRefreshing, setIsRefreshing] = useState(true)
     const [previusSchedule, setPreviusSchedule] = useState<ScheduleObjectProps[]>([] as ScheduleObjectProps[])
 
     const getPrevius = useCallback(async () => {
@@ -30,8 +31,10 @@ export const PreviousComponent = () => {
             if (previusSchedule) {
                 setPreviusSchedule(filterFutureAppointments(previusSchedule))
                 setIsLoading(false)
+                setIsRefreshing(false)
             } else {
                 setIsLoading(false)
+                setIsRefreshing(false)
             }
         } catch (error) {
             console.error('Erro ao processar a requisição!', error)
@@ -40,6 +43,7 @@ export const PreviousComponent = () => {
 
     useEffect(() => {
         getPrevius()
+        setIsRefreshing(true)
     }, [getPrevius])
 
     return (
@@ -58,7 +62,9 @@ export const PreviousComponent = () => {
                         )}
                     </TitleContainer>
                     <Content>
-                        {previusSchedule.length > 0 ? (
+                        {isRefreshing ? (
+                            <LoadingComponent />
+                        ) : previusSchedule.length > 0 ? (
                             previusSchedule.map((schedule, index) => {
                                 const formatted = formatDateShortVersion(schedule.day, schedule.month, schedule.year)
                                 return (
