@@ -26,6 +26,8 @@ export const SignUpComponent = () => {
             payload.isAdmin = false
             payload.id = uuidv4()
             payload.credits = 0
+            payload.termsOfUse = false
+            payload.isBlocked = false
             const resp = await CreateAuth(payload) //==> Cria novo usuário no firebase/auth
 
             // eslint-disable-next-line @typescript-eslint/no-unused-vars

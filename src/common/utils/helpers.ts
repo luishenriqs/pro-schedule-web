@@ -14,6 +14,7 @@ import {
     formattedDateProps,
     MonthsScheduledProps,
     DeadlineObject,
+    UserProps,
 } from '@common/models'
 
 export const initialScript = async () => {
@@ -28,6 +29,8 @@ export const initialScript = async () => {
         password: '123456',
         cpf: 29125240838,
         credits: 0,
+        termsOfUse: false,
+        isBlocked: false,
     }
 
     try {
@@ -577,41 +580,89 @@ export const availableCancellationTime = (payload: ScheduleObjectProps, deadLine
     return timeDifference > fortyEightHoursInMs
 }
 
+export const orderUsers = (users: UserProps[]): UserProps[] => {
+    return users.sort((a, b) => {
+        if (a.isManager && !b.isManager) return -1
+        if (!a.isManager && b.isManager) return 1
+
+        if (a.isAdmin && !b.isAdmin) return -1
+        if (!a.isAdmin && b.isAdmin) return 1
+
+        if (!a.isBlocked && b.isBlocked) return -1
+        if (a.isBlocked && !b.isBlocked) return 1
+
+        return 0
+    })
+}
+
 /*
     Em um projeto React utilizando TypeScript e Styled-components,
     para uma aplicação Next.js com Material UI e integração com o Firebase,
-    crie uma função 'availableCancellationTime'.
+    crie uma função 'orderUsers'.
 
-    A função receberá dois parâmetros, o primeiro 'payload' é um array como esse:
+    A função receberá um parâmetro 'users' é um array como esse:
+    [
         {
-            "year":2024,
-            "month":11,
-            "day":25,
-            "hour":600,
-            "userId":"af4c2eb6-e9c7-4f53-bb43-b2434d046b8f",
-            "userEmail":"du@email.com",
+            "isManager":false,
+            "id":"diego@email.com",
+            "isAdmin":false,
+            "phone":"169888877777",
+            "credits":2,
+            "firstName":"Diego",
+            "email":"diego@email.com",
+            "cpf":"218.259.308-06",
+            "termsOfUse":false,
+            "isBlocked":false,
+            "lastName":"Souza"
+        },
+        {
+            "phone":"16911110000",
+            "cpf":"218.259.308-05",
+            "firstName":"Leila",
+            "termsOfUse":false,
+            "isManager":false,
+            "id":"leila@email.com",
+            "isBlocked":false,
+            "credits":11,
+            "isAdmin":true,
+            "lastName":"Massaro",
+            "email":"leila@email.com"
+        },
+        {
+            "isAdmin":true,
+            "cpf":"668.390.880-06",
+            "email":"flavio@email.com",
+            "isBlocked":false,
+            "isManager":true,
+            "firstName":"Flávio",
+            "id":"flavio@email.com",
+            "credits":0,
+            "termsOfUse":false,
+            "phone":"16900001111",
+            "lastName":"Massaro"
+        },
+        {
+            "isAdmin":false,
+            "isBlocked":true,
+            "isManager":false,
+            "email":"du@email.com",
+            "cpf":"218.459.308-05",
             "firstName":"Eduardo",
-            "lastName":"Pereira",
-            "enable":true
-        }
-
-    O segundo é 'deadLine' que é um objeto como esse:
-        {
-            "year":2024,
-            "month":11,
-            "day":23,
-            "hour":300,
-        }
+            "id":"du@email.com",
+            "credits":0,
+            "phone":"16956465465",
+            "termsOfUse":false,
+            "lastName":"Pereira"
+        },
+    ]
 
     A função deve:
     
-        Calcular se o momento indicado no parâmetro 'deadLine' é 48 horas antecedente
-        a hora indicada no payload.
-        A função deve considerar todas as propriedades que se referam a tempo,
-        year, month, day e hour.
-
-    O retorno será true se o intervalo de tempo entre o momento indicado no parâmetro
-    'deadLine' e o indicado no 'payload' for maior do que 48 horas
-    O retorno será false se o intervalo de tempo entre o momento indicado no parâmetro
-    'deadLine' e o indicado no 'payload' for igual ou menor do que 48 horas
+        Ordenar os objejetos, trazendo primeiro todos os que tiverem a propriedade
+        'isManager' igual a true
+        Na sequencia, todos os que tiverem a propriedade 'isAdmin' igual a true, se
+        for um objeto que tenha tambem 'isManager' true não precisa repetí-lo
+        Na sequencia os objetos com as propriedades 'isManager', 'isAdmin' e 'isBlocked'
+        igual a false.
+        Por último os objetos com 'isBlocked' igual a true
 */

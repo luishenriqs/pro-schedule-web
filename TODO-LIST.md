@@ -4,9 +4,6 @@
 
 _Backlog_ 1 - Criar Filtros para usuários, critérios: Admin, Manager, Nome
 
-_Backlog_ 2 - Criar página 'History' - Histórico de consultas do paciente
-
-- Campo de texto (Observações) para resgistro de informações clínicas
 
 **Relatório Financeiro**
 
@@ -16,17 +13,25 @@ _Backlog_ 1 - Criar página de relatório financeiro e balanço do mês
 
 ## Toda Aplicação
 
-**TermsOfUse**
-
-1 - Criação de página de 'Termos de Uso' com legislação da LGPD
-
 **Notificações**
 
 1 - Criar serviço de notificações por WhatsApp e Email
 
-**SignIn/SignUp**
+**SignIn**
 
 1 - Funcionalidade opened and closed eye in password field
+
+2 - Controle de acesso - Barrar login de usuário bloqueado
+
+**SignUp**
+
+1 - Funcionalidade opened and closed eye in password field
+2 - Link para visualização dos termos de uso
+2 - Checkbox para aceite dos termos de uso condicional ao cadastro do usuário
+
+**TermsOfUse**
+
+1 - Criação de página de 'Termos de Uso' com legislação da LGPD
 
 ## Admin Area
 
@@ -48,7 +53,10 @@ _Backlog_ 1 - Criar página de relatório financeiro e balanço do mês
 
 _Priority 1_
 
-1 - Criar página de perfil para usuário visualizar seus dados e créditos
+1 - Criar página de perfil
+
+- Usuário deve poder visualizar seus dados e créditos
+- Usuário deve poder excluir seu cadastro
 
 **PaymentComponent**
 

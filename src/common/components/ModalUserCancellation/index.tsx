@@ -61,11 +61,13 @@ export const ModalUserCancellation = ({ open, payload, handleClose, ...props }: 
                         setCancelInfoMessage('Consulta cancelada com sucesso!')
                         setInfoMessage('Você recebeu um crédito para reagendamento!')
                         setOpenCancelInfoModal(true)
+                        handleClose()
                     }
                 } else {
                     setCancelInfoMessage('Consulta cancelada com sucesso!')
                     setInfoMessage('')
                     setOpenCancelInfoModal(true)
+                    handleClose()
                 }
             } else {
                 console.error('Erro ao cancelar o agendamento.')
@@ -75,7 +77,7 @@ export const ModalUserCancellation = ({ open, payload, handleClose, ...props }: 
             console.error('Erro na requisição.', error)
             emmitError('Não foi possível completar a requisição!')
         }
-    }, [emmitError, payload, receivesCredit])
+    }, [emmitError, handleClose, payload, receivesCredit])
 
     return (
         <Modal

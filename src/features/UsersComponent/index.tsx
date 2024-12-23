@@ -4,7 +4,7 @@ import { GetAllUsers } from '@common/api'
 import { useUser } from '@common/hooks/contexts/UserContext'
 import Header from '@common/components/Header'
 import { LoadingComponent } from '@common/components/Loading'
-import { FilledPrimaryButton } from '@common/components/Button'
+import { FilledPrimaryButton, OutlinePrimaryButton } from '@common/components/Button'
 import { UserProps } from '@common/models'
 import { Questrial_Secondary_20_500, Genos_Secondary_24_500, Genos_Primary_24_500 } from '@common/components/Typography'
 import {
@@ -19,7 +19,10 @@ import {
     AdminIcon,
     UserContainer,
     ManagerIcon,
+    HistoryIcon,
+    BlockedIcon,
 } from './styles'
+import { orderUsers } from '@common/utils/helpers'
 
 export const UsersComponent = () => {
     const router = useRouter()
@@ -31,15 +34,15 @@ export const UsersComponent = () => {
     const getAllUsers = useCallback(async () => {
         const allUsers = await GetAllUsers()
         if (allUsers) {
-            setUsers(allUsers)
+            setUsers(orderUsers(allUsers))
         }
         setIsLoading(false)
     }, [])
 
     // Get All Users
     useEffect(() => {
-        if (user?.isAdmin) getAllUsers()
-    }, [getAllUsers, user?.isAdmin])
+        if (user?.isManager) getAllUsers()
+    }, [getAllUsers, user?.isManager])
 
     const handleEdit = (user: UserProps) => {
         router.push({
@@ -48,9 +51,16 @@ export const UsersComponent = () => {
         })
     }
 
+    const handleHistory = (user: UserProps) => {
+        router.push({
+            pathname: '/UserHistory',
+            query: { email: user.email, firstName: user.firstName },
+        })
+    }
+
     return (
         <>
-            {!user?.isAdmin || isLoading ? (
+            {!user?.isManager || isLoading ? (
                 <Container>
                     <LoadingComponent />
                 </Container>
@@ -68,6 +78,7 @@ export const UsersComponent = () => {
                                     <Questrial_Secondary_20_500 text={user.firstName + ' ' + user.lastName} />
                                     {user.isAdmin && <AdminIcon />}
                                     {user.isManager && <ManagerIcon />}
+                                    {user.isBlocked && <BlockedIcon />}
                                 </UserContainer>
                                 <ButtonsContainer>
                                     <ButtonsTextContainer>
@@ -76,16 +87,15 @@ export const UsersComponent = () => {
                                             onClick={() => handleEdit(user)}
                                             style={{ width: '130px', margin: '0px', marginRight: '10px' }}
                                         />
-                                        {/* ------ BACKLOG: History page ------ */}
-                                        {/* <OutlinePrimaryButton
+                                        <OutlinePrimaryButton
                                             title="Histórico"
-                                            onClick={() => {}}
+                                            onClick={() => handleHistory(user)}
                                             style={{ width: '130px', margin: '0px' }}
-                                        /> */}
+                                        />
                                     </ButtonsTextContainer>
                                     <ButtonsIconsContainer>
                                         <EditIcon onClick={() => handleEdit(user)} />
-                                        {/* <HistoryIcon onClick={() => {}} /> */}
+                                        <HistoryIcon onClick={() => handleHistory(user)} />
                                     </ButtonsIconsContainer>
                                 </ButtonsContainer>
                             </UserRow>

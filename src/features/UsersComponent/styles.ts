@@ -2,6 +2,7 @@ import { styled } from '@mui/material/styles'
 import { Box } from '@mui/material'
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
 import StarIcon from '@mui/icons-material/Star'
+import BlockIcon from '@mui/icons-material/Block'
 import TimelineIcon from '@mui/icons-material/Timeline'
 import { COLORS } from '@common/styles/theme'
 
@@ -114,6 +115,13 @@ export const AdminIcon = styled(StarIcon)({
 })
 
 export const ManagerIcon = styled(StarIcon)({
+    color: COLORS.error,
+    width: '25px',
+    height: '25px',
+    marginLeft: '10px',
+})
+
+export const BlockedIcon = styled(BlockIcon)({
     color: COLORS.error,
     width: '25px',
     height: '25px',

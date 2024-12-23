@@ -38,24 +38,29 @@ export const NavigatorInLine = ({ showMenu, payloads, handleOpenConfirmModal }: 
 
     // Gerenciamento dos itens do menu
     const menuItems = useMemo(() => {
-        const baseItems = [{ title: 'Novo Agendamento', route: '/', adminOnly: false }]
+        const baseItems = [{ title: 'Novo Agendamento', route: '/', adminOnly: false, managerOnly: false }]
+
+        const noUserItems = [{ title: 'Login', route: '/SignIn', adminOnly: false, managerOnly: false }]
 
         const userItems = [
-            { title: 'Agendados', route: '/Scheduled', adminOnly: false },
-            { title: 'Histórico', route: '/Previous', adminOnly: false },
+            { title: 'Agendados', route: '/Scheduled', adminOnly: false, managerOnly: false },
+            { title: 'Histórico', route: '/Previous', adminOnly: false, managerOnly: false },
         ]
 
         const adminItems = [
-            { title: 'Minha Agenda', route: '/MyAgenda', adminOnly: true },
-            { title: 'Criar Agenda', route: '/CreateAgenda', adminOnly: true },
-            { title: 'Usuários', route: '/Users', adminOnly: true },
+            { title: 'Minha Agenda', route: '/MyAgenda', adminOnly: true, managerOnly: false },
+            { title: 'Criar Agenda', route: '/CreateAgenda', adminOnly: true, managerOnly: false },
         ]
 
-        if (!user) {
-            return [...baseItems, { title: 'Login', route: '/SignIn', adminOnly: false }]
+        const managerItems = [{ title: 'Usuários', route: '/Users', adminOnly: false, managerOnly: false }]
+
+        if (user) {
+            if (!user.isAdmin && !user.isManager) return [...baseItems, ...userItems]
+            if (user.isAdmin && !user.isManager) return [...adminItems]
+            if (user.isAdmin && user.isManager) return [...adminItems, ...managerItems]
         }
 
-        return !user?.isAdmin ? [...baseItems, ...userItems] : [...adminItems]
+        return [...baseItems, ...noUserItems]
     }, [user])
 
     // Renderização de itens de menu

@@ -17,7 +17,7 @@ import {
 } from '@common/components/Typography'
 import { Container, TitleContainer, Content, EditIcon, UserInfo, LabelContainer, InputContainer } from './styles'
 
-export const UsersManagementComponent = () => {
+export const ProfileComponent = () => {
     const router = useRouter()
     const { user } = useUser()
     const { emmitAlert, emmitError, emmitSuccess } = useNotification()
@@ -40,8 +40,8 @@ export const UsersManagementComponent = () => {
     }, [email, emmitAlert])
 
     useEffect(() => {
-        if (user?.isManager) getUser()
-    }, [getUser, user?.isManager])
+        if (user?.isAdmin) getUser()
+    }, [getUser, user?.isAdmin])
 
     const handleEditField = (field: keyof UserProps, value: string | boolean | number | null) => {
         if (selectedUser) {
@@ -82,7 +82,7 @@ export const UsersManagementComponent = () => {
 
     return (
         <Container>
-            {!user?.isManager || isLoading || isSaving ? (
+            {isLoading || isSaving ? (
                 <LoadingComponent />
             ) : (
                 <>
@@ -91,7 +91,7 @@ export const UsersManagementComponent = () => {
                     </TitleContainer>
                     <Content>
                         {Object.entries(selectedUser)
-                            .filter(([key]) => !['id', 'cpf', 'termsOfUse'].includes(key))
+                            .filter(([key]) => !['password', 'id', 'cpf'].includes(key))
                             .sort((a, b) => {
                                 const order = [
                                     'firstName',
@@ -101,7 +101,6 @@ export const UsersManagementComponent = () => {
                                     'email',
                                     'phone',
                                     'credits',
-                                    'isBlocked',
                                 ]
                                 return order.indexOf(a[0]) - order.indexOf(b[0])
                             })
@@ -114,7 +113,6 @@ export const UsersManagementComponent = () => {
                                     email: 'Email',
                                     phone: 'WhatsApp',
                                     credits: 'Creditos',
-                                    isBlocked: 'Bloquear',
                                 }
 
                                 return (
@@ -165,7 +163,7 @@ export const UsersManagementComponent = () => {
                 </>
             )}
             <FilledPrimaryButton title="Salvar" onClick={handleSaveUpdate} />
-            <GenosPrimaryButtonText title="Voltar" size="medium" onClick={() => router.back()} />
+            <GenosPrimaryButtonText title="Voltar" size="small" onClick={() => router.back()} />
         </Container>
     )
 }

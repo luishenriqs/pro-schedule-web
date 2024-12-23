@@ -33,28 +33,31 @@ export const NavigatorDrawer = ({ isOpen }: NavigatorDrawerProps) => {
         }
     }
 
-    // Menu Items Base
-    const baseMenuItems: MenuItem[] = [{ order: 1, title: 'Novo Agendamento', route: '/' }]
-
-    const noUserMenuItems: MenuItem[] = [...baseMenuItems, { order: 2, title: 'Login', route: '/SignIn' }]
-
-    const userMenuItems: MenuItem[] = [
-        ...baseMenuItems,
-        { order: 2, title: 'Agendados', route: '/Scheduled' },
-        { order: 3, title: 'Histórico', route: '/Previous' },
-    ]
-
-    const adminMenuItems: MenuItem[] = [
-        { order: 1, title: 'Minha Agenda', route: '/MyAgenda' },
-        { order: 2, title: 'Criar Agenda', route: '/CreateAgenda' },
-        { order: 3, title: 'Usuários', route: '/Users' },
-    ]
-
-    // Seleciona o menu baseado no usuário
+    // Gerenciamento dos itens do menu
     const menuItems = useMemo(() => {
-        if (!user) return noUserMenuItems
-        if (user.isAdmin) return adminMenuItems
-        return userMenuItems
+        const baseItems: MenuItem[] = [{ order: 1, title: 'Novo Agendamento', route: '/' }]
+
+        const noUserItems: MenuItem[] = [{ order: 2, title: 'Login', route: '/SignIn' }]
+
+        const userItems: MenuItem[] = [
+            { order: 2, title: 'Agendados', route: '/Scheduled' },
+            { order: 3, title: 'Histórico', route: '/Previous' },
+        ]
+
+        const adminItems: MenuItem[] = [
+            { order: 2, title: 'Minha Agenda', route: '/MyAgenda' },
+            { order: 3, title: 'Criar Agenda', route: '/CreateAgenda' },
+        ]
+
+        const managerItems: MenuItem[] = [{ order: 4, title: 'Usuários', route: '/Users' }]
+
+        if (user) {
+            if (!user.isAdmin && !user.isManager) return [...baseItems, ...userItems]
+            if (user.isAdmin && !user.isManager) return [...adminItems]
+            if (user.isAdmin && user.isManager) return [...adminItems, ...managerItems]
+        }
+
+        return [...baseItems, ...noUserItems]
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 

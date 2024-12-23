@@ -1,5 +1,5 @@
 import { utcToZonedTime } from 'date-fns-tz'
-import { DeadlineObject, MonthsScheduledProps, ScheduleObjectProps } from '@common/models'
+import { DeadlineObject, MonthsScheduledProps, ScheduleObjectProps, UserProps } from '@common/models'
 import {
     availableCancellationTime,
     CheckPayloadAvailability,
@@ -9,6 +9,7 @@ import {
     getMinutesOfDayFromTimestamp,
     isExpiredDay,
     isMonthNotInSchedule,
+    orderUsers,
 } from './helpers'
 
 describe('isExpiredDay', () => {
@@ -640,5 +641,119 @@ describe('availableCancellationTime', () => {
         }
         const result = availableCancellationTime(payload, deadLine)
         expect(result).toBe(false)
+    })
+})
+
+describe('orderUsers', () => {
+    const users: UserProps[] = [
+        {
+            isAdmin: false,
+            isBlocked: true,
+            isManager: false,
+            email: 'du@email.com',
+            cpf: 21845930805,
+            firstName: 'Eduardo',
+            id: 'du@email.com',
+            credits: 0,
+            phone: '16956465465',
+            termsOfUse: false,
+            lastName: 'Pereira',
+        },
+        {
+            phone: '16911110000',
+            cpf: 21825930805,
+            firstName: 'Leila',
+            termsOfUse: false,
+            isManager: false,
+            id: 'leila@email.com',
+            isBlocked: false,
+            credits: 11,
+            isAdmin: true,
+            lastName: 'Massaro',
+            email: 'leila@email.com',
+        },
+        {
+            isManager: false,
+            id: 'diego@email.com',
+            isAdmin: false,
+            phone: '169888877777',
+            credits: 2,
+            firstName: 'Diego',
+            email: 'diego@email.com',
+            cpf: 21825930806,
+            termsOfUse: false,
+            isBlocked: false,
+            lastName: 'Souza',
+        },
+        {
+            isAdmin: true,
+            cpf: 66839088006,
+            email: 'flavio@email.com',
+            isBlocked: false,
+            isManager: true,
+            firstName: 'Flávio',
+            id: 'flavio@email.com',
+            credits: 0,
+            termsOfUse: false,
+            phone: '16900001111',
+            lastName: 'Massaro',
+        },
+    ]
+    it('Should return users ordered', () => {
+        const result = orderUsers(users)
+        expect(result).toEqual([
+            {
+                isAdmin: true,
+                cpf: 66839088006,
+                email: 'flavio@email.com',
+                isBlocked: false,
+                isManager: true,
+                firstName: 'Flávio',
+                id: 'flavio@email.com',
+                credits: 0,
+                termsOfUse: false,
+                phone: '16900001111',
+                lastName: 'Massaro',
+            },
+            {
+                phone: '16911110000',
+                cpf: 21825930805,
+                firstName: 'Leila',
+                termsOfUse: false,
+                isManager: false,
+                id: 'leila@email.com',
+                isBlocked: false,
+                credits: 11,
+                isAdmin: true,
+                lastName: 'Massaro',
+                email: 'leila@email.com',
+            },
+            {
+                isManager: false,
+                id: 'diego@email.com',
+                isAdmin: false,
+                phone: '169888877777',
+                credits: 2,
+                firstName: 'Diego',
+                email: 'diego@email.com',
+                cpf: 21825930806,
+                termsOfUse: false,
+                isBlocked: false,
+                lastName: 'Souza',
+            },
+            {
+                isAdmin: false,
+                isBlocked: true,
+                isManager: false,
+                email: 'du@email.com',
+                cpf: 21845930805,
+                firstName: 'Eduardo',
+                id: 'du@email.com',
+                credits: 0,
+                phone: '16956465465',
+                termsOfUse: false,
+                lastName: 'Pereira',
+            },
+        ])
     })
 })

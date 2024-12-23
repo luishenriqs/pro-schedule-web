@@ -420,6 +420,26 @@ export const GetUserByEmail = async (id: string) => {
     }
 }
 
+export const GetUserProfile = async (email: string): Promise<UserProps[]> => {
+    try {
+        const scheduledRef = collection(firestore, 'users')
+        const scheduledQuery = query(scheduledRef, where('email', '==', email))
+        const querySnapshot = await getDocs(scheduledQuery)
+
+        // Remove campos sensíveis
+        const scheduledList = querySnapshot.docs.map((doc) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { isManager, isAdmin, isBlocked, id, termsOfUse, ...filteredData } = doc.data()
+            return filteredData as UserProps
+        })
+
+        return scheduledList
+    } catch (error) {
+        console.error('Error fetching scheduled data:', error)
+        throw error
+    }
+}
+
 export const GetMonthsScheduled = async (): Promise<MonthsScheduledProps[]> => {
     try {
         const db = getFirestore()
@@ -719,43 +739,48 @@ export const DeleteOldSchedules = async (): Promise<void> => {
 
     Use essa função como referência:
 
-        export const GetPreviusAppointment = async (userEmail: string): Promise<ScheduleObjectProps[]> => {
+        export const GetUserByEmail = async (email: string) => {
             try {
-                const db = getFirestore()
-                const scheduleCollection = collection(db, 'schedule')
+                const userRef = doc(firestore, 'users', email)
+                const userDoc = await getDoc(userRef)
 
-                // Consulta para filtrar por userEmail
-                const q = query(scheduleCollection, where('userEmail', '==', userEmail))
-
-                const querySnapshot = await getDocs(q)
-
-                const schedules: ScheduleObjectProps[] = querySnapshot.docs.map((doc) => {
-                    const data = doc.data()
-                    return {
-                        year: data.year,
-                        month: data.month,
-                        day: data.day,
-                        hour: data.hour,
-                        userId: data.userId,
-                        userEmail: data.userEmail,
-                        firstName: data.firstName,
-                        lastName: data.lastName,
-                        enable: data.enable,
-                    }
-                })
-
-                return filterFutureAppointments(schedules)
+                if (userDoc.exists()) {
+                    const userData = userDoc.data() as UserProps
+                    return userData
+                } else {
+                    return {} as UserProps
+                }
             } catch (error) {
-                console.error('Error fetching schedules:', error)
+                console.error('Error fetching user:', error)
                 throw error
             }
         }
 
-    A nova função receberá apena um parâmetro 'userEmail', e deve usá-lo para filtrar
-    os objetos da colection 'schedule' pela propriedade 'userEmail'
+    Os dados dos objetos dessa colection são esses:
+
+    {
+            "isManager":false,
+            "isAdmin":false,
+            "isBlocked":false,
+            "id":"af4c2eb6-e9c7-4f53-bb43-b2434d046b8f",
+            "termsOfUse":false,
+        "lastName":"Pereira",
+        "firstName":"Eduardo",
+        "cpf":"218.459.308-05",
+        "email":"du@email.com",
+        "credits":0,
+        "phone":"16956465465"
+    }
+
+    Algumas dessas informações são sensíveis e não devem ser trazidas na resposta
+    da requisição, elas devem ser filtradas no servidor.
 
     A função deve:
-    
-        Retornar todos os objetos que tiverem a propriedade 'userEmail' preenchida
-        com o valor do parâmetro 'userEmail'
+
+        Retornar todos objetos que tiverem a propriedade 'email' preenchida
+        com o valor do parâmetro 'email'
+
+        Filtrar ainda no servidor as propriedades id e cpf
+
+        
 */

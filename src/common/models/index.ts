@@ -157,18 +157,8 @@ export type UserProps = {
     email?: string
     cpf?: number
     credits?: number
-}
-
-export type UserLoggedInProps = {
-    isManager: boolean
-    isAdmin: boolean
-    id: string
-    firstName: string
-    lastName: string
-    phone: string
-    email: string
-    cpf: string
-    credits: number
+    termsOfUse?: boolean
+    isBlocked?: boolean
 }
 
 export type UserSighInProps = {
@@ -186,7 +176,9 @@ export type UserSighUpProps = {
     email: string
     password: string
     cpf: number
-    credits?: number
+    credits: number
+    termsOfUse: boolean
+    isBlocked: boolean
 }
 
 export type UserLoggedInContextType = {
