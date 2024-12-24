@@ -16,7 +16,16 @@ import {
     Questrial_Error_16_500,
     Questrial_Secondary_20_500,
 } from '@common/components/Typography'
-import { Container, TitleContainer, Content, EditIcon, UserInfo, LabelContainer, InputContainer } from './styles'
+import {
+    Container,
+    TitleContainer,
+    Content,
+    EditIcon,
+    UserInfo,
+    LabelContainer,
+    InputContainer,
+    LegendContainer,
+} from './styles'
 
 export const UsersManagementComponent = () => {
     const router = useRouter()
@@ -162,9 +171,11 @@ export const UsersManagementComponent = () => {
                                             </InputContainer>
                                         </UserInfo>
                                         {displayNames[key] === 'Bloquear' && (
-                                            <Questrial_Error_16_500
-                                                text={`Obs: O usuário bloqueado não tem mais acesso a área privada da aplicação, nem consegue criar novo cadastro com o mesmo email!`}
-                                            />
+                                            <LegendContainer>
+                                                <Questrial_Error_16_500
+                                                    text={`Obs: O usuário bloqueado não tem mais acesso a área privada da aplicação, nem consegue criar novo cadastro com o mesmo email!`}
+                                                />
+                                            </LegendContainer>
                                         )}
                                     </>
                                 )

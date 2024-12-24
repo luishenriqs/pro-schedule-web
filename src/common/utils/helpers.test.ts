@@ -10,6 +10,7 @@ import {
     isExpiredDay,
     isMonthNotInSchedule,
     orderUsers,
+    verifyAvailability,
 } from './helpers'
 
 describe('isExpiredDay', () => {
@@ -753,6 +754,88 @@ describe('orderUsers', () => {
                 phone: '16956465465',
                 termsOfUse: false,
                 lastName: 'Pereira',
+            },
+        ])
+    })
+})
+
+describe('verifyAvailability', () => {
+    const timeZone = 'America/Sao_Paulo'
+    const today = utcToZonedTime(new Date(), timeZone)
+    const currentYear = today.getFullYear()
+    const currentMonth = today.getMonth()
+    const currentDay = today.getDate()
+    // const brasiliaTime = getBrasiliaOfficialTime()
+    it('Should turn enable false if expired hour', () => {
+        const scheduleOfTheDay: ScheduleObjectProps[] = [
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay,
+                hour: 60,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay,
+                hour: 1300,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay + 1,
+                hour: 60,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+        ]
+        const result = verifyAvailability(scheduleOfTheDay)
+        expect(result).toEqual([
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay,
+                hour: 60,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: false,
+            },
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay,
+                hour: 1300,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
+            },
+            {
+                year: currentYear,
+                month: currentMonth,
+                day: currentDay + 1,
+                hour: 60,
+                userId: '',
+                userEmail: '',
+                firstName: '',
+                lastName: '',
+                enable: true,
             },
         ])
     })

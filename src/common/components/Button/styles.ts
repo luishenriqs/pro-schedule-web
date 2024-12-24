@@ -62,3 +62,25 @@ export const FilledSecondaryContainer = styled(Button)({
     width: '260px',
     height: '40px',
 })
+
+export const FilledTertiaryContainer = styled(Button)({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '6px',
+    background: COLORS.tertiary,
+    marginTop: '16px',
+    width: '260px',
+    height: '40px',
+})
+
+export const FilledErrorContainer = styled(Button)({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '6px',
+    background: COLORS.error,
+    marginTop: '16px',
+    width: '260px',
+    height: '40px',
+})

@@ -1,12 +1,14 @@
 import React from 'react'
 import { ButtonProps } from '@mui/material'
-import { Genos_Error_20_500, Genos_Primary_20_500, Genos_Secondary_20_500 } from '../Typography'
+import { Genos_Error_20_500, Genos_Primary_20_500, Genos_Secondary_20_500, Genos_White_20_500 } from '../Typography'
 import {
     OutlinePrimaryContainer,
     OutlineSecondaryContainer,
     FilledPrimaryContainer,
     FilledSecondaryContainer,
     OutlineErrorContainer,
+    FilledErrorContainer,
+    FilledTertiaryContainer,
 } from './styles'
 
 type Props = ButtonProps & {
@@ -51,5 +53,21 @@ export function FilledSecondaryButton({ title, onClick, ...rest }: Props) {
         <FilledSecondaryContainer onClick={onClick} {...rest}>
             <Genos_Primary_20_500 text={title} />
         </FilledSecondaryContainer>
+    )
+}
+
+export function FilledTertiaryButton({ title, onClick, ...rest }: Props) {
+    return (
+        <FilledTertiaryContainer onClick={onClick} {...rest}>
+            <Genos_White_20_500 text={title} />
+        </FilledTertiaryContainer>
+    )
+}
+
+export function FilledErrorButton({ title, onClick, ...rest }: Props) {
+    return (
+        <FilledErrorContainer onClick={onClick} {...rest}>
+            <Genos_White_20_500 text={title} />
+        </FilledErrorContainer>
     )
 }

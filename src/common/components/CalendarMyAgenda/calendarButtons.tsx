@@ -1,5 +1,5 @@
 import { CalendarButtonsProps } from '@common/models'
-import { filterDaysByDateAndMonth, isExpiredDay, getDayButtonType } from '@common/utils/helpers'
+import { filterDaysByDateAndMonth, isExpiredDay, getDayButtonType, verifyAvailability } from '@common/utils/helpers'
 import { Genos_Secondary_24_500, Genos_White_24_500 } from '../Typography'
 import {
     CalendarControlContainer,
@@ -39,7 +39,8 @@ export const calendarButtons = ({
                 {isScheduleDays ? (
                     (() => {
                         const scheduleOfTheDay = schedule.filter((item) => item.day === day)
-                        const buttonType = getDayButtonType(scheduleOfTheDay, day, isExpired)
+                        const scheduleVerified = verifyAvailability(scheduleOfTheDay)
+                        const buttonType = getDayButtonType(scheduleVerified, day, isExpired)
 
                         switch (buttonType) {
                             case 'Available':

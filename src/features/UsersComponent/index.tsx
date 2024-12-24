@@ -4,7 +4,7 @@ import { GetAllUsers } from '@common/api'
 import { useUser } from '@common/hooks/contexts/UserContext'
 import Header from '@common/components/Header'
 import { LoadingComponent } from '@common/components/Loading'
-import { FilledPrimaryButton, OutlineErrorButton, OutlinePrimaryButton } from '@common/components/Button'
+import { FilledPrimaryButton, FilledTertiaryButton, OutlineErrorButton } from '@common/components/Button'
 import { UserProps } from '@common/models'
 import { Questrial_Secondary_20_500, Genos_Secondary_24_500, Genos_Primary_24_500 } from '@common/components/Typography'
 import {
@@ -96,7 +96,7 @@ export const UsersComponent = () => {
                                             onClick={() => handleEdit(user)}
                                             style={{ width: '130px', margin: '0px', marginRight: '10px' }}
                                         />
-                                        <OutlinePrimaryButton
+                                        <FilledTertiaryButton
                                             title="Histórico"
                                             onClick={() => handleHistory(user)}
                                             style={{ width: '130px', margin: '0px', marginRight: '10px' }}

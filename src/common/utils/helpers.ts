@@ -457,6 +457,30 @@ export const isExpiredDay = (day: number, month: number, year: number): boolean 
     return inputDate < today
 }
 
+// Seta 'enable' false se horário expirado no dia de hoje
+export function verifyAvailability(scheduleOfTheDay: ScheduleObjectProps[]): ScheduleObjectProps[] {
+    const brasiliaOfficialTime = getBrasiliaOfficialTime()
+
+    const now = new Date()
+    const todayYear = now.getFullYear()
+    const todayMonth = now.getMonth()
+    const todayDay = now.getDate()
+
+    // Torna 'enable' igual a false nos objetos do dia de hoje que ja tenham expirado
+    scheduleOfTheDay.forEach((schedule) => {
+        if (
+            schedule.year === todayYear &&
+            schedule.month === todayMonth &&
+            schedule.day === todayDay &&
+            schedule.hour <= brasiliaOfficialTime
+        ) {
+            schedule.enable = false
+        }
+    })
+
+    return scheduleOfTheDay
+}
+
 export const CheckPayloadAvailability = (
     previusAgenda: ScheduleObjectProps[],
     newPayload: ScheduleObjectProps[]
@@ -598,71 +622,32 @@ export const orderUsers = (users: UserProps[]): UserProps[] => {
 /*
     Em um projeto React utilizando TypeScript e Styled-components,
     para uma aplicação Next.js com Material UI e integração com o Firebase,
-    crie uma função 'orderUsers'.
+    crie uma função 'verifyAvailability'.
 
     A função receberá um parâmetro 'users' é um array como esse:
-    [
+   [
         {
-            "isManager":false,
-            "id":"diego@email.com",
-            "isAdmin":false,
-            "phone":"169888877777",
-            "credits":2,
-            "firstName":"Diego",
-            "email":"diego@email.com",
-            "cpf":"218.259.308-06",
-            "termsOfUse":false,
-            "isBlocked":false,
-            "lastName":"Souza"
-        },
-        {
-            "phone":"16911110000",
-            "cpf":"218.259.308-05",
-            "firstName":"Leila",
-            "termsOfUse":false,
-            "isManager":false,
-            "id":"leila@email.com",
-            "isBlocked":false,
-            "credits":11,
-            "isAdmin":true,
-            "lastName":"Massaro",
-            "email":"leila@email.com"
-        },
-        {
-            "isAdmin":true,
-            "cpf":"668.390.880-06",
-            "email":"flavio@email.com",
-            "isBlocked":false,
-            "isManager":true,
-            "firstName":"Flávio",
-            "id":"flavio@email.com",
-            "credits":0,
-            "termsOfUse":false,
-            "phone":"16900001111",
-            "lastName":"Massaro"
-        },
-        {
-            "isAdmin":false,
-            "isBlocked":true,
-            "isManager":false,
-            "email":"du@email.com",
-            "cpf":"218.459.308-05",
-            "firstName":"Eduardo",
-            "id":"du@email.com",
-            "credits":0,
-            "phone":"16956465465",
-            "termsOfUse":false,
-            "lastName":"Pereira"
+            "year":2024,
+            "month":11,
+            "day":24,
+            "hour":480,
+            "userId":"",
+            "userEmail":"",
+            "firstName":"",
+            "lastName":"",
+            "enable":true
         },
     ]
 
     A função deve:
     
-        Ordenar os objejetos, trazendo primeiro todos os que tiverem a propriedade
-        'isManager' igual a true
-        Na sequencia, todos os que tiverem a propriedade 'isAdmin' igual a true, se
-        for um objeto que tenha tambem 'isManager' true não precisa repetí-lo
-        Na sequencia os objetos com as propriedades 'isManager', 'isAdmin' e 'isBlocked'
-        igual a false.
-        Por último os objetos com 'isBlocked' igual a true
+        Identificar os objetos que tenham a mesma data de hoje levando em consideração
+        as propriedades 'year', 'month' e 'day'.
+
+        A função deve nos objetos que tenham mesma data do dia de hoje verificar a propriedade 'hour',
+        todos os objetos que tenham 'hour', igual ou menor a 'brasiliaOfficialTime' devem ter a propriedade
+        'enable' igual a false.
+
+        O objetivo dessa função é setar 'false' a propriedade 'enable' dos objetos que tenham a data de
+        hoje cujo o horário já esteja expirado com relação a hora oficial de brasilia.
 */

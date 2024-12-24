@@ -112,3 +112,12 @@ export const EditIcon = styled(ModeEditOutlineOutlinedIcon)({
     height: '25px',
     marginRight: '10px',
 })
+
+export const LegendContainer = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    width: '350px',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '0 10px',
+})
