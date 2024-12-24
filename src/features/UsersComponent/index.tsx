@@ -4,7 +4,7 @@ import { GetAllUsers } from '@common/api'
 import { useUser } from '@common/hooks/contexts/UserContext'
 import Header from '@common/components/Header'
 import { LoadingComponent } from '@common/components/Loading'
-import { FilledPrimaryButton, OutlinePrimaryButton } from '@common/components/Button'
+import { FilledPrimaryButton, OutlineErrorButton, OutlinePrimaryButton } from '@common/components/Button'
 import { UserProps } from '@common/models'
 import { Questrial_Secondary_20_500, Genos_Secondary_24_500, Genos_Primary_24_500 } from '@common/components/Typography'
 import {
@@ -21,8 +21,10 @@ import {
     ManagerIcon,
     HistoryIcon,
     BlockedIcon,
+    DeleteIcon,
 } from './styles'
 import { orderUsers } from '@common/utils/helpers'
+import { ModalDeleteUser } from '@common/components/ModalDeleteUser'
 
 export const UsersComponent = () => {
     const router = useRouter()
@@ -30,6 +32,8 @@ export const UsersComponent = () => {
 
     const [isLoading, setIsLoading] = useState(true)
     const [users, setUsers] = useState<UserProps[]>([] as UserProps[])
+    const [userToBeDeleted, setUserToBeDeleted] = useState<UserProps>({} as UserProps)
+    const [openDeleteUserModal, setOpenDeleteUserModal] = useState(false)
 
     const getAllUsers = useCallback(async () => {
         const allUsers = await GetAllUsers()
@@ -56,6 +60,11 @@ export const UsersComponent = () => {
             pathname: '/UserHistory',
             query: { email: user.email, firstName: user.firstName },
         })
+    }
+
+    const handleDelete = (user: UserProps) => {
+        setUserToBeDeleted(user)
+        setOpenDeleteUserModal(true)
     }
 
     return (
@@ -90,17 +99,28 @@ export const UsersComponent = () => {
                                         <OutlinePrimaryButton
                                             title="Histórico"
                                             onClick={() => handleHistory(user)}
+                                            style={{ width: '130px', margin: '0px', marginRight: '10px' }}
+                                        />
+                                        <OutlineErrorButton
+                                            title="Excluir"
+                                            onClick={() => handleDelete(user)}
                                             style={{ width: '130px', margin: '0px' }}
                                         />
                                     </ButtonsTextContainer>
                                     <ButtonsIconsContainer>
                                         <EditIcon onClick={() => handleEdit(user)} />
                                         <HistoryIcon onClick={() => handleHistory(user)} />
+                                        <DeleteIcon onClick={() => handleDelete(user)} />
                                     </ButtonsIconsContainer>
                                 </ButtonsContainer>
                             </UserRow>
                         ))}
                     </Content>
+                    <ModalDeleteUser
+                        open={openDeleteUserModal}
+                        userToBeDeleted={userToBeDeleted}
+                        handleClose={() => setOpenDeleteUserModal(false)}
+                    />
                 </Container>
             )}
         </>

@@ -27,6 +27,7 @@ export const Content = styled(Box)({
     justifyContent: 'center',
     width: '100%',
     maxWidth: '800px',
+    marginBottom: '50px',
 })
 
 export const UserRow = styled(Box)({

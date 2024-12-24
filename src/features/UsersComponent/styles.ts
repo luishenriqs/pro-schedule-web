@@ -3,6 +3,7 @@ import { Box } from '@mui/material'
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
 import StarIcon from '@mui/icons-material/Star'
 import BlockIcon from '@mui/icons-material/Block'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import TimelineIcon from '@mui/icons-material/Timeline'
 import { COLORS } from '@common/styles/theme'
 
@@ -126,4 +127,10 @@ export const BlockedIcon = styled(BlockIcon)({
     width: '25px',
     height: '25px',
     marginLeft: '10px',
+})
+
+export const DeleteIcon = styled(DeleteOutlineIcon)({
+    color: COLORS.error,
+    width: '25px',
+    height: '25px',
 })

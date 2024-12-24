@@ -13,6 +13,7 @@ import {
     Genos_Error_24_500,
     Genos_Secondary_24_500,
     Genos_Success_24_500,
+    Questrial_Error_16_500,
     Questrial_Secondary_20_500,
 } from '@common/components/Typography'
 import { Container, TitleContainer, Content, EditIcon, UserInfo, LabelContainer, InputContainer } from './styles'
@@ -118,47 +119,54 @@ export const UsersManagementComponent = () => {
                                 }
 
                                 return (
-                                    <UserInfo key={key}>
-                                        <LabelContainer>
-                                            <EditIcon />
-                                            <Questrial_Secondary_20_500 text={displayNames[key] + ':'} />
-                                        </LabelContainer>
-                                        <InputContainer>
-                                            {typeof value === 'boolean' ? (
-                                                <Checkbox
-                                                    checked={value}
-                                                    onChange={(e) =>
-                                                        handleEditField(key as keyof UserProps, e.target.checked)
-                                                    }
-                                                    checkedIcon={<Genos_Success_24_500 text="✓" />}
-                                                    icon={<Genos_Error_24_500 text="✗" />}
-                                                    style={{ height: '30px' }}
-                                                />
-                                            ) : typeof value === 'number' ? (
-                                                <InputNumber
-                                                    value={value}
-                                                    onChange={(newValue) =>
-                                                        handleEditField(key as keyof UserProps, newValue)
-                                                    }
-                                                />
-                                            ) : (
-                                                <TextField
-                                                    value={value as string}
-                                                    slotProps={{
-                                                        inputLabel: {
-                                                            shrink: true,
-                                                        },
-                                                    }}
-                                                    size="small"
-                                                    variant="outlined"
-                                                    style={{ width: 'auto' }}
-                                                    onChange={(e: any) =>
-                                                        handleEditField(key as keyof UserProps, e.target.value)
-                                                    }
-                                                />
-                                            )}
-                                        </InputContainer>
-                                    </UserInfo>
+                                    <>
+                                        <UserInfo key={key}>
+                                            <LabelContainer>
+                                                <EditIcon />
+                                                <Questrial_Secondary_20_500 text={displayNames[key] + ':'} />
+                                            </LabelContainer>
+                                            <InputContainer>
+                                                {typeof value === 'boolean' ? (
+                                                    <Checkbox
+                                                        checked={value}
+                                                        onChange={(e) =>
+                                                            handleEditField(key as keyof UserProps, e.target.checked)
+                                                        }
+                                                        checkedIcon={<Genos_Success_24_500 text="✓" />}
+                                                        icon={<Genos_Error_24_500 text="✗" />}
+                                                        style={{ height: '30px' }}
+                                                    />
+                                                ) : typeof value === 'number' ? (
+                                                    <InputNumber
+                                                        value={value}
+                                                        onChange={(newValue) =>
+                                                            handleEditField(key as keyof UserProps, newValue)
+                                                        }
+                                                    />
+                                                ) : (
+                                                    <TextField
+                                                        value={value as string}
+                                                        slotProps={{
+                                                            inputLabel: {
+                                                                shrink: true,
+                                                            },
+                                                        }}
+                                                        size="small"
+                                                        variant="outlined"
+                                                        style={{ width: 'auto' }}
+                                                        onChange={(e: any) =>
+                                                            handleEditField(key as keyof UserProps, e.target.value)
+                                                        }
+                                                    />
+                                                )}
+                                            </InputContainer>
+                                        </UserInfo>
+                                        {displayNames[key] === 'Bloquear' && (
+                                            <Questrial_Error_16_500
+                                                text={`Obs: O usuário bloqueado não tem mais acesso a área privada da aplicação, nem consegue criar novo cadastro com o mesmo email!`}
+                                            />
+                                        )}
+                                    </>
                                 )
                             })}
                     </Content>

@@ -4,7 +4,6 @@
 
 _Backlog_ 1 - Criar Filtros para usuários, critérios: Admin, Manager, Nome
 
-
 **Relatório Financeiro**
 
 _Backlog_ 1 - Criar página de relatório financeiro e balanço do mês
@@ -26,20 +25,26 @@ _Backlog_ 1 - Criar página de relatório financeiro e balanço do mês
 **SignUp**
 
 1 - Funcionalidade opened and closed eye in password field
-2 - Link para visualização dos termos de uso
-2 - Checkbox para aceite dos termos de uso condicional ao cadastro do usuário
+2 - Validação para 'email' já cadastrado
+3 - Link para visualização dos termos de uso
+4 - Checkbox para aceite dos termos de uso condicional ao cadastro do usuário
 
 **TermsOfUse**
 
 1 - Criação de página de 'Termos de Uso' com legislação da LGPD
 
-## Admin Area
+## Manager Area
 
 **MyAgendaComponent**
 
 **CreateAgendaComponent**
 
 **UsersComponent**
+
+_Priority 1_
+
+1 - Criar hook 'DeleteUser' para a função 'handleDeleteUser'
+do modal 'ModalDeleteUser'
 
 **Relatório Financeiro**
 
@@ -50,8 +55,6 @@ _Backlog_ 1 - Criar página de relatório financeiro e balanço do mês
 **ScheduledComponents**
 
 **Profile**
-
-_Priority 1_
 
 1 - Criar página de perfil
 

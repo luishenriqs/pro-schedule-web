@@ -28,6 +28,19 @@ export const OutlineSecondaryContainer = styled(Button)({
     borderColor: COLORS.secondary,
 })
 
+export const OutlineErrorContainer = styled(Button)({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '6px',
+    background: COLORS.background,
+    marginTop: '16px',
+    width: '260px',
+    height: '40px',
+    border: '1px solid',
+    borderColor: COLORS.error,
+})
+
 export const FilledPrimaryContainer = styled(Button)({
     display: 'flex',
     alignItems: 'center',

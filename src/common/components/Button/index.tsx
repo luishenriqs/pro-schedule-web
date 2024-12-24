@@ -1,11 +1,12 @@
 import React from 'react'
 import { ButtonProps } from '@mui/material'
-import { Genos_Primary_20_500, Genos_Secondary_20_500 } from '../Typography'
+import { Genos_Error_20_500, Genos_Primary_20_500, Genos_Secondary_20_500 } from '../Typography'
 import {
     OutlinePrimaryContainer,
     OutlineSecondaryContainer,
     FilledPrimaryContainer,
     FilledSecondaryContainer,
+    OutlineErrorContainer,
 } from './styles'
 
 type Props = ButtonProps & {
@@ -26,6 +27,14 @@ export function OutlineSecondaryButton({ title, onClick, ...rest }: Props) {
         <OutlineSecondaryContainer onClick={onClick} {...rest}>
             <Genos_Primary_20_500 text={title} />
         </OutlineSecondaryContainer>
+    )
+}
+
+export function OutlineErrorButton({ title, onClick, ...rest }: Props) {
+    return (
+        <OutlineErrorContainer onClick={onClick} {...rest}>
+            <Genos_Error_20_500 text={title} />
+        </OutlineErrorContainer>
     )
 }
 

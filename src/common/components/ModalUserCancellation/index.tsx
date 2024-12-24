@@ -6,7 +6,7 @@ import { FilledPrimaryButton } from '../Button'
 import { GenosSecondaryButtonText } from '../ButtonText'
 import { ModalProps } from './model'
 import { DeadlineObject } from '@common/models'
-import { ModalCancelInfo } from '../ModalCancelInfo'
+import { ModalInfo } from '../ModalInfo'
 import {
     availableCancellationTime,
     formatDate,
@@ -26,8 +26,8 @@ export const ModalUserCancellation = ({ open, payload, handleClose, ...props }: 
     const { emmitError } = useNotification()
 
     const [date, setDate] = useState<string>('')
-    const [openCancelInfoModal, setOpenCancelInfoModal] = useState(false)
-    const [cancelInfoMessage, setCancelInfoMessage] = useState('')
+    const [openInfoModal, setOpenInfoModal] = useState(false)
+    const [infoTitle, setInfoTitle] = useState('')
     const [infoMessage, setInfoMessage] = useState('')
 
     useEffect(() => {
@@ -58,15 +58,15 @@ export const ModalUserCancellation = ({ open, payload, handleClose, ...props }: 
                 if (payload.userEmail && receivesCredit) {
                     const resp = await updateUserCredits(payload.userEmail, 'plus', 1)
                     if (resp?.success) {
-                        setCancelInfoMessage('Consulta cancelada com sucesso!')
+                        setInfoTitle('Consulta cancelada com sucesso!')
                         setInfoMessage('Você recebeu um crédito para reagendamento!')
-                        setOpenCancelInfoModal(true)
+                        setOpenInfoModal(true)
                         handleClose()
                     }
                 } else {
-                    setCancelInfoMessage('Consulta cancelada com sucesso!')
+                    setInfoTitle('Consulta cancelada com sucesso!')
                     setInfoMessage('')
-                    setOpenCancelInfoModal(true)
+                    setOpenInfoModal(true)
                     handleClose()
                 }
             } else {
@@ -113,11 +113,11 @@ export const ModalUserCancellation = ({ open, payload, handleClose, ...props }: 
                 <ContentContainer>
                     <GenosSecondaryButtonText title="Voltar" size="medium" onClick={handleClose} />
                 </ContentContainer>
-                <ModalCancelInfo
-                    open={openCancelInfoModal}
-                    message={cancelInfoMessage}
-                    info={infoMessage}
-                    handleClose={() => setOpenCancelInfoModal(false)}
+                <ModalInfo
+                    open={openInfoModal}
+                    infoTitle={infoTitle}
+                    infoMessage={infoMessage}
+                    handleClose={() => setOpenInfoModal(false)}
                 />
             </Container>
         </Modal>

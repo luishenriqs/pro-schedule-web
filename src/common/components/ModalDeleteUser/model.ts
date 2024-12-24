@@ -1,6 +1,7 @@
+import { UserProps } from '@common/models'
+
 export type ModalProps = {
     open: boolean
-    message: string
-    info: string
+    userToBeDeleted: UserProps
     handleClose: () => void
 }

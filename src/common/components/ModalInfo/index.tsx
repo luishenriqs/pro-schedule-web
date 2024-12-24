@@ -6,7 +6,7 @@ import { FilledPrimaryButton } from '../Button'
 import { Genos_Secondary_24_500, Genos_Secondary_20_500 } from '../Typography'
 import { Container } from './styles'
 
-export const ModalCancelInfo = ({ open, message, info, handleClose, ...props }: ModalProps) => {
+export const ModalInfo = ({ open, infoTitle, infoMessage, handleClose, ...props }: ModalProps) => {
     const router = useRouter()
 
     const handleConfirmation = useCallback(() => {
@@ -24,8 +24,8 @@ export const ModalCancelInfo = ({ open, message, info, handleClose, ...props }: 
             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
             <Container>
-                <Genos_Secondary_24_500 text={message} />
-                <Genos_Secondary_20_500 text={info} />
+                <Genos_Secondary_24_500 text={infoTitle} />
+                <Genos_Secondary_20_500 text={infoMessage} />
                 <FilledPrimaryButton title="Fechar" onClick={handleConfirmation} />
             </Container>
         </Modal>
